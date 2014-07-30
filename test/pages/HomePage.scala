@@ -2,8 +2,8 @@ package pages
 
 class HomePage extends SharedPage {
   val TITLE   = "Daily Soccer"
-  val LOGIN_TEXT  = "Login"
-  val SIGNUP_TEXT = "Join"
+  val LOGIN_ID  = "loginButton"
+  val SIGNUP_ID = "joinButton"
 
   val url = SharedPage.baseUrl
 
@@ -15,19 +15,19 @@ class HomePage extends SharedPage {
   def isAt = {
     pageTitle should be (TITLE)
 
-    eventually { find(linkText(LOGIN_TEXT)) should be ('defined) }
+    eventually { find(id(LOGIN_ID)) should be ('defined) }
     //eventually { find(linkText(SIGNUP_TEXT)) should be ('defined) }
 
     this
   }
 
   def clickOnLogin = {
-    click on linkText(LOGIN_TEXT)
+    click on linkText(LOGIN_ID)
     new LoginPage().isAt
   }
 
   def clickOnSignUp = {
-    click on linkText(SIGNUP_TEXT)
+    click on linkText(SIGNUP_ID)
     new SignUpPage().isAt
   }
 }

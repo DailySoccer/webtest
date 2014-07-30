@@ -12,5 +12,9 @@ trait SharedPage extends WebBrowser.Page
 
 object SharedPage {
   var driver  : WebDriver = null
-  var baseUrl : String = "http://dailysoccer.herokuapp.com" // "http://localhost:9000"
+  var baseUrl : String = {
+    val url: String = scala.util.Properties.envOrElse("URL", "http://dailysoccer-staging.herokuapp.com")
+    play.Logger.info(url)
+    url
+  }
 }
