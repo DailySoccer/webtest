@@ -12,6 +12,7 @@ import com.saucelabs.common.SauceOnDemandAuthentication
 import com.saucelabs.common.SauceOnDemandSessionIdProvider
 
 import java.net.URL
+import pages.SharedPage
 import scala.collection.immutable.HashMap
 
 trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
@@ -27,7 +28,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
   val CHROME_HOST   = "chrome"
   val FIREFOX_HOST  = "firefox"
 
-  val host:String       = SAUCE_LABS_HOST
+  val host:String       = if (SharedPage.isLocalHost) FIREFOX_HOST else SAUCE_LABS_HOST
   var sessionId: String = ""
 
   /**

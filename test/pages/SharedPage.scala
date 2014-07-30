@@ -14,7 +14,8 @@ object SharedPage {
   var driver  : WebDriver = null
   var baseUrl : String = {
     val url: String = scala.util.Properties.envOrElse("URL", "http://dailysoccer-staging.herokuapp.com")
-    play.Logger.info(url)
+    play.Logger.info("URL: {}", url)
     url
   }
+  var isLocalHost = scala.util.Properties.envOrNone("URL").isDefined
 }
