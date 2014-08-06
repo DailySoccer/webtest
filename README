@@ -1,4 +1,16 @@
-This is your new Play application
-=====================================
+Preparation
+===========
 
-This file will be packaged with your application, when using `play dist`.
+You need first to prepare both backend and webclient projects if you want to test locally what you're doing.
+
+Afterwards, when you can access the project through http://localhost:9000 or any local URL reachable by a normal web
+browser, you need to install Selenium's firefox webdriver or chrome webdriver.
+
+For the second one, "brew install chromedriver" works like a charm.
+
+You will need to set your driver accordingly in test/SauceLabsFactory.scala (CHROME or FIREFOX)
+
+Once you have that, to run the tests locally, run in your terminal:
+
+URL="http://localhost:9000"
+sbt run
