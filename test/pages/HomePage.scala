@@ -22,12 +22,12 @@ class HomePage extends SharedPage {
   }
 
   def clickOnLogin = {
-    click on linkText(LOGIN_ID)
+    click on id(LOGIN_ID)
     new LoginPage().isAt
   }
 
   def clickOnSignUp = {
-    click on linkText(SIGNUP_ID)
+    click on id(SIGNUP_ID)
     new SignUpPage().isAt
   }
 }
