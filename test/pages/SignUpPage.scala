@@ -11,6 +11,14 @@ class SignUpPage extends SharedPage {
 
   val url = SharedPage.baseUrl + "/#/join"
 
+  val TEST_SINGUP_FORM_MAP = Map(
+    "firstName" -> "First",
+    "lastName" -> "Last",
+    "email" -> "test@test.com",
+    "nick" -> "nick",
+    "password" -> "private"
+  )
+
   def open = {
     go to url
     this
@@ -34,13 +42,19 @@ class SignUpPage extends SharedPage {
     this
   }
 
-  def fillAndSubmitForm(params: Map[String,String]) {
+  def doSingup = {
+    fillAndSubmitForm(TEST_SINGUP_FORM_MAP)
+    this
+  }
+
+  def fillAndSubmitForm(params: Map[String,String]) = {
     textField(FORM_FIRST_NAME).value = params("firstName")
     textField(FORM_LAST_NAME).value = params("lastName")
     emailField(FORM_EMAIL).value = params("email")
     textField(FORM_NICKNAME).value = params("nick")
     pwdField(FORM_PASSWORD).value = params("password")
-    // submit
+    submit
+    this
   }
 
   def fillAndSubmitForm(paramsOrdered: String*) {

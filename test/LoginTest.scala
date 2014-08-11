@@ -9,55 +9,42 @@ import org.openqa.selenium.remote.{CapabilityType, DesiredCapabilities, RemoteWe
 
 class LoginTest extends SharedTest {
 
+  val TEST_SINGUP_FORM_MAP = Map(
+    "firstName" -> "First",
+    "lastName" -> "Last",
+    "email" -> "test@test.com",
+    "nick" -> "nick",
+    "password" -> "private"
+  )
+
+  val TEST_LOGIN_FORM_MAP = Map(
+    "email" -> "test@test.com",
+    "password" -> "private"
+  )
+
   before {
   }
 
   "User" must {
-    "go to home" in {
-      goToHomePage
-    }
-
-    /*
-    "home to sign up" in {
-      goToHomePage.clickOnSignUp
-    }
-    */
-
-    "home to login" in {
-      goToHomePage.clickOnLogin
-    }
 
     "signup" in {
-      goToSignUpPage.fillAndSubmitForm(Map(
-        "firstName" -> "First",
-        "lastName" -> "Last",
-        "email" -> "test@test.com",
-        "nick" -> "nick",
-        "password" -> "private"
-      ))
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToSignUpPage.doSingup
+      }
     }
 
     "login" in {
-      goToLoginPage.fillAndSubmitForm(Map(
-        "email" -> "test@test.com",
-        "password" -> "private"
-      ))
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLoginPage.doLogin
+        val lobby = new LobbyPage
+        eventually { lobby.isAt.isLoggedIn }
+      }
     }
 
-    /*
-    "bing" in {
-      go to "http://www.bing.com"
-      textField(cssSelector("#sb_form_q")).value = "FluentLenium"
-      submit
-      pageTitle must include ("FluentLenium")
-    }
-
-    "amazon" in {
-      go to "http://www.amazon.com/"
-      pageTitle must be ("Amazon.com: Online Shopping for Electronics, Apparel, Computers, Books, DVDs & more")
-    }
-    */
   }
+
 
   after {
   }

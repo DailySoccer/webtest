@@ -7,6 +7,11 @@ import org.openqa.selenium.remote.{CapabilityType, DesiredCapabilities, RemoteWe
 class SharedTest extends PlaySpec
   with OneServerPerSuite with OneBrowserPerSuite with SauceLabsFactory with BeforeAndAfter with BeforeAndAfterAll {
 
+  val BIG:String   = "big"
+  val MEDIUM:String  = "medium"
+  val SMALL:String  = "small"
+  val RESOLUTIONS: List[String] = List(BIG, MEDIUM, SMALL)
+
   override def beforeAll {
     println("Before!")  // start up your web server or whatever
     SharedPage.driver = webDriver
@@ -30,5 +35,25 @@ class SharedTest extends PlaySpec
   def goToLoginPage : LoginPage = {
     val loginPage = new LoginPage
     loginPage.open.isAt
+  }
+
+  def goToLobbyPage : LobbyPage = {
+    val lobbyPage = new LobbyPage
+    lobbyPage.open.isAt
+  }
+
+
+
+  def configResolution(res: String) {
+    res match {
+      case SMALL =>
+        webDriver.manage().window().setSize(new org.openqa.selenium.Dimension(300, 500));
+
+      case MEDIUM =>
+        webDriver.manage().window().setSize(new org.openqa.selenium.Dimension(850, 720));
+
+      case BIG =>
+        webDriver.manage().window().setSize(new org.openqa.selenium.Dimension(1920, 1080));
+    }
   }
 }
