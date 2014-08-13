@@ -3,10 +3,11 @@ package pages
 import org.scalatest.{GivenWhenThen, OptionValues, MustMatchers, Matchers}
 import org.scalatest.selenium.WebBrowser
 import org.scalatest.concurrent.{Eventually, IntegrationPatience}
+import org.scalatest.time.{SpanSugar}
 import org.openqa.selenium.WebDriver
 
 trait SharedPage extends WebBrowser.Page
-  with WebBrowser with Matchers with OptionValues with Eventually with IntegrationPatience {
+  with WebBrowser with Matchers with OptionValues with Eventually with IntegrationPatience with SpanSugar {
   implicit val driver : WebDriver = SharedPage.driver
   def isAt  = { this }
 }
