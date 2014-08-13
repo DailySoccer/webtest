@@ -7,7 +7,7 @@ import org.openqa.selenium.firefox._
 import org.openqa.selenium.chrome._
 import org.openqa.selenium.remote.{CapabilityType, DesiredCapabilities, RemoteWebDriver}
 
-class NavigationTest extends SharedTest {
+class HomeTest extends SharedTest {
 
   before {
   }
@@ -83,26 +83,6 @@ class NavigationTest extends SharedTest {
       // currently unabled
       // check on home page and lobby page
     }
-
-    "go to lobby without be logged in." in {
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
-        goToLobbyPage.isAt.isNotLoggedIn
-        println(res + " is ok.")
-      }
-    }
-
-    "go to lobby logged in." in {
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
-        goToLoginPage.doLogin
-        goToLobbyPage.isAt.isLoggedIn
-        println(res + " is ok.")
-      }
-    }
-
-
-
 
   }
 
