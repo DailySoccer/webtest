@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver
 trait SharedPage extends WebBrowser.Page
   with WebBrowser with Matchers with OptionValues with Eventually with IntegrationPatience {
   implicit val driver : WebDriver = SharedPage.driver
+  def isAt  = { this }
 }
 
 object SharedPage {

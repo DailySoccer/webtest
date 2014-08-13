@@ -12,11 +12,10 @@ class HomePage extends SharedPage {
     this
   }
 
-  def isAt = {
+  override def isAt = {
     pageTitle should be (TITLE)
-
-    eventually { find(id(LOGIN_ID)) should be ('defined) }
-    //eventually { find(linkText(SIGNUP_TEXT)) should be ('defined) }
+    new MenuBar().isAt.isLoginBar
+    new FooterBar().isAt
 
     this
   }

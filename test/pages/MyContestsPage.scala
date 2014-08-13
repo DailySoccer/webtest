@@ -19,7 +19,7 @@ class MyContestsPage extends SharedPage {
     this
   }
 
-  def isAt = {
+  override def isAt = {
     currentUrl should be (url)
     pageTitle should be (TITLE)
 

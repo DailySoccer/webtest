@@ -3,11 +3,11 @@ package pages
 class SignUpPage extends SharedPage {
   val TITLE   = "Daily Soccer"
   val LEGEND  = "Start Playing"
-  val FORM_FIRST_NAME = "Your first name"
-  val FORM_LAST_NAME  = "Your last name"
-  val FORM_EMAIL      = "Email"
-  val FORM_NICKNAME   = "NickName"
-  val FORM_PASSWORD   = "Password"
+  val FORM_FIRST_NAME_ID = "firstName"
+  val FORM_LAST_NAME_ID  = "lastName"
+  val FORM_EMAIL_ID      = "email"
+  val FORM_NICKNAME_ID   = "nickName"
+  val FORM_PASSWORD_ID   = "password"
 
   val url = SharedPage.baseUrl + "/#/join"
 
@@ -24,21 +24,23 @@ class SignUpPage extends SharedPage {
     this
   }
 
-  def isAt = {
+  override def isAt = {
     pageTitle should be (TITLE)
-    eventually { find(tagName("legend")).get.text should be (LEGEND) }
-    find(name(FORM_FIRST_NAME)) should be ('defined)
-    find(name(FORM_LAST_NAME)) should be ('defined)
-    find(name(FORM_EMAIL)) should be ('defined)
-    find(name(FORM_NICKNAME)) should be ('defined)
-    find(name(FORM_PASSWORD)) should be ('defined)
+    eventually {
+      find(tagName("legend")).get.text should be (LEGEND)
+      find(id(FORM_FIRST_NAME_ID)) should be ('defined)
+      find(id(FORM_LAST_NAME_ID)) should be ('defined)
+      find(id(FORM_EMAIL_ID)) should be ('defined)
+      find(id(FORM_NICKNAME_ID)) should be ('defined)
+      find(id(FORM_PASSWORD_ID)) should be ('defined)
+    }
+    find(cssSelector("form input[id='" + FORM_FIRST_NAME_ID + "']")) should be ('defined)
+    find(cssSelector("form input[id='" + FORM_FIRST_NAME_ID + "']")) should be ('defined)
+    find(cssSelector("form input[id='" + FORM_FIRST_NAME_ID + "']")) should be ('defined)
+    find(cssSelector("form input[id='" + FORM_FIRST_NAME_ID + "']")) should be ('defined)
+    find(cssSelector("form input[id='" + FORM_FIRST_NAME_ID + "']")) should be ('defined)
 
-    find(cssSelector("form input[name='Your first name']")) should be ('defined)
-    find(cssSelector("form input[name='Your last name']")) should be ('defined)
-    find(cssSelector("form input[name='Email']")) should be ('defined)
-    find(cssSelector("form input[name='NickName']")) should be ('defined)
-    find(cssSelector("form input[name='Password']")) should be ('defined)
-
+    new FooterBar().isAt
     this
   }
 
@@ -48,11 +50,11 @@ class SignUpPage extends SharedPage {
   }
 
   def fillAndSubmitForm(params: Map[String,String]) = {
-    textField(FORM_FIRST_NAME).value = params("firstName")
-    textField(FORM_LAST_NAME).value = params("lastName")
-    emailField(FORM_EMAIL).value = params("email")
-    textField(FORM_NICKNAME).value = params("nick")
-    pwdField(FORM_PASSWORD).value = params("password")
+    textField(FORM_FIRST_NAME_ID).value = params("firstName")
+    textField(FORM_LAST_NAME_ID).value = params("lastName")
+    emailField(FORM_EMAIL_ID).value = params("email")
+    textField(FORM_NICKNAME_ID).value = params("nick")
+    pwdField(FORM_PASSWORD_ID).value = params("password")
     submit
     this
   }

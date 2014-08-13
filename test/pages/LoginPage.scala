@@ -19,7 +19,7 @@ class LoginPage extends SharedPage {
     this
   }
 
-  def isAt = {
+  override def isAt = {
     pageTitle should be (TITLE)
     eventually {
       //find(tagName("legend")).get.text should be (LEGEND)
@@ -27,6 +27,8 @@ class LoginPage extends SharedPage {
       find(id(FORM_PASSWORD)) should be ('defined)
       find(id(FORM_SUBMIT)) should be ('defined)
     }
+    new FooterBar().isAt
+
     this
   }
 

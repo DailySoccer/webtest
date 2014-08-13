@@ -10,7 +10,10 @@ class SharedTest extends PlaySpec
   val BIG:String   = "big"
   val MEDIUM:String  = "medium"
   val SMALL:String  = "small"
-  val RESOLUTIONS: List[String] = List(BIG, MEDIUM, SMALL)
+  val RESOLUTIONS: List[String] = List(
+    BIG,
+    MEDIUM,
+    SMALL)
 
   override def beforeAll {
     println("Before!")  // start up your web server or whatever
@@ -40,6 +43,16 @@ class SharedTest extends PlaySpec
   def goToLobbyPage : LobbyPage = {
     val lobbyPage = new LobbyPage
     lobbyPage.open.isAt
+  }
+
+  def goToMyContestsPage : MyContestsPage = {
+    val myContestsPage = new MyContestsPage
+    myContestsPage.open.isAt
+  }
+
+  def goToPromos : PromosPage = {
+    val promosPage = new PromosPage
+    promosPage.open.isAt
   }
 
 
