@@ -1,4 +1,5 @@
 import pages._
+import model._
 import org.scalatestplus.play._
 import org.scalatest._
 import org.scalatest.{GivenWhenThen, ShouldMatchers}
@@ -11,6 +12,7 @@ class MenuTest extends SharedTest {
 
   before {
   }
+
 
   "User in User Menu" must {
 
@@ -50,6 +52,20 @@ class MenuTest extends SharedTest {
       }
     }
 
+    "log in. Menu user name should be ok." in {
+      configResolution(BIG)
+
+      val user :User = goToLoginPage.isAt.doLogin.DEFAULT_USER
+
+      val menuBar :MenuBar = new MenuBar().isAt
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        menuBar.isUser(user)
+        println(res + " is ok.")
+      }
+
+    }
   }
 
   "User in Game Menu" must {
@@ -164,6 +180,7 @@ class MenuTest extends SharedTest {
       }
     }
   }
+
 
   after {
   }

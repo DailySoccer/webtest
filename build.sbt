@@ -2,6 +2,10 @@ name := "test"
 
 version := "1.0-SNAPSHOT"
 
+//javaOptions += "-l fantasyTags.DbTest"
+//testOptions in Test += Tests.Argument("v")
+testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-n" , "fantasyTags.java.DbTest")
+
 libraryDependencies ++= Seq(
   cache,
   filters,

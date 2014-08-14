@@ -1,4 +1,5 @@
 import pages._
+import model._
 import org.scalatestplus.play._
 import org.scalatest._
 import org.scalatest.{GivenWhenThen, ShouldMatchers}

@@ -1,5 +1,7 @@
 package pages
 
+import model._
+
 class MenuBar extends SharedPage {
   val url = SharedPage.baseUrl
 
@@ -91,6 +93,16 @@ class MenuBar extends SharedPage {
     this
   }
 
+  def isUser(u: User): Unit = {
+    val elem = find(id(USER_MENU_TOGGLE_DROPDOWN)).get
+
+    if (!elem.isDisplayed) clickOnToggleUserMenu
+
+    eventually {
+      elem.text should be(u.firstName + " " + u.lastName)
+    }
+  }
+
   def clickOnLogout = {
     clickOnUserMenuOption(LOGOUT, new HomePage)
   }
@@ -115,13 +127,6 @@ class MenuBar extends SharedPage {
   }
   def clickOnUserMenuAddFunds = {
     clickOnUserMenuOption(USER_MENU_ADD_MONEY, new LobbyPage)
-    /*if ( !find(id(ADD_FUNDS)).get.isDisplayed )
-
-
-    eventually {
-      click on id(ADD_FUNDS)
-      new LobbyPage().isAt
-    }*/
   }
 
   def clickOnTournaments = {

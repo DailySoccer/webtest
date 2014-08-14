@@ -1,4 +1,5 @@
 import pages._
+import fantasyTags.scala._
 import org.scalatestplus.play._
 import org.scalatest._
 import org.scalatest.{GivenWhenThen, ShouldMatchers}
@@ -13,11 +14,11 @@ class LobbyTest extends SharedTest {
   }
 
   "User" must {
-
+/*
     "go to lobby without be logged in." in {
       for (res <- RESOLUTIONS) {
         configResolution(res)
-        goToLobbyPage.isAt.isNotLoggedIn
+        goToLobbyPage.isNotLoggedIn
         println(res + " is ok.")
       }
     }
@@ -26,9 +27,27 @@ class LobbyTest extends SharedTest {
       for (res <- RESOLUTIONS) {
         configResolution(res)
         goToLoginPage.doLogin
-        goToLobbyPage.isAt.isLoggedIn
+        goToLobbyPage.isLoggedIn
         println(res + " is ok.")
       }
+    }
+*/
+/*
+    "test content list." taggedAs(DbTest) in {
+
+      configResolution(BIG)
+      goToLoginPage.doLogin
+
+      val list = goToLobbyPage.getContentList
+
+      //println(res + " is ok.")
+    }
+*/
+
+    "test content list." taggedAs(DbTest) in {
+      println("YUJU =============================")
+      println("YUJU =============================")
+      println("YUJU =============================")
     }
   }
 

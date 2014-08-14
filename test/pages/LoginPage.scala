@@ -1,5 +1,7 @@
 package pages
 
+import model._
+
 class LoginPage extends SharedPage {
   val TITLE   = "Daily Soccer"
   //val LEGEND  = "Login"
@@ -9,10 +11,7 @@ class LoginPage extends SharedPage {
 
   val url = SharedPage.baseUrl + "/#/login"
 
-  val TEST_LOGIN_FORM_MAP = Map(
-    "email" -> "test@test.com",
-    "password" -> "private"
-  )
+  val DEFAULT_USER : User = new User("Test", "Test", "test@test.com", "Test", "private")
 
   def open = {
     go to url
@@ -33,22 +32,27 @@ class LoginPage extends SharedPage {
   }
 
   def doLogin = {
-    fillAndSubmitForm(TEST_LOGIN_FORM_MAP)
+    fillAndSubmitForm(DEFAULT_USER)
     this
   }
 
-  def fillAndSubmitForm(params: Map[String,String]) = {
-    emailField(FORM_EMAIL).value = params("email")
-    pwdField(FORM_PASSWORD).value = params("password")
+  def fillAndSubmitForm(u: User) = {
+    emailField(FORM_EMAIL).value = u.email
+    pwdField(FORM_PASSWORD).value = u.password
     submit
     this
   }
 
-  def fillAndSubmitForm(paramsOrdered: String*) {
-    /*
-    textField("Email").value = "email"
-    fill("input").`with`(paramsOrdered)
-    click("#joinNow")
-    */
+  //Eventually example with timeout
+/*
+  def eventuallyTesting {
+    var a = 0
+    eventually (timeout(20 seconds), interval(2 seconds)) {
+      a += 1
+      println(a)
+      find(id("asd")) should be ('defined)
+    }
   }
+*/
+
 }
