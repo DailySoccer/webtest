@@ -4,7 +4,7 @@ version := "1.0-SNAPSHOT"
 
 //javaOptions += "-l fantasyTags.DbTest"
 //testOptions in Test += Tests.Argument("v")
-testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-n" , "fantasyTags.java.DbTest")
+testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-n" , "testTags.java.WIPTest")
 
 libraryDependencies ++= Seq(
   cache,

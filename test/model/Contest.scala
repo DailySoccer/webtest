@@ -9,9 +9,7 @@ class Contest (n: String, desc: String, fee: String, priz: String, when: String)
   var description = desc
 
   override def toString: String = {
-    val s = name + "\n//" + description + " \n" + entryFee + " - " + prize + " - " + date + "\n"
-
-    s
+    name + "\n" + description + " \n" + entryFee + " - " + prize + " - " + date + "\n"
   }
 
 }
