@@ -20,4 +20,5 @@ object SharedPage {
     url
   }
   var isLocalHost = scala.util.Properties.envOrNone("URL").isDefined
+
 }

@@ -14,7 +14,7 @@ class LobbyTest extends SharedTest {
   before {
   }
 
-  "User" must {
+  "As visitor" must {
 
     "go to lobby without be logged in." in {
       for (res <- RESOLUTIONS) {
@@ -23,6 +23,77 @@ class LobbyTest extends SharedTest {
         println(res + " is ok.")
       }
     }
+
+    "use filter control" in {
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+
+        goToLobbyPage.checkEntryMinFeeFilterControl
+                     .checkEntryMaxFeeFilterControl
+                     .checkEntryBothFeeFilterControl
+
+        println(res + " is ok.")
+      }
+    }
+
+    "look at default contests." in {
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.allContest
+        println(res + " is ok.")
+      }
+    }
+
+    "filter by free contests." in {
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.freeContests
+        println(res + " is ok.")
+      }
+    }
+
+    "filter by league contests." in {
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.leagueContests
+        println(res + " is ok.")
+      }
+    }
+
+    "filter by fifty fifty contests." in {
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.fiftyFiftyContests
+        println(res + " is ok.")
+      }
+    }
+
+    "filter by head to head contests." in {
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.headToHeadContests
+        println(res + " is ok.")
+      }
+    }
+
+    "filter by free contests with min filter applied." in {
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.freeContestsWithMinFilter
+        println(res + " is ok.")
+      }
+    }
+
+  }
+
+  "User logged" must {
 
     "go to lobby logged in." in {
       for (res <- RESOLUTIONS) {
@@ -33,46 +104,134 @@ class LobbyTest extends SharedTest {
       }
     }
 
-
-    "test default contests." in {
-      //configResolution(BIG)
+    "use filter control" in {
+      configResolution(DEFAULT_RESOLUTION)
       goToLoginPage.doLogin
 
       for (res <- RESOLUTIONS) {
         configResolution(res)
 
-        val list = goToLobbyPage.allContest
-      }
-      /*var s: String = ""
+        goToLobbyPage.checkEntryMinFeeFilterControl
+                     .checkEntryMaxFeeFilterControl
+                     .checkEntryBothFeeFilterControl
 
-      for(l <- list){
-        s += l.toString + "\n"
+        println(res + " is ok.")
       }
-
-      println(s)
-      */
-      //println(res + " is ok.")
     }
 
-    "test free contests." taggedAs(WIPTest) in {
-      //configResolution(BIG)
+    "look at default contests." in {
+      configResolution(DEFAULT_RESOLUTION)
+      goToLoginPage.doLogin
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.allContest
+        println(res + " is ok.")
+      }
+    }
+
+    "filter by free contests." in {
+      configResolution(DEFAULT_RESOLUTION)
+      goToLoginPage.doLogin
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.freeContests
+        println(res + " is ok.")
+      }
+    }
+
+    "filter by league contests." in {
+      configResolution(DEFAULT_RESOLUTION)
+      goToLoginPage.doLogin
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.leagueContests
+        println(res + " is ok.")
+      }
+    }
+
+    "filter by fifty fifty contests." in {
+      configResolution(DEFAULT_RESOLUTION)
       goToLoginPage.doLogin
 
       for (res <- RESOLUTIONS) {
         configResolution(res)
 
-        val list = goToLobbyPage.freeContests
+        goToLobbyPage.fiftyFiftyContests
+        println(res + " is ok.")
       }
-      /*var s: String = ""
-
-      for(l <- list){
-        s += l.toString + "\n"
-      }
-
-      println(s)
-      */
-      //println(res + " is ok.")
     }
+
+    "filter by head to head contests." in {
+      configResolution(DEFAULT_RESOLUTION)
+      goToLoginPage.doLogin
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+
+        goToLobbyPage.headToHeadContests
+        println(res + " is ok.")
+      }
+    }
+
+    "filter by free contests with min filter applied." in {
+      configResolution(DEFAULT_RESOLUTION)
+      goToLoginPage.doLogin
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.freeContestsWithMinFilter
+        println(res + " is ok.")
+      }
+    }
+
+    ////////
+    "press play button of first contest to select team." in {
+      configResolution(DEFAULT_RESOLUTION)
+      goToLoginPage.doLogin
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.playFirstContest
+        println(res + " is ok.")
+      }
+    }
+
+    "type on search contest to filter." in {
+      configResolution(DEFAULT_RESOLUTION)
+      goToLoginPage.doLogin
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        if(res != Resolutions.SMALL) {
+          goToLobbyPage.searchContest
+        } else {
+          println("No se puede filtrar en version Movil")
+        }
+        println(res + " is ok.")
+      }
+    }
+/*
+    "select Team." taggedAs(WIPTest) in {
+      configResolution(BIG)
+      goToLoginPage.doLogin
+
+      for (res <- RESOLUTIONS) {
+        configResolution(res)
+        goToLobbyPage.playFirstContest
+        val page = new EnterContestPage
+        //page.setSoccerPlayerPositionFilter(page.DEFENSE)
+        //page.setSoccerPlayerMatchFilter(3)
+        page.selectGoalKeeperOnMyTeam
+        println(res + " is ok.")
+      }
+
+    }
+*/
+
+
   }
 
   after {

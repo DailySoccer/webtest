@@ -32,7 +32,7 @@ class MenuTest extends SharedTest {
     }
 
     "go throught user menu links" in {
-      configResolution(BIG)
+      configResolution(DEFAULT_RESOLUTION)
 
       goToLoginPage.isAt.doLogin
 
@@ -47,13 +47,13 @@ class MenuTest extends SharedTest {
         menuBar.clickOnClassification
         menuBar.clickOnUserPromos
         menuBar.clickOnUserMenuAddFunds
-        if (res != SMALL) menuBar.clickOnAddFundsButton
+        if (res != Resolutions.SMALL) menuBar.clickOnAddFundsButton
         println(res + " is ok.")
       }
     }
 
     "log in. Menu user name should be ok." in {
-      configResolution(BIG)
+      configResolution(DEFAULT_RESOLUTION)
 
       val user :User = goToLoginPage.isAt.doLogin.DEFAULT_USER
 
@@ -73,7 +73,7 @@ class MenuTest extends SharedTest {
 
     "go to my contests from lobby." in {
       goToLoginPage.isAt.doLogin
-      configResolution(BIG)
+      configResolution(DEFAULT_RESOLUTION)
 
       val menuBar = new MenuBar()
       menuBar.isAt.isLoggedBar
@@ -92,7 +92,7 @@ class MenuTest extends SharedTest {
 
     "go to game promos from lobby." in {
       goToLoginPage.isAt.doLogin
-      configResolution(BIG)
+      configResolution(DEFAULT_RESOLUTION)
 
       val menuBar = new MenuBar()
       menuBar.isAt.isLoggedBar
@@ -110,7 +110,7 @@ class MenuTest extends SharedTest {
 
     "go to game promos from my contests." in {
       goToLoginPage.isAt.doLogin
-      configResolution(BIG)
+      configResolution(DEFAULT_RESOLUTION)
 
       val menuBar = new MenuBar()
       menuBar.isAt.isLoggedBar
@@ -128,7 +128,7 @@ class MenuTest extends SharedTest {
 
     "go to lobby from my contests." in {
       goToLoginPage.isAt.doLogin
-      configResolution(BIG)
+      configResolution(DEFAULT_RESOLUTION)
 
       val menuBar = new MenuBar()
       menuBar.isAt.isLoggedBar
@@ -146,7 +146,7 @@ class MenuTest extends SharedTest {
 
     "go to lobby from game promos." in {
       goToLoginPage.isAt.doLogin
-      configResolution(BIG)
+      configResolution(DEFAULT_RESOLUTION)
 
       val menuBar = new MenuBar()
       menuBar.isAt.isLoggedBar
@@ -164,7 +164,7 @@ class MenuTest extends SharedTest {
 
     "go to my contests from game promos." in {
       goToLoginPage.isAt.doLogin
-      configResolution(BIG)
+      configResolution(DEFAULT_RESOLUTION)
 
       val menuBar = new MenuBar()
       menuBar.isAt.isLoggedBar

@@ -40,7 +40,7 @@ class HomeTest extends SharedTest {
 
     "go down through screen separator links" in {
       for (res <- RESOLUTIONS) {
-        if (res == BIG || res == MEDIUM) {
+        if (res == Resolutions.BIG || res == Resolutions.MEDIUM) {
           configResolution(res)
           goToHomePage.clickOnScreenSeparator1.isAt
             .clickOnScreenSeparator2.isAt
@@ -54,7 +54,7 @@ class HomeTest extends SharedTest {
     "click on play buttons." in {
       for (res <- RESOLUTIONS) {
         configResolution(res)
-        if (res == BIG || res == MEDIUM) {
+        if (res == Resolutions.BIG || res == Resolutions.MEDIUM) {
           goToHomePage.clickOnPlayButton0
           goToHomePage.clickOnPlayButton1
           goToHomePage.clickOnPlayButton2
