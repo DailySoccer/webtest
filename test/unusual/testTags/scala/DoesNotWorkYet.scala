@@ -2,4 +2,4 @@ package unusual.testTags.scala
 
 import org.scalatest._
 
-object DoesNotWorkYet extends Tag("unusual.unusual.testTags.java.DoesNotWorkYet")
+object DoesNotWorkYet extends Tag("unusual.testTags.java.DoesNotWorkYet")

@@ -1,5 +1,6 @@
-package unusual.tests
+package unusual.tests.menuTestPkg
 
+import unusual.tests._
 import unusual.model.{Resolution, User}
 import unusual.pages._
 import unusual.testTags.scala._

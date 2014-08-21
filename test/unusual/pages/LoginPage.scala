@@ -1,6 +1,5 @@
 package unusual.pages
 
-import model._
 import unusual.model.{User, Resolution}
 
 class LoginPage(res:Resolution) extends SharedPage {

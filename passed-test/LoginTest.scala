@@ -1,4 +1,4 @@
-import pages._
+import unusual.pages._
 import model._
 import org.scalatestplus.play._
 import org.scalatest._

@@ -1,5 +1,5 @@
-import pages._
-import testTags.scala._
+import unusual.pages._
+import unusual.testTags.scala._
 import org.scalatestplus.play._
 import org.scalatest._
 import org.scalatest.{GivenWhenThen, ShouldMatchers}

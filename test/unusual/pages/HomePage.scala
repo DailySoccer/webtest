@@ -1,6 +1,5 @@
 package unusual.pages
 
-import model._
 import unusual.model.Resolution
 
 class HomePage(res:Resolution) extends SharedPage {
