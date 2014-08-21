@@ -29,19 +29,17 @@ class LoginTest extends SharedTest {
   "User" must {
 
     "signup" in {
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToSignUpPage.doSingup
-      }
+      })
     }
 
     "login" in {
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLoginPage.doLogin
         val lobby = new LobbyPage
         eventually { lobby.isAt.isLoggedIn }
-      }
+      })
     }
 
   }

@@ -1,11 +1,13 @@
-package pages
+package unusual.pages
 
 import java.util
 
-class EnterContestPage(res: String) extends SharedPage {
+import unusual.model.Resolution
+
+class EnterContestPage(res: Resolution) extends SharedPage {
   val TITLE   = "Daily Soccer"
 
-  val resolution:String = res
+  val resolution:Resolution = res
 
   val url = SharedPage.baseUrl
 
@@ -40,8 +42,8 @@ class EnterContestPage(res: String) extends SharedPage {
 
   override def isAt = {
     pageTitle should be (TITLE)
-    new MenuBar().isAt
-    new FooterBar().isAt
+    new MenuBar(resolution).isAt
+    new FooterBar(resolution).isAt
 
     this
   }

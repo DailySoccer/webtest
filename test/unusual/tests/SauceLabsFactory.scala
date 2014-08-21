@@ -1,19 +1,13 @@
-import org.scalatestplus.play._
-import org.scalatest._
-import org.scalatest.FlatSpec
-import org.scalatest.fixture._
-import org.scalatest.{GivenWhenThen, ShouldMatchers}
-import org.openqa.selenium._
-import org.openqa.selenium.firefox._
-import org.openqa.selenium.chrome._
-import org.openqa.selenium.remote.{CapabilityType, DesiredCapabilities, RemoteWebDriver}
-
-import com.saucelabs.common.SauceOnDemandAuthentication
-import com.saucelabs.common.SauceOnDemandSessionIdProvider
+package unusual.tests
 
 import java.net.URL
-import pages.SharedPage
-import scala.collection.immutable.HashMap
+
+import com.saucelabs.common.{SauceOnDemandAuthentication, SauceOnDemandSessionIdProvider}
+import org.openqa.selenium._
+import org.openqa.selenium.chrome._
+import org.openqa.selenium.firefox._
+import org.openqa.selenium.remote.{CapabilityType, DesiredCapabilities, RemoteWebDriver}
+import unusual.pages.SharedPage
 
 trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
   val SAUCE_LABS_HOST   = "sauce labs"

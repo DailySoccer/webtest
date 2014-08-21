@@ -1,4 +1,4 @@
-package testTags.java;
+package unusual.testTags.java;
 
 import java.lang.annotation.*;
 import org.scalatest.TagAnnotation;
@@ -6,4 +6,4 @@ import org.scalatest.TagAnnotation;
 @TagAnnotation
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
-public @interface WIPTest {}
+public @interface WIP {}

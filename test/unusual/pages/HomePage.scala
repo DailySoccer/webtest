@@ -1,11 +1,16 @@
-package pages
+package unusual.pages
 
-class HomePage extends SharedPage {
+import model._
+import unusual.model.Resolution
+
+class HomePage(res:Resolution) extends SharedPage {
+  val url = SharedPage.baseUrl
+  val resolution: Resolution = res
+
+
   val TITLE   = "Daily Soccer"
   val LOGIN_ID  = "loginButton"
   val SIGNUP_ID = "joinButton"
-
-  val url = SharedPage.baseUrl
 
   def open = {
     go to url
@@ -14,20 +19,20 @@ class HomePage extends SharedPage {
 
   override def isAt = {
     pageTitle should be (TITLE)
-    new MenuBar().isAt.isLoginBar
-    new FooterBar().isAt
+    new MenuBar(resolution).isAt.isLoginBar
+    new FooterBar(resolution).isAt
 
     this
   }
 
   def clickOnLogin = {
     click on id(LOGIN_ID)
-    new LoginPage().isAt
+    new LoginPage(resolution).isAt
   }
 
   def clickOnSignUp = {
     click on id(SIGNUP_ID)
-    new SignUpPage().isAt
+    new SignUpPage(resolution).isAt
   }
 
   val PLAY_BUTTON_MOBILE = "playButtonMobile"
@@ -38,23 +43,23 @@ class HomePage extends SharedPage {
 
   def clickOnPlayButtonMobile = {
     click on id(PLAY_BUTTON_MOBILE)
-    new LobbyPage().isAt
+    new LobbyPage(resolution).isAt
   }
   def clickOnPlayButton0 = {
     click on id(PLAY_BUTTON_1)
-    new LobbyPage().isAt
+    new LobbyPage(resolution).isAt
   }
   def clickOnPlayButton1 = {
     click on id(PLAY_BUTTON_2)
-    new LobbyPage().isAt
+    new LobbyPage(resolution).isAt
   }
   def clickOnPlayButton2 = {
     click on id(PLAY_BUTTON_3)
-    new LobbyPage().isAt
+    new LobbyPage(resolution).isAt
   }
   def clickOnPlayButton3 = {
     click on id(PLAY_BUTTON_4)
-    new LobbyPage().isAt
+    new LobbyPage(resolution).isAt
   }
 
   /**** Internal Navigation ****/

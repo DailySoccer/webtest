@@ -1,4 +1,4 @@
-package model
+package unusual.model
 
 class User (fName: String, lName: String, mail: String, nick: String, pass: String ) {
 

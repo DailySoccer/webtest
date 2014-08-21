@@ -1,15 +1,19 @@
-package pages
+package unusual.pages
 
 import model._
+import unusual.model.{User, Resolution}
 
-class LoginPage extends SharedPage {
+class LoginPage(res:Resolution) extends SharedPage {
+
+  val url = SharedPage.baseUrl + "/#/login"
+  val resolution: Resolution = res
+
+
   val TITLE   = "Daily Soccer"
   //val LEGEND  = "Login"
   val FORM_EMAIL    = "Email"
   val FORM_PASSWORD = "Password"
   val FORM_SUBMIT = "login"
-
-  val url = SharedPage.baseUrl + "/#/login"
 
   val DEFAULT_USER : User = new User("Test", "Test", "test@test.com", "Test", "private")
 
@@ -26,7 +30,7 @@ class LoginPage extends SharedPage {
       find(id(FORM_PASSWORD)) should be ('defined)
       find(id(FORM_SUBMIT)) should be ('defined)
     }
-    new FooterBar().isAt
+    new FooterBar(resolution).isAt
 
     this
   }

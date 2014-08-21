@@ -1,9 +1,15 @@
-package pages
+package unusual.pages
 
 import model._
+import unusual.model.{User, Resolution}
 
-class MenuBar extends SharedPage {
+class MenuBar(res:Resolution) extends SharedPage {
+
   val url = SharedPage.baseUrl
+  val resolution:Resolution = res
+
+
+  /********** CONSTANTS *************/
 
   val LOGIN_ID  = "loginButton"
   val SIGN_UP_ID = "joinButton"
@@ -12,7 +18,6 @@ class MenuBar extends SharedPage {
   val BRAND_LINK_SELECTOR = "#" + MENU_ID + " .navbar-brand-container a"
 
   val ADD_MONEY_BUTTON = "addMoney"
-
 
   // USER MENU IDs
   val USER_MENU = "userMenuCollapse"
@@ -41,17 +46,7 @@ class MenuBar extends SharedPage {
   val GAME_PROMOS = "gameMenuPromos"
 
 
-  private def hasUserMenu = {
-    find(id(USER_MENU)) should be('defined)
-    find(id(MY_ACCOUNT)) should be('defined)
-    find(id(USER_MENU_ADD_MONEY)) should be('defined)
-    find(id(TRANSACTION_HISTORIC)) should be('defined)
-    find(id(REFERENCES_CENTER)) should be('defined)
-    find(id(CLASSIFICATION)) should be('defined)
-    find(id(USER_PROMOS)) should be('defined)
-    find(id(LOGOUT)) should be('defined)
-    this
-  }
+  /**************** GENERAL METHODS ****************/
 
   override def isAt = {
     eventually {
@@ -73,14 +68,6 @@ class MenuBar extends SharedPage {
     this
   }
 
-  def hasGameMenu = {
-    find(id(GAME_MENU)) should be ('defined)
-    find(id(TOURNAMENTS)) should be('defined)
-    find(id(MY_TOURNAMENTS)) should be('defined)
-    find(id(GAME_PROMOS)) should be('defined)
-    this
-  }
-
   def isLoggedBar = {
     eventually {
       find(id(LOGIN_ID)) should not be ('defined)
@@ -93,6 +80,8 @@ class MenuBar extends SharedPage {
     this
   }
 
+  /**************** USER MENU METHODS ****************/
+
   def isUser(u: User): Unit = {
     val elem = find(id(USER_MENU_TOGGLE_DROPDOWN)).get
 
@@ -104,42 +93,57 @@ class MenuBar extends SharedPage {
   }
 
   def clickOnLogout = {
-    clickOnUserMenuOption(LOGOUT, new HomePage)
+    clickOnUserMenuOption(LOGOUT, new HomePage(resolution))
   }
 
   def clickOnMyAccount = {
-    clickOnUserMenuOption(MY_ACCOUNT, new LobbyPage)
+    placeholder
+    //clickOnUserMenuOption(MY_ACCOUNT, new LobbyPage)
   }
   def clickOnTransactionHistoric = {
-    clickOnUserMenuOption(TRANSACTION_HISTORIC, new LobbyPage)
+    placeholder
+    //clickOnUserMenuOption(TRANSACTION_HISTORIC, new LobbyPage)
   }
   def clickOnReferencesCenter = {
-    clickOnUserMenuOption(REFERENCES_CENTER, new LobbyPage)
+    placeholder
+    //clickOnUserMenuOption(REFERENCES_CENTER, new LobbyPage)
   }
   def clickOnClassification = {
-    clickOnUserMenuOption(CLASSIFICATION, new LobbyPage)
+    placeholder
+    //clickOnUserMenuOption(CLASSIFICATION, new LobbyPage)
   }
   def clickOnUserPromos = {
-    clickOnUserMenuOption(USER_PROMOS, new LobbyPage)
+    placeholder
+    //clickOnUserMenuOption(USER_PROMOS, new LobbyPage)
   }
   def clickOnAddFundsButton = {
-    clickOnUserMenuOption(ADD_MONEY_BUTTON, new LobbyPage)
+    placeholder
+    //clickOnUserMenuOption(ADD_MONEY_BUTTON, new LobbyPage)
   }
   def clickOnUserMenuAddFunds = {
-    clickOnUserMenuOption(USER_MENU_ADD_MONEY, new LobbyPage)
+    placeholder
+    //clickOnUserMenuOption(USER_MENU_ADD_MONEY, new LobbyPage)
   }
 
+  /**************** GAME MENU METHODS ****************/
+
   def clickOnTournaments = {
-    clickOnGameMenuOption(TOURNAMENTS, new LobbyPage)
+    clickOnGameMenuOption(TOURNAMENTS, new LobbyPage(resolution))
   }
 
   def clickOnMyContests = {
-    clickOnGameMenuOption(MY_TOURNAMENTS, new MyContestsPage)
+    clickOnGameMenuOption(MY_TOURNAMENTS, new MyContestsPage(resolution))
   }
 
   def clickOnGamePromos = {
-    clickOnGameMenuOption(GAME_PROMOS, new LobbyPage)
+    placeholder
+    //clickOnGameMenuOption(GAME_PROMOS, new LobbyPage)
   }
+
+
+  /********************* PRIVATE METHODS ************************/
+  /**************************************************************/
+
 
   private def clickOnUserMenuOption(eleId: String, page: SharedPage) = {
     displayUserMenuForId(eleId)
@@ -194,6 +198,26 @@ class MenuBar extends SharedPage {
       if (!find(id(USER_MENU_TOGGLE_DROPDOWN)).get.isDisplayed) clickOnToggleUserMenu
       if (!find(id(e)).get.isDisplayed) clickOnToggleUserMenuDropDown
     }
+    this
+  }
+
+  private def hasUserMenu = {
+    find(id(USER_MENU)) should be('defined)
+    find(id(MY_ACCOUNT)) should be('defined)
+    find(id(USER_MENU_ADD_MONEY)) should be('defined)
+    find(id(TRANSACTION_HISTORIC)) should be('defined)
+    find(id(REFERENCES_CENTER)) should be('defined)
+    find(id(CLASSIFICATION)) should be('defined)
+    find(id(USER_PROMOS)) should be('defined)
+    find(id(LOGOUT)) should be('defined)
+    this
+  }
+
+  private def hasGameMenu = {
+    find(id(GAME_MENU)) should be ('defined)
+    find(id(TOURNAMENTS)) should be('defined)
+    find(id(MY_TOURNAMENTS)) should be('defined)
+    find(id(GAME_PROMOS)) should be('defined)
     this
   }
 

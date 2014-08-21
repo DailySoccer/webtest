@@ -1,4 +1,4 @@
-package model
+package unusual.model
 
 class Contest (n: String, desc: String, fee: String, priz: String, when: String) {
 

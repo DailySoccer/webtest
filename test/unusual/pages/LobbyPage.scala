@@ -1,13 +1,17 @@
-package pages
+package unusual.pages
 
 import model._
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.By.ByCssSelector
 import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.interactions.Action
+import unusual.model.Resolution
 
 
-class LobbyPage extends SharedPage {
+class LobbyPage(res:Resolution)  extends SharedPage {
+
+  val url = SharedPage.baseUrl + "/#/lobby"
+  val resolution: Resolution = res
 
   /**
    * Additional tests:
@@ -23,8 +27,6 @@ class LobbyPage extends SharedPage {
    */
 
   val TITLE   = "Daily Soccer"
-
-  val url = SharedPage.baseUrl + "/#/lobby"
 
   val PROMOS_COMPONENT_ID = "promosComponent"
   val CONTEST_LIST_CONTAINER = "contestsListRoot"
@@ -80,8 +82,8 @@ class LobbyPage extends SharedPage {
     currentUrl should be (url)
     pageTitle should be (TITLE)
 
-    new MenuBar().isAt
-    new FooterBar().isAt
+    new MenuBar(resolution).isAt
+    new FooterBar(resolution).isAt
     eventually {
       find(id(PROMOS_COMPONENT_ID)) should be ('defined)
       find(id(CONTEST_LIST_CONTAINER)) should be ('defined)
@@ -97,10 +99,10 @@ class LobbyPage extends SharedPage {
   }
 
   def isNotLoggedIn = {
-    new MenuBar().isLoginBar
+    new MenuBar(resolution).isLoginBar
   }
   def isLoggedIn = {
-    new MenuBar().isLoggedBar
+    new MenuBar(resolution).isLoggedBar
   }
 
   def checkEntryMinFeeFilterControl = {

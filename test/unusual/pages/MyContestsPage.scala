@@ -1,13 +1,16 @@
-package pages
+package unusual.pages
 
-class MyContestsPage extends SharedPage {
+import unusual.model.Resolution
+
+class MyContestsPage(res:Resolution) extends SharedPage {
+  val url = SharedPage.baseUrl + "/#/my_contests"
+  val resolution: Resolution = res
+
   val TITLE   = "Daily Soccer"
 
   val FORM_EMAIL    = "Email"
   val FORM_PASSWORD = "Password"
   val FORM_SUBMIT = "login"
-
-  val url = SharedPage.baseUrl + "/#/my_contests"
 
   val TEST_LOGIN_FORM_MAP = Map(
     "email" -> "test@test.com",
@@ -23,8 +26,8 @@ class MyContestsPage extends SharedPage {
     currentUrl should be (url)
     pageTitle should be (TITLE)
 
-    new MenuBar().isAt
-    new FooterBar().isAt
+    new MenuBar(resolution).isAt
+    new FooterBar(resolution).isAt
 
     this
   }

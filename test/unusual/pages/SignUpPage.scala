@@ -1,6 +1,11 @@
-package pages
+package unusual.pages
 
-class SignUpPage extends SharedPage {
+import unusual.model.Resolution
+
+class SignUpPage(res:Resolution) extends SharedPage {
+  val resolution: Resolution = res
+  val url = SharedPage.baseUrl + "/#/join"
+
   val TITLE   = "Daily Soccer"
   val LEGEND  = "Start Playing"
   val FORM_FIRST_NAME_ID = "firstName"
@@ -8,8 +13,6 @@ class SignUpPage extends SharedPage {
   val FORM_EMAIL_ID      = "email"
   val FORM_NICKNAME_ID   = "nickName"
   val FORM_PASSWORD_ID   = "password"
-
-  val url = SharedPage.baseUrl + "/#/join"
 
   val TEST_SINGUP_FORM_MAP = Map(
     "firstName" -> "First",
@@ -40,7 +43,7 @@ class SignUpPage extends SharedPage {
     find(cssSelector("form input[id='" + FORM_FIRST_NAME_ID + "']")) should be ('defined)
     find(cssSelector("form input[id='" + FORM_FIRST_NAME_ID + "']")) should be ('defined)
 
-    new FooterBar().isAt
+    new FooterBar(resolution).isAt
     this
   }
 

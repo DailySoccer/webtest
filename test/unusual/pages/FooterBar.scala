@@ -1,7 +1,10 @@
-package pages
+package unusual.pages
 
-class FooterBar extends SharedPage {
+import unusual.model.Resolution
+
+class FooterBar(res:Resolution) extends SharedPage {
   val url = SharedPage.baseUrl
+  val resolution: Resolution = res
 
   val HELP_ID  = "footerHelp"
   val LEGAL_ID  = "footerLegal"

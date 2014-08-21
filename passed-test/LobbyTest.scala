@@ -17,78 +17,62 @@ class LobbyTest extends SharedTest {
   "As visitor" must {
 
     "go to lobby without be logged in." in {
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.isNotLoggedIn
-        println(res + " is ok.")
-      }
+      })
     }
 
     "use filter control" in {
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
 
         goToLobbyPage.checkEntryMinFeeFilterControl
                      .checkEntryMaxFeeFilterControl
                      .checkEntryBothFeeFilterControl
 
-        println(res + " is ok.")
-      }
+      })
     }
 
     "look at default contests." in {
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.allContest
-        println(res + " is ok.")
-      }
+      })
     }
 
     "filter by free contests." in {
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.freeContests
-        println(res + " is ok.")
-      }
+      })
     }
 
     "filter by league contests." in {
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.leagueContests
-        println(res + " is ok.")
-      }
+      })
     }
 
     "filter by fifty fifty contests." in {
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.fiftyFiftyContests
-        println(res + " is ok.")
-      }
+      })
     }
 
     "filter by head to head contests." in {
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.headToHeadContests
-        println(res + " is ok.")
-      }
+      })
     }
 
     "filter by free contests with min filter applied." in {
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.freeContestsWithMinFilter
-        println(res + " is ok.")
-      }
+      })
     }
 
   }
@@ -96,95 +80,83 @@ class LobbyTest extends SharedTest {
   "User logged" must {
 
     "go to lobby logged in." in {
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLoginPage.doLogin
         goToLobbyPage.isLoggedIn
-        println(res + " is ok.")
-      }
+        
+      })
     }
 
     "use filter control" in {
       configResolution(DEFAULT_RESOLUTION)
       goToLoginPage.doLogin
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
 
         goToLobbyPage.checkEntryMinFeeFilterControl
                      .checkEntryMaxFeeFilterControl
                      .checkEntryBothFeeFilterControl
 
-        println(res + " is ok.")
-      }
+        
+      })
     }
 
     "look at default contests." in {
       configResolution(DEFAULT_RESOLUTION)
       goToLoginPage.doLogin
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.allContest
-        println(res + " is ok.")
-      }
+        
+      })
     }
 
     "filter by free contests." in {
       configResolution(DEFAULT_RESOLUTION)
       goToLoginPage.doLogin
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.freeContests
-        println(res + " is ok.")
-      }
+        
+      })
     }
 
     "filter by league contests." in {
       configResolution(DEFAULT_RESOLUTION)
       goToLoginPage.doLogin
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.leagueContests
-        println(res + " is ok.")
-      }
+        
+      })
     }
 
     "filter by fifty fifty contests." in {
       configResolution(DEFAULT_RESOLUTION)
       goToLoginPage.doLogin
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
-
+      callResolutionsTest((resolution) => {
         goToLobbyPage.fiftyFiftyContests
-        println(res + " is ok.")
-      }
+      })
     }
 
     "filter by head to head contests." in {
       configResolution(DEFAULT_RESOLUTION)
       goToLoginPage.doLogin
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
-
+      callResolutionsTest((resolution) => {
         goToLobbyPage.headToHeadContests
-        println(res + " is ok.")
-      }
+      })
     }
 
     "filter by free contests with min filter applied." in {
       configResolution(DEFAULT_RESOLUTION)
       goToLoginPage.doLogin
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.freeContestsWithMinFilter
-        println(res + " is ok.")
-      }
+        
+      })
     }
 
     ////////
@@ -192,26 +164,24 @@ class LobbyTest extends SharedTest {
       configResolution(DEFAULT_RESOLUTION)
       goToLoginPage.doLogin
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         goToLobbyPage.playFirstContest
-        println(res + " is ok.")
-      }
+        
+      })
     }
 
     "type on search contest to filter." in {
       configResolution(DEFAULT_RESOLUTION)
       goToLoginPage.doLogin
 
-      for (res <- RESOLUTIONS) {
-        configResolution(res)
+      callResolutionsTest((resolution) => {
         if(res != Resolutions.SMALL) {
           goToLobbyPage.searchContest
         } else {
           println("No se puede filtrar en version Movil")
         }
-        println(res + " is ok.")
-      }
+        
+      })
     }
 /*
     "select Team." taggedAs(WIPTest) in {
@@ -225,7 +195,7 @@ class LobbyTest extends SharedTest {
         //page.setSoccerPlayerPositionFilter(page.DEFENSE)
         //page.setSoccerPlayerMatchFilter(3)
         page.selectGoalKeeperOnMyTeam
-        println(res + " is ok.")
+        
       }
 
     }
