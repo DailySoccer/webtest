@@ -26,12 +26,10 @@ class HomePage(res:Resolution) extends SharedPage {
 
   def clickOnLogin = {
     click on id(LOGIN_ID)
-    new LoginPage(resolution).isAt
   }
 
   def clickOnSignUp = {
     click on id(SIGNUP_ID)
-    new SignUpPage(resolution).isAt
   }
 
   val PLAY_BUTTON_MOBILE = "playButtonMobile"
@@ -40,25 +38,37 @@ class HomePage(res:Resolution) extends SharedPage {
   val PLAY_BUTTON_3 = "playButton3"
   val PLAY_BUTTON_4 = "playButton4"
 
-  def clickOnPlayButtonMobile = {
-    click on id(PLAY_BUTTON_MOBILE)
-    new LobbyPage(resolution).isAt
-  }
   def clickOnPlayButton0 = {
-    click on id(PLAY_BUTTON_1)
-    new LobbyPage(resolution).isAt
+    if (resolution == Resolution.SMALL) {
+      click on id(PLAY_BUTTON_MOBILE)
+    } else {
+      click on id(PLAY_BUTTON_1)
+    }
+    this
   }
   def clickOnPlayButton1 = {
-    click on id(PLAY_BUTTON_2)
-    new LobbyPage(resolution).isAt
+    if (resolution == Resolution.SMALL) {
+      unavailableFunctionOnResolution("clickOnPlayButton1")
+    } else {
+      click on id(PLAY_BUTTON_2)
+    }
+    this
   }
   def clickOnPlayButton2 = {
-    click on id(PLAY_BUTTON_3)
-    new LobbyPage(resolution).isAt
+    if (resolution == Resolution.SMALL) {
+      unavailableFunctionOnResolution("clickOnPlayButton2")
+    } else {
+      click on id (PLAY_BUTTON_3)
+    }
+    this
   }
   def clickOnPlayButton3 = {
-    click on id(PLAY_BUTTON_4)
-    new LobbyPage(resolution).isAt
+    if (resolution == Resolution.SMALL) {
+      unavailableFunctionOnResolution("clickOnPlayButton3")
+    } else {
+      click on id (PLAY_BUTTON_4)
+    }
+    this
   }
 
   /**** Internal Navigation ****/
@@ -75,20 +85,32 @@ class HomePage(res:Resolution) extends SharedPage {
   val SCREEN_4_URL = SharedPage.baseUrl + "/" + SCREEN_4_ID
 
   def clickOnScreenSeparator1 = {
-    click on id(SCREEN_SEPARATOR_1_ID)
-    currentUrl should be(SCREEN_2_URL)
+    if (resolution != Resolution.SMALL) {
+      click on id(SCREEN_SEPARATOR_1_ID)
+      currentUrl should be(SCREEN_2_URL)
+    } else {
+      unavailableFunctionOnResolution("clickOnScreenSeparator1")
+    }
     this
   }
 
   def clickOnScreenSeparator2 = {
-    click on id(SCREEN_SEPARATOR_2_ID)
-    currentUrl should be(SCREEN_3_URL)
+    if (resolution != Resolution.SMALL) {
+      click on id(SCREEN_SEPARATOR_2_ID)
+      currentUrl should be(SCREEN_3_URL)
+    } else {
+      unavailableFunctionOnResolution("clickOnScreenSeparator2")
+    }
     this
   }
 
   def clickOnScreenSeparator3 = {
-    click on id(SCREEN_SEPARATOR_3_ID)
-    currentUrl should be(SCREEN_4_URL)
+    if (resolution != Resolution.SMALL) {
+      click on id(SCREEN_SEPARATOR_3_ID)
+      currentUrl should be(SCREEN_4_URL)
+    } else {
+      unavailableFunctionOnResolution("clickOnScreenSeparator3")
+    }
     this
   }
 }

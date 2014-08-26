@@ -6,6 +6,8 @@ import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.interactions.Action
 import unusual.model._
 
+import scala.util.control.Exception
+
 
 class LobbyPage(res:Resolution)  extends SharedPage {
 
@@ -22,7 +24,8 @@ class LobbyPage(res:Resolution)  extends SharedPage {
    *      - Click on information
    *      - Click on EnterContest
    *  - Search a nonexistent contest
-   *  -
+   *  - Salary limit: beginner, standard, expert
+   *  - Competition: europa league, spanish league, english league...
    */
 
   val TITLE   = "Daily Soccer"
@@ -53,22 +56,16 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   )
 
   val FILTERS_PANEL_SEARCH_ID = "contestFastSearch"
-  val FILTERS_PANEL_SEARCH_TEXT_1 = "2014/06/14"
 
   val FILTERS_PANEL_ID = "filtersPanel"
-  val FILTERS_PANEL_FILTER_FREE = "label[for=\"filtroFree\"]"
-  val FILTERS_PANEL_FILTER_LEAGUE = "label[for=\"filtroLiga\"]"
-  val FILTERS_PANEL_FILTER_FIFTY_FIFTY = "label[for=\"filtroFiftyFifty\"]"
-  val FILTERS_PANEL_FILTER_HEAD_TO_HEAD = "label[for=\"filtroHeadToHead\"]"
-
-  // NUMBER OF FILTERED CONTESTS
-  val N_CONTESTS_NO_FILTER = 36
-  val N_CONTESTS_FREE = 6
-  val N_CONTESTS_LEAGUE = 18
-  val N_CONTESTS_FIFTY_FIFTY = 6
-  val N_CONTESTS_HEAD_TO_HEAD = 6
-  val N_CONTESTS_SEARCH_1 = 18
-
+  val FILTERS_PANEL_FILTER_FREE_CHECK = "filtroFree"
+  val FILTERS_PANEL_FILTER_LEAGUE_CHECK = "filtroLiga"
+  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK = "filtroFiftyFifty"
+  val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK = "filtroHeadToHead"
+  val FILTERS_PANEL_FILTER_FREE_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_FREE_CHECK + "\"]"
+  val FILTERS_PANEL_FILTER_LEAGUE_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_LEAGUE_CHECK + "\"]"
+  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK + "\"]"
+  val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK + "\"]"
 
   val MAX_ENTRY_MONEY = 100
 
@@ -78,12 +75,13 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   }
 
   override def isAt = {
-    currentUrl should be (url)
-    pageTitle should be (TITLE)
-
     new MenuBar(resolution).isAt
     new FooterBar(resolution).isAt
+
     eventually {
+      currentUrl should be (url)
+      pageTitle should be (TITLE)
+
       find(id(PROMOS_COMPONENT_ID)) should be ('defined)
       find(id(CONTEST_LIST_CONTAINER)) should be ('defined)
     }
@@ -104,139 +102,83 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     new MenuBar(resolution).isLoggedBar
   }
 
-  def checkEntryMinFeeFilterControl = {
-    cleanFilters
-    assert(getInferiorMoneyFilter == 0)
-    setMoneyFilter(25, MAX_ENTRY_MONEY)
-    assert(getInferiorMoneyFilter == 25)
-    cleanFilters
-    assert(getInferiorMoneyFilter == 0)
-    this
-  }
 
-  def checkEntryMaxFeeFilterControl = {
-    cleanFilters
-    assert(getSuperiorMoneyFilter == MAX_ENTRY_MONEY)
-    setMoneyFilter(0, 75)
-    assert(getSuperiorMoneyFilter == 75)
-    cleanFilters
-    assert(getSuperiorMoneyFilter == MAX_ENTRY_MONEY)
-    this
-  }
+  def clearFilters = {
+    var cleanBtt = find(cssSelector(".reset-button-wrapper .btn-reset")).get
 
-  def checkEntryBothFeeFilterControl = {
-    cleanFilters
-    assert(getSuperiorMoneyFilter == MAX_ENTRY_MONEY)
-    assert(getInferiorMoneyFilter == 0)
-    setMoneyFilter(0, 75)
-    assert(getSuperiorMoneyFilter == 75)
-    assert(getInferiorMoneyFilter == 0)
-    setMoneyFilter(25, 75)
-    assert(getSuperiorMoneyFilter == 75)
-    assert(getInferiorMoneyFilter == 25)
-    cleanFilters
-    assert(getSuperiorMoneyFilter == MAX_ENTRY_MONEY)
-    assert(getInferiorMoneyFilter == 0)
-    this
-  }
-
-  def allContest = {
-    cleanFilters
-    checkNumberOfContests(N_CONTESTS_NO_FILTER)
-    this
-  }
-
-  def freeContests = {
-    cleanFilters
-    applyFilter(FILTERS_PANEL_FILTER_FREE)
-    checkNumberOfContests(N_CONTESTS_FREE)
-    checkContestsAre(N_CONTESTS_FREE, "Free") // Seguramente haya que quitarlo
-    checkContestsEntryValues(N_CONTESTS_FREE, 0, 0)
+    openFilters
+    eventually { click on cleanBtt }
 
     this
   }
 
-  def leagueContests = {
-    cleanFilters
-    applyFilter(FILTERS_PANEL_FILTER_LEAGUE)
-    checkNumberOfContests(N_CONTESTS_LEAGUE)
-    checkContestsAre(N_CONTESTS_LEAGUE, "Liga")
-    checkContestsEntryValues(N_CONTESTS_LEAGUE, 0, MAX_ENTRY_MONEY)
-    this
-  }
+  def setEntryFeeFilter(inf: Int, sup: Int) = {
+    openFilters
 
-  def fiftyFiftyContests = {
-    cleanFilters
-    applyFilter(FILTERS_PANEL_FILTER_FIFTY_FIFTY)
-    checkNumberOfContests(N_CONTESTS_FIFTY_FIFTY)
-    checkContestsAre(N_CONTESTS_FIFTY_FIFTY, "50/50")
-    checkContestsEntryValues(N_CONTESTS_FIFTY_FIFTY, 0, MAX_ENTRY_MONEY)
-    this
-  }
+    val sliderWidth = find(cssSelector("#slider-range")).get.underlying.getSize().width - 1
+    val inferior = find(cssSelector("#slider-range .noUi-origin:nth-child(1) div")).get.underlying
+    val superior = find(cssSelector("#slider-range .noUi-origin:nth-child(2) div")).get.underlying
+    val infBound = inf - getInferiorMoneyFilter
+    val supBound = sup - getSuperiorMoneyFilter
 
-  def headToHeadContests = {
-    cleanFilters
-    applyFilter(FILTERS_PANEL_FILTER_HEAD_TO_HEAD)
-    checkNumberOfContests(N_CONTESTS_HEAD_TO_HEAD)
-    checkContestsAre(N_CONTESTS_HEAD_TO_HEAD, "Head-to-head")
-    checkContestsEntryValues(N_CONTESTS_HEAD_TO_HEAD, 0, MAX_ENTRY_MONEY)
-    this
-  }
+    var distance: Float = sliderWidth * infBound
+    distance /= MAX_ENTRY_MONEY
 
-  def freeContestsWithMinFilter = {
-    cleanFilters
-    applyFilter(FILTERS_PANEL_FILTER_FREE)
-    setMoneyFilter(1, MAX_ENTRY_MONEY)
+    var dragAndDrop:Action = new Actions(driver)
+                                    .clickAndHold(inferior)
+                                    .moveByOffset(Math.floor(distance).toInt, 0)
+                                    .release(inferior)
+                                    .build()
 
-    checkNumberOfContests(0)
+    dragAndDrop.perform()
+
+    distance = sliderWidth * supBound
+    distance /= MAX_ENTRY_MONEY
+
+    dragAndDrop = new Actions(driver)
+                          .clickAndHold(superior)
+                          .moveByOffset(Math.floor(distance).toInt, 0)
+                          .release(superior)
+                          .build()
+
+    dragAndDrop.perform()
 
     this
   }
 
-  def playFirstContest = {
-    val cssSel  = CONTEST_ROW_CONTAINER_CLASS + " " + CONTEST_COLUMN_ACTION_CLASS + " button"
+  def clickFreeContestFilter = {
+    applyFilter(FILTERS_PANEL_FILTER_FREE_LABEL)
+  }
 
+  def clickLeagueContestFilter = {
+    applyFilter(FILTERS_PANEL_FILTER_LEAGUE_LABEL)
+  }
+
+  def clickFiftyFiftyContestsFilter = {
+    applyFilter(FILTERS_PANEL_FILTER_FIFTY_FIFTY_LABEL)
+  }
+
+  def clickHeadToHeadContestsFilter = {
+    applyFilter(FILTERS_PANEL_FILTER_HEAD_TO_HEAD_LABEL)
+  }
+
+  def searchContestByName(name: String) = {
+    if (resolution != Resolution.SMALL) {
+      val cssSel  = "#" + FILTERS_PANEL_SEARCH_ID + " input"
+      eventually { textField(cssSelector(cssSel)).value = name }
+    } else {
+      unavailableFunctionOnResolution("searchContestByName")
+    }
+    this
+  }
+
+  def playContestNumber(ordinal: Int) = {
+    val cssSel  = CONTEST_ROW_CONTAINER_CLASS + ":nth-child(" + ordinal + ") " + CONTEST_COLUMN_ACTION_CLASS + " button"
     eventually { click on find(cssSelector(cssSel)).get }
     this
   }
 
-  def searchContest = {
-    val cssSel  = "#" + FILTERS_PANEL_SEARCH_ID + " input"
-
-    eventually { textField(cssSelector(cssSel)).value = FILTERS_PANEL_SEARCH_TEXT_1 }
-    eventually { checkNumberOfContests(N_CONTESTS_SEARCH_1) }
-    this
-  }
-
-
-
-  private def cleanFilters = {
-    openFilters
-    var cleanBtt = find(cssSelector(".reset-button-wrapper .btn-reset")).get
-
-    eventually {
-      click on cleanBtt
-    }
-    setMoneyFilter(0, MAX_ENTRY_MONEY) // TODO: QUITAR CUANDO ESTE ARREGLADO
-
-    this
-  }
-
-  private def applyFilter(forId : String) = {
-
-    openFilters
-    val filter = find(cssSelector(forId)).get
-
-    eventually {
-      filter.isDisplayed
-    }
-    click on filter
-    click on filter // TODO: QUITAR CUANDO ESTE ARREGLADO
-
-    this
-  }
-
-  private def checkContestsEntryValues(amountRows: Int, min: Double, max : Double) = {
+  def checkContestsEntryValues(amountRows: Int, min: Double, max : Double) = {
     val cssSelPre  = CONTEST_ROW_CONTAINER_CLASS + ":nth-child("
     val cssSelPost = ") " + CONTEST_COLUMN_FEE_CLASS + " " + CONTEST_FEE_CLASS
     for (i <- 1 to amountRows) {
@@ -252,32 +194,41 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     this
   }
 
-  private def checkContestsAre(amountRows: Int, name : String) = {
-    val cssSelPre  = CONTEST_ROW_CONTAINER_CLASS + ":nth-child("
-    val cssSelPost = ") " + CONTEST_COLUMN_NAME_CLASS + " " + CONTEST_DESCRIPTION_CLASS
-    for(i <- 1 to amountRows){
-      eventually {
-
-        var rowText = find(cssSelector(cssSelPre + i + cssSelPost)).get.text
-        rowText should startWith (name)
-
+  def checkNumberOfContests(n : Int) = {
+    /*// Es estable pero me parece cutre.
+    var maxRow = 1
+    var found = true
+    while (found) {
+      try {
+        eventually (timeout(2 seconds)){
+          find(cssSelector(CONTEST_ROW_CONTAINER_CLASS + ":nth-child(" + maxRow + ")")) should be ('defined)
+          maxRow += 1
+          found = true
+        }
+      } catch {
+        case _: Exception => {
+          found = false
+          maxRow -= 1
+        }
       }
     }
-
-    this
-  }
-
-  private def checkNumberOfContests(n : Int) = {
-
-    eventually {
+    maxRow should be (n)
+    */
+    /* Esta forma parece mas bonita pero casca por el refresh
+    eventually (timeout(50 seconds)){
       var rows = findAll(cssSelector(CONTEST_ROW_CONTAINER_CLASS))
       assert(rows.length == n)
     }
+    */
 
+    // Esta parece la unica rapida y efectiva
+    eventually (timeout(2 seconds)) {
+      fastCountByCssSelector("#contestsListRoot .contest-row") should be(n)
+    }
     this
   }
 
-  private def getInferiorMoneyFilter :Int = {
+  def getInferiorMoneyFilter :Int = {
     val inferiorTextNode = find(cssSelector("#filtersPanel .filter-column-entry-fee .entry-fee-value-min")).get
     var n:Integer = 0
 
@@ -288,7 +239,7 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     n
   }
 
-  private def getSuperiorMoneyFilter :Int = {
+  def getSuperiorMoneyFilter :Int = {
     val superiorTextNode = find(cssSelector("#filtersPanel .filter-column-entry-fee .entry-fee-value-max")).get
     var n:Integer = 0
 
@@ -299,30 +250,31 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     n
   }
 
-  private def setMoneyFilter(inf: Int, sup: Int) = {
-    val sliderWidth = find(cssSelector("#slider-range")).get.underlying.getSize().width
-    val inferior = find(cssSelector("#slider-range .noUi-origin:nth-child(1) div")).get.underlying
-    val superior = find(cssSelector("#slider-range .noUi-origin:nth-child(2) div")).get.underlying
-    val infBound = inf - getInferiorMoneyFilter
-    val supBound = sup - getSuperiorMoneyFilter
+  def checkAllFiltersAreClear = {
+    openFilters
+    assert(getSuperiorMoneyFilter == MAX_ENTRY_MONEY)
+    assert(getInferiorMoneyFilter == 0)
+
+    val searchCssSel  = "#" + FILTERS_PANEL_SEARCH_ID + " input"
+    assert( textField(cssSelector(searchCssSel)).value == "")
+
+    checkbox(FILTERS_PANEL_FILTER_FREE_CHECK).isSelected should be (false)
+    checkbox(FILTERS_PANEL_FILTER_LEAGUE_CHECK).isSelected should be (false)
+    checkbox(FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK).isSelected should be (false)
+    checkbox(FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK).isSelected should be (false)
+
+    this
+  }
+
+  private def applyFilter(forId : String) = {
 
     openFilters
+    val filter = find(cssSelector(forId)).get
 
-    var dragAndDrop:Action = new Actions(driver)
-      .clickAndHold(inferior)
-      .moveByOffset(Math.round(sliderWidth * infBound / MAX_ENTRY_MONEY), 0)
-      .release(inferior)
-      .build()
-
-    dragAndDrop.perform()
-
-    dragAndDrop = new Actions(driver)
-      .clickAndHold(superior)
-      .moveByOffset(Math.round(sliderWidth * supBound / MAX_ENTRY_MONEY), 0)
-      .release(superior)
-      .build()
-
-    dragAndDrop.perform()
+    eventually {
+      filter.isDisplayed
+    }
+    click on filter
 
     this
   }
@@ -344,7 +296,7 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   }
 
   // NOT USED, DELETEABLE
-
+/*
   private def buildContestFromRow(row : WebElement): Contest ={
     var contest = new Contest("", "", "", "", "")
 
@@ -364,7 +316,7 @@ class LobbyPage(res:Resolution)  extends SharedPage {
 
     contest
   }
-
+*/
 
   /*
   eventually {

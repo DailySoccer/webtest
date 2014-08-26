@@ -1,7 +1,5 @@
 package unusual.pages
 
-import java.util
-
 import unusual.model.Resolution
 
 class EnterContestPage(res: Resolution) extends SharedPage {
@@ -17,11 +15,11 @@ class EnterContestPage(res: Resolution) extends SharedPage {
   val MIDDLE = "MID"
   val FORWARD = "DEL"
   val SOCCER_PLAYER_POSITION_FILTER_TAB = Map(
-    ALL -> 2,
-    GOAL_KEEPER -> 3,
-    DEFENSE -> 4,
-    MIDDLE -> 5,
-    FORWARD -> 6
+    ALL -> 1,
+    GOAL_KEEPER -> 2,
+    DEFENSE -> 3,
+    MIDDLE -> 4,
+    FORWARD -> 5
   )
 
   val FILTER_POSITION_CLASS = ".filter-by-position"
@@ -31,7 +29,7 @@ class EnterContestPage(res: Resolution) extends SharedPage {
   val FILTER_MATCH_DESKTOP_ID = "matchTeamsFilterContainer"
   val FILTER_MATCH_MOBILE_ID = "match-fliter"
 
-  val LINEUP_SELECTOR_ID = "lineupSelector"
+  val LINEUP_SELECTOR_ID = "lineup-selector"
 
 
 
@@ -54,70 +52,57 @@ class EnterContestPage(res: Resolution) extends SharedPage {
    * @return
    */
   def setSoccerPlayerMatchFilter(matchOrder : Int) = {
-    val cssSelNonMobile = "#" + FILTER_MATCH_DESKTOP_ID + "  button:nth-child(" + matchOrder + ")"
 
-    println(cssSelNonMobile)
-    eventually {
-      val bttNonMobile = find(cssSelector(cssSelNonMobile)).get
+    if (resolution == Resolution.SMALL) {
+      /*
+      val cssSelMobile = "#" + FILTER_MATCH_MOBILE_ID //+ "  option:nth-child(" + matchOrder + ")"
+      val cssSelMobileOpt = "#" + FILTER_MATCH_MOBILE_ID + "  option:nth-child(" + matchOrder + ")"
+      val bttMobile = find(cssSelector(cssSelMobile)).get
+      val bttMobileOpt = find(cssSelector(cssSelMobileOpt)).get
 
-      if (bttNonMobile.isDisplayed) {
-        click on bttNonMobile
-      } else {
-        /*
-        val cssSelMobile = "#" + FILTER_MATCH_MOBILE_ID //+ "  option:nth-child(" + matchOrder + ")"
-        val cssSelMobileOpt = "#" + FILTER_MATCH_MOBILE_ID + "  option:nth-child(" + matchOrder + ")"
-        val bttMobile = find(cssSelector(cssSelMobile)).get
-        val bttMobileOpt = find(cssSelector(cssSelMobileOpt)).get
+      click on bttMobile
 
-        click on bttMobile
-
-        eventually {
-          click on bttMobileOpt
-        }
-        */
+      eventually {
+        click on bttMobileOpt
       }
+      */
+      unavailableFunctionOnResolution("setSoccerPlayerMatchFilter()")
+    } else {
+      val cssSel = "#" + FILTER_MATCH_DESKTOP_ID + "  button:nth-child(" + matchOrder + ")"
+      val bttNonMobile = find(cssSelector(cssSel)).get
+      click on bttNonMobile
     }
-
 
     this
   }
 
   def setSoccerPlayerPositionFilter(pos : String) = {
-    val cssSelDesktop = "#" + DESKTOP_VERSION_ID + " " + FILTER_POSITION_CLASS + " button:nth-child(" + SOCCER_PLAYER_POSITION_FILTER_TAB(pos) + ")"
-    val cssSelNonDesktop = "#" + NON_DESKTOP_VERSION_ID + " " + FILTER_POSITION_CLASS + " button:nth-child(" + SOCCER_PLAYER_POSITION_FILTER_TAB(pos) + ")"
 
-    eventually {
-      val bttDesktop = find(cssSelector(cssSelDesktop)).get
-      val bttNonDesktop = find(cssSelector(cssSelNonDesktop)).get
-
-      if (bttDesktop.isDisplayed) {
-        click on bttDesktop
-      } else if (bttNonDesktop.isDisplayed) {
-        click on bttNonDesktop
-      } else {
-        println("Version movil")
-      }
+    if (resolution == Resolution.SMALL) {
+      unavailableFunctionOnResolution("setSoccerPlayerPositionFilter()")
+    } else if (resolution == Resolution.MEDIUM) {
+      val cssSel = "#" + DESKTOP_VERSION_ID + " " + FILTER_POSITION_CLASS + " button:nth-of-type(" + SOCCER_PLAYER_POSITION_FILTER_TAB(pos) + ")"
+      eventually { click on find(cssSelector(cssSel)).get }
+    } else {
+      val cssSel = "#" + DESKTOP_VERSION_ID + " " + FILTER_POSITION_CLASS + " button:nth-of-type(" + SOCCER_PLAYER_POSITION_FILTER_TAB(pos) + ")"
+      eventually { click on find(cssSelector(cssSel)).get }
     }
-
 
     this
   }
 
   def selectGoalKeeperOnMyTeam = {
     selectSoccerPlayerOnMyTeam(1)
-
     this
   }
 
   def selectDefenseOnMyTeam(order: Int) = {
     selectSoccerPlayerOnMyTeam(1 + order)
-
     this
   }
 
   def selectMiddleOnMyTeam(order: Int) = {
     selectSoccerPlayerOnMyTeam(5 + order)
-
 
     this
   }
@@ -127,27 +112,23 @@ class EnterContestPage(res: Resolution) extends SharedPage {
     this
   }
 
+
+
+
+
+
   private def selectSoccerPlayerOnMyTeam(order: Int) ={
-
-    val cssSelDesktop = "#" + DESKTOP_VERSION_ID + " #" + LINEUP_SELECTOR_ID + " .lineup-selector-slot:nth-child(" + order + ")"
-    val cssSelNonDesktop = "#" + NON_DESKTOP_VERSION_ID + " #" + LINEUP_SELECTOR_ID + " .lineup-selector-slot:nth-child(" + order + ")"
-
-    println(cssSelDesktop)
-
-    println(cssSelNonDesktop)
-    eventually {
-      val bttDesktop = find(cssSelector(cssSelDesktop)).get
-      val bttNonDesktop = find(cssSelector(cssSelNonDesktop)).get
-
-      if (bttDesktop.isDisplayed) {
-        click on bttDesktop
-      } else {
-        assert(bttNonDesktop.isDisplayed)
-        click on bttNonDesktop
-      }
+    var cssSel = ""
+    if (resolution != Resolution.BIG) {
+      cssSel = "#" + NON_DESKTOP_VERSION_ID + " " + LINEUP_SELECTOR_ID + " .lineup-selector-slot:nth-child(" + order + ")"
+    } else {
+      cssSel = "#" + DESKTOP_VERSION_ID + " " + LINEUP_SELECTOR_ID + " .lineup-selector-slot:nth-child(" + order + ")"
     }
 
+    eventually { click on find(cssSelector(cssSel)).get }
     this
   }
+
+
 
 }

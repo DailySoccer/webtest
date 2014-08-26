@@ -1,6 +1,7 @@
 package unusual.pages
 
 import unusual.model.Resolution
+import unusual.model.User
 
 class SignUpPage(res:Resolution) extends SharedPage {
   val resolution: Resolution = res
@@ -47,7 +48,7 @@ class SignUpPage(res:Resolution) extends SharedPage {
     this
   }
 
-  def doSingup = {
+  def doSignUp(usr:User) = {
     fillAndSubmitForm(TEST_SINGUP_FORM_MAP)
     this
   }

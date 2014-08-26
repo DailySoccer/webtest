@@ -14,7 +14,7 @@ class LoginPage(res:Resolution) extends SharedPage {
   val FORM_PASSWORD = "Password"
   val FORM_SUBMIT = "login"
 
-  val DEFAULT_USER : User = new User("Test", "Test", "test@test.com", "Test", "private")
+  //val DEFAULT_USER : User = new User("Test", "Test", "test@test.com", "Test", "private")
 
   def open = {
     go to url
@@ -34,12 +34,12 @@ class LoginPage(res:Resolution) extends SharedPage {
     this
   }
 
-  def doLogin = {
-    fillAndSubmitForm(DEFAULT_USER)
+  def doLogin(usr: User) = {
+    fillAndSubmitForm(usr)
     this
   }
 
-  def fillAndSubmitForm(u: User) = {
+  private def fillAndSubmitForm(u: User) = {
     emailField(FORM_EMAIL).value = u.email
     pwdField(FORM_PASSWORD).value = u.password
     submit

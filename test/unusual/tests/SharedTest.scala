@@ -2,19 +2,22 @@ package unusual.tests
 
 import org.scalatest._
 import org.scalatestplus.play._
-import unusual.model.Resolution
+import unusual.model._
 import unusual.pages._
 
 class SharedTest extends PlaySpec
   with OneServerPerSuite with OneBrowserPerSuite with SauceLabsFactory with BeforeAndAfter with BeforeAndAfterAll {
 
-  val RESOLUTIONS = Resolution.ALL
-  val DEFAULT_RESOLUTION = Resolution.BIG
-  var currentResolution = DEFAULT_RESOLUTION
+  var status:TestStatus = new TestStatus
+
+  ///// STATUS
+  // logged
+  // resolution
 
   override def beforeAll {
     println("Before!")  // start up your web server or whatever
     SharedPage.driver = webDriver
+    status.setDefault
   }
 
   override def afterAll {
@@ -23,32 +26,32 @@ class SharedTest extends PlaySpec
   }
 
   def goToHomePage : HomePage = {
-    val homePage = new HomePage(currentResolution)
+    val homePage = new HomePage(status.resolution)
     homePage.open.isAt
   }
 
   def goToSignUpPage : SignUpPage = {
-    val signUpPage = new SignUpPage(currentResolution)
+    val signUpPage = new SignUpPage(status.resolution)
     signUpPage.open.isAt
   }
 
   def goToLoginPage : LoginPage = {
-    val loginPage = new LoginPage(currentResolution)
+    val loginPage = new LoginPage(status.resolution)
     loginPage.open.isAt
   }
 
   def goToLobbyPage : LobbyPage = {
-    val lobbyPage = new LobbyPage(currentResolution)
+    val lobbyPage = new LobbyPage(status.resolution)
     lobbyPage.open.isAt
   }
 
   def goToMyContestsPage : MyContestsPage = {
-    val myContestsPage = new MyContestsPage(currentResolution)
+    val myContestsPage = new MyContestsPage(status.resolution)
     myContestsPage.open.isAt
   }
 
   def goToPromos : PromosPage = {
-    val promosPage = new PromosPage(currentResolution)
+    val promosPage = new PromosPage(status.resolution)
     promosPage.open.isAt
   }
 
@@ -63,13 +66,11 @@ class SharedTest extends PlaySpec
   }
 
   def callTest(test: (Resolution) => Unit)(implicit resolution:Resolution) = {
+    status.resolution = resolution
     changeBrowserResolution
     println("[additional-info] " + resolution + "...")
-    currentResolution = resolution
     test(resolution)
-    currentResolution = DEFAULT_RESOLUTION
     println("[additional-info] " + resolution + " OK.")
-
     this
   }
 

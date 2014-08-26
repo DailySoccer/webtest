@@ -84,11 +84,11 @@ class MenuBar(res:Resolution) extends SharedPage {
   def isUser(u: User): Unit = {
     val elem = find(id(USER_MENU_TOGGLE_DROPDOWN)).get
 
-    if (!elem.isDisplayed) clickOnToggleUserMenu
-
-    eventually {
-      elem.text should be(u.firstName + " " + u.lastName)
+    if (resolution == Resolution.SMALL && !elem.isDisplayed) {
+      clickOnToggleUserMenu
     }
+
+    eventually { elem.text should be(u.firstName + " " + u.lastName) }
   }
 
   def clickOnLogout = {
@@ -126,7 +126,7 @@ class MenuBar(res:Resolution) extends SharedPage {
 
   /**************** GAME MENU METHODS ****************/
 
-  def clickOnTournaments = {
+  def clickOnContests = {
     clickOnGameMenuOption(TOURNAMENTS, new LobbyPage(resolution))
   }
 

@@ -1,0 +1,207 @@
+package unusual.tests.lobbyTest
+
+import unusual.model.Resolution
+import unusual.testTags.scala._
+import unusual.tests.SharedTest
+
+class LobbyVisitorTest extends LobbyTestCommon {
+
+  before {
+    status.ensureVisitor
+  }
+
+  "As visitor" must {
+
+    def goToLobby(resolution:Resolution): Unit = {
+      goToLobbyPage.isNotLoggedIn
+    }
+
+    "go to lobby without be logged in. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(goToLobby)
+    }
+    "go to lobby without be logged in. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(goToLobby)
+    }
+    "go to lobby without be logged in. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(goToLobby)
+    }
+    /*
+    def checkClearFiltersButton(resolution:Resolution): Unit = {
+      super.checkClearFiltersButton(resolution)
+    }
+    */
+    "clear filters control. B" taggedAs(WIP, BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(checkClearFiltersButton)
+    }
+    "clear filters control. M" taggedAs(WIP, MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(checkClearFiltersButton)
+    }
+    "clear filters control. S" taggedAs(WIP, SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(checkClearFiltersButton)
+    }
+    /*
+    def lookForDefaultContests(resolution:Resolution): Unit = {
+      super.lookForDefaultContests(resolution)
+    }
+    */
+    "look for default contests. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(lookForDefaultContests)
+    }
+    "look for default contests. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(lookForDefaultContests)
+    }
+    "look for default contests. S" taggedAs(WIP, SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(lookForDefaultContests)
+    }
+    /*
+    def filterByFreeContests(resolution:Resolution): Unit = {
+      super.filterByFreeContests(resolution)
+    }
+    */
+    "filter by free contests. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(filterByFreeContests)
+    }
+    "filter by free contests. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(filterByFreeContests)
+    }
+    "filter by free contests. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(filterByFreeContests)
+    }
+    /*
+    def filterByLeagueContests(resolution:Resolution): Unit = {
+      super.filterByLeagueContests(resolution)
+    }
+    */
+    "filter by league contests. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(filterByLeagueContests)
+    }
+    "filter by league contests. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(filterByLeagueContests)
+    }
+    "filter by league contests. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(filterByLeagueContests)
+    }
+    /*
+    def filterByFiftyFiftyContests(resolution:Resolution): Unit = {
+      super.filterByFiftyFiftyContests(resolution)
+    }
+    */
+    "filter by fifty fifty contests. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(filterByFiftyFiftyContests)
+    }
+    "filter by fifty fifty contests. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(filterByFiftyFiftyContests)
+    }
+    "filter by fifty fifty contests. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(filterByFiftyFiftyContests)
+    }
+    /*
+    def filterByHeadToHeadContests(resolution:Resolution): Unit = {
+      super.filterByHeadToHeadContests(resolution)
+    }
+    */
+    "filter by head to head contests. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(filterByHeadToHeadContests)
+    }
+    "filter by head to head contests. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(filterByHeadToHeadContests)
+    }
+    "filter by head to head contests. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(filterByHeadToHeadContests)
+    }
+
+    /*
+    def filterByFreeContestsWithMinFilter(resolution:Resolution): Unit = {
+      super.filterByFreeContestsWithMinFilter(resolution)
+    }
+    */
+    "filter by free contests with min filter applied. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(filterByFreeContestsWithMinFilter)
+    }
+    "filter by free contests with min filter applied. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(filterByFreeContestsWithMinFilter)
+    }
+    "filter by free contests with min filter applied. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(filterByFreeContestsWithMinFilter)
+    }
+
+    /*
+    def checkEntryFeeFilterCtrl(resolution:Resolution): Unit = {
+      super.checkEntryFeeFilterCtrl(resolution)
+    }
+    */
+    "use entry fee filter control. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(checkEntryFeeFilterCtrl)
+    }
+    "use entry fee filter control. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(checkEntryFeeFilterCtrl)
+    }
+    "use entry fee filter control. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(checkEntryFeeFilterCtrl)
+    }
+
+    /*
+    def playFirstContest(resolution:Resolution): Unit = {
+      super.playFirstContest(resolution)
+    }
+    */
+    "press play button of first contest to select team. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(playFirstContest)
+    }
+    "press play button of first contest to select team. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(playFirstContest)
+    }
+    "press play button of first contest to select team. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(playFirstContest)
+    }
+    /*
+    def searchContest(resolution:Resolution): Unit = {
+      super.searchContest(resolution)
+    }
+    */
+    "search contest. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(searchContest)
+    }
+    "search contest. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(searchContest)
+    }
+    "search contest. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(searchContest)
+    }
+
+  }
+
+}
