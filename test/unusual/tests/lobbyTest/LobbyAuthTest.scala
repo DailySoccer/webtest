@@ -199,6 +199,61 @@ class LobbyAuthTest extends LobbyTestCommon {
       callTest(searchContest)
     }
 
+    "filter by entry fee. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(filterByEntryFee)
+    }
+    "filter by entry fee. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(filterByEntryFee)
+    }
+    "filter by entry fee. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(filterByEntryFee)
+    }
+
+
+
+    "check pager main functionality. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(paginatorMainFunctionality)
+    }
+    "check pager main functionality. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(paginatorMainFunctionality)
+    }
+    "check pager main functionality. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(paginatorMainFunctionality)
+    }
+
+    "see pager displayed when necessary. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(paginatorIsDisplayedWhenNecessary)
+    }
+    "see pager displayed when necessary. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(paginatorIsDisplayedWhenNecessary)
+    }
+    "see pager displayed when necessary. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(paginatorIsDisplayedWhenNecessary)
+    }
+
+
+
+    "check known bug sequence: Disappeared pager on contests filter. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(knownBugSequence_DisappearedPaginatorOnFilter)
+    }
+    "check known bug sequence: Disappeared pager on contests filter. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(knownBugSequence_DisappearedPaginatorOnFilter)
+    }
+    "check known bug sequence: Disappeared pager on contests filter. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(knownBugSequence_DisappearedPaginatorOnFilter)
+    }
   }
 
 }

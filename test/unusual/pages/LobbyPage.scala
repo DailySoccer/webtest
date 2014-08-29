@@ -31,7 +31,7 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   val TITLE   = "Daily Soccer"
 
   val PROMOS_COMPONENT_ID = "promosComponent"
-  val CONTEST_LIST_CONTAINER = "contestsListRoot"
+  val CONTEST_LIST_CONTAINER = ".contests-list-root"
   val CONTEST_ROW_CONTAINER_CLASS = ".contest-row"
 
   val CONTEST_COLUMN_NAME_CLASS = ".column-contest-name"
@@ -83,7 +83,7 @@ class LobbyPage(res:Resolution)  extends SharedPage {
       pageTitle should be (TITLE)
 
       find(id(PROMOS_COMPONENT_ID)) should be ('defined)
-      find(id(CONTEST_LIST_CONTAINER)) should be ('defined)
+      find(cssSelector(CONTEST_LIST_CONTAINER)) should be ('defined)
     }
     // eventually { find(id("legend")).get.text should be (LEGEND) }
     // find(name(FORM_EMAIL)) should be ('defined)
@@ -221,9 +221,22 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     }
     */
 
+
+    var pages = Math.floor( (n-1)/10 + 1 ).toInt
+    val rest = n - (pages - 1)*10
+
     // Esta parece la unica rapida y efectiva
     eventually (timeout(2 seconds)) {
-      fastCountByCssSelector("#contestsListRoot .contest-row") should be(n)
+      val lastPageBtt = find(cssSelector("#linkButton_lobby_to-last-page a"))
+      if (lastPageBtt != None) {
+        fastCountByCssSelector(".pagination .page-link") should be(pages)
+        click on lastPageBtt.get
+      } else {
+        assert(pages < 2)
+      }
+
+      val a = fastCountByCssSelector(CONTEST_LIST_CONTAINER + " .contest-row")
+      a should be(rest)
     }
     this
   }

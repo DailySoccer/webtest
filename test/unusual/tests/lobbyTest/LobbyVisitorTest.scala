@@ -33,15 +33,15 @@ class LobbyVisitorTest extends LobbyTestCommon {
       super.checkClearFiltersButton(resolution)
     }
     */
-    "clear filters control. B" taggedAs(WIP, BigResolution) in {
+    "clear filters control. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(checkClearFiltersButton)
     }
-    "clear filters control. M" taggedAs(WIP, MediumResolution) in {
+    "clear filters control. M" taggedAs(MediumResolution) in {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(checkClearFiltersButton)
     }
-    "clear filters control. S" taggedAs(WIP, SmallResolution) in {
+    "clear filters control. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(checkClearFiltersButton)
     }
@@ -58,7 +58,7 @@ class LobbyVisitorTest extends LobbyTestCommon {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(lookForDefaultContests)
     }
-    "look for default contests. S" taggedAs(WIP, SmallResolution) in {
+    "look for default contests. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(lookForDefaultContests)
     }
@@ -172,15 +172,15 @@ class LobbyVisitorTest extends LobbyTestCommon {
       super.playFirstContest(resolution)
     }
     */
-    "press play button of first contest to select team. B" taggedAs(BigResolution) in {
+    "press play button of first contest to select team. B" taggedAs(WIP, BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(playFirstContest)
     }
-    "press play button of first contest to select team. M" taggedAs(MediumResolution) in {
+    "press play button of first contest to select team. M" taggedAs(WIP, MediumResolution) in {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(playFirstContest)
     }
-    "press play button of first contest to select team. S" taggedAs(SmallResolution) in {
+    "press play button of first contest to select team. S" taggedAs(WIP, SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(playFirstContest)
     }
@@ -200,6 +200,59 @@ class LobbyVisitorTest extends LobbyTestCommon {
     "search contest. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(searchContest)
+    }
+
+    "filter by entry fee. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(filterByEntryFee)
+    }
+    "filter by entry fee. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(filterByEntryFee)
+    }
+    "filter by entry fee. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(filterByEntryFee)
+    }
+
+
+    "check pager main functionality. B" taggedAs(WIP, BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(paginatorMainFunctionality)
+    }
+    "check pager main functionality. M" taggedAs(WIP, MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(paginatorMainFunctionality)
+    }
+    "check pager main functionality. S" taggedAs(WIP, SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(paginatorMainFunctionality)
+    }
+
+    "see pager displayed when necessary. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(paginatorIsDisplayedWhenNecessary)
+    }
+    "see pager displayed when necessary. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(paginatorIsDisplayedWhenNecessary)
+    }
+    "see pager displayed when necessary. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(paginatorIsDisplayedWhenNecessary)
+    }
+
+    "check known bug sequence: Disappeared pager on contests filter. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(knownBugSequence_DisappearedPaginatorOnFilter)
+    }
+    "check known bug sequence: Disappeared pager on contests filter. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(knownBugSequence_DisappearedPaginatorOnFilter)
+    }
+    "check known bug sequence: Disappeared pager on contests filter. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(knownBugSequence_DisappearedPaginatorOnFilter)
     }
 
   }

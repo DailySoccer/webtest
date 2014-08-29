@@ -2,11 +2,13 @@ package unusual.tests
 
 import org.scalatest._
 import org.scalatestplus.play._
+import play.api.Logger
 import unusual.model._
 import unusual.pages._
 
 class SharedTest extends PlaySpec
-  with OneServerPerSuite with OneBrowserPerSuite with SauceLabsFactory with BeforeAndAfter with BeforeAndAfterAll {
+    with OneServerPerSuite with OneBrowserPerSuite with SauceLabsFactory
+    with BeforeAndAfter with BeforeAndAfterAll {
 
   var status:TestStatus = new TestStatus
 
