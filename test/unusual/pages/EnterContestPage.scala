@@ -173,7 +173,7 @@ class EnterContestPage(res: Resolution) extends SharedPage {
     }
     isOrdered
 */
-    // 1 segundo
+    // menos de 1 segundo
     fastEnterContest_PlayerAreOrderedByPos
   }
 
