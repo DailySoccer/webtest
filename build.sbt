@@ -2,11 +2,9 @@ name := "test"
 
 version := "1.0-SNAPSHOT"
 
-//javaOptions += "-l fantasyTags.DbTest"
-//testOptions in Test += Tests.Argument("v")
-testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  ,"-w", "unusual.tests.enterContestTest"
-                                                                //,"-n", "unusual.testTags.java.WIP"
-                                                                //,"-l", "unusual.testTags.java.DoesNotWorkYet"
+testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  //,"-w", "unusual.tests.enterContestTest" // Paquete de tests
+                                                                //,"-n", "unusual.testTags.java.WIP" // Incluidas
+                                                                //,"-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
                                                                 , "-eIKNCHLPQ"
                                                                 )
 

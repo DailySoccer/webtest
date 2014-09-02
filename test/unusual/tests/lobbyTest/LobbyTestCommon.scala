@@ -140,7 +140,7 @@ class LobbyTestCommon extends SharedTest {
 
   def paginatorMainFunctionality(resolution:Resolution): Unit = {
     val page = goToLobbyPage.clearFilters
-    val paginator = new PaginatorControl(resolution, "lobby").isAt
+    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER).isAt
     assert( paginator.isDisplayed )
 
     paginator.getNumberOfPages must be (14)
@@ -173,7 +173,7 @@ class LobbyTestCommon extends SharedTest {
 
   def paginatorIsDisplayedWhenNecessary(resolution:Resolution): Unit = {
     val page = goToLobbyPage.clearFilters
-    val paginator = new PaginatorControl(resolution, "lobby").isAt
+    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER).isAt
     assert(paginator.isDisplayed)
     paginator.getNumberOfPages must be (14)
 
@@ -184,7 +184,7 @@ class LobbyTestCommon extends SharedTest {
 
   def knownBugSequence_DisappearedPaginatorOnFilter(resolution:Resolution): Unit = {
     val page = goToLobbyPage.clearFilters
-    val paginator = new PaginatorControl(resolution, "lobby").isAt
+    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER).isAt
     assert(paginator.isDisplayed)
     paginator.goToLastPage
     page.clickFreeContestFilter

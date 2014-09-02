@@ -2,11 +2,11 @@ package unusual.pages
 
 import unusual.model.Resolution
 
-class PaginatorControl(res:Resolution, suffix: String) extends SharedPage {
+class PaginatorControl(res:Resolution, prefix: String) extends SharedPage {
   val url = SharedPage.baseUrl
   val resolution: Resolution = res
 
-  val PAGER_BOX = "#paginatorBox_" + suffix
+  val PAGER_BOX = prefix + " .paginator-box"
 
   override def isAt = {
     eventually { find(cssSelector(PAGER_BOX)) should be ('defined) }
@@ -17,28 +17,28 @@ class PaginatorControl(res:Resolution, suffix: String) extends SharedPage {
 
   def goToLastPage = {
     if ( isDisplayed ) {
-      eventually { click on find(cssSelector("#linkButton_lobby_to-last-page a")).get }
+      eventually { click on find(cssSelector(PAGER_BOX + " .go-to-last-page  a")).get }
     }
     this
   }
 
   def goToFirstPage = {
     if ( isDisplayed ) {
-      eventually { click on find(cssSelector("#linkButton_lobby_to-first-page a")).get }
+      eventually { click on find(cssSelector(PAGER_BOX + " .go-to-first-page a")).get }
     }
     this
   }
 
   def goToPreviousPage = {
     if ( isDisplayed ) {
-      eventually { click on find(cssSelector("#linkButton_lobby_to-prev-page a")).get }
+      eventually { click on find(cssSelector(PAGER_BOX + " .go-to-prev-page a")).get }
     }
     this
   }
 
   def goToNextPage = {
     if ( isDisplayed ) {
-      eventually { click on find(cssSelector("#linkButton_lobby_to-next-page a")).get }
+      eventually { click on find(cssSelector(PAGER_BOX + " .go-to-next-page a")).get }
     }
     this
   }
@@ -48,7 +48,7 @@ class PaginatorControl(res:Resolution, suffix: String) extends SharedPage {
     if (1 > index) { throw new Exception("Page index should be greater than 0.") }
 
     if ( isDisplayed ) {
-      val cssSel = PAGER_BOX + " .pagination #linkButton_lobby_" + index + " a"
+      val cssSel = PAGER_BOX + " .pagination .page-link:nth-child(" + (index + 3) + ") a"
       val currPage = getCurrentPage
       val numPages = getNumberOfPages
       var attempts = 0

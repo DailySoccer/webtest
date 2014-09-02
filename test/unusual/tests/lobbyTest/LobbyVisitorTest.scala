@@ -172,15 +172,15 @@ class LobbyVisitorTest extends LobbyTestCommon {
       super.playFirstContest(resolution)
     }
     */
-    "press play button of first contest to select team. B" taggedAs(WIP, BigResolution) in {
+    "press play button of first contest to select team. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(playFirstContest)
     }
-    "press play button of first contest to select team. M" taggedAs(WIP, MediumResolution) in {
+    "press play button of first contest to select team. M" taggedAs(MediumResolution) in {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(playFirstContest)
     }
-    "press play button of first contest to select team. S" taggedAs(WIP, SmallResolution) in {
+    "press play button of first contest to select team. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(playFirstContest)
     }
@@ -216,15 +216,15 @@ class LobbyVisitorTest extends LobbyTestCommon {
     }
 
 
-    "check pager main functionality. B" taggedAs(WIP, BigResolution) in {
+    "check pager main functionality. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(paginatorMainFunctionality)
     }
-    "check pager main functionality. M" taggedAs(WIP, MediumResolution) in {
+    "check pager main functionality. M" taggedAs(MediumResolution) in {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(paginatorMainFunctionality)
     }
-    "check pager main functionality. S" taggedAs(WIP, SmallResolution) in {
+    "check pager main functionality. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(paginatorMainFunctionality)
     }

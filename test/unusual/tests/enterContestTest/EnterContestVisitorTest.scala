@@ -3,7 +3,6 @@ package unusual.tests.enterContestTest
 import unusual.model._
 import unusual.pages._
 import unusual.testTags.scala._
-import unusual.tests._
 
 class EnterContestVisitorTest extends EnterContestTestCommon {
 
@@ -13,6 +12,84 @@ class EnterContestVisitorTest extends EnterContestTestCommon {
 
    "Visitor" must {
 
+
+     "look at default state. B" taggedAs(BigResolution) in {
+       implicit val resolution:Resolution = Resolution.BIG
+       callTest(checkDefaultState)
+     }
+     "look at default state. M" taggedAs(MediumResolution) in {
+       implicit val resolution:Resolution = Resolution.MEDIUM
+       callTest(checkDefaultState)
+     }
+     "look at default state. S" taggedAs(SmallResolution) in {
+       implicit val resolution:Resolution = Resolution.SMALL
+       callTest(checkDefaultState)
+     }
+
+     "order by position. B" taggedAs(WIP, BigResolution) in {
+       implicit val resolution:Resolution = Resolution.BIG
+       callTest(orderByPosition)
+     }
+     "order by position. M" taggedAs(WIP, MediumResolution) in {
+       implicit val resolution:Resolution = Resolution.MEDIUM
+       callTest(orderByPosition)
+     }
+     "order by position. S" taggedAs(WIP, SmallResolution) in {
+       implicit val resolution:Resolution = Resolution.SMALL
+       callTest(orderByPosition)
+     }
+
+     "order by name. B" taggedAs(WIP, BigResolution) in {
+       implicit val resolution:Resolution = Resolution.BIG
+       callTest(orderByName)
+     }
+     "order by name. M" taggedAs(WIP, MediumResolution) in {
+       implicit val resolution:Resolution = Resolution.MEDIUM
+       callTest(orderByName)
+     }
+     "order by name. S" taggedAs(WIP, SmallResolution) in {
+       implicit val resolution:Resolution = Resolution.SMALL
+       callTest(orderByName)
+     }
+
+     "order by DFP. B" taggedAs(WIP, BigResolution) in {
+       implicit val resolution:Resolution = Resolution.BIG
+       callTest(orderByDFP)
+     }
+     "order by DFP. M" taggedAs(WIP, MediumResolution) in {
+       implicit val resolution:Resolution = Resolution.MEDIUM
+       callTest(orderByDFP)
+     }
+     "order by DFP. S" taggedAs(WIP, SmallResolution) in {
+       implicit val resolution:Resolution = Resolution.SMALL
+       callTest(orderByDFP)
+     }
+
+     "order by Played. B" taggedAs(WIP, BigResolution) in {
+       implicit val resolution:Resolution = Resolution.BIG
+       callTest(orderByPlayed)
+     }
+     "order by Played. M" taggedAs(WIP, MediumResolution) in {
+       implicit val resolution:Resolution = Resolution.MEDIUM
+       callTest(orderByPlayed)
+     }
+     "order by Played. S" taggedAs(WIP, SmallResolution) in {
+       implicit val resolution:Resolution = Resolution.SMALL
+       callTest(orderByPlayed)
+     }
+
+     "order by Salary. B" taggedAs(WIP, BigResolution) in {
+       implicit val resolution:Resolution = Resolution.BIG
+       callTest(orderBySalary)
+     }
+     "order by Salary. M" taggedAs(WIP, MediumResolution) in {
+       implicit val resolution:Resolution = Resolution.MEDIUM
+       callTest(orderBySalary)
+     }
+     "order by Salary. S" taggedAs(WIP, SmallResolution) in {
+       implicit val resolution:Resolution = Resolution.SMALL
+       callTest(orderBySalary)
+     }
 
      "filter by GoalKeepers. B" taggedAs(BigResolution) in {
        implicit val resolution:Resolution = Resolution.BIG
@@ -274,6 +351,19 @@ class EnterContestVisitorTest extends EnterContestTestCommon {
        callTest(addFirstGoalKeeperFromList)
      }
 
+     "add fourth defense from list. B" taggedAs(BigResolution) in {
+       implicit val resolution:Resolution = Resolution.BIG
+       callTest(addFourthDefenseFromList)
+     }
+     "add fourth defense from list. M" taggedAs(MediumResolution) in {
+       implicit val resolution:Resolution = Resolution.MEDIUM
+       callTest(addFourthDefenseFromList)
+     }
+     "add fourth defense from list. S" taggedAs(SmallResolution) in {
+       implicit val resolution:Resolution = Resolution.SMALL
+       callTest(addFourthDefenseFromList)
+     }
+
      "pick and clear whole lineup. B" taggedAs(BigResolution) in {
        implicit val resolution:Resolution = Resolution.BIG
        callTest(pickAndClearWholeLineup)
@@ -332,30 +422,43 @@ class EnterContestVisitorTest extends EnterContestTestCommon {
        callTest(knownBugSequence_DuplicatedPlayersAtDeleteAll)
      }
 
-     "known bug sequence: duplicated players at insert. B" taggedAs(BigResolution) in {
+     "check known bug sequence: duplicated players at insert. B" taggedAs(BigResolution) in {
        implicit val resolution:Resolution = Resolution.BIG
        callTest(knownBugSequence_DuplicatedPlayersAtInsert)
      }
-     "known bug sequence: duplicated players at insert. M" taggedAs(MediumResolution) in {
+     "check known bug sequence: duplicated players at insert. M" taggedAs(MediumResolution) in {
        implicit val resolution:Resolution = Resolution.MEDIUM
        callTest(knownBugSequence_DuplicatedPlayersAtInsert)
      }
-     "known bug sequence: duplicated players at insert. S" taggedAs(SmallResolution) in {
+     "check known bug sequence: duplicated players at insert. S" taggedAs(SmallResolution) in {
        implicit val resolution:Resolution = Resolution.SMALL
        callTest(knownBugSequence_DuplicatedPlayersAtInsert)
      }
 
-     "known bug sequence: disappeared players. B" taggedAs(BigResolution) in {
+     "check known bug sequence: disappeared players. B" taggedAs(BigResolution) in {
        implicit val resolution:Resolution = Resolution.BIG
        callTest(knownBugSequence_DisappearedPlayers)
      }
-     "known bug sequence: disappeared players. M" taggedAs(MediumResolution) in {
+     "check known bug sequence: disappeared players. M" taggedAs(MediumResolution) in {
        implicit val resolution:Resolution = Resolution.MEDIUM
        callTest(knownBugSequence_DisappearedPlayers)
      }
-     "known bug sequence: disappeared players. S" taggedAs(SmallResolution) in {
+     "check known bug sequence: disappeared players. S" taggedAs(SmallResolution) in {
        implicit val resolution:Resolution = Resolution.SMALL
        callTest(knownBugSequence_DisappearedPlayers)
+     }
+
+     "check known bug sequence: add a forward as goalkeeper. B" taggedAs(BigResolution) in {
+       implicit val resolution:Resolution = Resolution.BIG
+       callTest(knownBugSequence_AddForwardAsGoalKeeper)
+     }
+     "check known bug sequence: add a forward as goalkeeper. M" taggedAs(MediumResolution) in {
+       implicit val resolution:Resolution = Resolution.MEDIUM
+       callTest(knownBugSequence_AddForwardAsGoalKeeper)
+     }
+     "check known bug sequence: add a forward as goalkeeper. S" taggedAs(SmallResolution) in {
+       implicit val resolution:Resolution = Resolution.SMALL
+       callTest(knownBugSequence_AddForwardAsGoalKeeper)
      }
 
    }

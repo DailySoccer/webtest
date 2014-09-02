@@ -28,6 +28,7 @@ class LobbyPage(res:Resolution)  extends SharedPage {
    *  - Competition: europa league, spanish league, english league...
    */
 
+  val ROWS_PER_PAGE = 10
   val TITLE   = "Daily Soccer"
 
   val PROMOS_COMPONENT_ID = "promosComponent"
@@ -221,23 +222,26 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     }
     */
 
+    var pages = Math.floor( (n-1)/ROWS_PER_PAGE + 1 ).toInt
+    val rest = n - (pages - 1)*ROWS_PER_PAGE
+    val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
 
-    var pages = Math.floor( (n-1)/10 + 1 ).toInt
-    val rest = n - (pages - 1)*10
-
-    // Esta parece la unica rapida y efectiva
-    eventually (timeout(2 seconds)) {
-      val lastPageBtt = find(cssSelector("#linkButton_lobby_to-last-page a"))
+    //eventually (timeout(2 seconds)) {
+      //val lastPageBtt = find(cssSelector("#linkButton_lobby_to-last-page a"))
+      paginator.goToLastPage
+      paginator.getNumberOfPages should be(pages)
+      /*
       if (lastPageBtt != None) {
         fastCountByCssSelector(".pagination .page-link") should be(pages)
         click on lastPageBtt.get
       } else {
         assert(pages < 2)
       }
-
-      val a = fastCountByCssSelector(CONTEST_LIST_CONTAINER + " .contest-row")
-      a should be(rest)
-    }
+      */
+      // Esta parece la unica rapida y efectiva
+      val rows = fastCountByCssSelector(CONTEST_LIST_CONTAINER + " .contest-row")
+      rows should be(rest)
+    //}
     this
   }
 

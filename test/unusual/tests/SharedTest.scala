@@ -63,6 +63,11 @@ class SharedTest extends PlaySpec
     this
   }
 
+  def featureNotTestableInResolution = {
+    println("[additional-info] This test is not runnable in current resolution")
+    this
+  }
+
   def changeBrowserResolution()(implicit res: Resolution) {
     webDriver.manage().window().setSize(new org.openqa.selenium.Dimension(res.width, res.height));
   }
