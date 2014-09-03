@@ -1,6 +1,7 @@
 package unusual.tests.lobbyTest
 
 import unusual.model.Resolution
+import unusual.pages.LobbyPage
 import unusual.testTags.scala._
 import unusual.tests.SharedTest
 
@@ -13,7 +14,8 @@ class LobbyVisitorTest extends LobbyTestCommon {
   "As visitor" must {
 
     def goToLobby(resolution:Resolution): Unit = {
-      goToLobbyPage.isNotLoggedIn
+      super.goToLobby(resolution)
+      new LobbyPage(resolution).isNotLoggedIn
     }
 
     "go to lobby without be logged in. B" taggedAs(BigResolution) in {
@@ -27,6 +29,19 @@ class LobbyVisitorTest extends LobbyTestCommon {
     "go to lobby without be logged in. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(goToLobby)
+    }
+
+    "go to lobby and change resolutions. B" taggedAs(DoesNotWorkYet, BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(changeResolutionTests)
+    }
+    "go to lobby and change resolutions. M" taggedAs(DoesNotWorkYet, MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(changeResolutionTests)
+    }
+    "go to lobby and change resolutions. S" taggedAs(DoesNotWorkYet, SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(changeResolutionTests)
     }
     /*
     def checkClearFiltersButton(resolution:Resolution): Unit = {

@@ -18,32 +18,109 @@ class LobbyTestCommon extends SharedTest {
   val N_CONTESTS_SEARCH_1 = 66
   val FILTERS_PANEL_SEARCH_TEXT_1 = "2014/06/14"
 
+  def goToLobby(resolution:Resolution): Unit = {
+    goToLobbyPage.isDefaultState(N_CONTESTS_NO_FILTER)
+  }
+
+  def changeResolutionTests(resolution:Resolution): Unit = {
+    if (resolution == Resolution.BIG) {
+
+      val isDefaultSmall = () => new LobbyPage(Resolution.SMALL).isDefaultState(N_CONTESTS_NO_FILTER)
+      val isDefaultMedium = () => new LobbyPage(Resolution.MEDIUM).isDefaultState(N_CONTESTS_NO_FILTER)
+      val isDefaultBig = () => new LobbyPage(Resolution.BIG).isDefaultState(N_CONTESTS_NO_FILTER)
+
+      goToLobbyPage
+      assert(isDefaultBig(), "Big is not default state")
+
+      explicitChangeBrowserResolution(Resolution.MEDIUM)
+      reloadPage
+      assert(isDefaultMedium(), "Medium is not default state")
+
+      explicitChangeBrowserResolution(Resolution.SMALL)
+      reloadPage
+      assert(isDefaultSmall(), "Small is not default state")
+
+
+      explicitChangeBrowserResolution(Resolution.BIG)
+      reloadPage
+      explicitChangeBrowserResolution(Resolution.MEDIUM)
+      assert(isDefaultMedium(), "From big to medium")
+
+
+      explicitChangeBrowserResolution(Resolution.BIG)
+      reloadPage
+      explicitChangeBrowserResolution(Resolution.MEDIUM)
+      explicitChangeBrowserResolution(Resolution.SMALL)
+      assert(isDefaultSmall(), "From big to medium to small")
+
+
+      explicitChangeBrowserResolution(Resolution.BIG)
+      reloadPage
+      explicitChangeBrowserResolution(Resolution.SMALL)
+      assert(isDefaultSmall(), "From big to small")
+
+
+      explicitChangeBrowserResolution(Resolution.SMALL)
+      reloadPage
+      explicitChangeBrowserResolution(Resolution.MEDIUM)
+      assert(isDefaultMedium(), "From small to medium")
+
+
+      explicitChangeBrowserResolution(Resolution.SMALL)
+      reloadPage
+      explicitChangeBrowserResolution(Resolution.MEDIUM)
+      explicitChangeBrowserResolution(Resolution.BIG)
+      assert(isDefaultBig(), "From small to medium to big")
+
+
+      explicitChangeBrowserResolution(Resolution.SMALL)
+      reloadPage
+      explicitChangeBrowserResolution(Resolution.BIG)
+      assert(isDefaultBig(), "From small to big")
+
+
+      explicitChangeBrowserResolution(Resolution.MEDIUM)
+      reloadPage
+      explicitChangeBrowserResolution(Resolution.BIG)
+      assert(isDefaultMedium(), "From medium to big")
+
+
+      explicitChangeBrowserResolution(Resolution.MEDIUM)
+      reloadPage
+      explicitChangeBrowserResolution(Resolution.SMALL)
+      assert(isDefaultBig(), "From medium to small")
+
+    } else {
+      featureNotTestableInResolution
+    }
+  }
+
   def checkClearFiltersButton(resolution:Resolution): Unit = {
     val page = goToLobbyPage.clickOnMenuAllContests
                  .clickOnMenuFreeContests
 
-      if (resolution == Resolution.SMALL){
-        page.clearFilters
-      }
+    if (resolution == Resolution.SMALL){
+      page.clearFilters
+    }
 
-      page.checkAllFiltersAreClear
-          .searchContestByName("NingunTorneoDeberiaLlamarseAsi")
-          .setEntryFeeFilter(80, 90)
-          .clickFreeContestFilter
-          .clickLeagueContestFilter
-          .clickFiftyFiftyContestsFilter
-          .clickHeadToHeadContestsFilter
-          .checkNumberOfContests(0)
-          .clearFilters
-          .checkAllFiltersAreClear
-          .checkNumberOfContests(N_CONTESTS_NO_FILTER)
+    assert(page.areAllFiltersClear)
+    page.searchContestByName("NingunTorneoDeberiaLlamarseAsi")
+        .setEntryFeeFilter(80, 90)
+        .clickFreeContestFilter
+        .clickLeagueContestFilter
+        .clickFiftyFiftyContestsFilter
+        .clickHeadToHeadContestsFilter
+        .getNumberOfContests must be(0)
+    page.clearFilters
+    assert(page.areAllFiltersClear)
+    page.getNumberOfContests must be(N_CONTESTS_NO_FILTER)
   }
 
   def lookForDefaultContests(resolution:Resolution): Unit = {
     goToLobbyPage.clickOnMenuAllContests
                  .clickOnMenuFreeContests
                  .clearFilters
-                 .checkNumberOfContests(N_CONTESTS_NO_FILTER)
+                 .getNumberOfContests must be(N_CONTESTS_NO_FILTER)
   }
 
   def filterByFreeContests(resolution:Resolution): Unit = {
@@ -51,7 +128,7 @@ class LobbyTestCommon extends SharedTest {
                  .clickOnMenuFreeContests
                  .clearFilters
                  .clickFreeContestFilter
-                 .checkNumberOfContests(N_CONTESTS_FREE)
+                 .getNumberOfContests must be(N_CONTESTS_FREE)
   }
 
   def filterByLeagueContests(resolution:Resolution): Unit = {
@@ -59,7 +136,7 @@ class LobbyTestCommon extends SharedTest {
                  .clickOnMenuFreeContests
                  .clearFilters
                  .clickLeagueContestFilter
-                 .checkNumberOfContests(N_CONTESTS_LEAGUE)
+                 .getNumberOfContests must be(N_CONTESTS_LEAGUE)
   }
 
   def filterByFiftyFiftyContests(resolution:Resolution): Unit = {
@@ -67,7 +144,7 @@ class LobbyTestCommon extends SharedTest {
                  .clickOnMenuFreeContests
                  .clearFilters
                  .clickFiftyFiftyContestsFilter
-                 .checkNumberOfContests(N_CONTESTS_FIFTY_FIFTY)
+                 .getNumberOfContests must be(N_CONTESTS_FIFTY_FIFTY)
   }
 
   def filterByHeadToHeadContests(resolution:Resolution): Unit = {
@@ -75,7 +152,7 @@ class LobbyTestCommon extends SharedTest {
                  .clickOnMenuFreeContests
                  .clearFilters
                  .clickHeadToHeadContestsFilter
-                 .checkNumberOfContests(N_CONTESTS_HEAD_TO_HEAD)
+                 .getNumberOfContests must be(N_CONTESTS_HEAD_TO_HEAD)
   }
 
   def filterByEntryFee(resolution:Resolution): Unit = {
@@ -83,7 +160,7 @@ class LobbyTestCommon extends SharedTest {
                             .clickOnMenuFreeContests
                             .clearFilters
     page.setEntryFeeFilter(2, page.MAX_ENTRY_MONEY)
-        .checkNumberOfContests(N_CONTESTS_ENTRY_FEE)
+        .getNumberOfContests must be(N_CONTESTS_ENTRY_FEE)
   }
 
   def checkEntryFeeFilterCtrl(resolution:Resolution): Unit = {
@@ -142,7 +219,7 @@ class LobbyTestCommon extends SharedTest {
 
     page.setEntryFeeFilter(1, page.MAX_ENTRY_MONEY)
         .clickFreeContestFilter
-        .checkNumberOfContests(0)
+        .getNumberOfContests must be(0)
   }
 
   def playFirstContest(resolution:Resolution): Unit = {
@@ -158,7 +235,7 @@ class LobbyTestCommon extends SharedTest {
                             .clearFilters
                             .searchContestByName(FILTERS_PANEL_SEARCH_TEXT_1)
     if (resolution != Resolution.SMALL){
-      page.checkNumberOfContests(N_CONTESTS_SEARCH_1)
+      page.getNumberOfContests must be(N_CONTESTS_SEARCH_1)
     }
   }
 

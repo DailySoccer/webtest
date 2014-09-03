@@ -72,6 +72,10 @@ class SharedTest extends PlaySpec
     webDriver.manage().window().setSize(new org.openqa.selenium.Dimension(res.width, res.height));
   }
 
+  def explicitChangeBrowserResolution(res: Resolution) {
+    webDriver.manage().window().setSize(new org.openqa.selenium.Dimension(res.width, res.height));
+  }
+
   def callTest(test: (Resolution) => Unit)(implicit resolution:Resolution) = {
     status.resolution = resolution
     changeBrowserResolution

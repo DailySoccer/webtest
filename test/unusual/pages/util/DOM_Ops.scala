@@ -21,7 +21,7 @@ trait DOM_Ops {
 
   def fastEnterContest_PlayerAreOrderedByPos()(implicit driver:WebDriver):Boolean = {
     //implicit val webDriver:WebDriver = driver
-    var script = """
+    val script = """
         return (function () {
           var val = 0,
               oldVal = 0,
@@ -53,16 +53,35 @@ trait DOM_Ops {
 
   def fastEnterContest_PlayerAreOrderedByName()(implicit driver:WebDriver):Boolean = {
     //implicit val webDriver:WebDriver = driver
-    var script = """
+    val script = """
         return (function () {
           var val = "",
               oldVal = "",
               isOrdered = true,
               i = 1,
-              jQElem = $('.soccer-players-list .soccer-players-list-slot:nth-child(' + i + ') .soccer-player-name');
+              jQElem = $('.soccer-players-list .soccer-players-list-slot:nth-child(' + i + ') .soccer-player-name'),
+              normalize = (function() {
+                             var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
+                                 to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+                                 map = {};
+
+                             for (var i = 0, j = from.length; i < j; i++ ) {
+                               map[ from.charAt(i) ] = to.charAt(i);
+                             }
+
+                             return function(str) {
+                               var ret = '', c = '';
+                               for( var i = 0, j = str.length; i < j; i++ ) {
+                                 c = str.charAt(i);
+                                 ret += map.hasOwnProperty(c) ? map[c] : c;
+                               }
+                               return ret;
+                             }
+
+                           })();
 
           while (jQElem.length > 0 && isOrdered) {
-            val = jQElem.text();
+            val = normalize(jQElem.text()).toLowerCase();
             isOrdered = val >= oldVal;
             oldVal = val;
 
@@ -79,7 +98,7 @@ trait DOM_Ops {
 
   def fastEnterContest_PlayerAreOrderedByDFP()(implicit driver:WebDriver):Boolean = {
     //implicit val webDriver:WebDriver = driver
-    var script = """
+    val script = """
         return (function () {
           var val = 0,
               oldVal = 0,
@@ -105,7 +124,7 @@ trait DOM_Ops {
 
   def fastEnterContest_PlayerAreOrderedByPlayed()(implicit driver:WebDriver):Boolean = {
     //implicit val webDriver:WebDriver = driver
-    var script = """
+    val script = """
         return (function () {
           var val = 0,
               oldVal = 0,
@@ -131,7 +150,7 @@ trait DOM_Ops {
 
   def fastEnterContest_PlayerAreOrderedBySalary()(implicit driver:WebDriver):Boolean = {
     //implicit val webDriver:WebDriver = driver
-    var script = """
+    val script = """
         return (function () {
           var val = 0,
               oldVal = 0,

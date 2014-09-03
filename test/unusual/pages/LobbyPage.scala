@@ -14,20 +14,6 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   val url = SharedPage.baseUrl + "/#/lobby"
   val resolution: Resolution = res
 
-  /**
-   * Additional tests:
-   *  - Order by...
-   *  - Filters Conjunction
-   *  - Click on a contest to see it
-   *      - Click on contenders
-   *      - Click on prizes
-   *      - Click on information
-   *      - Click on EnterContest
-   *  - Search a nonexistent contest
-   *  - Salary limit: beginner, standard, expert
-   *  - Competition: europa league, spanish league, english league...
-   */
-
   val ROWS_PER_PAGE = 10
   val TITLE   = "Daily Soccer"
 
@@ -97,14 +83,25 @@ class LobbyPage(res:Resolution)  extends SharedPage {
         find(cssSelector(CONTEST_LIST_MENU_MOBILE)) should be ('defined)
       }
     }
-    // eventually { find(id("legend")).get.text should be (LEGEND) }
-    // find(name(FORM_EMAIL)) should be ('defined)
-    // find(name(FORM_PASSWORD)) should be ('defined)
-
-    // find(cssSelector("form input[name='Email']")) should be ('defined)
-    // find(cssSelector("form input[name='Password']")) should be ('defined)
 
     this
+  }
+
+  def isDefaultState(numberOfContest:Int):Boolean = {
+    var isDefault = true
+    isDefault = isDefault && !find(id(FILTERS_PANEL_ID)).get.isDisplayed
+
+    if (resolution == Resolution.SMALL) {
+      val menu = find(cssSelector(CONTEST_LIST_MENU_MOBILE))
+      isDefault = isDefault && menu != None
+      isDefault = isDefault && menu.get.isDisplayed
+    } else {
+      isDefault = isDefault && new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).getCurrentPage == 1
+      isDefault = isDefault && areAllFiltersClear
+      isDefault = isDefault && getNumberOfContests == numberOfContest
+    }
+
+    isDefault
   }
 
   def isNotLoggedIn = {
@@ -234,7 +231,7 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     this
   }
 
-  def checkNumberOfContests(n : Int) = {
+  def getNumberOfContests:Int = {
     /*// Es estable pero me parece cutre.
     var maxRow = 1
     var found = true
@@ -261,27 +258,17 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     }
     */
 
-    var pages = Math.floor( (n-1)/ROWS_PER_PAGE + 1 ).toInt
-    val rest = n - (pages - 1)*ROWS_PER_PAGE
     val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
+    val currPage = paginator.getCurrentPage
+    paginator.goToLastPage
+    val pages = paginator.getNumberOfPages
 
-    //eventually (timeout(2 seconds)) {
-      //val lastPageBtt = find(cssSelector("#linkButton_lobby_to-last-page a"))
-      paginator.goToLastPage
-      paginator.getNumberOfPages should be(pages)
-      /*
-      if (lastPageBtt != None) {
-        fastCountByCssSelector(".pagination .page-link") should be(pages)
-        click on lastPageBtt.get
-      } else {
-        assert(pages < 2)
-      }
-      */
-      // Esta parece la unica rapida y efectiva
-      val rows = fastCountByCssSelector(CONTEST_LIST_CONTAINER + " .contest-row")
-      rows should be(rest)
-    //}
-    this
+    // Esta parece la unica rapida y efectiva
+    val lastPageRows = fastCountByCssSelector(CONTEST_LIST_CONTAINER + " .contest-row")
+    paginator.goToPage(currPage)
+
+    // return
+    (pages - 1) * ROWS_PER_PAGE + lastPageRows
   }
 
   def getInferiorMoneyFilter :Int = {
@@ -306,20 +293,21 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     n
   }
 
-  def checkAllFiltersAreClear = {
+  def areAllFiltersClear:Boolean = {
+    var areClear = true
     openFilters
-    assert(getSuperiorMoneyFilter == MAX_ENTRY_MONEY)
-    assert(getInferiorMoneyFilter == 0)
+    areClear = areClear && getSuperiorMoneyFilter == MAX_ENTRY_MONEY
+    areClear = areClear && getInferiorMoneyFilter == 0
 
     val searchCssSel  = "#" + FILTERS_PANEL_SEARCH_ID + " input"
-    assert( textField(cssSelector(searchCssSel)).value == "")
+    areClear = areClear && textField(cssSelector(searchCssSel)).value == ""
 
-    checkbox(FILTERS_PANEL_FILTER_FREE_CHECK).isSelected should be (false)
-    checkbox(FILTERS_PANEL_FILTER_LEAGUE_CHECK).isSelected should be (false)
-    checkbox(FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK).isSelected should be (false)
-    checkbox(FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK).isSelected should be (false)
-
-    this
+    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_FREE_CHECK).isSelected
+    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_LEAGUE_CHECK).isSelected
+    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK).isSelected
+    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK).isSelected
+    closeFilters
+    areClear
   }
 
   private def applyFilter(forId : String) = {
@@ -327,9 +315,7 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     openFilters
     val filter = find(cssSelector(forId)).get
 
-    eventually {
-      filter.isDisplayed
-    }
+    eventually { filter.isDisplayed }
     click on filter
 
     this
@@ -338,13 +324,25 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   private def openFilters = {
     val panel = find(id(FILTERS_PANEL_ID)).get
     if (!panel.isDisplayed) {
-      val desktopFilter = find(id(FILTERS_BUTTON_ID("desktop"))).get
-      val mobileFilter = find(id(FILTERS_BUTTON_ID("mobile"))).get
       eventually {
-        if (!desktopFilter.isDisplayed) {
-          click on mobileFilter
+        if (resolution == Resolution.SMALL) {
+          click on find(id(FILTERS_BUTTON_ID("mobile"))).get
         } else {
-          click on desktopFilter
+          click on find(id(FILTERS_BUTTON_ID("desktop"))).get
+        }
+      }
+    }
+    this
+  }
+
+  private def closeFilters = {
+    val panel = find(id(FILTERS_PANEL_ID)).get
+    if (panel.isDisplayed) {
+      eventually {
+        if (resolution == Resolution.SMALL) {
+          click on find(id(FILTERS_BUTTON_ID("mobile"))).get
+        } else {
+          click on find(id(FILTERS_BUTTON_ID("desktop"))).get
         }
       }
     }

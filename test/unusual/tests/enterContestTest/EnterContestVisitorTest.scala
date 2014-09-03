@@ -26,67 +26,67 @@ class EnterContestVisitorTest extends EnterContestTestCommon {
        callTest(checkDefaultState)
      }
 
-     "order by position. B" taggedAs(WIP, BigResolution) in {
+     "order by position. B" taggedAs(BigResolution) in {
        implicit val resolution:Resolution = Resolution.BIG
        callTest(orderByPosition)
      }
-     "order by position. M" taggedAs(WIP, MediumResolution) in {
+     "order by position. M" taggedAs(MediumResolution) in {
        implicit val resolution:Resolution = Resolution.MEDIUM
        callTest(orderByPosition)
      }
-     "order by position. S" taggedAs(WIP, SmallResolution) in {
+     "order by position. S" taggedAs(SmallResolution) in {
        implicit val resolution:Resolution = Resolution.SMALL
        callTest(orderByPosition)
      }
 
-     "order by name. B" taggedAs(WIP, BigResolution) in {
+     "order by name. B" taggedAs(BigResolution) in {
        implicit val resolution:Resolution = Resolution.BIG
        callTest(orderByName)
      }
-     "order by name. M" taggedAs(WIP, MediumResolution) in {
+     "order by name. M" taggedAs(MediumResolution) in {
        implicit val resolution:Resolution = Resolution.MEDIUM
        callTest(orderByName)
      }
-     "order by name. S" taggedAs(WIP, SmallResolution) in {
+     "order by name. S" taggedAs(SmallResolution) in {
        implicit val resolution:Resolution = Resolution.SMALL
        callTest(orderByName)
      }
 
-     "order by DFP. B" taggedAs(WIP, BigResolution) in {
+     "order by DFP. B" taggedAs(BigResolution) in {
        implicit val resolution:Resolution = Resolution.BIG
        callTest(orderByDFP)
      }
-     "order by DFP. M" taggedAs(WIP, MediumResolution) in {
+     "order by DFP. M" taggedAs(MediumResolution) in {
        implicit val resolution:Resolution = Resolution.MEDIUM
        callTest(orderByDFP)
      }
-     "order by DFP. S" taggedAs(WIP, SmallResolution) in {
+     "order by DFP. S" taggedAs(SmallResolution) in {
        implicit val resolution:Resolution = Resolution.SMALL
        callTest(orderByDFP)
      }
 
-     "order by Played. B" taggedAs(WIP, BigResolution) in {
+     "order by Played. B" taggedAs(BigResolution) in {
        implicit val resolution:Resolution = Resolution.BIG
        callTest(orderByPlayed)
      }
-     "order by Played. M" taggedAs(WIP, MediumResolution) in {
+     "order by Played. M" taggedAs(MediumResolution) in {
        implicit val resolution:Resolution = Resolution.MEDIUM
        callTest(orderByPlayed)
      }
-     "order by Played. S" taggedAs(WIP, SmallResolution) in {
+     "order by Played. S" taggedAs(SmallResolution) in {
        implicit val resolution:Resolution = Resolution.SMALL
        callTest(orderByPlayed)
      }
 
-     "order by Salary. B" taggedAs(WIP, BigResolution) in {
+     "order by Salary. B" taggedAs(BigResolution) in {
        implicit val resolution:Resolution = Resolution.BIG
        callTest(orderBySalary)
      }
-     "order by Salary. M" taggedAs(WIP, MediumResolution) in {
+     "order by Salary. M" taggedAs(MediumResolution) in {
        implicit val resolution:Resolution = Resolution.MEDIUM
        callTest(orderBySalary)
      }
-     "order by Salary. S" taggedAs(WIP, SmallResolution) in {
+     "order by Salary. S" taggedAs(SmallResolution) in {
        implicit val resolution:Resolution = Resolution.SMALL
        callTest(orderBySalary)
      }
