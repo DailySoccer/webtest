@@ -31,6 +31,12 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   val ROWS_PER_PAGE = 10
   val TITLE   = "Daily Soccer"
 
+  val CONTEST_LIST_MENU_MOBILE = "#lobbyContestListMenuXS"
+  val MENU_ALL_CONTEST = "#lobby_AllContests"
+    val MENU_PRIZED_CONTEST = "#lobby_PrizedContests"
+    val MENU_FREE_CONTEST = "#lobby_FreeContests"
+  val MENU_MY_CONTEST = "#lobby_MyContests"
+
   val PROMOS_COMPONENT_ID = "promosComponent"
   val CONTEST_LIST_CONTAINER = ".contests-list-root"
   val CONTEST_ROW_CONTAINER_CLASS = ".contest-row"
@@ -84,7 +90,12 @@ class LobbyPage(res:Resolution)  extends SharedPage {
       pageTitle should be (TITLE)
 
       find(id(PROMOS_COMPONENT_ID)) should be ('defined)
-      find(cssSelector(CONTEST_LIST_CONTAINER)) should be ('defined)
+
+      if (resolution != Resolution.SMALL) {
+        find(cssSelector(CONTEST_LIST_CONTAINER)) should be('defined)
+      } else {
+        find(cssSelector(CONTEST_LIST_MENU_MOBILE)) should be ('defined)
+      }
     }
     // eventually { find(id("legend")).get.text should be (LEGEND) }
     // find(name(FORM_EMAIL)) should be ('defined)
@@ -101,6 +112,34 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   }
   def isLoggedIn = {
     new MenuBar(resolution).isLoggedBar
+  }
+
+  def clickOnMenuAllContests = {
+    if (resolution == Resolution.SMALL) {
+      click on find(cssSelector(MENU_ALL_CONTEST)).get
+    }
+    this
+  }
+
+  def clickOnMenuFreeContests = {
+    if (resolution == Resolution.SMALL) {
+      click on find(cssSelector(MENU_FREE_CONTEST)).get
+    }
+    this
+  }
+
+  def clickOnMenuMyContests = {
+    if (resolution == Resolution.SMALL) {
+      click on find(cssSelector(MENU_MY_CONTEST)).get
+    }
+    this
+  }
+
+  def clickOnMenuPrizedContests = {
+    if (resolution == Resolution.SMALL) {
+      click on find(cssSelector(MENU_PRIZED_CONTEST)).get
+    }
+    this
   }
 
 

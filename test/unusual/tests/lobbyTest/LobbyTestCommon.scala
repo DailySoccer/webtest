@@ -19,50 +19,69 @@ class LobbyTestCommon extends SharedTest {
   val FILTERS_PANEL_SEARCH_TEXT_1 = "2014/06/14"
 
   def checkClearFiltersButton(resolution:Resolution): Unit = {
-    val page = goToLobbyPage.checkAllFiltersAreClear
-                 .searchContestByName("NingunTorneoDeberiaLlamarseAsi")
-                 .setEntryFeeFilter(80, 90)
-                 .clickFreeContestFilter
-                 .clickLeagueContestFilter
-                 .clickFiftyFiftyContestsFilter
-                 .clickHeadToHeadContestsFilter
-                 .checkNumberOfContests(0)
-                 .clearFilters
-                 .checkAllFiltersAreClear
-                 .checkNumberOfContests(N_CONTESTS_NO_FILTER)
+    val page = goToLobbyPage.clickOnMenuAllContests
+                 .clickOnMenuFreeContests
+
+      if (resolution == Resolution.SMALL){
+        page.clearFilters
+      }
+
+      page.checkAllFiltersAreClear
+          .searchContestByName("NingunTorneoDeberiaLlamarseAsi")
+          .setEntryFeeFilter(80, 90)
+          .clickFreeContestFilter
+          .clickLeagueContestFilter
+          .clickFiftyFiftyContestsFilter
+          .clickHeadToHeadContestsFilter
+          .checkNumberOfContests(0)
+          .clearFilters
+          .checkAllFiltersAreClear
+          .checkNumberOfContests(N_CONTESTS_NO_FILTER)
   }
 
   def lookForDefaultContests(resolution:Resolution): Unit = {
-    goToLobbyPage.clearFilters
+    goToLobbyPage.clickOnMenuAllContests
+                 .clickOnMenuFreeContests
+                 .clearFilters
                  .checkNumberOfContests(N_CONTESTS_NO_FILTER)
   }
 
   def filterByFreeContests(resolution:Resolution): Unit = {
-    goToLobbyPage.clearFilters
+    goToLobbyPage.clickOnMenuAllContests
+                 .clickOnMenuFreeContests
+                 .clearFilters
                  .clickFreeContestFilter
                  .checkNumberOfContests(N_CONTESTS_FREE)
   }
 
   def filterByLeagueContests(resolution:Resolution): Unit = {
-    goToLobbyPage.clearFilters
+    goToLobbyPage.clickOnMenuAllContests
+                 .clickOnMenuFreeContests
+                 .clearFilters
                  .clickLeagueContestFilter
                  .checkNumberOfContests(N_CONTESTS_LEAGUE)
   }
 
   def filterByFiftyFiftyContests(resolution:Resolution): Unit = {
-    goToLobbyPage.clearFilters
+    goToLobbyPage.clickOnMenuAllContests
+                 .clickOnMenuFreeContests
+                 .clearFilters
                  .clickFiftyFiftyContestsFilter
                  .checkNumberOfContests(N_CONTESTS_FIFTY_FIFTY)
   }
 
   def filterByHeadToHeadContests(resolution:Resolution): Unit = {
-    goToLobbyPage.clearFilters
+    goToLobbyPage.clickOnMenuAllContests
+                 .clickOnMenuFreeContests
+                 .clearFilters
                  .clickHeadToHeadContestsFilter
                  .checkNumberOfContests(N_CONTESTS_HEAD_TO_HEAD)
   }
 
   def filterByEntryFee(resolution:Resolution): Unit = {
-    val page = goToLobbyPage.clearFilters
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clearFilters
     page.setEntryFeeFilter(2, page.MAX_ENTRY_MONEY)
         .checkNumberOfContests(N_CONTESTS_ENTRY_FEE)
   }
@@ -72,7 +91,9 @@ class LobbyTestCommon extends SharedTest {
     val MAX = page.MAX_ENTRY_MONEY
     val MIN = 0
 
-    page.clearFilters
+    page.clickOnMenuAllContests
+        .clickOnMenuFreeContests
+        .clearFilters
     assert(page.getInferiorMoneyFilter == MIN)
     assert(page.getSuperiorMoneyFilter == MAX)
 
@@ -115,7 +136,9 @@ class LobbyTestCommon extends SharedTest {
   }
 
   def filterByFreeContestsWithMinFilter(resolution:Resolution): Unit = {
-    val page = goToLobbyPage.clearFilters
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clearFilters
 
     page.setEntryFeeFilter(1, page.MAX_ENTRY_MONEY)
         .clickFreeContestFilter
@@ -123,12 +146,16 @@ class LobbyTestCommon extends SharedTest {
   }
 
   def playFirstContest(resolution:Resolution): Unit = {
-    goToLobbyPage.clearFilters
+    goToLobbyPage.clickOnMenuAllContests
+                 .clickOnMenuFreeContests
+                 .clearFilters
                  .playContestNumber(1)
   }
 
   def searchContest(resolution:Resolution): Unit = {
-    val page = goToLobbyPage.clearFilters
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clearFilters
                             .searchContestByName(FILTERS_PANEL_SEARCH_TEXT_1)
     if (resolution != Resolution.SMALL){
       page.checkNumberOfContests(N_CONTESTS_SEARCH_1)
@@ -139,7 +166,9 @@ class LobbyTestCommon extends SharedTest {
   /// PAGINATOR TESTS
 
   def paginatorMainFunctionality(resolution:Resolution): Unit = {
-    val page = goToLobbyPage.clearFilters
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clearFilters
     val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER).isAt
     assert( paginator.isDisplayed )
 
@@ -172,7 +201,9 @@ class LobbyTestCommon extends SharedTest {
   }
 
   def paginatorIsDisplayedWhenNecessary(resolution:Resolution): Unit = {
-    val page = goToLobbyPage.clearFilters
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clearFilters
     val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER).isAt
     assert(paginator.isDisplayed)
     paginator.getNumberOfPages must be (14)
@@ -183,7 +214,9 @@ class LobbyTestCommon extends SharedTest {
   }
 
   def knownBugSequence_DisappearedPaginatorOnFilter(resolution:Resolution): Unit = {
-    val page = goToLobbyPage.clearFilters
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clearFilters
     val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER).isAt
     assert(paginator.isDisplayed)
     paginator.goToLastPage
