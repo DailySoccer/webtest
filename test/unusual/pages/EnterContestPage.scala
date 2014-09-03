@@ -391,14 +391,4 @@ class EnterContestPage(res: Resolution) extends SharedPage {
 
 }
 
-/*
-object EnterContestPage {
-  val ALL = "TODOS"
-  val GOAL_KEEPER = "POR"
-  val DEFENSE = "DEF"
-  val MIDDLE = "MED"
-  val FORWARD = "DEL"
-}
-*/
-
 
