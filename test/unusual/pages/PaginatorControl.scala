@@ -9,8 +9,7 @@ class PaginatorControl(res:Resolution, prefix: String) extends SharedPage {
   val PAGER_BOX = prefix + " .paginator-box"
 
   override def isAt = {
-    eventually { find(cssSelector(PAGER_BOX)) should be ('defined) }
-    this
+    isElemDisplayed(PAGER_BOX)
   }
 
   def isDisplayed:Boolean = fastCountByCssSelector(PAGER_BOX + " .pagination") != 0

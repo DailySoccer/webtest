@@ -34,8 +34,11 @@ class LoginTestCommon extends SharedTest {
 
   def doLogin(resolution:Resolution): Unit = {
     goToLoginPage.doLogin(User.OTHER)
-    new LobbyPage(resolution).isAt.isLoggedIn
-    new MenuBar(resolution).isAt.isUser(User.OTHER)
+    val lobby = new LobbyPage(resolution)
+    assert(lobby.isAt && lobby.isLoggedIn)
+    val menu = new MenuBar(resolution)
+    assert(menu.isAt)
+    menu.getUserName must be(User.OTHER.firstName + " " + User.OTHER.lastName)
   }
 
  }

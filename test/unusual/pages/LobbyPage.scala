@@ -9,13 +9,11 @@ import unusual.model._
 import scala.util.control.Exception
 
 
-class LobbyPage(res:Resolution)  extends SharedPage {
+class LobbyPage(res:Resolution)  extends SharedPage(res) {
 
-  val url = SharedPage.baseUrl + "/#/lobby"
-  val resolution: Resolution = res
+  override val url = SharedPage.baseUrl + "/#/lobby"
 
   val ROWS_PER_PAGE = 10
-  val TITLE   = "Daily Soccer"
 
   val CONTEST_LIST_MENU_MOBILE = "#lobbyContestListMenuXS"
   val MENU_ALL_CONTEST = "#lobby_AllContests"
@@ -23,7 +21,7 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     val MENU_FREE_CONTEST = "#lobby_FreeContests"
   val MENU_MY_CONTEST = "#lobby_MyContests"
 
-  val PROMOS_COMPONENT_ID = "promosComponent"
+  val PROMOS_COMPONENT = "#promosComponent"
   val CONTEST_LIST_CONTAINER = ".contests-list-root"
   val CONTEST_ROW_CONTAINER_CLASS = ".contest-row"
 
@@ -50,9 +48,9 @@ class LobbyPage(res:Resolution)  extends SharedPage {
 
   val FILTERS_PANEL_SEARCH_ID = "contestFastSearch"
 
-  val FILTERS_PANEL_ID = "filtersPanel"
+  val FILTERS_PANEL = "#filtersPanel"
   val FILTERS_PANEL_FILTER_FREE_CHECK = "filtroFree"
-  val FILTERS_PANEL_FILTER_LEAGUE_CHECK = "filtroLiga"
+  val FILTERS_PANEL_FILTER_LEAGUE_CHECK = "filtroleague"
   val FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK = "filtroFiftyFifty"
   val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK = "filtroHeadToHead"
   val FILTERS_PANEL_FILTER_FREE_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_FREE_CHECK + "\"]"
@@ -60,7 +58,11 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   val FILTERS_PANEL_FILTER_FIFTY_FIFTY_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK + "\"]"
   val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK + "\"]"
 
-  val MAX_ENTRY_MONEY = 100
+  val SORT_BY_NAME = "#sortContestName"
+  val SORT_BY_ENTRY_FEE = "#sortContestEntryFee"
+  val SORT_BY_START_TIME = "#sortContestStartTime"
+
+  val MAX_ENTRY_MONEY = 5
 
   def open = {
     go to url
@@ -68,46 +70,50 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   }
 
   override def isAt = {
-    new MenuBar(resolution).isAt
-    new FooterBar(resolution).isAt
+    var _isAt = true
+    _isAt = _isAt && isWholePage
 
-    eventually {
-      currentUrl should be (url)
-      pageTitle should be (TITLE)
+    _isAt = _isAt && isElemDisplayed(PROMOS_COMPONENT)
 
-      find(id(PROMOS_COMPONENT_ID)) should be ('defined)
-
-      if (resolution != Resolution.SMALL) {
-        find(cssSelector(CONTEST_LIST_CONTAINER)) should be('defined)
-      } else {
-        find(cssSelector(CONTEST_LIST_MENU_MOBILE)) should be ('defined)
-      }
+    if (resolution != Resolution.SMALL) {
+      _isAt = _isAt && isElemDisplayed(CONTEST_LIST_CONTAINER)
+    } else {
+      _isAt = _isAt && isElemDisplayed(CONTEST_LIST_MENU_MOBILE)
     }
 
-    this
+    _isAt
   }
 
   def isDefaultState(numberOfContest:Int):Boolean = {
     var isDefault = true
-    isDefault = isDefault && !find(id(FILTERS_PANEL_ID)).get.isDisplayed
+    val filtersPanel = find(cssSelector(FILTERS_PANEL))
+    isDefault = isDefault && filtersPanel != None
+    logger.debug("{" + FILTERS_PANEL + "} exists", isDefault)
+    if ( isDefault ) {
+      isDefault = isDefault && !filtersPanel.get.isDisplayed
+      logger.debug("{" + FILTERS_PANEL + "} is not displayed", isDefault)
+    }
+
 
     if (resolution == Resolution.SMALL) {
-      val menu = find(cssSelector(CONTEST_LIST_MENU_MOBILE))
-      isDefault = isDefault && menu != None
-      isDefault = isDefault && menu.get.isDisplayed
+      isDefault = isDefault && isElemDisplayed(CONTEST_LIST_MENU_MOBILE)
+
     } else {
       isDefault = isDefault && new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).getCurrentPage == 1
+      logger.debug("Paginator page should be 1", isDefault)
       isDefault = isDefault && areAllFiltersClear
+      logger.debug("Are all filters clear", isDefault)
       isDefault = isDefault && getNumberOfContests == numberOfContest
+      logger.debug("Number of contests: current(" + getNumberOfContests + "), expected(" + numberOfContest + ")", isDefault)
     }
 
     isDefault
   }
 
-  def isNotLoggedIn = {
+  def isNotLoggedIn: Boolean = {
     new MenuBar(resolution).isLoginBar
   }
-  def isLoggedIn = {
+  def isLoggedIn: Boolean = {
     new MenuBar(resolution).isLoggedBar
   }
 
@@ -199,6 +205,21 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     applyFilter(FILTERS_PANEL_FILTER_HEAD_TO_HEAD_LABEL)
   }
 
+  def clickSortContestsByName = {
+    click on find(cssSelector(SORT_BY_NAME)).get
+    this
+  }
+
+  def clickSortContestsByEntryFee = {
+    click on find(cssSelector(SORT_BY_ENTRY_FEE)).get
+    this
+  }
+
+  def clickSortContestsByStartTime = {
+    click on find(cssSelector(SORT_BY_START_TIME)).get
+    this
+  }
+
   def searchContestByName(name: String) = {
     if (resolution != Resolution.SMALL) {
       val cssSel  = "#" + FILTERS_PANEL_SEARCH_ID + " input"
@@ -215,20 +236,69 @@ class LobbyPage(res:Resolution)  extends SharedPage {
     this
   }
 
-  def checkContestsEntryValues(amountRows: Int, min: Double, max : Double) = {
+  def areContestsBetweenEntryValues(amountRows: Int, min: Double, max : Double): Boolean = {
     val cssSelPre  = CONTEST_ROW_CONTAINER_CLASS + ":nth-child("
     val cssSelPost = ") " + CONTEST_COLUMN_FEE_CLASS + " " + CONTEST_FEE_CLASS
+    var areBetween = true
     for (i <- 1 to amountRows) {
       eventually {
 
         var rowText = find(cssSelector(cssSelPre + i + cssSelPost)).get.text
         var entryNum = java.lang.Double.parseDouble(rowText.substring(0, rowText.length - 1))
 
-        assert(entryNum <= max && entryNum >= min)
+        areBetween =  areBetween && entryNum <= max && entryNum >= min
       }
     }
 
-    this
+    areBetween
+  }
+
+  def areContestsOrderedByName(): Boolean = {
+    val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
+    val pagesCount = paginator.getNumberOfPages
+    var areOrdered = fastLobby_ContestAreOrderedByName
+
+    scala.util.control.Breaks.breakable {
+      for (i <- 1 to pagesCount) {
+        paginator.goToNextPage
+        areOrdered = areOrdered && fastLobby_ContestAreOrderedByName
+        if(!areOrdered) scala.util.control.Breaks.break
+      }
+    }
+
+    areOrdered
+  }
+
+  def areContestsOrderedByEntryFee(): Boolean = {
+    val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
+    val pagesCount = paginator.getNumberOfPages
+    var areOrdered = fastLobby_ContestAreOrderedByEntryFee
+
+    scala.util.control.Breaks.breakable {
+      for (i <- 1 to pagesCount) {
+        paginator.goToNextPage
+        areOrdered = areOrdered && fastLobby_ContestAreOrderedByEntryFee
+        if(!areOrdered) scala.util.control.Breaks.break
+      }
+    }
+
+    areOrdered
+  }
+
+  def areContestsOrderedByStartTime(): Boolean = {
+    val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
+    val pagesCount = paginator.getNumberOfPages
+    var areOrdered = fastLobby_ContestAreOrderedByStartTime
+
+    scala.util.control.Breaks.breakable {
+      for (i <- 1 to pagesCount) {
+        paginator.goToNextPage
+        areOrdered = areOrdered && fastLobby_ContestAreOrderedByStartTime
+        if(!areOrdered) scala.util.control.Breaks.break
+      }
+    }
+
+    areOrdered
   }
 
   def getNumberOfContests:Int = {
@@ -322,7 +392,7 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   }
 
   private def openFilters = {
-    val panel = find(id(FILTERS_PANEL_ID)).get
+    val panel = find(id(FILTERS_PANEL)).get
     if (!panel.isDisplayed) {
       eventually {
         if (resolution == Resolution.SMALL) {
@@ -336,7 +406,7 @@ class LobbyPage(res:Resolution)  extends SharedPage {
   }
 
   private def closeFilters = {
-    val panel = find(id(FILTERS_PANEL_ID)).get
+    val panel = find(id(FILTERS_PANEL)).get
     if (panel.isDisplayed) {
       eventually {
         if (resolution == Resolution.SMALL) {

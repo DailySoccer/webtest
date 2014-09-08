@@ -15,8 +15,7 @@ class PromosPage(res:Resolution)  extends SharedPage {
 
   override def isAt = {
     placeholder
-    pageTitle should be (TITLE)
-    this
+    true
   }
 
 }

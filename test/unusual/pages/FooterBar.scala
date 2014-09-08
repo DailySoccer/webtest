@@ -12,14 +12,9 @@ class FooterBar(res:Resolution) extends SharedPage {
   val PRIVACY_POLICY_ID  = "footerPrivacyPolicy"
 
   override def isAt = {
-    eventually {
-      find(id(HELP_ID)) should be ('defined)
-      find(id(LEGAL_ID)) should be ('defined)
-      find(id(TERMS_OF_USE_ID)) should be ('defined)
-      find(id(PRIVACY_POLICY_ID)) should be ('defined)
-    }
+    placeholder
 
-    this
+    true
   }
 
 

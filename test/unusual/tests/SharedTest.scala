@@ -3,68 +3,81 @@ package unusual.tests
 import org.scalatest._
 import org.scalatestplus.play._
 import play.api.Logger
+import unusual.UnusualLogger
 import unusual.model._
 import unusual.pages._
+import org.scalatest.time._
 
 class SharedTest extends PlaySpec
     with OneServerPerSuite with OneBrowserPerSuite with SauceLabsFactory
-    with BeforeAndAfter with BeforeAndAfterAll {
+    with BeforeAndAfter with BeforeAndAfterAll with SpanSugar {
 
   var status:TestStatus = new TestStatus
+  var logger:UnusualLogger = {
+    val l = new UnusualLogger()
+    l.logger = Logger(this.getClass)
+    l
+  }
 
   ///// STATUS
   // logged
   // resolution
 
   override def beforeAll {
-    println("Before!")  // start up your web server or whatever
+    //println("Before!")  // start up your web server or whatever
     SharedPage.driver = webDriver
     status.setDefault
   }
 
   override def afterAll {
-    println("After!")  // shut down the web server
+    //println("After!")  // shut down the web server
     webDriver.quit
   }
 
   def goToHomePage : HomePage = {
     val homePage = new HomePage(status.resolution)
-    homePage.open.isAt
+    assert(homePage.open.isAt)
+    homePage
   }
 
   def goToSignUpPage : SignUpPage = {
     val signUpPage = new SignUpPage(status.resolution)
-    signUpPage.open.isAt
+    assert(signUpPage.open.isAt)
+    signUpPage
   }
 
   def goToLoginPage : LoginPage = {
     val loginPage = new LoginPage(status.resolution)
-    loginPage.open.isAt
+    assert(loginPage.open.isAt)
+    loginPage
   }
 
   def goToLobbyPage : LobbyPage = {
     val lobbyPage = new LobbyPage(status.resolution)
-    lobbyPage.open.isAt
+    assert(lobbyPage.open.isAt)
+    lobbyPage
   }
 
   def goToMyContestsPage : MyContestsPage = {
     val myContestsPage = new MyContestsPage(status.resolution)
-    myContestsPage.open.isAt
+    assert(myContestsPage.open.isAt)
+    myContestsPage
   }
 
   def goToPromos : PromosPage = {
     val promosPage = new PromosPage(status.resolution)
-    promosPage.open.isAt
+    assert(promosPage.open.isAt)
+    promosPage
   }
 
   def featureNotImplemented = {
-    println("[FUTURE TEST]\u001B[33m This test is a placeholder for a future implementation \u001B[0m")
+    logger.info("[FUTURE TEST]\u001B[33m This test is a placeholder for a future implementation \u001B[0m")
 
     this
   }
 
   def featureNotTestableInResolution = {
-    println("[additional-info] This test is not runnable in current resolution")
+    logger.info("This test is not runnable in current resolution")
     this
   }
 
@@ -79,9 +92,9 @@ class SharedTest extends PlaySpec
   def callTest(test: (Resolution) => Unit)(implicit resolution:Resolution) = {
     status.resolution = resolution
     changeBrowserResolution
-    println("[additional-info] " + resolution + "...")
+    logger.info(resolution + "...")
     test(resolution)
-    println("[additional-info] " + resolution + " OK.")
+    logger.info(resolution + " OK.")
     this
   }
 

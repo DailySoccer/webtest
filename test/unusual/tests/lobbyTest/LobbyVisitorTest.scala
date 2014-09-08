@@ -1,7 +1,7 @@
 package unusual.tests.lobbyTest
 
 import unusual.model.Resolution
-import unusual.pages.LobbyPage
+import unusual.pages._
 import unusual.testTags.scala._
 import unusual.tests.SharedTest
 
@@ -14,32 +14,34 @@ class LobbyVisitorTest extends LobbyTestCommon {
   "As visitor" must {
 
     def goToLobby(resolution:Resolution): Unit = {
-      super.goToLobby(resolution)
-      new LobbyPage(resolution).isNotLoggedIn
+      val lobby = new LobbyPage(resolution)
+      val home = new HomePage(resolution)
+      lobby.open
+      home.isAt
     }
 
-    "go to lobby without be logged in. B" taggedAs(BigResolution) in {
+    "try to go to lobby without be logged in. Page should redirect to home B" taggedAs(DoesNotWorkYet, BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(goToLobby)
     }
-    "go to lobby without be logged in. M" taggedAs(MediumResolution) in {
+    "try to go to lobby without be logged in. M" taggedAs(DoesNotWorkYet, MediumResolution) in {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(goToLobby)
     }
-    "go to lobby without be logged in. S" taggedAs(SmallResolution) in {
+    "try to go to lobby without be logged in. S" taggedAs(DoesNotWorkYet, SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(goToLobby)
     }
-
-    "go to lobby and change resolutions. B" taggedAs(DoesNotWorkYet, BigResolution) in {
+/*
+    "go to lobby and change resolutions. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(changeResolutionTests)
     }
-    "go to lobby and change resolutions. M" taggedAs(DoesNotWorkYet, MediumResolution) in {
+    "go to lobby and change resolutions. M" taggedAs(MediumResolution) in {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(changeResolutionTests)
     }
-    "go to lobby and change resolutions. S" taggedAs(DoesNotWorkYet, SmallResolution) in {
+    "go to lobby and change resolutions. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(changeResolutionTests)
     }
@@ -181,7 +183,6 @@ class LobbyVisitorTest extends LobbyTestCommon {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(checkEntryFeeFilterCtrl)
     }
-
     /*
     def playFirstContest(resolution:Resolution): Unit = {
       super.playFirstContest(resolution)
@@ -217,6 +218,45 @@ class LobbyVisitorTest extends LobbyTestCommon {
       callTest(searchContest)
     }
 
+    "order by name. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(orderByName)
+    }
+    "order by name. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(orderByName)
+    }
+    "order by name. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(orderByName)
+    }
+
+    "order by entry fee. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(orderByEntryFee)
+    }
+    "order by entry fee. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(orderByEntryFee)
+    }
+    "order by entry fee. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(orderByEntryFee)
+    }
+
+    "order by start time. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(orderByStartTime)
+    }
+    "order by start time. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(orderByStartTime)
+    }
+    "order by start time. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(orderByStartTime)
+    }
+
     "filter by entry fee. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(filterByEntryFee)
@@ -230,45 +270,59 @@ class LobbyVisitorTest extends LobbyTestCommon {
       callTest(filterByEntryFee)
     }
 
-
-    "check pager main functionality. B" taggedAs(BigResolution) in {
+    "check paginator main functionality. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(paginatorMainFunctionality)
     }
-    "check pager main functionality. M" taggedAs(MediumResolution) in {
+    "check paginator main functionality. M" taggedAs(MediumResolution) in {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(paginatorMainFunctionality)
     }
-    "check pager main functionality. S" taggedAs(SmallResolution) in {
+    "check paginator main functionality. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(paginatorMainFunctionality)
     }
 
-    "see pager displayed when necessary. B" taggedAs(BigResolution) in {
+    "see paginator displayed when necessary. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(paginatorIsDisplayedWhenNecessary)
     }
-    "see pager displayed when necessary. M" taggedAs(MediumResolution) in {
+    "see paginator displayed when necessary. M" taggedAs(MediumResolution) in {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(paginatorIsDisplayedWhenNecessary)
     }
-    "see pager displayed when necessary. S" taggedAs(SmallResolution) in {
+    "see paginator displayed when necessary. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(paginatorIsDisplayedWhenNecessary)
     }
 
-    "check known bug sequence: Disappeared pager on contests filter. B" taggedAs(BigResolution) in {
+    "check known bug sequence: Disappeared paginator on contests filter. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(knownBugSequence_DisappearedPaginatorOnFilter)
     }
-    "check known bug sequence: Disappeared pager on contests filter. M" taggedAs(MediumResolution) in {
+    "check known bug sequence: Disappeared paginator on contests filter. M" taggedAs(MediumResolution) in {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(knownBugSequence_DisappearedPaginatorOnFilter)
     }
-    "check known bug sequence: Disappeared pager on contests filter. S" taggedAs(SmallResolution) in {
+    "check known bug sequence: Disappeared paginator on contests filter. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(knownBugSequence_DisappearedPaginatorOnFilter)
     }
+
+    "check known bug sequence: Paginator goes to first page after refresh ordered list of contest. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(knownBugSequence_PaginatorOrderedRefresh)
+    }
+    "check known bug sequence: Paginator goes to first page after refresh ordered list of contest. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(knownBugSequence_PaginatorOrderedRefresh)
+    }
+    "check known bug sequence: Paginator goes to first page after refresh ordered list of contest. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(knownBugSequence_PaginatorOrderedRefresh)
+    }
+*/
+
 
   }
 

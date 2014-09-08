@@ -28,23 +28,23 @@ class EnterContestTestCommon extends SharedTest {
   def checkDefaultState(resolution:Resolution):Unit = {
     val lobby = enterInContest
     val page = new EnterContestPage(resolution)
-    assert(page.isAt.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
+    assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     goBack()
     goForward()
-    assert(page.isAt.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
+    assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     goBack()
     lobby.clickOnMenuAllContests
          .clickOnMenuFreeContests
          .playContestNumber(1)
-    assert(page.isAt.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
+    assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     page.clickOnCloseButton
     goBack()
-    assert(page.isAt.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
+    assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     page.clickOnCloseButton
     lobby.clickOnMenuAllContests
          .clickOnMenuFreeContests
          .playContestNumber(1)
-    assert(page.isAt.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
+    assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     /*
     reloadPage()
     assert(page.isAt.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
@@ -69,7 +69,8 @@ class EnterContestTestCommon extends SharedTest {
   def orderByName(resolution:Resolution):Unit = {
     if (resolution == Resolution.BIG) {
       enterInContest
-      assert(new EnterContestPage(resolution).orderByName.isOrderedByName)
+      val page = new EnterContestPage(resolution).orderByName
+      assert(page.isOrderedByName, "Is not ordered by name")
     } else {
       featureNotTestableInResolution
     }
@@ -214,28 +215,28 @@ class EnterContestTestCommon extends SharedTest {
 
     val allFunctions = Map[Int, (EnterContestPage) => EnterContestPage] (
         1 -> ((page) => {
-          println(s"[additional-info] GoalKeeper Selected")
+          logger.debug("GoalKeeper Selected")
           page.selectGoalKeeperFromLineup
               .getNumberOfSoccerPlayers must be (N_GOAL_KEEPER_PLAYERS)
           page
         }),
         2 -> ((page) => {
           val r = scala.util.Random.nextInt(4) + 1
-          println(s"[additional-info] Defense{$r} Selected")
+          logger.debug("Defense{$r} Selected")
           page.selectDefenseFromLineup(r)
               .getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
           page
         }),
         3 -> ((page) => {
           val r = scala.util.Random.nextInt(4) + 1
-          println(s"[additional-info] Middle{$r} Selected")
+          logger.debug("Middle{$r} Selected")
           page.selectMiddleFromLineup(r)
               .getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
           page
         }),
         4 -> ((page) => {
           val r = scala.util.Random.nextInt(2) + 1
-          println(s"[additional-info] Forward{$r} Selected")
+          logger.debug("Forward{$r} Selected")
           page.selectForwardFromLineup(r)
               .getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS)
           page

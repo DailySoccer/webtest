@@ -2,9 +2,9 @@ name := "test"
 
 version := "1.0-SNAPSHOT"
 
-testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.enterContestTest" // Paquete de tests
-                                                                , "-n", "unusual.testTags.java.WIP" // Incluidas
-                                                                , "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
+testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.lobbyTest" // Paquete de tests
+                                                                //, "-n", "unusual.testTags.java.WIP" // Incluidas
+                                                                //, "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
                                                                 , "-eIKNCHLPQ"
                                                                 )
 

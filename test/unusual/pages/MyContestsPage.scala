@@ -23,13 +23,14 @@ class MyContestsPage(res:Resolution) extends SharedPage {
   }
 
   override def isAt = {
-    currentUrl should be (url)
-    pageTitle should be (TITLE)
+    var _isAt = true
+    _isAt = _isAt && currentUrl == url
+    _isAt = _isAt && pageTitle == TITLE
 
-    new MenuBar(resolution).isAt
-    new FooterBar(resolution).isAt
+    _isAt = _isAt && new MenuBar(resolution).isAt
+    _isAt = _isAt && new FooterBar(resolution).isAt
 
-    this
+    _isAt
   }
 
 }

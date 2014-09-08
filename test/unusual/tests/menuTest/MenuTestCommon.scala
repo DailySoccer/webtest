@@ -9,7 +9,7 @@ class MenuTestCommon extends SharedTest {
   def doLogout(resolution:Resolution): Unit = {
     goToLobbyPage
     val menuBar = new MenuBar(resolution)
-    menuBar.isAt.isLoggedBar
+    assert(menuBar.isAt && menuBar.isLoggedBar)
 
     menuBar.clickOnLogout
     status.setLoggedIn(false)
@@ -20,8 +20,9 @@ class MenuTestCommon extends SharedTest {
     goToLobbyPage
     val user:User = User.DEFAULT
 
-    val menuBar:MenuBar = new MenuBar(resolution).isAt
-    menuBar.isAt.isUser(user)
+    val menuBar:MenuBar = new MenuBar(resolution)
+    assert(menuBar.isAt)
+    menuBar.getUserName must be(user.firstName + " " + user.lastName)
   }
 
 

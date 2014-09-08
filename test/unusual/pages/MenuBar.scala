@@ -13,8 +13,8 @@ class MenuBar(res:Resolution) extends SharedPage {
   val LOGIN_ID  = "loginButton"
   val SIGN_UP_ID = "joinButton"
 
-  val MENU_ID = "mainMenuRoot"
-  val BRAND_LINK_SELECTOR = "#" + MENU_ID + " .navbar-brand-container a"
+  val MENU_ROOT = "#mainMenuRoot"
+  val BRAND_LINK_SELECTOR = "#" + MENU_ROOT + " .navbar-brand-container a"
 
   val ADD_MONEY_BUTTON = "addMoney"
 
@@ -48,47 +48,52 @@ class MenuBar(res:Resolution) extends SharedPage {
   /**************** GENERAL METHODS ****************/
 
   override def isAt = {
-    eventually {
-      find(id(MENU_ID)) should be ('defined)
-      find(cssSelector(BRAND_LINK_SELECTOR)) should be ('defined)
-    }
-
-    this
+    isElemDisplayed(MENU_ROOT) && isElemDisplayed(BRAND_LINK_SELECTOR)
   }
 
-  def isLoginBar = {
+  def isLoginBar: Boolean = {
+    var is = true
     eventually {
-      find(id(LOGIN_ID)) should be ('defined)
-      find(id(SIGN_UP_ID)) should be ('defined)
-      find(id(GAME_MENU)) should not be ('defined)
-      find(id(USER_MENU)) should not be ('defined)
-      find(id(ADD_MONEY_BUTTON)) should not be ('defined)
+      val login = find(id(LOGIN_ID))
+      is = is && login.isDefined && login.get.isDisplayed
+      val signUp = find(id(SIGN_UP_ID))
+      is = is && signUp.isDefined && signUp.get.isDisplayed
+
+
+      is = is && !find(id(GAME_MENU)).isDefined
+      is = is && !find(id(USER_MENU)).isDefined
+      is = is && !find(id(ADD_MONEY_BUTTON)).isDefined
     }
-    this
+    is
   }
 
-  def isLoggedBar = {
+  def isLoggedBar: Boolean = {
+    var is = true
     eventually {
-      find(id(LOGIN_ID)) should not be ('defined)
-      find(id(SIGN_UP_ID)) should not be ('defined)
-      hasUserMenu
-      hasHelpMenu
-      hasGameMenu
-      find(id(ADD_MONEY_BUTTON)) should be ('defined)
+      val login = find(id(LOGIN_ID))
+      is = is && !login.isDefined
+      val signUp = find(id(SIGN_UP_ID))
+      is = is && !signUp.isDefined
+
+
+      is = is && hasUserMenu && hasHelpMenu && hasGameMenu
+      is = is && find(id(ADD_MONEY_BUTTON)).isDefined
     }
-    this
+    is
   }
 
   /**************** USER MENU METHODS ****************/
 
-  def isUser(u: User): Unit = {
+  def getUserName(): String = {
     val elem = find(id(USER_MENU_TOGGLE_DROPDOWN)).get
 
     if (resolution == Resolution.SMALL && !elem.isDisplayed) {
       clickOnToggleUserMenu
     }
 
-    eventually { elem.text should be(u.firstName + " " + u.lastName) }
+    var name = ""
+    eventually { name = elem.text }
+    name
   }
 
   def clickOnLogout = {
@@ -164,13 +169,6 @@ class MenuBar(res:Resolution) extends SharedPage {
     this
   }
 
-  private def hasHelpMenu = {
-    find(id(SUPPORT)) should be('defined)
-    find(id(HOW_TO)) should be('defined)
-    find(id(RULES_RATING)) should be('defined)
-    this
-  }
-
   private def clickOnToggleGameMenu = {
     eventually {
       click on id(GAME_MENU_TOGGLE)
@@ -200,24 +198,34 @@ class MenuBar(res:Resolution) extends SharedPage {
     this
   }
 
-  private def hasUserMenu = {
-    find(id(USER_MENU)) should be('defined)
-    find(id(MY_ACCOUNT)) should be('defined)
-    find(id(USER_MENU_ADD_MONEY)) should be('defined)
-    find(id(TRANSACTION_HISTORIC)) should be('defined)
-    find(id(REFERENCES_CENTER)) should be('defined)
-    find(id(CLASSIFICATION)) should be('defined)
-    find(id(USER_PROMOS)) should be('defined)
-    find(id(LOGOUT)) should be('defined)
-    this
+  private def hasHelpMenu:Boolean = {
+    var is = true
+    is = is && find(id(SUPPORT)).isDefined
+    is = is && find(id(HOW_TO)).isDefined
+    is = is && find(id(RULES_RATING)).isDefined
+    is
   }
 
-  private def hasGameMenu = {
-    find(id(GAME_MENU)) should be ('defined)
-    find(id(TOURNAMENTS)) should be('defined)
-    find(id(MY_TOURNAMENTS)) should be('defined)
-    find(id(GAME_PROMOS)) should be('defined)
-    this
+  private def hasUserMenu:Boolean = {
+    var is = true
+    is = is && find(id(USER_MENU)).isDefined
+    is = is && find(id(MY_ACCOUNT)).isDefined
+    is = is && find(id(USER_MENU_ADD_MONEY)).isDefined
+    is = is && find(id(TRANSACTION_HISTORIC)).isDefined
+    is = is && find(id(REFERENCES_CENTER)).isDefined
+    is = is && find(id(CLASSIFICATION)).isDefined
+    is = is && find(id(USER_PROMOS)).isDefined
+    is = is && find(id(LOGOUT)).isDefined
+    is
+  }
+
+  private def hasGameMenu:Boolean = {
+    var is = true
+    is = is && find(id(GAME_MENU)).isDefined
+    is = is && find(id(TOURNAMENTS)).isDefined
+    is = is && find(id(MY_TOURNAMENTS)).isDefined
+    is = is && find(id(GAME_PROMOS)).isDefined
+    is
   }
 
 }

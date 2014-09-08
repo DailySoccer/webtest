@@ -17,11 +17,15 @@ class HomePage(res:Resolution) extends SharedPage {
   }
 
   override def isAt = {
-    pageTitle should be (TITLE)
-    new MenuBar(resolution).isAt.isLoginBar
-    new FooterBar(resolution).isAt
+    var _isAt = true
 
-    this
+    _isAt = _isAt && pageTitle == TITLE
+    val menu = new MenuBar(resolution)
+    _isAt = _isAt && menu.isAt
+    _isAt = _isAt && menu.isLoginBar
+    _isAt = _isAt && new FooterBar(resolution).isAt
+
+    _isAt
   }
 
   def clickOnLogin = {

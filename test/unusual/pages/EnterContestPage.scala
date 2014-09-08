@@ -64,47 +64,52 @@ class EnterContestPage(res: Resolution) extends SharedPage {
   }
 
   override def isAt = {
-    pageTitle should be (TITLE)
+    var _isAt = true
+    _isAt = _isAt && pageTitle == TITLE
 
-    new MenuBar(resolution).isAt
-    new FooterBar(resolution).isAt
+    _isAt = _isAt && new MenuBar(resolution).isAt
+    _isAt = _isAt && new FooterBar(resolution).isAt
 
-    assert(find(cssSelector(BUTTON_CLEAN_LINEUP)) != None)
-    assert(find(cssSelector(BUTTON_CONFIRM_LINEUP)) != None)
+    _isAt = _isAt && isElemDisplayed(BUTTON_CLEAN_LINEUP)
+    _isAt = _isAt && isElemDisplayed(BUTTON_CONFIRM_LINEUP)
 
-    assert(find(cssSelector(BUTTON_CLOSE_CONTEST)) != None)
+    _isAt = _isAt && isElemDisplayed(BUTTON_CLOSE_CONTEST)
 
-    assert(find(cssSelector(FILTER_POSITION_DESKTOP(1))) != None) // all
-    assert(find(cssSelector(FILTER_POSITION_DESKTOP(2))) != None) // por
-    assert(find(cssSelector(FILTER_POSITION_DESKTOP(3))) != None) // def
-    assert(find(cssSelector(FILTER_POSITION_DESKTOP(4))) != None) // med
-    assert(find(cssSelector(FILTER_POSITION_DESKTOP(5))) != None) // del
+    _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(1))
+    _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(2))
+    _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(3))
+    _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(4))
+    _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(5))
 
-    assert(find(cssSelector(FILTER_MATCH_DESKTOP(1))) != None) // all
-    assert(find(cssSelector(FILTER_MATCH_DESKTOP(2))) != None) // cle-aus
-    assert(find(cssSelector(FILTER_MATCH_DESKTOP(3))) != None) // col-grc
-    assert(find(cssSelector(FILTER_MATCH_DESKTOP(4))) != None) // ury-cri
 
-    this
+    _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(1))
+    _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(2))
+    _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(3))
+    _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(4))
+
+    _isAt = _isAt && getNumberOfSoccerPlayers > 0
+
+    _isAt
   }
 
 
 
   def isDefaultState(totalPlayers:Int, initialSalary: Int): Boolean = {
     var versionCheck = true
+    println(1)
     if (resolution == Resolution.SMALL) {
       versionCheck = find(cssSelector(ENTER_CONTEST_TAB(1) + ACTIVE_ELEMENT)) != None
     } else if (resolution == Resolution.MEDIUM) {
       versionCheck = getNumberOfSoccerPlayers == totalPlayers &&
-                     isOrderedByPos &&
-                     find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None &&
-                     find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None &&
-                     find(cssSelector(ENTER_CONTEST_TAB(1) + ACTIVE_ELEMENT)) != None
+                        isOrderedByPos &&
+                        find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None &&
+                        find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None &&
+                        find(cssSelector(ENTER_CONTEST_TAB(1) + ACTIVE_ELEMENT)) != None
     } else {
       versionCheck = getNumberOfSoccerPlayers == totalPlayers &&
-                     isOrderedByPos &&
-                     find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None &&
-                     find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None
+                        isOrderedByPos &&
+                        find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None &&
+                        find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None
     }
 
     isLineupEmpty &&

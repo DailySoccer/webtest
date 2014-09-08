@@ -16,8 +16,9 @@ class TestStatus {
     this
   }
 
-  def setLoggedIn(log: Boolean) {
-    _loggedIn = log;
+  def setLoggedIn(log: Boolean) = {
+    _loggedIn = log
+    this
   }
 
   def ensureAuthUser : TestStatus = {
@@ -31,12 +32,16 @@ class TestStatus {
   }
 
   private def doLogin : TestStatus = {
-    new LoginPage(resolution).open.isAt.doLogin(User.DEFAULT)
+    val login = new LoginPage(resolution).open
+    assert(login.isAt)
+    login.doLogin(User.DEFAULT)
     _loggedIn = true
     this
   }
   private def doLogout : TestStatus = {
-    new MenuBar(resolution).isAt.clickOnLogout
+    val menu = new MenuBar(resolution)
+    assert(menu.isAt)
+    menu.clickOnLogout
     _loggedIn = false
     this
   }

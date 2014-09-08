@@ -10,8 +10,8 @@ class LoginPage(res:Resolution) extends SharedPage {
 
   val TITLE   = "Daily Soccer"
   //val LEGEND  = "Login"
-  val FORM_EMAIL    = "Email"
-  val FORM_PASSWORD = "Password"
+  val FORM_EMAIL    = "login-mail"
+  val FORM_PASSWORD = "login-password"
   val FORM_SUBMIT = "login"
 
   //val DEFAULT_USER : User = new User("Test", "Test", "test@test.com", "Test", "private")
@@ -31,7 +31,7 @@ class LoginPage(res:Resolution) extends SharedPage {
     }
     new FooterBar(resolution).isAt
 
-    this
+    true
   }
 
   def doLogin(usr: User) = {

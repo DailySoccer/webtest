@@ -1,5 +1,6 @@
 package unusual.tests.lobbyTest
 
+import org.scalatest.exceptions.StackDepthException
 import unusual.model.Resolution
 import unusual.testTags.scala._
 import unusual.tests._
@@ -9,39 +10,39 @@ class LobbyTestCommon extends SharedTest {
 
 
   // NUMBER OF FILTERED CONTESTS
-  val N_CONTESTS_NO_FILTER = 132
+  val N_CONTESTS_NO_FILTER = 186
   val N_CONTESTS_FREE = 24
-  val N_CONTESTS_LEAGUE = 72
-  val N_CONTESTS_FIFTY_FIFTY = 24
-  val N_CONTESTS_HEAD_TO_HEAD = 12
-  val N_CONTESTS_ENTRY_FEE = 54
-  val N_CONTESTS_SEARCH_1 = 66
-  val FILTERS_PANEL_SEARCH_TEXT_1 = "2014/06/14"
+  val N_CONTESTS_LEAGUE = 108
+  val N_CONTESTS_FIFTY_FIFTY = 36
+  val N_CONTESTS_HEAD_TO_HEAD = 18
+  val MIN_ENTRY_FEE_FILTER = 2
+  val N_CONTESTS_ENTRY_FEE = 108
+
+  val N_CONTESTS_SEARCH_1 = 93
+  val FILTERS_PANEL_SEARCH_TEXT_1 = "vie., 13"
+
+  val N_CONTESTS_SEARCH_2 = 0
+  val FILTERS_PANEL_SEARCH_TEXT_2 = "NingunTorneoDeberiaLlamarseAsi"
+
+  val N_CONTESTS_SEARCH_3 = 186
+  val FILTERS_PANEL_SEARCH_TEXT_3 = "jun"
+
+  val MAX_PAGINATOR_PAGE = 19
 
   def goToLobby(resolution:Resolution): Unit = {
-    goToLobbyPage.isDefaultState(N_CONTESTS_NO_FILTER)
+    assert(goToLobbyPage.isDefaultState(N_CONTESTS_NO_FILTER))
   }
 
   def changeResolutionTests(resolution:Resolution): Unit = {
-    if (resolution == Resolution.BIG) {
+    val isDefaultSmall = () => new LobbyPage(Resolution.SMALL).isDefaultState(N_CONTESTS_NO_FILTER)
+    val isDefaultMedium = () => new LobbyPage(Resolution.MEDIUM).isDefaultState(N_CONTESTS_NO_FILTER)
+    val isDefaultBig = () => new LobbyPage(Resolution.BIG).isDefaultState(N_CONTESTS_NO_FILTER)
 
-      val isDefaultSmall = () => new LobbyPage(Resolution.SMALL).isDefaultState(N_CONTESTS_NO_FILTER)
-      val isDefaultMedium = () => new LobbyPage(Resolution.MEDIUM).isDefaultState(N_CONTESTS_NO_FILTER)
-      val isDefaultBig = () => new LobbyPage(Resolution.BIG).isDefaultState(N_CONTESTS_NO_FILTER)
+    if (resolution == Resolution.BIG) {
 
       goToLobbyPage
       assert(isDefaultBig(), "Big is not default state")
 
-      explicitChangeBrowserResolution(Resolution.MEDIUM)
-      reloadPage
-      assert(isDefaultMedium(), "Medium is not default state")
-
-      explicitChangeBrowserResolution(Resolution.SMALL)
-      reloadPage
-      assert(isDefaultSmall(), "Small is not default state")
-
-
-      explicitChangeBrowserResolution(Resolution.BIG)
       reloadPage
       explicitChangeBrowserResolution(Resolution.MEDIUM)
       assert(isDefaultMedium(), "From big to medium")
@@ -59,8 +60,24 @@ class LobbyTestCommon extends SharedTest {
       explicitChangeBrowserResolution(Resolution.SMALL)
       assert(isDefaultSmall(), "From big to small")
 
+    } else if (resolution == Resolution.MEDIUM) {
+      goToLobbyPage
+      assert(isDefaultMedium(), "Medium is not default state")
 
+      reloadPage
+      explicitChangeBrowserResolution(Resolution.BIG)
+      assert(isDefaultMedium(), "From medium to big")
+
+
+      explicitChangeBrowserResolution(Resolution.MEDIUM)
+      reloadPage
       explicitChangeBrowserResolution(Resolution.SMALL)
+      assert(isDefaultSmall(), "From medium to small")
+
+    } else {
+      goToLobbyPage
+      assert(isDefaultSmall(), "Small is not default state")
+
       reloadPage
       explicitChangeBrowserResolution(Resolution.MEDIUM)
       assert(isDefaultMedium(), "From small to medium")
@@ -77,35 +94,20 @@ class LobbyTestCommon extends SharedTest {
       reloadPage
       explicitChangeBrowserResolution(Resolution.BIG)
       assert(isDefaultBig(), "From small to big")
-
-
-      explicitChangeBrowserResolution(Resolution.MEDIUM)
-      reloadPage
-      explicitChangeBrowserResolution(Resolution.BIG)
-      assert(isDefaultMedium(), "From medium to big")
-
-
-      explicitChangeBrowserResolution(Resolution.MEDIUM)
-      reloadPage
-      explicitChangeBrowserResolution(Resolution.SMALL)
-      assert(isDefaultBig(), "From medium to small")
-
-    } else {
-      featureNotTestableInResolution
     }
   }
 
   def checkClearFiltersButton(resolution:Resolution): Unit = {
     val page = goToLobbyPage.clickOnMenuAllContests
-                 .clickOnMenuFreeContests
+                            .clickOnMenuFreeContests
 
     if (resolution == Resolution.SMALL){
       page.clearFilters
     }
 
     assert(page.areAllFiltersClear)
-    page.searchContestByName("NingunTorneoDeberiaLlamarseAsi")
-        .setEntryFeeFilter(80, 90)
+    page.searchContestByName(FILTERS_PANEL_SEARCH_TEXT_2)
+        .setEntryFeeFilter(4, 4)
         .clickFreeContestFilter
         .clickLeagueContestFilter
         .clickFiftyFiftyContestsFilter
@@ -159,7 +161,7 @@ class LobbyTestCommon extends SharedTest {
     val page = goToLobbyPage.clickOnMenuAllContests
                             .clickOnMenuFreeContests
                             .clearFilters
-    page.setEntryFeeFilter(2, page.MAX_ENTRY_MONEY)
+    page.setEntryFeeFilter(MIN_ENTRY_FEE_FILTER, page.MAX_ENTRY_MONEY)
         .getNumberOfContests must be(N_CONTESTS_ENTRY_FEE)
   }
 
@@ -174,37 +176,37 @@ class LobbyTestCommon extends SharedTest {
     assert(page.getInferiorMoneyFilter == MIN)
     assert(page.getSuperiorMoneyFilter == MAX)
 
-    page.setEntryFeeFilter(25, MAX)
-    assert(page.getInferiorMoneyFilter == 25)
+    page.setEntryFeeFilter(1, MAX)
+    assert(page.getInferiorMoneyFilter == 1)
     assert(page.getSuperiorMoneyFilter == MAX)
 
     page.clearFilters
     assert(page.getInferiorMoneyFilter == MIN)
     assert(page.getSuperiorMoneyFilter == MAX)
 
-    page.setEntryFeeFilter(MIN, 75)
+    page.setEntryFeeFilter(MIN, 4)
     assert(page.getInferiorMoneyFilter == MIN)
-    assert(page.getSuperiorMoneyFilter == 75)
+    assert(page.getSuperiorMoneyFilter == 4)
 
     page.clearFilters
     assert(page.getInferiorMoneyFilter == MIN)
     assert(page.getSuperiorMoneyFilter == MAX)
 
-    page.setEntryFeeFilter(25, 75)
-    assert(page.getInferiorMoneyFilter == 25)
-    assert(page.getSuperiorMoneyFilter == 75)
+    page.setEntryFeeFilter(1, 4)
+    assert(page.getInferiorMoneyFilter == 1)
+    assert(page.getSuperiorMoneyFilter == 4)
 
-    page.setEntryFeeFilter(40, 60)
-    assert(page.getInferiorMoneyFilter == 40)
-    assert(page.getSuperiorMoneyFilter == 60)
+    page.setEntryFeeFilter(2, 3)
+    assert(page.getInferiorMoneyFilter == 2)
+    assert(page.getSuperiorMoneyFilter == 3)
 
-    page.setEntryFeeFilter(70, 60)
-    assert(page.getInferiorMoneyFilter == 60)
-    assert(page.getSuperiorMoneyFilter == 60)
+    page.setEntryFeeFilter(4, 3)
+    assert(page.getInferiorMoneyFilter == 3)
+    assert(page.getSuperiorMoneyFilter == 3)
 
-    page.setEntryFeeFilter(60, 50)
-    assert(page.getInferiorMoneyFilter == 60)
-    assert(page.getSuperiorMoneyFilter == 60)
+    page.setEntryFeeFilter(3, 2)
+    assert(page.getInferiorMoneyFilter == 3)
+    assert(page.getSuperiorMoneyFilter == 3)
 
     page.clearFilters
     assert(page.getInferiorMoneyFilter == MIN)
@@ -239,6 +241,55 @@ class LobbyTestCommon extends SharedTest {
     }
   }
 
+  def searchNonExistentContest(resolution:Resolution): Unit = {
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clearFilters
+                            .searchContestByName(FILTERS_PANEL_SEARCH_TEXT_2)
+    if (resolution != Resolution.SMALL){
+      page.getNumberOfContests must be(N_CONTESTS_SEARCH_2)
+    }
+  }
+
+  def searchAnotherContest(resolution:Resolution): Unit = {
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clearFilters
+                            .searchContestByName(FILTERS_PANEL_SEARCH_TEXT_3)
+    if (resolution != Resolution.SMALL){
+      page.getNumberOfContests must be(N_CONTESTS_SEARCH_3)
+    }
+  }
+
+  def orderByName(resolution:Resolution): Unit = {
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clearFilters
+                            .clickSortContestsByName
+
+    assert(page.getNumberOfContests == N_CONTESTS_NO_FILTER, "Contests disappeared during sort")
+    assert(page.areContestsOrderedByName, "Contest are not sorted by name")
+  }
+
+  def orderByEntryFee(resolution:Resolution): Unit = {
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clearFilters
+                            .clickSortContestsByEntryFee
+
+    assert(page.getNumberOfContests == N_CONTESTS_NO_FILTER, "Contests disappeared during sort")
+    assert(page.areContestsOrderedByEntryFee, "Contest are not sorted by entry fee")
+  }
+
+  def orderByStartTime(resolution:Resolution): Unit = {
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clearFilters
+                            .clickSortContestsByStartTime
+
+    assert(page.getNumberOfContests == N_CONTESTS_NO_FILTER, "Contests disappeared during sort")
+    assert(page.areContestsOrderedByStartTime, "Contest are not sorted by start time")
+  }
 
   /// PAGINATOR TESTS
 
@@ -246,12 +297,14 @@ class LobbyTestCommon extends SharedTest {
     val page = goToLobbyPage.clickOnMenuAllContests
                             .clickOnMenuFreeContests
                             .clearFilters
-    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER).isAt
+    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
+    assert(paginator.isAt)
     assert( paginator.isDisplayed )
 
-    paginator.getNumberOfPages must be (14)
+
+    paginator.getNumberOfPages must be (MAX_PAGINATOR_PAGE)
     paginator.getCurrentPage must be (1)
-    paginator.goToLastPage.getCurrentPage must be (14)
+    paginator.goToLastPage.getCurrentPage must be (MAX_PAGINATOR_PAGE)
     paginator.goToFirstPage.getCurrentPage must be (1)
     paginator.goToNextPage.getCurrentPage must be (2)
     paginator.goToNextPage.getCurrentPage must be (3)
@@ -261,10 +314,10 @@ class LobbyTestCommon extends SharedTest {
     paginator.goToPreviousPage.getCurrentPage must be (1)
     paginator.goToPage(10).getCurrentPage must be (10)
 
-    paginator.goToPage(14).getCurrentPage must be (14)
-    paginator.goToNextPage.getCurrentPage must be (14)
-    paginator.goToNextPage.getCurrentPage must be (14)
-    paginator.goToLastPage.getCurrentPage must be (14)
+    paginator.goToPage(MAX_PAGINATOR_PAGE).getCurrentPage must be (MAX_PAGINATOR_PAGE)
+    paginator.goToNextPage.getCurrentPage must be (MAX_PAGINATOR_PAGE)
+    paginator.goToNextPage.getCurrentPage must be (MAX_PAGINATOR_PAGE)
+    paginator.goToLastPage.getCurrentPage must be (MAX_PAGINATOR_PAGE)
 
     paginator.goToPage(1).getCurrentPage must be (1)
     paginator.goToPreviousPage.getCurrentPage must be (1)
@@ -273,7 +326,7 @@ class LobbyTestCommon extends SharedTest {
 
     intercept [Exception] { paginator.goToPage(0) }
     intercept [Exception] { paginator.goToPage(-1) }
-    intercept [Exception] { paginator.goToPage(15) }
+    intercept [Exception] { paginator.goToPage(MAX_PAGINATOR_PAGE + 1) }
 
   }
 
@@ -281,11 +334,12 @@ class LobbyTestCommon extends SharedTest {
     val page = goToLobbyPage.clickOnMenuAllContests
                             .clickOnMenuFreeContests
                             .clearFilters
-    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER).isAt
+    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
+    assert(paginator.isAt)
     assert(paginator.isDisplayed)
-    paginator.getNumberOfPages must be (14)
+    paginator.getNumberOfPages must be (MAX_PAGINATOR_PAGE)
 
-    page.setEntryFeeFilter(page.MAX_ENTRY_MONEY, page.MAX_ENTRY_MONEY)
+    page.setEntryFeeFilter(4, 4)
     assert(!paginator.isDisplayed)
     paginator.getNumberOfPages must be (1)
   }
@@ -294,7 +348,8 @@ class LobbyTestCommon extends SharedTest {
     val page = goToLobbyPage.clickOnMenuAllContests
                             .clickOnMenuFreeContests
                             .clearFilters
-    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER).isAt
+    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
+    assert(paginator.isAt)
     assert(paginator.isDisplayed)
     paginator.goToLastPage
     page.clickFreeContestFilter
@@ -302,6 +357,21 @@ class LobbyTestCommon extends SharedTest {
     paginator.getCurrentPage must be (1)
     paginator.getNumberOfPages must be (3)
   }
+
+  def knownBugSequence_PaginatorOrderedRefresh(resolution:Resolution): Unit = {
+    val page = goToLobbyPage.clickOnMenuAllContests
+                            .clickOnMenuFreeContests
+                            .clickSortContestsByName
+    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
+    paginator.goToNextPage.goToNextPage.goToNextPage.goToNextPage
+
+    intercept [StackDepthException] {
+      eventually (timeout(12 seconds)) { assert(paginator.getCurrentPage == 1) }
+    }
+
+  }
+
+
 /*
   def searchContest(resolution:Resolution): Unit = {
     val page = goToLobbyPage.clearFilters
