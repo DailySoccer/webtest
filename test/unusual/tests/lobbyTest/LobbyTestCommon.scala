@@ -2,6 +2,7 @@ package unusual.tests.lobbyTest
 
 import org.scalatest.exceptions.StackDepthException
 import unusual.model.Resolution
+import unusual.pages.components.PaginatorControl
 import unusual.testTags.scala._
 import unusual.tests._
 import unusual.pages._

@@ -3,11 +3,7 @@ package unusual.pages.components
 import unusual.model.Resolution
 import unusual.pages.{HomePage, LobbyPage, MyContestsPage, SharedPage}
 
-class MenuBar(res:Resolution) extends SharedPage {
-
-  val url = SharedPage.baseUrl
-  val resolution:Resolution = res
-
+class MenuBar(res:Resolution) extends SharedPage(res) {
 
   /********** CONSTANTS *************/
 
@@ -15,7 +11,7 @@ class MenuBar(res:Resolution) extends SharedPage {
   val SIGN_UP_ID = "joinButton"
 
   val MENU_ROOT = "#mainMenuRoot"
-  val BRAND_LINK_SELECTOR = "#" + MENU_ROOT + " .navbar-brand-container a"
+  val BRAND_LINK = MENU_ROOT + " .navbar-brand-container a"
 
   val ADD_MONEY_BUTTON = "addMoney"
 
@@ -49,7 +45,12 @@ class MenuBar(res:Resolution) extends SharedPage {
   /**************** GENERAL METHODS ****************/
 
   override def isAt = {
-    isElemDisplayed(MENU_ROOT) && isElemDisplayed(BRAND_LINK_SELECTOR)
+    isElemDisplayed(MENU_ROOT) && (resolution == Resolution.SMALL || isElemDisplayed(BRAND_LINK))
+  }
+
+  override def open = {
+    logger.error("Trying to open a control.")
+    this
   }
 
   def isLoginBar: Boolean = {

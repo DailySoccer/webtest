@@ -5,6 +5,7 @@ import org.openqa.selenium.By.ByCssSelector
 import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.interactions.Action
 import unusual.model._
+import unusual.pages.components.{FooterBar, PaginatorControl, MenuBar}
 
 import scala.util.control.Exception
 
@@ -23,39 +24,44 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
 
   val PROMOS_COMPONENT = "#promosComponent"
   val CONTEST_LIST_CONTAINER = ".contests-list-root"
-  val CONTEST_ROW_CONTAINER_CLASS = ".contest-row"
+  val CONTEST_ROW_CONTAINER = ".contest-row"
 
-  val CONTEST_COLUMN_NAME_CLASS = ".column-contest-name"
-  val CONTEST_NAME_CLASS = ".column-name"
-  val CONTEST_DESCRIPTION_CLASS = ".column-description"
+  //val CONTEST_COLUMN_NAME = ".column-contest-name"
+  //val CONTEST_NAME = ".column-name"
+  //val CONTEST_DESCRIPTION = ".column-description"
 
-  val CONTEST_COLUMN_FEE_CLASS = ".column-contest-price"
-  val CONTEST_FEE_CLASS = ".column-contest-price-content span"
+  //val CONTEST_COLUMN_PRIZE = ".column-contest-prize"
+  //val CONTEST_PRIZE = ".column-contest-prize-content span"
 
-  val CONTEST_COLUMN_PRIZE_CLASS = ".column-contest-prize"
-  val CONTEST_PRIZE_CLASS = ".column-contest-prize-content span"
+  //val CONTEST_COLUMN_DATE_DAY = ".column-contest-start-date"
+  //val CONTEST_DATE_DAY = ".column-start-date-day"
+  //val CONTEST_DATE_HOUR = ".column-start-date-hour"
 
-  val CONTEST_COLUMN_DATE_DAY_CLASS = ".column-contest-start-date"
-  val CONTEST_DATE_DAY_CLASS = ".column-start-date-day"
-  val CONTEST_DATE_HOUR_CLASS = ".column-start-date-hour"
+  //val CONTEST_COLUMN_ACTION = ".column-contest-action"
 
-  val CONTEST_COLUMN_ACTION_CLASS = ".column-contest-action"
 
-  val FILTERS_BUTTON_ID = Map(
-    "mobile" -> "filtersButtonMobile",
-    "desktop" -> "filtersButtonDesktop"
-  )
+  def CONTEST_ROW_PLAY_BUTTON(ordinal:Int):String = CONTEST_ROW_CONTAINER + ":nth-child(" + ordinal + ") .column-contest-action button"
+  def CONTEST_ROW_FEE(ordinal:Int):String = CONTEST_ROW_CONTAINER + ":nth-child(" + ordinal + ") .column-contest-price .column-contest-price-content span"
 
-  val FILTERS_PANEL_SEARCH_ID = "contestFastSearch"
+
+  /**************** FILTERS CONSTANTS ****************/
+
+  val FILTERS_BUTTON_MOBILE  = "#filtersButtonMobile"
+  val FILTERS_BUTTON_DESKTOP = "#filtersButtonDesktop"
+
+  val FILTERS_PANEL_SEARCH   = "#contestFastSearch input"
 
   val FILTERS_PANEL = "#filtersPanel"
-  /*val FILTERS_PANEL_FILTER_FREE_CHECK = "filtroFree"
-  val FILTERS_PANEL_FILTER_LEAGUE_CHECK = "filtroleague"
-  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK = "filtroFiftyFifty"
+  val RESET_FILTERS_BUTTON = ".reset-button-wrapper .btn-reset"
+
+  val FILTERS_PANEL_FILTER_FREE_CHECK         = "filtroFree"
+  val FILTERS_PANEL_FILTER_LEAGUE_CHECK       = "filtroleague"
+  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK  = "filtroFiftyFifty"
   val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK = "filtroHeadToHead"
-  val FILTERS_PANEL_FILTER_FREE_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_FREE_CHECK + "\"]"
-  val FILTERS_PANEL_FILTER_LEAGUE_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_LEAGUE_CHECK + "\"]"
-  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK + "\"]"
+
+  val FILTERS_PANEL_FILTER_FREE_LABEL         = "label[for=\"" + FILTERS_PANEL_FILTER_FREE_CHECK + "\"]"
+  val FILTERS_PANEL_FILTER_LEAGUE_LABEL       = "label[for=\"" + FILTERS_PANEL_FILTER_LEAGUE_CHECK + "\"]"
+  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_LABEL  = "label[for=\"" + FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK + "\"]"
   val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK + "\"]"
 
   val SORT_BY_NAME = "#sortContestName"
@@ -64,14 +70,26 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
 
   val MAX_ENTRY_MONEY = 5
 
-  def open = {
-    go to url
-    this
-  }
+  val SLIDER_RANGE = "#slider-range"
+  val SLIDER_RANGE_INFERIOR      = SLIDER_RANGE  + " .noUi-origin:nth-child(1) div"
+  val SLIDER_RANGE_SUPERIOR      = SLIDER_RANGE  + " .noUi-origin:nth-child(2) div"
+  val SLIDER_RANGE_TEXT_INFERIOR = FILTERS_PANEL + " .filter-column-entry-fee .entry-fee-value-min"
+  val SLIDER_RANGE_TEXT_SUPERIOR = FILTERS_PANEL + " .filter-column-entry-fee .entry-fee-value-max"
+
+
+  /**************** COMMON METHODS ****************/
 
   override def isAt = {
     var _isAt = true
-    _isAt = _isAt && isWholePage
+
+    _isAt = new MenuBar(resolution).isAt
+    _isAt = _isAt && new FooterBar(resolution).isAt
+
+    _isAt = _isAt && (currentUrl == url || currentUrl == SharedPage.baseUrl)
+    logger.debug("URL is " + currentUrl + ", should be " + url, _isAt)
+    _isAt = _isAt && pageTitle == TITLE
+    logger.debug("Title is " + pageTitle + ", should be " + TITLE, _isAt)
+
 
     _isAt = _isAt && isElemDisplayed(PROMOS_COMPONENT)
 
@@ -84,11 +102,15 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
     _isAt
   }
 
+  /**************** STATE METHODS ****************/
+
   def isDefaultState(numberOfContest:Int):Boolean = {
     var isDefault = true
     val filtersPanel = find(cssSelector(FILTERS_PANEL))
+
     isDefault = isDefault && filtersPanel != None
     logger.debug("{" + FILTERS_PANEL + "} exists", isDefault)
+
     if ( isDefault ) {
       isDefault = isDefault && !filtersPanel.get.isDisplayed
       logger.debug("{" + FILTERS_PANEL + "} is not displayed", isDefault)
@@ -116,6 +138,9 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
   def isLoggedIn: Boolean = {
     new MenuBar(resolution).isLoggedBar
   }
+
+
+  /**************** NAVIGATION XS METHODS ****************/
 
   def clickOnMenuAllContests = {
     if (resolution == Resolution.SMALL) {
@@ -146,8 +171,10 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
   }
 
 
+  /**************** FILTERS METHODS ****************/
+
   def clearFilters = {
-    var cleanBtt = find(cssSelector(".reset-button-wrapper .btn-reset")).get
+    val cleanBtt = find(cssSelector(RESET_FILTERS_BUTTON)).get
 
     openFilters
     eventually { click on cleanBtt }
@@ -158,9 +185,9 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
   def setEntryFeeFilter(inf: Int, sup: Int) = {
     openFilters
 
-    val sliderWidth = find(cssSelector("#slider-range")).get.underlying.getSize().width - 1
-    val inferior = find(cssSelector("#slider-range .noUi-origin:nth-child(1) div")).get.underlying
-    val superior = find(cssSelector("#slider-range .noUi-origin:nth-child(2) div")).get.underlying
+    val sliderWidth = find(cssSelector(SLIDER_RANGE)).get.underlying.getSize.width - 1
+    val inferior = find(cssSelector(SLIDER_RANGE_INFERIOR)).get.underlying
+    val superior = find(cssSelector(SLIDER_RANGE_SUPERIOR)).get.underlying
     val infBound = inf - getInferiorMoneyFilter
     val supBound = sup - getSuperiorMoneyFilter
 
@@ -222,29 +249,67 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
 
   def searchContestByName(name: String) = {
     if (resolution != Resolution.SMALL) {
-      val cssSel  = "#" + FILTERS_PANEL_SEARCH_ID + " input"
-      eventually { textField(cssSelector(cssSel)).value = name }
+      eventually { textField(cssSelector(FILTERS_PANEL_SEARCH)).value = name }
     } else {
       unavailableFunctionOnResolution("searchContestByName")
     }
     this
   }
 
+  def getInferiorMoneyFilter :Int = {
+    val inferiorTextNode = find(cssSelector(SLIDER_RANGE_TEXT_INFERIOR)).get
+    var n:Integer = 0
+
+    eventually {
+      n = Integer.parseInt( inferiorTextNode.text.substring(5, inferiorTextNode.text.length - 1) )
+    }
+
+    n
+  }
+
+  def getSuperiorMoneyFilter :Int = {
+    val superiorTextNode = find(cssSelector(SLIDER_RANGE_TEXT_SUPERIOR)).get
+    var n:Integer = 0
+
+    eventually {
+      n = Integer.parseInt( superiorTextNode.text.substring(5, superiorTextNode.text.length - 1) )
+    }
+
+    n
+  }
+
+  def areAllFiltersClear:Boolean = {
+    var areClear = true
+    openFilters
+    areClear = areClear && getSuperiorMoneyFilter == MAX_ENTRY_MONEY
+    areClear = areClear && getInferiorMoneyFilter == 0
+
+    val searchCssSel  = FILTERS_PANEL_SEARCH
+    areClear = areClear && textField(cssSelector(searchCssSel)).value == ""
+
+    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_FREE_CHECK).isSelected
+    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_LEAGUE_CHECK).isSelected
+    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK).isSelected
+    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK).isSelected
+    closeFilters
+    areClear
+  }
+
+
+  /**************** CONTESTS METHODS ****************/
+
+
   def playContestNumber(ordinal: Int) = {
-    val cssSel  = CONTEST_ROW_CONTAINER_CLASS + ":nth-child(" + ordinal + ") " + CONTEST_COLUMN_ACTION_CLASS + " button"
-    eventually { click on find(cssSelector(cssSel)).get }
+    eventually { click on find(cssSelector( CONTEST_ROW_PLAY_BUTTON(ordinal) )).get }
     this
   }
 
   def areContestsBetweenEntryValues(amountRows: Int, min: Double, max : Double): Boolean = {
-    val cssSelPre  = CONTEST_ROW_CONTAINER_CLASS + ":nth-child("
-    val cssSelPost = ") " + CONTEST_COLUMN_FEE_CLASS + " " + CONTEST_FEE_CLASS
     var areBetween = true
     for (i <- 1 to amountRows) {
       eventually {
-
-        var rowText = find(cssSelector(cssSelPre + i + cssSelPost)).get.text
-        var entryNum = java.lang.Double.parseDouble(rowText.substring(0, rowText.length - 1))
+        val rowText = find(cssSelector(CONTEST_ROW_FEE(i))).get.text
+        val entryNum = java.lang.Double.parseDouble(rowText.substring(0, rowText.length - 1))
 
         areBetween =  areBetween && entryNum <= max && entryNum >= min
       }
@@ -262,7 +327,7 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
       for (i <- 1 to pagesCount) {
         paginator.goToNextPage
         areOrdered = areOrdered && fastLobby_ContestAreOrderedByName
-        if(!areOrdered) scala.util.control.Breaks.break
+        if(!areOrdered) scala.util.control.Breaks.break()
       }
     }
 
@@ -278,7 +343,7 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
       for (i <- 1 to pagesCount) {
         paginator.goToNextPage
         areOrdered = areOrdered && fastLobby_ContestAreOrderedByEntryFee
-        if(!areOrdered) scala.util.control.Breaks.break
+        if(!areOrdered) scala.util.control.Breaks.break()
       }
     }
 
@@ -294,7 +359,7 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
       for (i <- 1 to pagesCount) {
         paginator.goToNextPage
         areOrdered = areOrdered && fastLobby_ContestAreOrderedByStartTime
-        if(!areOrdered) scala.util.control.Breaks.break
+        if(!areOrdered) scala.util.control.Breaks.break()
       }
     }
 
@@ -334,51 +399,14 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
     val pages = paginator.getNumberOfPages
 
     // Esta parece la unica rapida y efectiva
-    val lastPageRows = fastCountByCssSelector(CONTEST_LIST_CONTAINER + " .contest-row")
+    val lastPageRows = fastCountByCssSelector(CONTEST_ROW_CONTAINER)
     paginator.goToPage(currPage)
 
     // return
     (pages - 1) * ROWS_PER_PAGE + lastPageRows
   }
 
-  def getInferiorMoneyFilter :Int = {
-    val inferiorTextNode = find(cssSelector("#filtersPanel .filter-column-entry-fee .entry-fee-value-min")).get
-    var n:Integer = 0
-
-    eventually {
-      n = Integer.parseInt( inferiorTextNode.text.substring(5, inferiorTextNode.text.length - 1) )
-    }
-
-    n
-  }
-
-  def getSuperiorMoneyFilter :Int = {
-    val superiorTextNode = find(cssSelector("#filtersPanel .filter-column-entry-fee .entry-fee-value-max")).get
-    var n:Integer = 0
-
-    eventually {
-      n = Integer.parseInt( superiorTextNode.text.substring(5, superiorTextNode.text.length - 1) )
-    }
-
-    n
-  }
-
-  def areAllFiltersClear:Boolean = {
-    var areClear = true
-    openFilters
-    areClear = areClear && getSuperiorMoneyFilter == MAX_ENTRY_MONEY
-    areClear = areClear && getInferiorMoneyFilter == 0
-
-    val searchCssSel  = "#" + FILTERS_PANEL_SEARCH_ID + " input"
-    areClear = areClear && textField(cssSelector(searchCssSel)).value == ""
-
-    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_FREE_CHECK).isSelected
-    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_LEAGUE_CHECK).isSelected
-    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK).isSelected
-    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK).isSelected
-    closeFilters
-    areClear
-  }
+  /**************** PRIVATE METHODS ****************/
 
   private def applyFilter(forId : String) = {
 
@@ -392,13 +420,13 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
   }
 
   private def openFilters = {
-    val panel = find(id(FILTERS_PANEL)).get
+    val panel = find(cssSelector(FILTERS_PANEL)).get
     if (!panel.isDisplayed) {
       eventually {
         if (resolution == Resolution.SMALL) {
-          click on find(id(FILTERS_BUTTON_ID("mobile"))).get
+          click on find(cssSelector(FILTERS_BUTTON_MOBILE)).get
         } else {
-          click on find(id(FILTERS_BUTTON_ID("desktop"))).get
+          click on find(cssSelector(FILTERS_BUTTON_DESKTOP)).get
         }
       }
     }
@@ -406,57 +434,18 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
   }
 
   private def closeFilters = {
-    val panel = find(id(FILTERS_PANEL)).get
+    val panel = find(cssSelector(FILTERS_PANEL)).get
     if (panel.isDisplayed) {
       eventually {
         if (resolution == Resolution.SMALL) {
-          click on find(id(FILTERS_BUTTON_ID("mobile"))).get
+          click on find(cssSelector(FILTERS_BUTTON_MOBILE)).get
         } else {
-          click on find(id(FILTERS_BUTTON_ID("desktop"))).get
+          click on find(cssSelector(FILTERS_BUTTON_DESKTOP)).get
         }
       }
     }
     this
   }
-
-  // NOT USED, DELETEABLE
-/*
-  private def buildContestFromRow(row : WebElement): Contest ={
-    var contest = new Contest("", "", "", "", "")
-
-    var nameColumn = row.findElement(new ByCssSelector(CONTEST_COLUMN_NAME_CLASS))
-    contest.name = nameColumn.findElement(new ByCssSelector(CONTEST_NAME_CLASS)).getText
-    contest.description = nameColumn.findElement(new ByCssSelector(CONTEST_DESCRIPTION_CLASS)).getText
-
-    var feeColumn = row.findElement(new ByCssSelector(CONTEST_COLUMN_FEE_CLASS))
-    contest.entryFee = "0€"//feeColumn.findElement(new ByCssSelector(CONTEST_FEE_CLASS)).getText
-
-    var prizesColumn = row.findElement(new ByCssSelector(CONTEST_COLUMN_PRIZE_CLASS))
-    contest.prize = prizesColumn.findElement(new ByCssSelector(CONTEST_PRIZE_CLASS)).getText
-
-    var dateColumn = row.findElement(new ByCssSelector(CONTEST_COLUMN_DATE_DAY_CLASS))
-    contest.date = dateColumn.findElement(new ByCssSelector(CONTEST_DATE_DAY_CLASS)).getText + " " +
-                    dateColumn.findElement(new ByCssSelector(CONTEST_DATE_HOUR_CLASS)).getText
-
-    contest
-  }
-*/
-
-  /*
-  eventually {
-    var rows = findAll(cssSelector(CONTEST_ROW_CONTAINER_CLASS))
-    //println(rows.next)
-    a = Array[Contest]()
-
-    for (row <- rows) {
-      var realRow = row.underlying
-      var cont: Contest = buildContestFromRow(realRow)
-      a = a :+ cont
-    }
-
-  }
-  */
-  //a
 
 }
 

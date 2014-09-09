@@ -1,7 +1,8 @@
 package unusual.tests.loginTest
 
 import unusual.model.{User, Resolution}
-import unusual.pages.{MenuBar, LobbyPage}
+import unusual.pages.LobbyPage
+import unusual.pages.components.MenuBar
 import unusual.tests._
 
 class LoginTestCommon extends SharedTest {

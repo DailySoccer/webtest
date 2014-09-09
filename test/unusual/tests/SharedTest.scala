@@ -19,9 +19,6 @@ class SharedTest extends PlaySpec
     l
   }
 
-  ///// STATUS
-  // logged
-  // resolution
 
   override def beforeAll {
     //println("Before!")  // start up your web server or whatever
@@ -36,42 +33,55 @@ class SharedTest extends PlaySpec
 
   def goToHomePage : HomePage = {
     val homePage = new HomePage(status.resolution)
-    assert(homePage.open.isAt)
+    assert(homePage.open.isAt, "trying to access to homePage")
     homePage
   }
 
   def goToSignUpPage : SignUpPage = {
     val signUpPage = new SignUpPage(status.resolution)
-    assert(signUpPage.open.isAt)
+    assert(signUpPage.open.isAt, "trying to access to signUpPage")
     signUpPage
   }
 
   def goToLoginPage : LoginPage = {
     val loginPage = new LoginPage(status.resolution)
-    assert(loginPage.open.isAt)
+    assert(loginPage.open.isAt, "trying to access to loginPage")
     loginPage
   }
 
   def goToLobbyPage : LobbyPage = {
     val lobbyPage = new LobbyPage(status.resolution)
-    assert(lobbyPage.open.isAt)
+    assert(lobbyPage.open.isAt, "trying to access to lobbyPage")
     lobbyPage
   }
 
   def goToMyContestsPage : MyContestsPage = {
     val myContestsPage = new MyContestsPage(status.resolution)
-    assert(myContestsPage.open.isAt)
+    assert(myContestsPage.open.isAt, "trying to access to myContestsPage")
     myContestsPage
   }
 
   def goToPromos : PromosPage = {
     val promosPage = new PromosPage(status.resolution)
-    assert(promosPage.open.isAt)
+    assert(promosPage.open.isAt, "trying to access to promosPage")
     promosPage
   }
 
+  def goToEnterContest(contestId:String = null) : EnterContestPage = {
+    var enterContest:EnterContestPage = null
+    if (contestId == null) {
+      enterContest = new EnterContestPage(status.resolution)
+    } else {
+      enterContest = new EnterContestPage(status.resolution, contestId)
+    }
+
+    assert(enterContest.open.isAt, "trying to access to enterContest")
+    enterContest
+  }
+
   def featureNotImplemented = {
-    logger.info("[FUTURE TEST]\u001B[33m This test is a placeholder for a future implementation \u001B[0m")
+    logger.info("[FUTURE TEST]\u001B[33m This test is a placeholder " +
+      "for a future implementation \u001B[0m")
 
     this
   }

@@ -1,13 +1,11 @@
 package unusual.pages
 
 import unusual.model.{SoccerPlayer, Resolution}
+import unusual.pages.components.{FooterBar, MenuBar}
 
-class EnterContestPage(res: Resolution) extends SharedPage {
-  val TITLE   = "Daily Soccer"
+class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813966c9") extends SharedPage(res) {
 
-  val resolution:Resolution = res
-
-  val url = SharedPage.baseUrl
+  override val url = SharedPage.baseUrl + "/#/enter_contest/" + contestId
 
   val SOCCER_PLAYER_POSITION_FILTER_TAB = Map(
     SoccerPlayer.POS_ALL -> 1,
@@ -58,10 +56,6 @@ class EnterContestPage(res: Resolution) extends SharedPage {
   def SOCCER_PLAYER_LINEUP_SLOT_SALARY(idx:Int):String   = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .column-salary"
   def SOCCER_PLAYER_LINEUP_SLOT_REMOVE(idx:Int):String   = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .column-action a"
 
-  def open = {
-    go to url
-    this
-  }
 
   override def isAt = {
     var _isAt = true
@@ -75,17 +69,19 @@ class EnterContestPage(res: Resolution) extends SharedPage {
 
     _isAt = _isAt && isElemDisplayed(BUTTON_CLOSE_CONTEST)
 
-    _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(1))
-    _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(2))
-    _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(3))
-    _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(4))
-    _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(5))
+    if (resolution != Resolution.SMALL) {
+      _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(1))
+      _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(2))
+      _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(3))
+      _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(4))
+      _isAt = _isAt && isElemDisplayed(FILTER_POSITION_DESKTOP(5))
 
 
-    _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(1))
-    _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(2))
-    _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(3))
-    _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(4))
+      _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(1))
+      _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(2))
+      _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(3))
+      _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(4))
+    }
 
     _isAt = _isAt && getNumberOfSoccerPlayers > 0
 
@@ -96,7 +92,7 @@ class EnterContestPage(res: Resolution) extends SharedPage {
 
   def isDefaultState(totalPlayers:Int, initialSalary: Int): Boolean = {
     var versionCheck = true
-    println(1)
+
     if (resolution == Resolution.SMALL) {
       versionCheck = find(cssSelector(ENTER_CONTEST_TAB(1) + ACTIVE_ELEMENT)) != None
     } else if (resolution == Resolution.MEDIUM) {
@@ -291,7 +287,7 @@ class EnterContestPage(res: Resolution) extends SharedPage {
   }
 
   def getSoccerPlayerFromList(index: Int): SoccerPlayer= {
-    var player = new SoccerPlayer("", "", 0)
+    val player = new SoccerPlayer("", "", 0)
 
     eventually {
       player.name = find(cssSelector(SOCCER_PLAYER_LIST_SLOT_NAME(index))).get.text
@@ -383,7 +379,6 @@ class EnterContestPage(res: Resolution) extends SharedPage {
 
   private def createPlayerFromLineUp(index: Int): SoccerPlayer = {
     val player = new SoccerPlayer("", "", 0)
-    val cssSelRow = SOCCER_PLAYER_LINEUP_SLOT(index)
 
     eventually {
       player.name = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_NAME(index))).get.text

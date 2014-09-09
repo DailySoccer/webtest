@@ -1,25 +1,18 @@
 package unusual.pages
 
 import unusual.model.{User, Resolution}
+import unusual.pages.components.FooterBar
 
-class LoginPage(res:Resolution) extends SharedPage {
+class LoginPage(res:Resolution) extends SharedPage(res) {
 
-  val url = SharedPage.baseUrl + "/#/login"
-  val resolution: Resolution = res
+  override val url = SharedPage.baseUrl + "/#/login"
 
-
-  val TITLE   = "Daily Soccer"
   //val LEGEND  = "Login"
   val FORM_EMAIL    = "login-mail"
   val FORM_PASSWORD = "login-password"
   val FORM_SUBMIT = "login"
 
   //val DEFAULT_USER : User = new User("Test", "Test", "test@test.com", "Test", "private")
-
-  def open = {
-    go to url
-    this
-  }
 
   override def isAt = {
     pageTitle should be (TITLE)

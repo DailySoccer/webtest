@@ -14,21 +14,21 @@ class LobbyVisitorTest extends LobbyTestCommon {
   "As visitor" must {
 
     def goToLobby(resolution:Resolution): Unit = {
-      val lobby = new LobbyPage(resolution)
+      val lobby = new LobbyPage(resolution).open
       val home = new HomePage(resolution)
       lobby.open
       home.isAt
     }
 
-    "try to go to lobby without be logged in. Page should redirect to home B" taggedAs(DoesNotWorkYet, BigResolution) in {
+    "try to go to lobby without be logged in. Page should redirect to home. B" taggedAs(DoesNotWorkYet, BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(goToLobby)
     }
-    "try to go to lobby without be logged in. M" taggedAs(DoesNotWorkYet, MediumResolution) in {
+    "try to go to lobby without be logged in. Page should redirect to home. M" taggedAs(DoesNotWorkYet, MediumResolution) in {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(goToLobby)
     }
-    "try to go to lobby without be logged in. S" taggedAs(DoesNotWorkYet, SmallResolution) in {
+    "try to go to lobby without be logged in. Page should redirect to home. S" taggedAs(DoesNotWorkYet, SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(goToLobby)
     }

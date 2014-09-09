@@ -12,7 +12,27 @@ class EnterContestVisitorTest extends EnterContestTestCommon {
 
    "Visitor" must {
 
+     def goToEnterContest(resolution:Resolution): Unit = {
+       val enterC = new EnterContestPage(resolution)
+       val home = new HomePage(resolution)
+       enterC.open
+       home.isAt
+     }
 
+     "try to go to lobby without be logged in. Page should redirect to home. B" taggedAs(BigResolution) in {
+       implicit val resolution:Resolution = Resolution.BIG
+       callTest(goToEnterContest)
+     }
+     "try to go to lobby without be logged in. Page should redirect to home. M" taggedAs(MediumResolution) in {
+       implicit val resolution:Resolution = Resolution.MEDIUM
+       callTest(goToEnterContest)
+     }
+     "try to go to lobby without be logged in. Page should redirect to home. S" taggedAs(SmallResolution) in {
+       implicit val resolution:Resolution = Resolution.SMALL
+       callTest(goToEnterContest)
+     }
+
+/*
      "look at default state. B" taggedAs(BigResolution) in {
        implicit val resolution:Resolution = Resolution.BIG
        callTest(checkDefaultState)
@@ -460,7 +480,7 @@ class EnterContestVisitorTest extends EnterContestTestCommon {
        implicit val resolution:Resolution = Resolution.SMALL
        callTest(knownBugSequence_AddForwardAsGoalKeeper)
      }
-
+*/
    }
 
    after {

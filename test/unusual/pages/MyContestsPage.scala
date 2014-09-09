@@ -1,12 +1,10 @@
 package unusual.pages
 
 import unusual.model.Resolution
+import unusual.pages.components.{FooterBar, MenuBar}
 
-class MyContestsPage(res:Resolution) extends SharedPage {
-  val url = SharedPage.baseUrl + "/#/my_contests"
-  val resolution: Resolution = res
-
-  val TITLE   = "Daily Soccer"
+class MyContestsPage(res:Resolution) extends SharedPage(res) {
+  override val url = SharedPage.baseUrl + "/#/my_contests"
 
   val FORM_EMAIL    = "Email"
   val FORM_PASSWORD = "Password"
@@ -16,11 +14,6 @@ class MyContestsPage(res:Resolution) extends SharedPage {
     "email" -> "test@test.com",
     "password" -> "private"
   )
-
-  def open = {
-    go to url
-    this
-  }
 
   override def isAt = {
     var _isAt = true

@@ -2,16 +2,8 @@ package unusual.pages
 
 import unusual.model.Resolution
 
-class PromosPage(res:Resolution)  extends SharedPage {
-  val url = SharedPage.baseUrl
-  val resolution: Resolution = res
-
-  val TITLE   = "Daily Soccer"
-
-  def open = {
-    go to url
-    this
-  }
+class PromosPage(res:Resolution)  extends SharedPage(res) {
+  override val url = SharedPage.baseUrl
 
   override def isAt = {
     placeholder

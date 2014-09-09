@@ -3,11 +3,8 @@ package unusual.pages
 import unusual.model.Resolution
 import unusual.model.User
 
-class SignUpPage(res:Resolution) extends SharedPage {
-  val resolution: Resolution = res
-  val url = SharedPage.baseUrl + "/#/join"
-
-  val TITLE   = "Daily Soccer"
+class SignUpPage(res:Resolution) extends SharedPage(res) {
+  override val url = SharedPage.baseUrl + "/#/join"
 
   val FORM_NAME     = "#nickName"
   val FORM_EMAIL    = "#email"
@@ -21,11 +18,6 @@ class SignUpPage(res:Resolution) extends SharedPage {
     "nick" -> "nick",
     "password" -> "private"
   )
-
-  def open = {
-    go to url
-    this
-  }
 
   override def isAt:Boolean = {
 

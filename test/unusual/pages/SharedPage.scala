@@ -2,6 +2,7 @@ package unusual.pages
 
 import unusual.UnusualLogger
 import unusual.model.Resolution
+import unusual.pages.components.{FooterBar, MenuBar}
 import unusual.pages.util.DOM_Ops
 import org.scalatest.{GivenWhenThen, OptionValues, MustMatchers, Matchers}
 import org.scalatest.selenium.WebBrowser
@@ -26,6 +27,15 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
   }
 
   def isAt:Boolean = { true }
+
+  def open = {
+    if(currentUrl == url){
+      reloadPage
+    } else {
+      go to url
+    }
+    this
+  }
 
   protected def isWholePage: Boolean = {
     var isPage = new MenuBar(resolution).isAt

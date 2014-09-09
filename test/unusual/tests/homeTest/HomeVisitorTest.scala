@@ -1,8 +1,8 @@
 package unusual.tests.homeTest
 
 import unusual.model.Resolution
+import unusual.pages.{LoginPage, SignUpPage}
 import unusual.testTags.scala.{BigResolution, MediumResolution, SmallResolution, WIP}
-import unusual.tests._
 
 class HomeVisitorTest extends HomeTestCommon {
 
@@ -11,11 +11,11 @@ class HomeVisitorTest extends HomeTestCommon {
   }
 
   "As visitor" must {
-    /*
+
     def goToHome(resolution:Resolution): Unit = {
       goToHomePage
     }
-    */
+
     "go to home. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(goToHome)
@@ -28,11 +28,12 @@ class HomeVisitorTest extends HomeTestCommon {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(goToHome)
     }
-    /*
+
     def goToHomeAndSignUp(resolution:Resolution): Unit = {
       goToHomePage.clickOnSignUp
+      assert(new SignUpPage(resolution).isAt, "is not sign up page")
     }
-    */
+
     "go from home to sign up. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(goToHomeAndSignUp)
@@ -45,11 +46,12 @@ class HomeVisitorTest extends HomeTestCommon {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(goToHomeAndSignUp)
     }
-    /*
+
     def goToHomeAndLogin(resolution:Resolution): Unit = {
       goToHomePage.clickOnLogin
+      assert(new LoginPage(resolution).isAt, "is not login page")
     }
-    */
+
     "go from home to login. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(goToHomeAndLogin)
@@ -62,13 +64,19 @@ class HomeVisitorTest extends HomeTestCommon {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(goToHomeAndLogin)
     }
-    /*
+
     def goThroughScreenSeparatorLinks(resolution:Resolution): Unit = {
-      goToHomePage.clickOnScreenSeparator1
-                  .clickOnScreenSeparator2
-                  .clickOnScreenSeparator3
+      if (resolution != Resolution.SMALL) {
+        val home = goToHomePage
+        home.clickOnScreenSeparator1
+        currentUrl must be(home.SCREEN_2_URL)
+        home.clickOnScreenSeparator2
+        currentUrl must be(home.SCREEN_3_URL)
+        home.clickOnScreenSeparator3
+        currentUrl must be(home.SCREEN_4_URL)
+      }
     }
-    */
+
     "go down through screen separator links. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(goThroughScreenSeparatorLinks)
@@ -81,14 +89,12 @@ class HomeVisitorTest extends HomeTestCommon {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(goThroughScreenSeparatorLinks)
     }
-    /*
-    def clickOnPlayButtons(resolution:Resolution): Unit = {
+
+    def clickOnPlayButton0(resolution:Resolution): Unit = {
       goToHomePage.clickOnPlayButton0
-      goToHomePage.clickOnPlayButton1
-      goToHomePage.clickOnPlayButton2
-      goToHomePage.clickOnPlayButton3
+      assert(new SignUpPage(resolution).isAt, "is not sign up page")
     }
-    */
+
     "click on play button0. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(clickOnPlayButton0)
@@ -102,6 +108,12 @@ class HomeVisitorTest extends HomeTestCommon {
       callTest(clickOnPlayButton0)
     }
 
+    def clickOnPlayButton1(resolution:Resolution): Unit = {
+      goToHomePage.clickOnPlayButton1
+      if (resolution != Resolution.SMALL) {
+        assert(new SignUpPage(resolution).isAt, "is not sign up page")
+      }
+    }
 
     "click on play button1. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
@@ -116,6 +128,12 @@ class HomeVisitorTest extends HomeTestCommon {
       callTest(clickOnPlayButton1)
     }
 
+    def clickOnPlayButton2(resolution:Resolution): Unit = {
+      goToHomePage.clickOnPlayButton2
+      if (resolution != Resolution.SMALL) {
+        assert(new SignUpPage(resolution).isAt, "is not sign up page")
+      }
+    }
 
     "click on play button2. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
@@ -130,6 +148,12 @@ class HomeVisitorTest extends HomeTestCommon {
       callTest(clickOnPlayButton2)
     }
 
+    def clickOnPlayButton3(resolution:Resolution): Unit = {
+      goToHomePage.clickOnPlayButton3
+      if (resolution != Resolution.SMALL) {
+        assert(new SignUpPage(resolution).isAt, "is not sign up page")
+      }
+    }
 
     "click on play button3. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
@@ -142,28 +166,6 @@ class HomeVisitorTest extends HomeTestCommon {
     "click on play button3. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(clickOnPlayButton3)
-    }
-
-
-    "click on Help." in {
-      featureNotImplemented
-      // currently unabled
-      // check on home page and lobby page
-    }
-    "click on Legal." in {
-      featureNotImplemented
-      // currently unabled
-      // check on home page and lobby page
-    }
-    "click on Terms and Conditions." in {
-      featureNotImplemented
-      // currently unabled
-      // check on home page and lobby page
-    }
-    "click on Privacy Policy." in {
-      featureNotImplemented
-      // currently unabled
-      // check on home page and lobby page
     }
 
    }

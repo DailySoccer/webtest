@@ -3,14 +3,10 @@ package unusual.pages.components
 import unusual.model.Resolution
 import unusual.pages.SharedPage
 
-class ContestDescriptionWindow(res:Resolution) extends SharedPage {
-  val url = SharedPage.baseUrl
-  val resolution: Resolution = res
+class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
 
-  val TITLE   = "Daily Soccer"
-
-  def open = {
-    go to url
+  override def open = {
+    logger.error("Trying to open a control.")
     this
   }
 

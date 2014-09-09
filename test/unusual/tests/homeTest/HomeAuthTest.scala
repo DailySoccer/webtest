@@ -15,7 +15,7 @@ class HomeAuthTest extends HomeTestCommon {
 
     def goToHome(resolution:Resolution): Unit = {
       new HomePage(resolution).open
-      new LobbyPage(resolution).isAt
+      assert(new LobbyPage(resolution).isAt, "is not lobby page")
     }
 
     "go to home. System should go to lobby. B" taggedAs(BigResolution) in {

@@ -1,20 +1,33 @@
 package unusual.pages
 
 import unusual.model.Resolution
+import unusual.pages.components.{FooterBar, MenuBar}
 
-class HomePage(res:Resolution) extends SharedPage {
-  val url = SharedPage.baseUrl
-  val resolution: Resolution = res
+class HomePage(res:Resolution) extends SharedPage(res) {
 
+  val LOGIN_BUTTON  = "#loginButton"
+  val SIGNUP_BUTTON = "#joinButton"
 
-  val TITLE   = "Daily Soccer"
-  val LOGIN_ID  = "loginButton"
-  val SIGNUP_ID = "joinButton"
+  val PLAY_BUTTON_MOBILE = "#playButtonMobile"
+  val PLAY_BUTTON_1 = "#playButton1"
+  val PLAY_BUTTON_2 = "#playButton2"
+  val PLAY_BUTTON_3 = "#playButton3"
+  val PLAY_BUTTON_4 = "#playButton4"
 
-  def open = {
-    go to url
-    this
-  }
+  val SCREEN_1 = "#screen1"
+  val SCREEN_SEPARATOR_1 = SCREEN_1 + " + a"
+
+  val SCREEN_2 = "#screen2"
+  val SCREEN_2_URL = SharedPage.baseUrl + "/" + SCREEN_2
+  val SCREEN_SEPARATOR_2 = SCREEN_2 + " + a"
+
+  val SCREEN_3 = "#screen3"
+  val SCREEN_3_URL = SharedPage.baseUrl + "/" + SCREEN_3
+  val SCREEN_SEPARATOR_3 = SCREEN_3 + " + a"
+
+  val SCREEN_4 = "#screen4"
+  val SCREEN_4_URL = SharedPage.baseUrl + "/" + SCREEN_4
+
 
   override def isAt = {
     var _isAt = true
@@ -29,69 +42,76 @@ class HomePage(res:Resolution) extends SharedPage {
   }
 
   def clickOnLogin = {
-    click on id(LOGIN_ID)
+    val button = find(cssSelector(LOGIN_BUTTON))
+    if (button != None) {
+      click on button.get
+    }
   }
 
   def clickOnSignUp = {
-    click on id(SIGNUP_ID)
+    val button = find(cssSelector(SIGNUP_BUTTON))
+    if (button != None) {
+      click on button.get
+    }
   }
-
-  val PLAY_BUTTON_MOBILE = "playButtonMobile"
-  val PLAY_BUTTON_1 = "playButton1"
-  val PLAY_BUTTON_2 = "playButton2"
-  val PLAY_BUTTON_3 = "playButton3"
-  val PLAY_BUTTON_4 = "playButton4"
 
   def clickOnPlayButton0 = {
-    if (resolution == Resolution.SMALL) {
-      click on id(PLAY_BUTTON_MOBILE)
-    } else {
-      click on id(PLAY_BUTTON_1)
+    val strCss = if (resolution == Resolution.SMALL) PLAY_BUTTON_MOBILE else PLAY_BUTTON_1
+    val button = find(cssSelector(strCss))
+
+    if (button != None) {
+      click on button.get
     }
+
     this
   }
+
   def clickOnPlayButton1 = {
     if (resolution == Resolution.SMALL) {
       unavailableFunctionOnResolution("clickOnPlayButton1")
     } else {
-      click on id(PLAY_BUTTON_2)
+      val button = find(cssSelector(PLAY_BUTTON_2))
+      if (button != None) {
+        click on button.get
+      }
     }
     this
   }
+
   def clickOnPlayButton2 = {
     if (resolution == Resolution.SMALL) {
       unavailableFunctionOnResolution("clickOnPlayButton2")
     } else {
-      click on id (PLAY_BUTTON_3)
+      val button = find(cssSelector(PLAY_BUTTON_3))
+      if (button != None) {
+        click on button.get
+      }
     }
     this
   }
+
   def clickOnPlayButton3 = {
     if (resolution == Resolution.SMALL) {
       unavailableFunctionOnResolution("clickOnPlayButton3")
     } else {
-      click on id (PLAY_BUTTON_4)
+      val button = find(cssSelector(PLAY_BUTTON_4))
+      if (button != None) {
+        click on button.get
+      }
     }
     this
   }
 
-  /**** Internal Navigation ****/
-  val SCREEN_SEPARATOR_1_ID = "screenSeparator1"
-  val SCREEN_2_ID = "#screen2"
-  val SCREEN_2_URL = SharedPage.baseUrl + "/" + SCREEN_2_ID
-
-  val SCREEN_SEPARATOR_2_ID = "screenSeparator2"
-  val SCREEN_3_ID = "#screen3"
-  val SCREEN_3_URL = SharedPage.baseUrl + "/" + SCREEN_3_ID
-
-  val SCREEN_SEPARATOR_3_ID = "screenSeparator3"
-  val SCREEN_4_ID = "#screen4"
-  val SCREEN_4_URL = SharedPage.baseUrl + "/" + SCREEN_4_ID
+  /**************** Internal Navigation ****************/
 
   def clickOnScreenSeparator1 = {
     if (resolution != Resolution.SMALL) {
-      click on id(SCREEN_SEPARATOR_1_ID)
-      currentUrl should be(SCREEN_2_URL)
+      val button = find(cssSelector(SCREEN_SEPARATOR_1))
+      logger.debug("{" + SCREEN_SEPARATOR_1 + "} link exists", button != None)
+      logger.debug(button.get.toString)
+      if (button != None) {
+        click on button.get
+      }
     } else {
       unavailableFunctionOnResolution("clickOnScreenSeparator1")
     }
@@ -100,8 +120,10 @@ class HomePage(res:Resolution) extends SharedPage {
 
   def clickOnScreenSeparator2 = {
     if (resolution != Resolution.SMALL) {
-      click on id(SCREEN_SEPARATOR_2_ID)
-      currentUrl should be(SCREEN_3_URL)
+      val button = find(cssSelector(SCREEN_SEPARATOR_2))
+      if (button != None) {
+        click on button.get
+      }
     } else {
       unavailableFunctionOnResolution("clickOnScreenSeparator2")
     }
@@ -110,8 +132,10 @@ class HomePage(res:Resolution) extends SharedPage {
 
   def clickOnScreenSeparator3 = {
     if (resolution != Resolution.SMALL) {
-      click on id(SCREEN_SEPARATOR_3_ID)
-      currentUrl should be(SCREEN_4_URL)
+      val button = find(cssSelector(SCREEN_SEPARATOR_3))
+      if (button != None) {
+        click on button.get
+      }
     } else {
       unavailableFunctionOnResolution("clickOnScreenSeparator3")
     }

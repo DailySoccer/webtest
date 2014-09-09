@@ -1,6 +1,7 @@
 package unusual.model
 
 import unusual.pages._
+import unusual.pages.components.MenuBar
 
 
 class TestStatus {
@@ -32,7 +33,8 @@ class TestStatus {
   }
 
   private def doLogin : TestStatus = {
-    val login = new LoginPage(resolution).open
+    val login = new LoginPage(resolution)
+    login.open
     assert(login.isAt)
     login.doLogin(User.DEFAULT)
     _loggedIn = true

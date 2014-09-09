@@ -39,15 +39,15 @@ class EnterContestAuthTest extends EnterContestTestCommon {
       callTest(orderByPosition)
     }
 
-    "order by name. B" taggedAs(WIP, BigResolution) in {
+    "order by name. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(orderByName)
     }
-    "order by name. M" taggedAs(WIP, MediumResolution) in {
+    "order by name. M" taggedAs(MediumResolution) in {
       implicit val resolution:Resolution = Resolution.MEDIUM
       callTest(orderByName)
     }
-    "order by name. S" taggedAs(WIP, SmallResolution) in {
+    "order by name. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(orderByName)
     }
@@ -388,11 +388,6 @@ class EnterContestAuthTest extends EnterContestTestCommon {
     "pick very expensive line up. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(pickTooExpensiveLineUp)
-    }
-
-    def pickFailLineupAndCorrectIt(resolution:Resolution): Unit = {
-      super.pickFailLineupAndCorrectIt(resolution)
-      new LobbyPage(resolution).isAt
     }
 
     "pick very expensive line up. Then correct it to submit. B" taggedAs(BigResolution) in {

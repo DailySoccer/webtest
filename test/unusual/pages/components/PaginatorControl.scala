@@ -11,6 +11,11 @@ class PaginatorControl(res:Resolution, prefix: String) extends SharedPage(res) {
     isElemDisplayed(PAGER_BOX)
   }
 
+  override def open = {
+    logger.error("Trying to open a control.")
+    this
+  }
+
   def isDisplayed:Boolean = fastCountByCssSelector(PAGER_BOX + " .pagination") != 0
 
   def goToLastPage = {

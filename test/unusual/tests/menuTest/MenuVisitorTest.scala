@@ -51,6 +51,7 @@ class MenuVisitorTest extends MenuTestCommon {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(checkUserName)
     }
+
   }
 
   after {
