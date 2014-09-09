@@ -49,7 +49,7 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
   val FILTERS_PANEL_SEARCH_ID = "contestFastSearch"
 
   val FILTERS_PANEL = "#filtersPanel"
-  val FILTERS_PANEL_FILTER_FREE_CHECK = "filtroFree"
+  /*val FILTERS_PANEL_FILTER_FREE_CHECK = "filtroFree"
   val FILTERS_PANEL_FILTER_LEAGUE_CHECK = "filtroleague"
   val FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK = "filtroFiftyFifty"
   val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK = "filtroHeadToHead"

@@ -1,10 +1,9 @@
-package unusual.pages
+package unusual.pages.components
 
 import unusual.model.Resolution
+import unusual.pages.SharedPage
 
-class PaginatorControl(res:Resolution, prefix: String) extends SharedPage {
-  val url = SharedPage.baseUrl
-  val resolution: Resolution = res
+class PaginatorControl(res:Resolution, prefix: String) extends SharedPage(res) {
 
   val PAGER_BOX = prefix + " .paginator-box"
 
@@ -86,20 +85,4 @@ class PaginatorControl(res:Resolution, prefix: String) extends SharedPage {
     curr
   }
 
-  /*
-  Fernando Muslera - fer
-
-  Jose maria Gimenez - gim
-  Santiago arias - san
-  Matthew Spiranovic - spira
-  Jorge Fucile - fuc
-
-  Marcelo Diaz - marce
-  Francisco Silva - francisco
-  Lazaros Christodoul - laza
-  Andreas samaris - andre
-
-  Luis Suarez - lui
-  Jackson Martinez - jack
-  */
 }

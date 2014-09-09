@@ -1,6 +1,7 @@
-package unusual.pages
+package unusual.pages.components
 
 import unusual.model.Resolution
+import unusual.pages.SharedPage
 
 class FooterBar(res:Resolution) extends SharedPage {
   val url = SharedPage.baseUrl

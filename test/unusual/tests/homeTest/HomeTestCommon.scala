@@ -22,9 +22,13 @@ class HomeTestCommon extends SharedTest {
   }
 
   def goThroughScreenSeparatorLinks(resolution:Resolution): Unit = {
-    goToHomePage.clickOnScreenSeparator1
-                .clickOnScreenSeparator2
-                .clickOnScreenSeparator3
+    val home = goToHomePage
+    home.clickOnScreenSeparator1
+    currentUrl must be(home.SCREEN_2_URL)
+    home.clickOnScreenSeparator2
+    currentUrl must be(home.SCREEN_3_URL)
+    home.clickOnScreenSeparator3
+    currentUrl must be(home.SCREEN_4_URL)
     new HomePage(resolution).isAt
   }
 

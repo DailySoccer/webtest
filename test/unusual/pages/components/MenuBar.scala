@@ -1,6 +1,7 @@
-package unusual.pages
+package unusual.pages.components
 
-import unusual.model.{User, Resolution}
+import unusual.model.Resolution
+import unusual.pages.{HomePage, LobbyPage, MyContestsPage, SharedPage}
 
 class MenuBar(res:Resolution) extends SharedPage {
 
