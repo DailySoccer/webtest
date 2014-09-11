@@ -451,6 +451,16 @@ class EnterContestTestCommon extends SharedTest {
     //page.clearLineupList.getLineUpSalary must be (INITIAL_SALARY)
   }
 
+  def tryToConfirmMultipleTimes(resolution:Resolution):Unit = {
+    val page = goToEnterContest("540d4d1430045601813966ff")
+
+    pickWholeLineup_Cheap(resolution)
+
+    page.manyClicksOnConfirm
+
+    Thread.sleep(15000)
+  }
+
   def knownBugSequence_DuplicatedPlayersAtDeleteAll(resolution:Resolution):Unit = {
     val page = goToEnterContest()
     var playerOnList:SoccerPlayer = null

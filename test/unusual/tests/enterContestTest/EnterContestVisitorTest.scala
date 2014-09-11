@@ -9,7 +9,7 @@ class EnterContestVisitorTest extends EnterContestTestCommon {
    before {
      status.ensureVisitor
    }
-
+/*
    "Visitor" must {
 
      def goToEnterContest(resolution:Resolution): Unit = {
@@ -31,6 +31,10 @@ class EnterContestVisitorTest extends EnterContestTestCommon {
        implicit val resolution:Resolution = Resolution.SMALL
        callTest(goToEnterContest)
      }
+
+
+
+
 
 /*
      "look at default state. B" taggedAs(BigResolution) in {
@@ -482,7 +486,7 @@ class EnterContestVisitorTest extends EnterContestTestCommon {
      }
 */
    }
-
+*/
    after {
    }
  }

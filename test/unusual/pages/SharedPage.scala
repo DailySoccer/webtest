@@ -72,6 +72,15 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
     _isDisplayed
   }
 
+  protected def existsElem(cssSel: String): Boolean = {
+    val elem = find(cssSelector(cssSel))
+
+    var exists = elem != None
+    logger.debug("{" + cssSel + "} exists", exists)
+
+    exists
+  }
+
 
 }
 
@@ -83,5 +92,4 @@ object SharedPage {
     url
   }
   var isLocalHost = scala.util.Properties.envOrNone("URL").isDefined
-
 }

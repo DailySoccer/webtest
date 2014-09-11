@@ -321,10 +321,6 @@ class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813
     this
   }
 
-  def manyClicksOnAddSoccer(index: Int) = {
-    fastClicksByCssSelector(4, SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(index))
-  }
-
   def setSoccerPlayerNameFilterSearch(name:String) = {
     textField(cssSelector(FILTER_SOCCER_PLAYER_NAME)).value = name
     this
@@ -354,6 +350,15 @@ class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813
     eventually { click on find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT(index))).get }
     this
   }
+
+  def manyClicksOnAddSoccer(index: Int) = {
+    fastClicksByCssSelector(4, SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(index))
+  }
+
+  def manyClicksOnConfirm = {
+    fastClicksByCssSelector(4, BUTTON_CONFIRM_LINEUP)
+  }
+
 
   /**
    * Aunque el usuario no ve una clase, si ve el color de fondo y

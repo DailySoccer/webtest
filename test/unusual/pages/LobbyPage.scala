@@ -5,7 +5,7 @@ import org.openqa.selenium.By.ByCssSelector
 import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.interactions.Action
 import unusual.model._
-import unusual.pages.components.{FooterBar, PaginatorControl, MenuBar}
+import unusual.pages.components.{ContestDescriptionWindow, FooterBar, PaginatorControl, MenuBar}
 
 import scala.util.control.Exception
 
@@ -25,6 +25,7 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
   val PROMOS_COMPONENT = "#promosComponent"
   val CONTEST_LIST_CONTAINER = ".contests-list-root"
   val CONTEST_ROW_CONTAINER = ".contest-row"
+  def CONTEST_ROW_CONTAINER(ordinal:Int):String = CONTEST_ROW_CONTAINER + ":nth-child(" + ordinal + ")"
 
   //val CONTEST_COLUMN_NAME = ".column-contest-name"
   //val CONTEST_NAME = ".column-name"
@@ -40,8 +41,9 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
   //val CONTEST_COLUMN_ACTION = ".column-contest-action"
 
 
-  def CONTEST_ROW_PLAY_BUTTON(ordinal:Int):String = CONTEST_ROW_CONTAINER + ":nth-child(" + ordinal + ") .column-contest-action button"
-  def CONTEST_ROW_FEE(ordinal:Int):String = CONTEST_ROW_CONTAINER + ":nth-child(" + ordinal + ") .column-contest-price .column-contest-price-content span"
+  def CONTEST_ROW_PLAY_BUTTON(ordinal:Int):String = CONTEST_ROW_CONTAINER(ordinal) + " .column-contest-action button"
+  def CONTEST_ROW_FEE(ordinal:Int):String = CONTEST_ROW_CONTAINER(ordinal) + " .column-contest-price .column-contest-price-content span"
+  def CONTEST_ROW_NAME(ordinal:Int):String = CONTEST_ROW_CONTAINER(ordinal) + " .column-contest-name .column-name"
 
 
   /**************** FILTERS CONSTANTS ****************/
@@ -318,10 +320,10 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
     areBetween
   }
 
-  def areContestsOrderedByName(): Boolean = {
+  def areContestsOrderedByName: Boolean = {
     val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
     val pagesCount = paginator.getNumberOfPages
-    var areOrdered = fastLobby_ContestAreOrderedByName
+    var areOrdered: Boolean = fastLobby_ContestAreOrderedByName
 
     scala.util.control.Breaks.breakable {
       for (i <- 1 to pagesCount) {
@@ -334,7 +336,7 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
     areOrdered
   }
 
-  def areContestsOrderedByEntryFee(): Boolean = {
+  def areContestsOrderedByEntryFee: Boolean = {
     val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
     val pagesCount = paginator.getNumberOfPages
     var areOrdered = fastLobby_ContestAreOrderedByEntryFee
@@ -350,7 +352,7 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
     areOrdered
   }
 
-  def areContestsOrderedByStartTime(): Boolean = {
+  def areContestsOrderedByStartTime: Boolean = {
     val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
     val pagesCount = paginator.getNumberOfPages
     var areOrdered = fastLobby_ContestAreOrderedByStartTime
@@ -404,6 +406,20 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
 
     // return
     (pages - 1) * ROWS_PER_PAGE + lastPageRows
+  }
+
+  def openContestDescription(idx:Int) = {
+
+    val page:Int = (Math.floor(idx/10) + 1).toInt
+    new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).goToPage(page)
+    val row:Int = ((idx-1) % 10) + 1
+
+    isElemDisplayed(CONTEST_ROW_NAME(row))
+    val elem = find(cssSelector( CONTEST_ROW_NAME(row) )).get
+    click on elem
+
+    this
+
   }
 
   /**************** PRIVATE METHODS ****************/

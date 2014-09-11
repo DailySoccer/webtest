@@ -10,10 +10,45 @@ class EnterContestAuthTest extends EnterContestTestCommon {
     status.ensureAuthUser
   }
 
+  //def provide =
+/*
+  "Auth user" when {
+    "put big state" must {
+      implicit val resolution: Resolution = Resolution.BIG
+
+      "look at default state" taggedAs(BigResolution) in {
+        callTest(checkDefaultState)
+      }
+
+      "order by position" taggedAs(BigResolution) in {
+        callTest(orderByPosition)
+      }
+
+    }
+
+    "put medium state" must {
+      implicit val resolution: Resolution = Resolution.MEDIUM
+
+      "asd" taggedAs (WIP, MediumResolution) in {
+        callTest((resolution) => logger.error(resolution + ""))
+      }
+
+    }
+
+    "put medium state" must {
+      implicit val resolution: Resolution = Resolution.MEDIUM
+
+      "asd" taggedAs (WIP, MediumResolution) in {
+        callTest((resolution) => logger.error(resolution + ""))
+      }
+
+    }
+  }
+*/
   "Auth user" must {
 
 
-    "look at default state. B" taggedAs(BigResolution) in {
+    "look at default state" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(checkDefaultState)
     }
@@ -453,6 +488,19 @@ class EnterContestAuthTest extends EnterContestTestCommon {
     "check known bug sequence: add a forward as goalkeeper. S" taggedAs(SmallResolution) in {
       implicit val resolution:Resolution = Resolution.SMALL
       callTest(knownBugSequence_AddForwardAsGoalKeeper)
+    }
+
+    "try to confirm multiple times. B" taggedAs(BigResolution) in {
+      implicit val resolution:Resolution = Resolution.BIG
+      callTest(tryToConfirmMultipleTimes)
+    }
+    "try to confirm multiple times. M" taggedAs(MediumResolution) in {
+      implicit val resolution:Resolution = Resolution.MEDIUM
+      callTest(tryToConfirmMultipleTimes)
+    }
+    "try to confirm multiple times. S" taggedAs(SmallResolution) in {
+      implicit val resolution:Resolution = Resolution.SMALL
+      callTest(tryToConfirmMultipleTimes)
     }
 
   }
