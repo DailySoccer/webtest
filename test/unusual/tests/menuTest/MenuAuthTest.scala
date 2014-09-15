@@ -12,6 +12,41 @@ class MenuAuthTest extends MenuTestCommon {
     status.ensureAuthUser
   }
 
+  "Auth User in User Menu" when {
+    behave like sizeTesting(userMenuBehavior)
+  }
+
+  "Auth User in Game Menu" when {
+    behave like sizeTesting(userMenuBehavior)
+  }
+
+  def userMenuBehavior(res:Resolution): Unit = {
+    implicit val resolution: Resolution = res
+
+    "log out from lobby" in doLogout
+
+    "look at his name. User name at menu should be ok" in checkUserName
+
+    "go through user menu links" in featureNotImplemented
+  }
+
+  def gameMenuBehavior(res:Resolution): Unit = {
+    implicit val resolution: Resolution = res
+
+    "go to my contests from lobby" in goToMyContestsFromLobby
+
+    "go to game promos from lobby" in goToGamePromosFromLobby
+
+    "go to game promos from my contests" in goToGamePromosFromMyContests
+
+    "go to lobby from my contests" in goToLobbyFromMyContests
+
+    "go to lobby from game promos" in goToLobbyFromGamePromos
+
+    "go to my contests from game promos" in goToMyContestsFromGamePromos
+  }
+
+/*
   "Auth User in User Menu" must{
 
     "loggout from lobby. B" taggedAs(BigResolution) in {
@@ -154,6 +189,7 @@ class MenuAuthTest extends MenuTestCommon {
     }
 
   }
+*/
 
   after {
   }

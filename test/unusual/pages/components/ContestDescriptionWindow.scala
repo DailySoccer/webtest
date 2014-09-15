@@ -1,7 +1,7 @@
 package unusual.pages.components
 
 import unusual.model.Resolution
-import unusual.pages.SharedPage
+import unusual.pages.{components, SharedPage}
 
 class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
 
@@ -11,7 +11,14 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
   val HEADER = CONTENT + " .modal-info-head"
   val BODY = CONTENT + " .modal-info-content"
 
-  val TAB_ACTIVE = " .active"
+  val TAB_ACTIVE = ".active"
+  val TAB_LINK:Map[String, String] = Map[String, String](
+    ContestDescriptionWindow.INFO_TAB -> (ContestDescriptionWindow.INFO_TAB + " a"),
+    ContestDescriptionWindow.CONTESTANTS_TAB -> (ContestDescriptionWindow.CONTESTANTS_TAB + " a"),
+    ContestDescriptionWindow.PRIZES_TAB -> (ContestDescriptionWindow.PRIZES_TAB + " a")
+  )
+  val CONTESTANTS_TAB_LINK = ContestDescriptionWindow.CONTESTANTS_TAB + " a"
+  val PRIZES_TAB_LINK      = ContestDescriptionWindow.PRIZES_TAB + " a"
 
   val INFO_PANE = ".matches-involved"
   val INFO_PANE_MATCH = INFO_PANE + " .match"
@@ -64,7 +71,7 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
         tab == ContestDescriptionWindow.CONTESTANTS_TAB ||
         tab == ContestDescriptionWindow.PRIZES_TAB) {
       if (isElemDisplayed(tab)) {
-        click on find(cssSelector(tab)).get
+        click on find(cssSelector(TAB_LINK(tab))).get
       } else {
         fail(tab + " is not displayed")
       }

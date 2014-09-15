@@ -7,10 +7,11 @@ import unusual.UnusualLogger
 import unusual.model._
 import unusual.pages._
 import org.scalatest.time._
+import unusual.testTags.scala.WIP
 
-class SharedTest extends PlaySpec
-    with OneServerPerSuite with OneBrowserPerSuite with SauceLabsFactory
-    with BeforeAndAfter with BeforeAndAfterAll with SpanSugar {
+class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
+    with SauceLabsFactory with BeforeAndAfter with BeforeAndAfterAll
+    with BeforeAndAfterEach with SpanSugar with GivenWhenThen {
 
   var status:TestStatus = new TestStatus
   var logger:UnusualLogger = {
@@ -21,13 +22,13 @@ class SharedTest extends PlaySpec
 
 
   override def beforeAll {
-    //println("Before!")  // start up your web server or whatever
+    println("========= BEFORE ALL!")  // start up your web server or whatever
     SharedPage.driver = webDriver
     status.setDefault
   }
 
   override def afterAll {
-    //println("After!")  // shut down the web server
+    println("========= AFTER ALL!") // shut down the web server
     webDriver.quit
   }
 
@@ -91,21 +92,59 @@ class SharedTest extends PlaySpec
     this
   }
 
-  def changeBrowserResolution()(implicit res: Resolution) {
+  def changeBrowserResolution(res: Resolution) {
     webDriver.manage().window().setSize(new org.openqa.selenium.Dimension(res.width, res.height));
   }
-
+/*
   def explicitChangeBrowserResolution(res: Resolution) {
     webDriver.manage().window().setSize(new org.openqa.selenium.Dimension(res.width, res.height));
   }
+*/
+  override def beforeEach() {
+    //implicit val resolution: Resolution = status.resolution
+    logger.debug("Changing browser resolution: " + status.resolution)
+    changeBrowserResolution(status.resolution)
+    //reloadPage
+  }
 
+  def sizeTesting(behavior: (Resolution) => Unit) = {
+    "use DESKTOP device" must {
+      val resolution:Resolution = Resolution.BIG
+
+      "stablish browser resolution" taggedAs(WIP) in {
+        status.resolution = resolution
+      }
+
+      behave like behavior(resolution)
+    }
+
+    "use TABLET device" must {
+      val resolution:Resolution = Resolution.MEDIUM
+
+      "stablish browser resolution" taggedAs(WIP) in {
+        status.resolution = resolution
+      }
+
+      behave like behavior(resolution)
+    }
+
+    "use SMARTPHONE device" must {
+      val resolution:Resolution = Resolution.SMALL
+
+      "stablish browser resolution" taggedAs(WIP) in {
+        status.resolution = resolution
+      }
+
+      behave like behavior(resolution)
+    }
+  }
+/*
   def callTest(test: (Resolution) => Unit)(implicit resolution:Resolution) = {
     status.resolution = resolution
     changeBrowserResolution
-    logger.info(resolution + "...")
+    reloadPage
     test(resolution)
-    logger.info(resolution + " OK.")
     this
   }
-
+*/
 }

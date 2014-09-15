@@ -1,7 +1,7 @@
 package unusual.tests.homeTest
 
 import unusual.model.Resolution
-import unusual.pages.{LoginPage, SignUpPage}
+import unusual.pages.{HomePage, EnterContestPage, LoginPage, SignUpPage}
 import unusual.testTags.scala.{BigResolution, MediumResolution, SmallResolution, WIP}
 
 class HomeVisitorTest extends HomeTestCommon {
@@ -10,12 +10,35 @@ class HomeVisitorTest extends HomeTestCommon {
     status.ensureVisitor
   }
 
-  "As visitor" must {
+  "Auth user" when sizeTesting(homeBehavior)
 
-    def goToHome(resolution:Resolution): Unit = {
-      goToHomePage
+  def homeBehavior(res:Resolution): Unit = {
+    implicit val resolution: Resolution = res
+
+    "go to home" in goToHomePage
+
+    "go to sign up" in goToHomeAndSignUp
+
+    "go to login" in goToHomeAndLogin
+
+    "go down through screen separator links" in goThroughScreenSeparatorLinks
+
+    "click on play button" which {
+
+      "is #0" in clickOnPlayButton0
+
+      "is #1" in clickOnPlayButton1
+
+      "is #2" in clickOnPlayButton2
+
+      "is #3" in clickOnPlayButton3
     }
 
+  }
+
+
+/*
+  "As visitor" must {
     "go to home. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(goToHome)
@@ -169,6 +192,7 @@ class HomeVisitorTest extends HomeTestCommon {
     }
 
    }
+*/
 
    after {
    }

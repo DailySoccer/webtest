@@ -1,8 +1,7 @@
 package unusual.tests.enterContestTest
 
 import unusual.model._
-import unusual.pages._
-import unusual.testTags.scala._
+import unusual.testTags.scala.WIP
 
 class EnterContestAuthTest extends EnterContestTestCommon {
 
@@ -10,41 +9,106 @@ class EnterContestAuthTest extends EnterContestTestCommon {
     status.ensureAuthUser
   }
 
-  //def provide =
-/*
-  "Auth user" when {
-    "put big state" must {
-      implicit val resolution: Resolution = Resolution.BIG
+  def orderBy = afterWord("ORDER BY")
+  def filterBy = afterWord("FILTER BY")
+  def causes = afterWord("causes:")
 
-      "look at default state" taggedAs(BigResolution) in {
-        callTest(checkDefaultState)
-      }
+  "Auth user" when sizeTesting(enterContestPageBehavior)
 
-      "order by position" taggedAs(BigResolution) in {
-        callTest(orderByPosition)
-      }
 
+  def enterContestPageBehavior(res:Resolution): Unit = {
+    implicit val resolution:Resolution = res
+
+    "look at default state" in checkDefaultState
+
+    "use headers" which orderBy {
+
+      "position" in orderByPosition
+
+      "name" in orderByName
+
+      "DFP" in orderByDFP
+
+      "played" in orderByPlayed
+
+      "salary" in orderBySalary
     }
 
-    "put medium state" must {
-      implicit val resolution: Resolution = Resolution.MEDIUM
+    "use filters" which filterBy {
 
-      "asd" taggedAs (WIP, MediumResolution) in {
-        callTest((resolution) => logger.error(resolution + ""))
-      }
+      "(soccer) GoalKeepers" in filterByGoalKeeper
 
+      "(soccer) Defense" in filterByDefense
+
+      "(soccer) Middle" in filterByMiddle
+
+      "(soccer) Forward" in filterByForward
+
+      "(soccer) All" in filterByAll
+
+
+      "(match) All" in filterByMatch_None
+
+      "(match) Cle-Aus" in filterByMatch_CleAus
+
+      "(match) Col-Grc" in filterByMatch_ColGrc
+
+      "(match) Ury-Cri" in filterByMatch_UryCri
+
+
+      "GoalKeeper and Ury-Cri" in filterMix_GoalKeeper_UryCri
+
+      "GoalKeeper and Cle-Aus" in filterMix_GoalKeeper_CleAus
+
+      "Defense and Ury-Cri" in filterMix_Defense_UryCri
+
+      "Middle and Cle-Aus" in filterMix_Middle_CleAus
+
+      "Forward and Col-Grc" in filterMix_Forward_ColGrc
     }
 
-    "put medium state" must {
-      implicit val resolution: Resolution = Resolution.MEDIUM
+    "use lineup elements" which filterBy {
 
-      "asd" taggedAs (WIP, MediumResolution) in {
-        callTest((resolution) => logger.error(resolution + ""))
-      }
+      "GoalKeeper" in selectGoalKeeper
 
+      "Defense" in selectDefense
+
+      "Middle" in selectMiddle
+
+      "Forward" in selectForward
+
+      "Random" in multipleRandomSelection
     }
+
+    "pick soccer players from list" which {
+
+      "add first goal keeper" in addFirstGoalKeeperFromList
+
+      "add fourth defense" in addFourthDefenseFromList
+
+      "fill whole lineup, then clear it" in pickAndClearWholeLineup
+
+      "fill with priceless lineup" in pickTooExpensiveLineUp
+
+      "fill with priceless lineup. Then correct it to submit" in pickFailLineupAndCorrectIt
+    }
+
+    "perform known BUG SEQUENCE" which causes {
+
+      "Duplicated players at delete all" in knownBugSequence_DuplicatedPlayersAtDeleteAll
+
+      "Duplicated players at insert" in knownBugSequence_DuplicatedPlayersAtInsert
+
+      "Disappeared players" in knownBugSequence_DisappearedPlayers
+
+      "Add a forward as goalkeeper" in knownBugSequence_AddForwardAsGoalKeeper
+
+      //"Try to confirm multiple times" in tryToConfirmMultipleTimes
+    }
+
   }
-*/
+
+/*
   "Auth user" must {
 
 
@@ -308,6 +372,7 @@ class EnterContestAuthTest extends EnterContestTestCommon {
       callTest(filterByMatch_UryCri)
     }
 
+
     "mix filter GoalKeeper Ury-Cri. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(filterMix_GoalKeeper_UryCri)
@@ -412,6 +477,7 @@ class EnterContestAuthTest extends EnterContestTestCommon {
       callTest(pickAndClearWholeLineup)
     }
 
+
     "pick very expensive line up. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(pickTooExpensiveLineUp)
@@ -490,6 +556,7 @@ class EnterContestAuthTest extends EnterContestTestCommon {
       callTest(knownBugSequence_AddForwardAsGoalKeeper)
     }
 
+
     "try to confirm multiple times. B" taggedAs(BigResolution) in {
       implicit val resolution:Resolution = Resolution.BIG
       callTest(tryToConfirmMultipleTimes)
@@ -504,8 +571,7 @@ class EnterContestAuthTest extends EnterContestTestCommon {
     }
 
   }
-
-
+*/
 
    after {
    }

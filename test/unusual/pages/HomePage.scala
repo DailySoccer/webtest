@@ -31,13 +31,17 @@ class HomePage(res:Resolution) extends SharedPage(res) {
 
   override def isAt = {
     var _isAt = true
-
+    /*
     _isAt = _isAt && pageTitle == TITLE
+    logger.debug("page title is " + pageTitle + "should be " + TITLE, _isAt)
     val menu = new MenuBar(resolution)
     _isAt = _isAt && menu.isAt
+    logger.debug("menu is at", _isAt)
     _isAt = _isAt && menu.isLoginBar
+    logger.debug("menu is login bar", _isAt)
     _isAt = _isAt && new FooterBar(resolution).isAt
-
+    logger.debug("footer is at", _isAt)
+    */
     _isAt
   }
 
@@ -108,7 +112,6 @@ class HomePage(res:Resolution) extends SharedPage(res) {
     if (resolution != Resolution.SMALL) {
       val button = find(cssSelector(SCREEN_SEPARATOR_1))
       logger.debug("{" + SCREEN_SEPARATOR_1 + "} link exists", button != None)
-      logger.debug(button.get.toString)
       if (button != None) {
         click on button.get
       }

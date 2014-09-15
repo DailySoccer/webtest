@@ -10,8 +10,8 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
   val LOGIN_ID  = "loginButton"
   val SIGN_UP_ID = "joinButton"
 
-  val MENU_ROOT = "#mainMenuRoot"
-  val BRAND_LINK = MENU_ROOT + " .navbar-brand-container a"
+  val MENU_ROOT = "#mainMenu"
+  val BRAND_LINK = MENU_ROOT + " .navbar-brand"
 
   val ADD_MONEY_BUTTON = "addMoney"
 

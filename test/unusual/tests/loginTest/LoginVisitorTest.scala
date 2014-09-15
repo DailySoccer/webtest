@@ -2,7 +2,7 @@ package unusual.tests.loginTest
 
 import unusual.model.Resolution
 import unusual.pages._
-import unusual.testTags.scala.{BigResolution, DoesNotWorkYet, MediumResolution, SmallResolution}
+import unusual.testTags.scala._
 import unusual.tests._
 
 class LoginVisitorTest extends LoginTestCommon {
@@ -20,10 +20,28 @@ class LoginVisitorTest extends LoginTestCommon {
      "password" -> "private"
    )
 */
-   before {
-     status.ensureVisitor
-   }
+  before {
+    status.ensureVisitor
+  }
 
+  "Auth user" when {
+    behave like sizeTesting(loginBehavior)
+  }
+
+  def loginBehavior(res:Resolution): Unit = {
+    implicit val resolution: Resolution = res
+
+    "sign up" taggedAs(WIP, DoesNotWorkYet) in {
+      featureNotImplemented
+    }
+
+    "right login" taggedAs(WIP) in {
+      doLogin
+    }
+
+  }
+
+  /*
   "Visitor" must {
     /*
      def doRightSignUp(resolution:Resolution): Unit = {
@@ -68,7 +86,8 @@ class LoginVisitorTest extends LoginTestCommon {
 
   }
 
+*/
 
-   after {
-   }
+  after {
+  }
  }

@@ -11,6 +11,23 @@ class LobbyVisitorTest extends LobbyTestCommon {
     status.ensureVisitor
   }
 
+  "As visitor" when {
+    behave like sizeTesting(lobbyBehavior)
+  }
+
+  def lobbyBehavior(res:Resolution): Unit = {
+    implicit val resolution: Resolution = res
+
+    "try to go to lobby. Page should redirect to home" taggedAs(DoesNotWorkYet) in {
+      val lobby = new LobbyPage(resolution).open
+      val home = new HomePage(resolution)
+      lobby.open
+      assert(home.isAt, "Is not at home.")
+    }
+
+  }
+
+/*
   "As visitor" must {
 
     def goToLobby(resolution:Resolution): Unit = {
@@ -325,5 +342,6 @@ class LobbyVisitorTest extends LobbyTestCommon {
 
 
   }
+*/
 
 }

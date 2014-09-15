@@ -85,7 +85,9 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
     var _isAt = true
 
     _isAt = new MenuBar(resolution).isAt
+    logger.debug("Menu bar: ", _isAt)
     _isAt = _isAt && new FooterBar(resolution).isAt
+    logger.debug("Footer bar: ", _isAt)
 
     _isAt = _isAt && (currentUrl == url || currentUrl == SharedPage.baseUrl)
     logger.debug("URL is " + currentUrl + ", should be " + url, _isAt)
