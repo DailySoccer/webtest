@@ -6,7 +6,7 @@ You need first to prepare both backend and webclient projects. If you want to te
 Afterwards, when you can access the project through http://localhost:9000 or any local URL reachable by a normal web
 browser, you need to install Selenium's firefox webdriver or chrome webdriver.
 
-For firefox, sbt downloads every needed lib and scalatest contects to firefox.
+For firefox, sbt downloads every needed lib and scalatest connects to firefox.
 
 For the second one, "brew install chromedriver" works like a charm.
 
