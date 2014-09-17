@@ -9,7 +9,7 @@ import unusual.pages.components.{ContestDescriptionWindow, PaginatorControl}
 import unusual.testTags.scala._
 import unusual.tests._
 import unusual.pages._
-import unusual.tests.commonTests.ContestDescriptionCommon
+import unusual.tests.contestDescriptionTest.ContestDescriptionCommon
 
 class LobbyTestCommon extends SharedTest {
 
@@ -35,11 +35,11 @@ class LobbyTestCommon extends SharedTest {
   val MAX_PAGINATOR_PAGE = 19
 
 
-  def goToLobby(resolution:Resolution): Unit = {
+  def goToLobby(implicit resolution:Resolution): Unit = {
     assert(goToLobbyPage.isDefaultState(N_CONTESTS_NO_FILTER))
   }
 
-  def changeResolutionTests(resolution:Resolution): Unit = {
+  def changeResolutionTests(implicit resolution:Resolution): Unit = {
     val isDefaultSmall = () => new LobbyPage(Resolution.SMALL).isDefaultState(N_CONTESTS_NO_FILTER)
     val isDefaultMedium = () => new LobbyPage(Resolution.MEDIUM).isDefaultState(N_CONTESTS_NO_FILTER)
     val isDefaultBig = () => new LobbyPage(Resolution.BIG).isDefaultState(N_CONTESTS_NO_FILTER)
@@ -50,20 +50,20 @@ class LobbyTestCommon extends SharedTest {
       assert(isDefaultBig(), "Big is not default state")
 
       reloadPage
-      explicitChangeBrowserResolution(Resolution.MEDIUM)
+      changeBrowserResolution(Resolution.MEDIUM)
       assert(isDefaultMedium(), "From big to medium")
 
 
-      explicitChangeBrowserResolution(Resolution.BIG)
+      changeBrowserResolution(Resolution.BIG)
       reloadPage
-      explicitChangeBrowserResolution(Resolution.MEDIUM)
-      explicitChangeBrowserResolution(Resolution.SMALL)
+      changeBrowserResolution(Resolution.MEDIUM)
+      changeBrowserResolution(Resolution.SMALL)
       assert(isDefaultSmall(), "From big to medium to small")
 
 
-      explicitChangeBrowserResolution(Resolution.BIG)
+      changeBrowserResolution(Resolution.BIG)
       reloadPage
-      explicitChangeBrowserResolution(Resolution.SMALL)
+      changeBrowserResolution(Resolution.SMALL)
       assert(isDefaultSmall(), "From big to small")
 
     } else if (resolution == Resolution.MEDIUM) {
@@ -72,13 +72,13 @@ class LobbyTestCommon extends SharedTest {
       assert(isDefaultMedium(), "Medium is not default state")
 
       reloadPage
-      explicitChangeBrowserResolution(Resolution.BIG)
+      changeBrowserResolution(Resolution.BIG)
       assert(isDefaultMedium(), "From medium to big")
 
 
-      explicitChangeBrowserResolution(Resolution.MEDIUM)
+      changeBrowserResolution(Resolution.MEDIUM)
       reloadPage
-      explicitChangeBrowserResolution(Resolution.SMALL)
+      changeBrowserResolution(Resolution.SMALL)
       assert(isDefaultSmall(), "From medium to small")
 
     } else {
@@ -87,26 +87,26 @@ class LobbyTestCommon extends SharedTest {
       assert(isDefaultSmall(), "Small is not default state")
 
       reloadPage
-      explicitChangeBrowserResolution(Resolution.MEDIUM)
+      changeBrowserResolution(Resolution.MEDIUM)
       assert(isDefaultMedium(), "From small to medium")
 
 
-      explicitChangeBrowserResolution(Resolution.SMALL)
+      changeBrowserResolution(Resolution.SMALL)
       reloadPage
-      explicitChangeBrowserResolution(Resolution.MEDIUM)
-      explicitChangeBrowserResolution(Resolution.BIG)
+      changeBrowserResolution(Resolution.MEDIUM)
+      changeBrowserResolution(Resolution.BIG)
       assert(isDefaultBig(), "From small to medium to big")
 
 
-      explicitChangeBrowserResolution(Resolution.SMALL)
+      changeBrowserResolution(Resolution.SMALL)
       reloadPage
-      explicitChangeBrowserResolution(Resolution.BIG)
+      changeBrowserResolution(Resolution.BIG)
       assert(isDefaultBig(), "From small to big")
 
     }
   }
 
-  def checkClearFiltersButton(resolution:Resolution): Unit = {
+  def checkClearFiltersButton(implicit resolution:Resolution): Unit = {
     val page = goToLobbyPage.clickOnMenuAllContests
                             .clickOnMenuFreeContests
 
@@ -127,56 +127,56 @@ class LobbyTestCommon extends SharedTest {
     page.getNumberOfContests must be(N_CONTESTS_NO_FILTER)
   }
 
-  def lookAtContestDescription(resolution:Resolution): Unit = {
+  def lookAtContestDescription(implicit resolution:Resolution): Unit = {
     if (resolution == Resolution.BIG){
       val page = goToLobbyContest.openContestDescription(1)
-      val desc = new ContestDescriptionWindow(resolution)
+      val description = new ContestDescriptionWindow(resolution)
 
-      assert(desc.isAt)
-      desc.close
-      assert(!desc.isAt)
+      assert(description.isAt)
+      description.close
+      assert(!description.isAt)
 
       page.openContestDescription(N_CONTESTS_NO_FILTER)
-      assert(desc.isAt)
-      desc.close
-      assert(!desc.isAt)
+      assert(description.isAt)
+      description.close
+      assert(!description.isAt)
 
     } else {
       featureNotTestableInResolution
     }
   }
 
-  def lookForDefaultContests(resolution:Resolution): Unit = {
+  def lookForDefaultContests(implicit resolution:Resolution): Unit = {
     goToLobbyContest.getNumberOfContests must be(N_CONTESTS_NO_FILTER)
   }
 
-  def filterByFreeContests(resolution:Resolution): Unit = {
+  def filterByFreeContests(implicit resolution:Resolution): Unit = {
     goToLobbyContest.clickFreeContestFilter
                  .getNumberOfContests must be(N_CONTESTS_FREE)
   }
 
-  def filterByLeagueContests(resolution:Resolution): Unit = {
+  def filterByLeagueContests(implicit resolution:Resolution): Unit = {
     goToLobbyContest.clickLeagueContestFilter
                  .getNumberOfContests must be(N_CONTESTS_LEAGUE)
   }
 
-  def filterByFiftyFiftyContests(resolution:Resolution): Unit = {
+  def filterByFiftyFiftyContests(implicit resolution:Resolution): Unit = {
     goToLobbyContest.clickFiftyFiftyContestsFilter
                  .getNumberOfContests must be(N_CONTESTS_FIFTY_FIFTY)
   }
 
-  def filterByHeadToHeadContests(resolution:Resolution): Unit = {
+  def filterByHeadToHeadContests(implicit resolution:Resolution): Unit = {
     goToLobbyContest.clickHeadToHeadContestsFilter
                  .getNumberOfContests must be(N_CONTESTS_HEAD_TO_HEAD)
   }
 
-  def filterByEntryFee(resolution:Resolution): Unit = {
+  def filterByEntryFee(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest
     page.setEntryFeeFilter(MIN_ENTRY_FEE_FILTER, page.MAX_ENTRY_MONEY)
         .getNumberOfContests must be(N_CONTESTS_ENTRY_FEE)
   }
 
-  def checkEntryFeeFilterCtrl(resolution:Resolution): Unit = {
+  def checkEntryFeeFilterCtrl(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest
     val MAX = page.MAX_ENTRY_MONEY
     val MIN = 0
@@ -222,7 +222,7 @@ class LobbyTestCommon extends SharedTest {
 
   }
 
-  def filterByFreeContestsWithMinFilter(resolution:Resolution): Unit = {
+  def filterByFreeContestsWithMinFilter(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest
 
     page.setEntryFeeFilter(1, page.MAX_ENTRY_MONEY)
@@ -230,46 +230,46 @@ class LobbyTestCommon extends SharedTest {
         .getNumberOfContests must be(0)
   }
 
-  def playFirstContest(resolution:Resolution): Unit = {
+  def playFirstContest(implicit resolution:Resolution): Unit = {
     goToLobbyContest.playContestNumber(1)
   }
 
-  def searchContest(resolution:Resolution): Unit = {
+  def searchContest(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest.searchContestByName(FILTERS_PANEL_SEARCH_TEXT_1)
     if (resolution != Resolution.SMALL){
       page.getNumberOfContests must be(N_CONTESTS_SEARCH_1)
     }
   }
 
-  def searchNonExistentContest(resolution:Resolution): Unit = {
+  def searchNonExistentContest(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest.searchContestByName(FILTERS_PANEL_SEARCH_TEXT_2)
     if (resolution != Resolution.SMALL){
       page.getNumberOfContests must be(N_CONTESTS_SEARCH_2)
     }
   }
 
-  def searchAnotherContest(resolution:Resolution): Unit = {
+  def searchAnotherContest(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest.searchContestByName(FILTERS_PANEL_SEARCH_TEXT_3)
     if (resolution != Resolution.SMALL){
       page.getNumberOfContests must be(N_CONTESTS_SEARCH_3)
     }
   }
 
-  def orderByName(resolution:Resolution): Unit = {
+  def orderByName(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest.clickSortContestsByName
 
     assert(page.getNumberOfContests == N_CONTESTS_NO_FILTER, "Contests disappeared during sort")
     assert(page.areContestsOrderedByName, "Contest are not sorted by name")
   }
 
-  def orderByEntryFee(resolution:Resolution): Unit = {
+  def orderByEntryFee(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest.clickSortContestsByEntryFee
 
     assert(page.getNumberOfContests == N_CONTESTS_NO_FILTER, "Contests disappeared during sort")
     assert(page.areContestsOrderedByEntryFee, "Contest are not sorted by entry fee")
   }
 
-  def orderByStartTime(resolution:Resolution): Unit = {
+  def orderByStartTime(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest.clickSortContestsByStartTime
 
     assert(page.getNumberOfContests == N_CONTESTS_NO_FILTER, "Contests disappeared during sort")
@@ -278,7 +278,7 @@ class LobbyTestCommon extends SharedTest {
 
   /// PAGINATOR TESTS
 
-  def paginatorMainFunctionality(resolution:Resolution): Unit = {
+  def paginatorMainFunctionality(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest
     val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
     assert(paginator.isAt)
@@ -313,7 +313,7 @@ class LobbyTestCommon extends SharedTest {
 
   }
 
-  def paginatorIsDisplayedWhenNecessary(resolution:Resolution): Unit = {
+  def paginatorIsDisplayedWhenNecessary(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest
     val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
     assert(paginator.isAt)
@@ -325,7 +325,7 @@ class LobbyTestCommon extends SharedTest {
     paginator.getNumberOfPages must be (1)
   }
 
-  def knownBugSequence_DisappearedPaginatorOnFilter(resolution:Resolution): Unit = {
+  def knownBugSequence_DisappearedPaginatorOnFilter(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest
     val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
     assert(paginator.isAt)
@@ -337,7 +337,7 @@ class LobbyTestCommon extends SharedTest {
     paginator.getNumberOfPages must be (3)
   }
 
-  def knownBugSequence_PaginatorOrderedRefresh(resolution:Resolution): Unit = {
+  def knownBugSequence_PaginatorOrderedRefresh(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest.clickSortContestsByName
     val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
     paginator.goToNextPage.goToNextPage.goToNextPage.goToNextPage
@@ -348,27 +348,6 @@ class LobbyTestCommon extends SharedTest {
 
   }
 
-  def knownBugSequence_ScrollBarDisappeared(resolution:Resolution): Unit = {
-    if (resolution == Resolution.BIG){
-      goToLobbyContest.openContestDescription(1)
-      logger.debug("Open contest description")
-      val desc = new ContestDescriptionWindow(resolution)
-      val enterContPage:EnterContestPage = new EnterContestPage(resolution)
-      desc.enterContest
-      logger.debug("Click on enter contest")
-      eventually (timeout(5 seconds)) {
-         assert(enterContPage.isAt)
-      }
-      logger.debug("Enter contest page is at")
-      val scrollY = WebBrowser.executeScript("return window.scrollY").asInstanceOf[Int]
-
-      val builder:Actions = new Actions(enterContPage.driver);
-      builder.keyDown(Keys.SPACE).build().perform()
-
-      assert(scrollY != WebBrowser.executeScript("return window.scrollY").asInstanceOf[Int])
-    }
-
-  }
 
   private def goToLobbyContest:LobbyPage = {
     goToLobbyPage.clickOnMenuAllContests.clickOnMenuFreeContests.clearFilters
@@ -376,7 +355,7 @@ class LobbyTestCommon extends SharedTest {
 
 
 /*
-  def searchContest(resolution:Resolution): Unit = {
+  def searchContest(implicit resolution:Resolution): Unit = {
     val page = goToLobbyPage.clearFilters
       .searchContestByName(FILTERS_PANEL_SEARCH_TEXT_1)
     if (resolution != Resolution.SMALL){

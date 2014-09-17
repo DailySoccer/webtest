@@ -5,7 +5,7 @@ import unusual.pages.components.{FooterBar, MenuBar}
 
 class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813966c9") extends SharedPage(res) {
 
-  override val url = SharedPage.baseUrl + "/#/enter_contest/" + contestId
+  override val url = SharedPage.baseUrl + "/#/lobby/enter_contest/" + contestId
 
   val SOCCER_PLAYER_POSITION_FILTER_TAB = Map(
     SoccerPlayer.POS_ALL -> 1,
@@ -62,7 +62,9 @@ class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813
     _isAt = _isAt && pageTitle == TITLE
 
     _isAt = _isAt && new MenuBar(resolution).isAt
+    logger.debug("Menu Bar ", _isAt)
     _isAt = _isAt && new FooterBar(resolution).isAt
+    logger.debug("Footer Bar ", _isAt)
 
     _isAt = _isAt && isElemDisplayed(BUTTON_CLEAN_LINEUP)
     _isAt = _isAt && isElemDisplayed(BUTTON_CONFIRM_LINEUP)

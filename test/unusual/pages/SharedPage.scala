@@ -29,7 +29,7 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
   def isAt:Boolean = { true }
 
   def open = {
-    if(currentUrl == url){
+    if(currentUrl == url) {
       reloadPage
     } else {
       go to url
@@ -75,7 +75,7 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
   protected def existsElem(cssSel: String): Boolean = {
     val elem = find(cssSelector(cssSel))
 
-    var exists = elem != None
+    val exists = elem != None
     logger.debug("{" + cssSel + "} exists", exists)
 
     exists

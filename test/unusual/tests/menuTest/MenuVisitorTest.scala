@@ -1,6 +1,6 @@
 package unusual.tests.menuTest
 
-import unusual.testTags.scala.{SmallResolution, MediumResolution, BigResolution, WIP}
+import unusual.testTags.scala._
 import unusual.tests._
 import unusual.model._
 import unusual.pages._
@@ -12,6 +12,29 @@ class MenuVisitorTest extends MenuTestCommon {
     status.ensureVisitor
   }
 
+
+  "Visitor does not" when {
+    behave like sizeTesting(menuBehavior)
+  }
+
+  def menuBehavior(res:Resolution): Unit = {
+    implicit val resolution: Resolution = res
+
+    "log out from lobby" in {
+      intercept[Exception] {
+        super.doLogout(resolution)
+      }
+    }
+
+    "look at his name. User name at menu should be ok" in {
+      intercept[Exception] {
+        super.checkUserName(resolution)
+      }
+    }
+
+  }
+
+  /*
   "Visitor does not " must {
 
     def doLogout(resolution:Resolution): Unit = {
@@ -53,6 +76,8 @@ class MenuVisitorTest extends MenuTestCommon {
     }
 
   }
+  */
+
 
   after {
   }

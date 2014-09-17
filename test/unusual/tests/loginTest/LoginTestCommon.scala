@@ -24,22 +24,17 @@ class LoginTestCommon extends SharedTest {
     "password" -> "private"
   )
   */
-  def doRightSignUp(resolution:Resolution):Unit = {
+  def doRightSignUp(implicit resolution:Resolution):Unit = {
     goToSignUpPage.doSignUp(User.NEW)
   }
-  /*
-  def doWrongSignUp(resolution:Resolution):Unit = {
-    goToSignUpPage.doSignUp(User.DEFAULT)
-  }
-  */
 
-  def doLogin(resolution:Resolution): Unit = {
+  def doLogin(implicit resolution:Resolution): Unit = {
     goToLoginPage.doLogin(User.OTHER)
     val lobby = new LobbyPage(resolution)
     assert(lobby.isAt && lobby.isLoggedIn)
     val menu = new MenuBar(resolution)
     assert(menu.isAt)
-    menu.getUserName must be(User.OTHER.firstName + " " + User.OTHER.lastName)
+    menu.getUserName must be(User.OTHER.firstName)
   }
 
  }

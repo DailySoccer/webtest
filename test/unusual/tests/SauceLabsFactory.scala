@@ -6,7 +6,7 @@ import com.saucelabs.common.{SauceOnDemandAuthentication, SauceOnDemandSessionId
 import org.openqa.selenium._
 import org.openqa.selenium.chrome._
 import org.openqa.selenium.firefox._
-//import org.openqa.selenium.phantomjs.PhantomJSDriver
+import org.openqa.selenium.phantomjs.PhantomJSDriver
 import org.openqa.selenium.remote.{CapabilityType, DesiredCapabilities, RemoteWebDriver}
 import unusual.pages.SharedPage
 
@@ -22,7 +22,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
   )
   val CHROME_HOST   = "chrome"
   val FIREFOX_HOST  = "firefox"
-  //val PHANTOMJS_HOST  = "phantom"
+  val PHANTOMJS_HOST  = "phantom"
 
   val host:String       = if (SharedPage.isLocalHost) FIREFOX_HOST else SAUCE_LABS_HOST
   var sessionId: String = ""
@@ -31,7 +31,8 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    * Constructs a {@link SauceOnDemandAuthentication} instance using the supplied user name/access key.  To use the authentication
    * supplied by environment variables or from an external file, use the no-arg {@link SauceOnDemandAuthentication} constructor.
    */
-  val authentication = new SauceOnDemandAuthentication("Ximo", "3b338dac-feba-4b1a-828f-dcc4e46af910")
+  val authentication = new SauceOnDemandAuthentication("korgan00", "dd8d5996-55dd-47c9-bd9c-bce939d18232")
+  //val authentication = new SauceOnDemandAuthentication("Ximo", "3b338dac-feba-4b1a-828f-dcc4e46af910")
 
   /**
    * Creates a new instance of a Selenium 'Remote Driver'
@@ -52,9 +53,9 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
         println("FirefoxDriver -----------")
         new FirefoxDriver
 
-      //case PHANTOMJS_HOST =>
-        //println("PhantomJS Driver ----------")
-        //new PhantomJSDriver
+      case PHANTOMJS_HOST =>
+        println("PhantomJS Driver ----------")
+        new PhantomJSDriver
     }
   }
 
