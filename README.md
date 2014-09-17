@@ -15,7 +15,9 @@ You will need to set your driver accordingly in test/SauceLabsFactory.scala (CHR
 Once you have that, to run the tests locally, run in your terminal:
 
 export URL="http://localhost:9000"
-play test
+play
+
+To run on SauceLabs just do not export URL or unset it.
 
 Test Filtering
 ==============
