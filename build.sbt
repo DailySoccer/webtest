@@ -4,7 +4,7 @@ version := "1.0-SNAPSHOT"
 
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
                                                                 //, "-n", "unusual.testTags.java.WIP" // Incluidas
-                                                                //, "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
+                                                                , "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
                                                                 , "-eIKNCHLPQ"
                                                                 )
 

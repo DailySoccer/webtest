@@ -91,3 +91,7 @@ class PaginatorControl(res:Resolution, prefix: String) extends SharedPage(res) {
   }
 
 }
+
+object PaginatorControl {
+  val ELEMENTS_PER_PAGE = 10
+}

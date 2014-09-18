@@ -2,6 +2,7 @@ package unusual.tests.contestDescriptionTest
 
 import unusual.model.{Contest, Resolution}
 import unusual.pages._
+import unusual.testTags.scala.WIP
 
 class ContestDescriptionAuthTest extends ContestDescriptionCommon {
 
@@ -21,11 +22,25 @@ class ContestDescriptionAuthTest extends ContestDescriptionCommon {
 
     "click on tabs" in changeTabs
 
-    "look at involved matches" in numberOfMatches
+    "look at contest header" which consistIn {
 
-    "look at involved contestants" in numberOfContestants
+      "name" in contestName
 
-    "look at prizes" in numberOfPrizes
+      "description" in contestDescription
+
+      "entry fee" in contestEntryFee
+
+      "prize" in contestPrize
+    }
+
+    "look at contest sections" which consistIn {
+
+      "involved matches" in numberOfMatches
+
+      "involved contestants" in numberOfContestants
+
+      "prizes" in numberOfPrizes
+    }
 
     "perform known BUG SEQUENCE" which causes {
 

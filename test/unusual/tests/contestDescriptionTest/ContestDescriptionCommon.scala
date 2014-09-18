@@ -30,6 +30,8 @@ class ContestDescriptionCommon extends SharedTest {
       assert(contestDescription.activeTab == ContestDescriptionWindow.CONTESTANTS_TAB)
       contestDescription.changeToTab(ContestDescriptionWindow.PRIZES_TAB)
       assert(contestDescription.activeTab == ContestDescriptionWindow.PRIZES_TAB)
+    } else {
+      featureNotTestableInResolution
     }
   }
 
@@ -40,6 +42,11 @@ class ContestDescriptionCommon extends SharedTest {
       contestDescription.changeToTab(ContestDescriptionWindow.INFO_TAB)
 
       assert(contestDescription.countMatches == contest.numMatches)
+    } else {
+      eventually {
+        goToEnterContest(contest.id).openContestDescription
+      }
+      assert(new ContestDescriptionWindow(resolution).countMatches == contest.numMatches)
     }
   }
 
@@ -50,6 +57,11 @@ class ContestDescriptionCommon extends SharedTest {
       contestDescription.changeToTab(ContestDescriptionWindow.CONTESTANTS_TAB)
 
       assert(contestDescription.countContestants == contest.numContestants)
+    } else {
+      eventually {
+        goToEnterContest(contest.id).openContestDescription
+      }
+      assert(new ContestDescriptionWindow(resolution).countContestants == contest.numMatches)
     }
   }
 
@@ -60,6 +72,67 @@ class ContestDescriptionCommon extends SharedTest {
       contestDescription.changeToTab(ContestDescriptionWindow.PRIZES_TAB)
 
       assert(contestDescription.countPrizes == contest.numPrizes)
+    } else {
+      eventually {
+        goToEnterContest(contest.id).openContestDescription
+      }
+      assert(new ContestDescriptionWindow(resolution).countPrizes == contest.numMatches)
+    }
+  }
+
+  def contestName(implicit resolution: Resolution): Unit = {
+    if (resolution == Resolution.BIG) {
+      goToLobbyContest.openContestDescription(contestOrder)
+      val contestDescription = new ContestDescriptionWindow(resolution)
+
+      assert(contestDescription.getContestName == contest.name)
+    } else {
+      eventually {
+        goToEnterContest(contest.id).openContestDescription
+      }
+      assert(new ContestDescriptionWindow(resolution).getContestName == contest.numMatches)
+    }
+  }
+
+  def contestDescription(implicit resolution: Resolution): Unit = {
+    if (resolution == Resolution.BIG) {
+      goToLobbyContest.openContestDescription(contestOrder)
+      val contestDescription = new ContestDescriptionWindow(resolution)
+
+      assert(contestDescription.getContestDescription == contest.description)
+    } else {
+      eventually {
+        goToEnterContest(contest.id).openContestDescription
+      }
+      assert(new ContestDescriptionWindow(resolution).getContestDescription == contest.description)
+    }
+  }
+
+  def contestEntryFee(implicit resolution: Resolution): Unit = {
+    if (resolution == Resolution.BIG) {
+      goToLobbyContest.openContestDescription(contestOrder)
+      val contestDescription = new ContestDescriptionWindow(resolution)
+
+      assert(contestDescription.getContestEntryFee == contest.entryFee)
+    } else {
+      eventually {
+        goToEnterContest(contest.id).openContestDescription
+      }
+      assert(new ContestDescriptionWindow(resolution).getContestEntryFee == contest.entryFee)
+    }
+  }
+
+  def contestPrize(implicit resolution: Resolution): Unit = {
+    if (resolution == Resolution.BIG) {
+      goToLobbyContest.openContestDescription(contestOrder)
+      val contestDescription = new ContestDescriptionWindow(resolution)
+
+      assert(contestDescription.getContestPrize == contest.prize)
+    } else {
+      eventually {
+        goToEnterContest(contest.id).openContestDescription
+      }
+      assert(new ContestDescriptionWindow(resolution).getContestPrize == contest.prize)
     }
   }
 
@@ -74,6 +147,8 @@ class ContestDescriptionCommon extends SharedTest {
       eventually (timeout(5 seconds)) {
         assert(enterContPage.isAt)
       }
+    } else {
+      featureNotTestableInResolution
     }
   }
 

@@ -1,20 +1,25 @@
 package unusual.model
 
-class Contest (n: String = "", desc: String = "", fee: String = "",
-               priz: String = "", when: String = "") {
+class Contest () {
 
-  var name = n
-  var entryFee = fee
-  var prize = priz
-  var date = when
-  var description = desc
+  var name = ""
+  var description = ""
+  var entryFee = ""
+  var prize = ""
+  var date = ""
+  var id = ""
 
-  var numMatches = 3
-  var numContestants = 5
+  var numMatches = 0
+  var numContestants = 0
   var numPrizes = 0
 
+  var nameOrder = 0
+  var entryFeeOrder = 0
+  var startDateOrder = 0
+
+
   override def toString: String = {
-    name + "\n" + description + " \n" + entryFee + " - " + prize + " - " + date + "\n"
+    name + " - " + id + "\n" + description + " \n" + entryFee + " - " + prize + " - " + date + "\n"
   }
 
 }

@@ -343,12 +343,17 @@ class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813
     find(cssSelector(LINEUP_SELECTOR_ALERT)).get.isDisplayed
   }
 
-  def confirmLineup ={
+  def confirmLineup = {
     click on find(cssSelector(BUTTON_CONFIRM_LINEUP)).get
     this
   }
 
-  private def selectSoccerPlayerFromLineup(index: Int) ={
+  def openContestDescription = {
+    click on find(cssSelector(".enter-contest-tabs li:nth-child(2)")).get
+    this
+  }
+
+  private def selectSoccerPlayerFromLineup(index: Int) = {
     eventually { click on find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT(index))).get }
     this
   }

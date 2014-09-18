@@ -45,7 +45,7 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
   /**************** GENERAL METHODS ****************/
 
   override def isAt = {
-    isElemDisplayed(MENU_ROOT) && (resolution == Resolution.SMALL || isElemDisplayed(BRAND_LINK))
+    isElemDisplayed(MENU_ROOT) && isElemDisplayed(BRAND_LINK)
   }
 
   override def open = {

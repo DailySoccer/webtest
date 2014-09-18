@@ -9,6 +9,13 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
   val MODAL = "#infoContestModal"
 
   val HEADER = CONTENT + " .modal-info-head"
+
+  val CONTEST_NAME = HEADER + " .content-text"
+  val CONTEST_DESCRIPTION = HEADER + " .title-text"
+
+  val CONTEST_ENTRY_FEE = HEADER + " .column-entry-fee .content-text"
+  val CONTEST_PRIZE = HEADER + " .column-prize .content-text"
+
   val BODY = CONTENT + " .modal-info-content"
 
   val TAB_ACTIVE = ".active"
@@ -34,6 +41,7 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
   val ENTER_CONTEST_BUTTON = CONTENT + " .buton-place button"
 
   val CLOSE_BUTTON = CONTENT + " .modal-info-head button.close"
+
 
   override def open = {
     logger.error("Trying to open a control.")
@@ -122,6 +130,19 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
       }
     }
     this
+  }
+
+  def getContestName:String = {
+    find(cssSelector(CONTEST_NAME)).get.text
+  }
+  def getContestDescription:String = {
+    find(cssSelector(CONTEST_DESCRIPTION)).get.text
+  }
+  def getContestEntryFee:String = {
+    find(cssSelector(CONTEST_ENTRY_FEE)).get.text
+  }
+  def getContestPrize:String = {
+    find(cssSelector(CONTEST_PRIZE)).get.text
   }
 
 }

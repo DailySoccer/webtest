@@ -50,9 +50,7 @@ class LobbyAuthTest extends LobbyTestCommon {
 
       "entry fee (check control funtionallity)" in checkEntryFeeFilterCtrl
 
-      "(search) contest name" in searchContest
-
-      "(search) another contest name" in searchAnotherContest
+      "(search) contest name" in searchContests
 
       "(search) non existent contest name" in searchNonExistentContest
     }
