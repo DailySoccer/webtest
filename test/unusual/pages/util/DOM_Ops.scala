@@ -191,6 +191,7 @@ trait DOM_Ops {
           while (jQElem.length > 0 && isOrdered) {
             val = normalize(jQElem.text()).toLowerCase();
             isOrdered = val >= oldVal;
+            console.log(oldVal + ' .. ' + val + ' | is ordered:' + isOrdered)
             oldVal = val;
 
             i++;

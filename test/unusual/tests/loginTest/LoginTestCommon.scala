@@ -1,6 +1,6 @@
 package unusual.tests.loginTest
 
-import unusual.model.{User, Resolution}
+import unusual.model.{LobbyState, User, Resolution}
 import unusual.pages.LobbyPage
 import unusual.pages.components.MenuBar
 import unusual.tests._
@@ -30,7 +30,7 @@ class LoginTestCommon extends SharedTest {
 
   def doLogin(implicit resolution:Resolution): Unit = {
     goToLoginPage.doLogin(User.OTHER)
-    val lobby = new LobbyPage(resolution)
+    val lobby = new LobbyPage(resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney )
     assert(lobby.isAt && lobby.isLoggedIn)
     val menu = new MenuBar(resolution)
     assert(menu.isAt)

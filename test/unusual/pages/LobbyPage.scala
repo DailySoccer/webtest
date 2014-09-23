@@ -10,7 +10,7 @@ import unusual.pages.components.{ContestDescriptionWindow, FooterBar, PaginatorC
 import scala.util.control.Exception
 
 
-class LobbyPage(res:Resolution)  extends SharedPage(res) {
+class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   override val url = SharedPage.baseUrl + "/#/lobby"
 
@@ -70,7 +70,7 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
   val SORT_BY_ENTRY_FEE = "#sortContestEntryFee"
   val SORT_BY_START_TIME = "#sortContestStartTime"
 
-  val MAX_ENTRY_MONEY = 5
+  var MAX_ENTRY_MONEY = maxEntryMoney
 
   val SLIDER_RANGE = "#slider-range"
   val SLIDER_RANGE_INFERIOR      = SLIDER_RANGE  + " .noUi-origin:nth-child(1) div"
@@ -128,6 +128,7 @@ class LobbyPage(res:Resolution)  extends SharedPage(res) {
       isDefault = isDefault && new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).getCurrentPage == 1
       logger.debug("Paginator page should be 1", isDefault)
       isDefault = isDefault && areAllFiltersClear
+
       logger.debug("Are all filters clear", isDefault)
       isDefault = isDefault && getNumberOfContests == numberOfContest
       logger.debug("Number of contests: current(" + getNumberOfContests + "), expected(" + numberOfContest + ")", isDefault)

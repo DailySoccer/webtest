@@ -15,7 +15,7 @@ class ContestDescriptionAuthTest extends ContestDescriptionCommon {
     status.ensureAuthUser
   }
 
-  "Auth user" when sizeTesting(ContestDescriptionBehavior)
+  "Auth user in Match: " + contest.name + " // " + contest.id when sizeTesting(ContestDescriptionBehavior)
 
   def ContestDescriptionBehavior(res:Resolution): Unit = {
     implicit val resolution: Resolution = res

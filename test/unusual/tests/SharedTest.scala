@@ -50,8 +50,8 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
     loginPage
   }
 
-  def goToLobbyPage : LobbyPage = {
-    val lobbyPage = new LobbyPage(status.resolution)
+  def goToLobbyPage(lobbyState:LobbyState = LobbyState.DEFAULT_LOBBY) : LobbyPage = {
+    val lobbyPage = new LobbyPage(status.resolution, lobbyState.maxEntryMoney)
     assert(lobbyPage.open.isAt, "trying to access to lobbyPage")
     lobbyPage
   }
@@ -68,7 +68,7 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
     promosPage
   }
 
-  def goToEnterContest(contestId:String = null) : EnterContestPage = {
+  def goToEnterContest(contestId:String) : EnterContestPage = {
     var enterContest:EnterContestPage = null
     if (contestId == null) {
       enterContest = new EnterContestPage(status.resolution)

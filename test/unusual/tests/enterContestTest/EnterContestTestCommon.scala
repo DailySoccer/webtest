@@ -7,6 +7,8 @@ import unusual.tests._
 
 class EnterContestTestCommon extends SharedTest {
 
+  val enterContestState = new EnterContestState
+  /*
   val N_GOAL_KEEPER_PLAYERS = 19
   val N_DEFENSE_PLAYERS = 43
   val N_MIDDLE_PLAYERS = 55
@@ -25,28 +27,35 @@ class EnterContestTestCommon extends SharedTest {
   val N_MIX_FOR_COL_GRC = 9
 
   val INITIAL_SALARY = 90000
-
+  */
 
   def checkDefaultState(implicit resolution:Resolution):Unit = {
 
+    val N_ALL_PLAYERS = enterContestState.contest.numAllPlayers
+    val INITIAL_SALARY = enterContestState.contest.initialSalary
+
     Given("Enter Contest page")
-    val page = goToEnterContest()
-    val lobby = new LobbyPage(resolution)
+    val lobby = goToLobbyPage()
+    val page = goToEnterContest(enterContestState.contest.id)
+    //val lobby = new LobbyPage(resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
     Then("page should be at and default state")
     assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     When("go navigate back and forward")
     goBack()
     goForward()
     Then("page should be at and default state")
-    assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
+    assert(page.isAt)
+    assert(page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     When("go navigate back and click on play button")
     goBack()
     lobby.clickOnMenuAllContests
          .clickOnMenuFreeContests
          .clearFilters
-         .playContestNumber(1)
+         .clickSortContestsByName
+         .playContestNumber(enterContestState.contest.nameOrder)
     Then("page should be at and default state")
-    assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
+    assert(page.isAt, "is not at")
+    assert(page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY), "is not default")
     When("click on close button and navigate back")
     page.clickOnCloseButton
     goBack()
@@ -57,7 +66,8 @@ class EnterContestTestCommon extends SharedTest {
     lobby.clickOnMenuAllContests
          .clickOnMenuFreeContests
          .clearFilters
-         .playContestNumber(1)
+         .clickSortContestsByName
+         .playContestNumber(enterContestState.contest.nameOrder)
     Then("page should be at and default state")
     assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     /*
@@ -69,7 +79,7 @@ class EnterContestTestCommon extends SharedTest {
 
   def orderByPosition(implicit resolution:Resolution):Unit = {
     if (resolution == Resolution.BIG) {
-      val page = goToEnterContest()
+      val page = goToEnterContest(enterContestState.contest.id)
       if (page.isOrderedByPos) { // si ya esta ordenado, lo ordenamos inversamente...
         page.orderByPosition
       }// ... y lo ordenamos al derecho
@@ -82,7 +92,7 @@ class EnterContestTestCommon extends SharedTest {
   }
   def orderByName(implicit resolution:Resolution):Unit = {
     if (resolution == Resolution.BIG) {
-      val page = goToEnterContest().orderByName
+      val page = goToEnterContest(enterContestState.contest.id).orderByName
       assert(page.isOrderedByName, "Is not ordered by name")
     } else {
       featureNotTestableInResolution
@@ -90,21 +100,21 @@ class EnterContestTestCommon extends SharedTest {
   }
   def orderByDFP(implicit resolution:Resolution):Unit = {
     if (resolution == Resolution.BIG) {
-      assert(goToEnterContest().orderByDFP.isOrderedByDFP)
+      assert(goToEnterContest(enterContestState.contest.id).orderByDFP.isOrderedByDFP)
     } else {
       featureNotTestableInResolution
     }
   }
   def orderByPlayed(implicit resolution:Resolution):Unit = {
     if (resolution == Resolution.BIG) {
-      assert(goToEnterContest().orderByPlayed.isOrderedByPlayed)
+      assert(goToEnterContest(enterContestState.contest.id).orderByPlayed.isOrderedByPlayed)
     } else {
       featureNotTestableInResolution
     }
   }
   def orderBySalary(implicit resolution:Resolution):Unit = {
     if (resolution == Resolution.BIG) {
-      assert(goToEnterContest().orderBySalary.isOrderedBySalary)
+      assert(goToEnterContest(enterContestState.contest.id).orderBySalary.isOrderedBySalary)
     } else {
       featureNotTestableInResolution
     }
@@ -112,9 +122,9 @@ class EnterContestTestCommon extends SharedTest {
 
   def filterByGoalKeeper(implicit resolution:Resolution):Unit = {
     if (resolution != Resolution.SMALL) {
-      val page = goToEnterContest()
+      val page = goToEnterContest(enterContestState.contest.id)
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_GOAL_KEEPER)
-      page.getNumberOfSoccerPlayers must be (N_GOAL_KEEPER_PLAYERS)
+      page.getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers)
     } else {
       featureNotTestableInResolution
     }
@@ -122,9 +132,9 @@ class EnterContestTestCommon extends SharedTest {
 
   def filterByDefense(implicit resolution:Resolution):Unit = {
     if (resolution != Resolution.SMALL) {
-      val page = goToEnterContest()
+      val page = goToEnterContest(enterContestState.contest.id)
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_DEFENSE)
-      page.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
+      page.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers)
     } else {
       featureNotTestableInResolution
     }
@@ -132,9 +142,9 @@ class EnterContestTestCommon extends SharedTest {
 
   def filterByMiddle(implicit resolution:Resolution):Unit = {
     if (resolution != Resolution.SMALL) {
-      val page = goToEnterContest()
+      val page = goToEnterContest(enterContestState.contest.id)
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_MIDDLE)
-      page.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
+      page.getNumberOfSoccerPlayers must be (enterContestState.contest.numMiddlePlayers)
     } else {
       featureNotTestableInResolution
     }
@@ -142,9 +152,9 @@ class EnterContestTestCommon extends SharedTest {
 
   def filterByForward(implicit resolution:Resolution):Unit = {
     if (resolution != Resolution.SMALL) {
-      val page = goToEnterContest()
+      val page = goToEnterContest(enterContestState.contest.id)
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_FORWARD)
-      page.getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS)
+      page.getNumberOfSoccerPlayers must be (enterContestState.contest.numForwardPlayers)
     } else {
       featureNotTestableInResolution
     }
@@ -152,25 +162,29 @@ class EnterContestTestCommon extends SharedTest {
 
   def filterByAll(implicit resolution:Resolution):Unit = {
     if (resolution != Resolution.SMALL) {
-      goToEnterContest()
+      goToEnterContest(enterContestState.contest.id)
         .setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
-        .getNumberOfSoccerPlayers must be(N_ALL_PLAYERS)
+        .getNumberOfSoccerPlayers must be(enterContestState.contest.numAllPlayers)
     } else {
       featureNotTestableInResolution
     }
-    assert(N_GOAL_KEEPER_PLAYERS + N_DEFENSE_PLAYERS + N_MIDDLE_PLAYERS + N_FORWARD_PLAYERS == N_ALL_PLAYERS)
+    assert(enterContestState.contest.numGoalKeepersPlayers
+            + enterContestState.contest.numDefensePlayers
+            + enterContestState.contest.numMiddlePlayers
+            + enterContestState.contest.numForwardPlayers == enterContestState.contest.numAllPlayers)
   }
 
 
   def selectGoalKeeper(implicit resolution:Resolution):Unit = {
-    goToEnterContest()
+    goToEnterContest(enterContestState.contest.id)
     new EnterContestPage(resolution)
       .selectGoalKeeperFromLineup
-      .getNumberOfSoccerPlayers must be (N_GOAL_KEEPER_PLAYERS)
+      .getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers)
   }
 
   def selectDefense(implicit resolution:Resolution):Unit = {
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
+    val N_DEFENSE_PLAYERS = enterContestState.contest.numDefensePlayers
     page.selectDefenseFromLineup(1)
         .getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
 
@@ -190,7 +204,8 @@ class EnterContestTestCommon extends SharedTest {
   }
 
   def selectMiddle(implicit resolution:Resolution):Unit = {
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
+    val N_MIDDLE_PLAYERS = enterContestState.contest.numMiddlePlayers
     page.selectMiddleFromLineup(1)
         .getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
 
@@ -210,7 +225,9 @@ class EnterContestTestCommon extends SharedTest {
   }
 
   def selectForward(implicit resolution:Resolution):Unit = {
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
+    val N_FORWARD_PLAYERS = enterContestState.contest.numForwardPlayers
+
     page.selectForwardFromLineup(1)
         .getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS)
 
@@ -224,7 +241,11 @@ class EnterContestTestCommon extends SharedTest {
 
   def multipleRandomSelection(implicit resolution:Resolution):Unit = {
     var i = 0
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
+    val N_FORWARD_PLAYERS = enterContestState.contest.numForwardPlayers
+    val N_DEFENSE_PLAYERS = enterContestState.contest.numDefensePlayers
+    val N_MIDDLE_PLAYERS = enterContestState.contest.numMiddlePlayers
+    val N_GOAL_KEEPER_PLAYERS = enterContestState.contest.numGoalKeepersPlayers
 
     val allFunctions = Map[Int, (EnterContestPage) => EnterContestPage] (
         1 -> ((page) => {
@@ -262,13 +283,27 @@ class EnterContestTestCommon extends SharedTest {
     }
   }
 
-
+  def filterByMatch(implicit resolution:Resolution):Unit = {
+    if (resolution != Resolution.SMALL) {
+      val page = goToEnterContest(enterContestState.contest.id)
+      Given("a list of matches")
+      for ((matchOrder, numPlayers) <- enterContestState.contest.matchPlayers) {
+        When("select match by order: " + matchOrder)
+        page.setSoccerPlayerMatchFilter(matchOrder)
+        Then("displayed players should be: " + numPlayers)
+        page.getNumberOfSoccerPlayers must be (numPlayers)
+      }
+    } else {
+      featureNotTestableInResolution
+    }
+  }
+  /*
   def filterByMatch_None(implicit resolution:Resolution):Unit = {
     val page = goToEnterContest()
 
     if (resolution != Resolution.SMALL) {
       page.setSoccerPlayerMatchFilter(1)
-          .getNumberOfSoccerPlayers must be (N_ALL_PLAYERS)
+          .getNumberOfSoccerPlayers must be (contest.numAllPlayers)
     } else {
       featureNotTestableInResolution
     }
@@ -306,8 +341,30 @@ class EnterContestTestCommon extends SharedTest {
       featureNotTestableInResolution
     }
   }
+  */
 
+  def filterMix_Position_Match(implicit resolution:Resolution): Unit = {
+    if (resolution != Resolution.SMALL) {
+      val page = goToEnterContest(enterContestState.contest.id)
+      Given("a list of matches")
+      for ((matchOrder, positionList) <- enterContestState.contest.matchPositionMixNumPlayers) {
+        for ((positionOrder, numPlayers) <- positionList) {
 
+          When("select match by order: " + matchOrder)
+          page.setSoccerPlayerMatchFilter(matchOrder)
+
+          And("select position by order: " + positionOrder)
+          page.setSoccerPlayerPositionFilter(positionOrder)
+
+          Then("displayed players should be: " + numPlayers)
+          assert(page.getNumberOfSoccerPlayers == numPlayers)
+        }
+      }
+    } else {
+      featureNotTestableInResolution
+    }
+  }
+/*
   def filterMix_GoalKeeper_UryCri(implicit resolution:Resolution):Unit = {
     val page = goToEnterContest()
 
@@ -349,12 +406,12 @@ class EnterContestTestCommon extends SharedTest {
         .setSoccerPlayerMatchFilter(3)
     page.getNumberOfSoccerPlayers must be (N_MIX_FOR_COL_GRC)
   }
-
+*/
 
   def addFirstGoalKeeperFromList(implicit resolution:Resolution):Unit = {
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
 
-    page.getLineUpSalary must be (INITIAL_SALARY)
+    page.getLineUpSalary must be (enterContestState.contest.initialSalary)
 
     assert(page.getSoccerPlayerFromLineUp(1).isEmpty)
     page.selectGoalKeeperFromLineup
@@ -366,23 +423,23 @@ class EnterContestTestCommon extends SharedTest {
     if (resolution != Resolution.SMALL) {
       assert(playerOnList != page.getSoccerPlayerFromList(1))
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
-          .getNumberOfSoccerPlayers must be (N_ALL_PLAYERS - 1)
+          .getNumberOfSoccerPlayers must be (enterContestState.contest.numAllPlayers - 1)
 
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_GOAL_KEEPER)
-          .getNumberOfSoccerPlayers must be (N_GOAL_KEEPER_PLAYERS - 1)
+          .getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers - 1)
 
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
           .setSoccerPlayerNameFilterSearch(playerOnList.name)
           .getNumberOfSoccerPlayers must be (0)
     }
 
-    assert(page.getLineUpSalary == 79300)
+    assert(page.getLineUpSalary < enterContestState.contest.initialSalary)
   }
 
   def addFourthDefenseFromList(implicit resolution:Resolution):Unit = {
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
 
-    page.getLineUpSalary must be (INITIAL_SALARY)
+    page.getLineUpSalary must be (enterContestState.contest.initialSalary)
 
     assert(page.getSoccerPlayerFromLineUp(2).isEmpty)
     page.selectDefenseFromLineup(2)
@@ -393,83 +450,81 @@ class EnterContestTestCommon extends SharedTest {
 
     page.selectDefenseFromLineup(3)
     assert(playerOnList != page.getSoccerPlayerFromList(4))
-    page.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS - 1)
+    page.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers - 1)
 
     page.setSoccerPlayerNameFilterSearch(playerOnList.name)
-        .getNumberOfSoccerPlayers must be (0)
+        .getNumberOfSoccerPlayers must be equals 0
 
 
-    assert(page.getLineUpSalary == 85500)
+    assert(page.getLineUpSalary < enterContestState.contest.initialSalary)
   }
 
   def pickAndClearWholeLineup(implicit resolution:Resolution):Unit = {
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
 
-    page.getLineUpSalary must be (INITIAL_SALARY)
+    page.getLineUpSalary must be (enterContestState.contest.initialSalary)
 
-    pickWholeLineup_ExpendAllMoney(resolution)
+    pickWholeLineup(resolution, enterContestState.contest.expendAllMoney)
 
-    page.getLineUpSalary must be (0)
+    page.getLineUpSalary must be equals 0
+    Thread.sleep(10000)
+    page.removeSoccerPlayerFromLineUp(1).getLineUpSalary must be > 0
 
-    page.removeSoccerPlayerFromLineUp(1).getLineUpSalary must be (8800)
-    page.removeSoccerPlayerFromLineUp(4).getLineUpSalary must be (15500)
-    page.removeSoccerPlayerFromLineUp(8).getLineUpSalary must be (24100)
-    page.removeSoccerPlayerFromLineUp(11).getLineUpSalary must be (32700)
-    page.clearLineupList.getLineUpSalary must be (INITIAL_SALARY)
+    page.clearLineupList.getLineUpSalary must be (enterContestState.contest.initialSalary)
   }
 
   def pickTooExpensiveLineUp(implicit resolution:Resolution):Unit = {
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
 
-    page.getLineUpSalary must be (INITIAL_SALARY)
+    page.getLineUpSalary must be (enterContestState.contest.initialSalary)
 
-    pickWholeLineup_Expensive(resolution)
 
-    page.getLineUpSalary must be (-34500)
+    pickWholeLineup(resolution, enterContestState.contest.expensiveLineup)
+
+    page.getLineUpSalary must be < 0
 
     assert( page.confirmLineup.isOverSalaryErrorShown )
 
-    page.clearLineupList.getLineUpSalary must be (INITIAL_SALARY)
+    page.clearLineupList.getLineUpSalary must be (enterContestState.contest.initialSalary)
   }
 
   def pickFailLineupAndCorrectIt(implicit resolution:Resolution):Unit = {
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
 
-    page.getLineUpSalary must be (INITIAL_SALARY)
+    page.getLineUpSalary must be (enterContestState.contest.initialSalary)
 
-    pickWholeLineup_Expensive(resolution)
 
-    page.getLineUpSalary must be (-34500)
-    //Thread.sleep(600000);
+    pickWholeLineup(resolution, enterContestState.contest.expensiveLineup)
+
+    page.getLineUpSalary must be < 0
+
     assert( page.confirmLineup.isOverSalaryErrorShown )
 
-    page.removeSoccerPlayerFromLineUp(1)
-      .selectGoalKeeperFromLineup
-      .setSoccerPlayerNameFilterSearch("tose")
-      .addSoccerPlayerFromList(1)
-    page.removeSoccerPlayerFromLineUp(2)
-      .selectDefenseFromLineup(1)
-      .setSoccerPlayerNameFilterSearch("tza")
-      .addSoccerPlayerFromList(1)
-    page.removeSoccerPlayerFromLineUp(6)
-      .selectMiddleFromLineup(1)
-      .setSoccerPlayerNameFilterSearch("fuen")
-      .addSoccerPlayerFromList(1)
-    page.removeSoccerPlayerFromLineUp(8)
-      .selectMiddleFromLineup(3)
-      .setSoccerPlayerNameFilterSearch("troi")
-      .addSoccerPlayerFromList(1)
-    page.removeSoccerPlayerFromLineUp(10)
-      .selectForwardFromLineup(1)
-      .setSoccerPlayerNameFilterSearch("orell")
-      .addSoccerPlayerFromList(1)
+    for (i <- 0 to 10){
+      if (enterContestState.contest.expensiveLineup(i) != enterContestState.contest.expendAllMoney(i)) {
+        page.removeSoccerPlayerFromLineUp(i + 1)
 
-    page.getLineUpSalary must be (1200)
+        if (i == 0) {
+          page.selectGoalKeeperFromLineup
+        } else if (i > 0 && i <= 4) {
+          page.selectDefenseFromLineup(i)
+        } else if (i > 4 && i <= 8) {
+          page.selectMiddleFromLineup(i - 4)
+        } else if (i > 8 && i <= 10) {
+          page.selectForwardFromLineup(i - 8)
+        }
+
+        page.setSoccerPlayerNameFilterSearch(enterContestState.contest.expendAllMoney(i))
+            .addSoccerPlayerFromList(1)
+      }
+    }
+
+    page.getLineUpSalary must be equals 0
 
     page.confirmLineup
-    new LobbyPage(resolution).isAt
-    //page.clearLineupList.getLineUpSalary must be (INITIAL_SALARY)
+    new LobbyPage(resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney).isAt
   }
+
 /*
   def tryToConfirmMultipleTimes(implicit resolution:Resolution):Unit = {
     val page = goToEnterContest("540d4d1430045601813966ff")
@@ -481,9 +536,10 @@ class EnterContestTestCommon extends SharedTest {
     Thread.sleep(15000)
   }
 */
+
   def knownBugSequence_DuplicatedPlayersAtDeleteAll(implicit resolution:Resolution):Unit = {
     Given("EnterContest page")
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
     var playerOnList:SoccerPlayer = null
 
     And("select a soccer player")
@@ -493,12 +549,11 @@ class EnterContestTestCommon extends SharedTest {
 
     When("clear lineup")
     page.clearLineupList
-/*
-    if (resolution == Resolution.SMALL) {
-      page.selectDefenseFromLineup(1)
-    }*/
 
     And("search the soccer player")
+    if (playerOnList.name.length > 19) {
+      playerOnList.name = playerOnList.name.substring(0, 19)
+    }
     page.selectDefenseFromLineup(1)
         .setSoccerPlayerNameFilterSearch(playerOnList.name)
 
@@ -518,7 +573,7 @@ class EnterContestTestCommon extends SharedTest {
   }
 
   def knownBugSequence_DisappearedPlayers(implicit resolution:Resolution):Unit = {
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
 
     if (resolution == Resolution.SMALL) {
       page.selectGoalKeeperFromLineup
@@ -537,7 +592,7 @@ class EnterContestTestCommon extends SharedTest {
   }
 
   def knownBugSequence_DuplicatedPlayersAtInsert(implicit resolution:Resolution):Unit = {
-    val page = goToEnterContest()
+    val page = goToEnterContest(enterContestState.contest.id)
 
     page.selectDefenseFromLineup(1)
 
@@ -552,7 +607,7 @@ class EnterContestTestCommon extends SharedTest {
 
     if (resolution != Resolution.SMALL) {
 
-      val page = goToEnterContest()
+      val page = goToEnterContest(enterContestState.contest.id)
 
       page.selectGoalKeeperFromLineup
           .setSoccerPlayerPositionFilter(SoccerPlayer.POS_FORWARD)
@@ -564,122 +619,52 @@ class EnterContestTestCommon extends SharedTest {
 
   }
 
-
-  private def pickWholeLineup_Expensive(implicit resolution:Resolution):Unit = {
-    new EnterContestPage(resolution)
-      .selectMiddleFromLineup(1) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("james ro")
-      .addSoccerPlayerFromList(1)
-      .selectDefenseFromLineup(1) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("gianc")
-      .addSoccerPlayerFromList(1)
-      .selectForwardFromLineup(1) // FORWARD
-      .setSoccerPlayerNameFilterSearch("bry")
-      .addSoccerPlayerFromList(1)
-      .selectMiddleFromLineup(2) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("borges")
-      .addSoccerPlayerFromList(1)
-      .selectGoalKeeperFromLineup // GOALKEEPER
-      .setSoccerPlayerNameFilterSearch("navas")
-      .addSoccerPlayerFromList(1)
-      .selectDefenseFromLineup(2) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("zapata")
-      .addSoccerPlayerFromList(1)
-      .selectMiddleFromLineup(3) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("bola")
-      .addSoccerPlayerFromList(1)
-      .selectForwardFromLineup(2) // FORWARD
-      .setSoccerPlayerNameFilterSearch("geo")
-      .addSoccerPlayerFromList(1)
-      .selectMiddleFromLineup(4) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("yelt")
-      .addSoccerPlayerFromList(1)
-      .selectDefenseFromLineup(3) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("armero")
-      .addSoccerPlayerFromList(1)
-      .selectDefenseFromLineup(4) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("yepes")
-      .addSoccerPlayerFromList(1)
-
-    // left -34500
-  }
-
-  private def pickWholeLineup_Cheap(implicit resolution:Resolution):Unit = {
-    new EnterContestPage(resolution)
-      .selectForwardFromLineup(1) // FORWARD
-      .setSoccerPlayerNameFilterSearch("ore")
-      .addSoccerPlayerFromList(1)
-      .selectMiddleFromLineup(1) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("calvo")
-      .addSoccerPlayerFromList(1)
-      .selectGoalKeeperFromLineup // GOALKEEPER
-      .setSoccerPlayerNameFilterSearch("stef")
-      .addSoccerPlayerFromList(1)
-      .selectDefenseFromLineup(1) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("alb")
-      .addSoccerPlayerFromList(1)
-      .selectForwardFromLineup(2) // FORWARD
-      .setSoccerPlayerNameFilterSearch("pare")
-      .addSoccerPlayerFromList(1)
-      .selectMiddleFromLineup(2) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("fuen")
-      .addSoccerPlayerFromList(1)
-      .selectDefenseFromLineup(2) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("way")
-      .addSoccerPlayerFromList(1)
-      .selectDefenseFromLineup(3) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("heiner")
-      .addSoccerPlayerFromList(1)
-      .selectMiddleFromLineup(3) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("troi")
-      .addSoccerPlayerFromList(1)
-      .selectDefenseFromLineup(4) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("wri")
-      .addSoccerPlayerFromList(1)
-      .selectMiddleFromLineup(4) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("luon")
-      .addSoccerPlayerFromList(1)
-
-    // left 40500
-  }
-
-  private def pickWholeLineup_ExpendAllMoney(implicit resolution:Resolution):Unit = {
+  private def pickWholeLineup(implicit resolution:Resolution, lineup:Array[String]):Unit = {
     new EnterContestPage(resolution)
 
-      .selectDefenseFromLineup(1) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("gim")
-      .addSoccerPlayerFromList(1)
-      .selectForwardFromLineup(1) // FORWARD
-      .setSoccerPlayerNameFilterSearch("lui")
-      .addSoccerPlayerFromList(1)
-      .selectDefenseFromLineup(2) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("san")
-      .addSoccerPlayerFromList(1)
       .selectMiddleFromLineup(1) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("marce")
+      .setSoccerPlayerNameFilterSearch(lineup(5))
       .addSoccerPlayerFromList(1)
+
+      .selectDefenseFromLineup(1) // DEFENSE
+      .setSoccerPlayerNameFilterSearch(lineup(1))
+      .addSoccerPlayerFromList(1)
+
+      .selectForwardFromLineup(1) // FORWARD
+      .setSoccerPlayerNameFilterSearch(lineup(9))
+      .addSoccerPlayerFromList(1)
+
       .selectMiddleFromLineup(2) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("francisco")
+      .setSoccerPlayerNameFilterSearch(lineup(6))
       .addSoccerPlayerFromList(1)
-      .selectDefenseFromLineup(3) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("spira")
-      .addSoccerPlayerFromList(1)
-      .selectMiddleFromLineup(3) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("laza")
-      .addSoccerPlayerFromList(1)
-      .selectDefenseFromLineup(4) // DEFENSE
-      .setSoccerPlayerNameFilterSearch("fuc")
-      .addSoccerPlayerFromList(1)
+
       .selectGoalKeeperFromLineup // GOALKEEPER
-      .setSoccerPlayerNameFilterSearch("fer")
+      .setSoccerPlayerNameFilterSearch(lineup(0))
       .addSoccerPlayerFromList(1)
+
+      .selectDefenseFromLineup(2) // DEFENSE
+      .setSoccerPlayerNameFilterSearch(lineup(2))
+      .addSoccerPlayerFromList(1)
+
+      .selectMiddleFromLineup(3) // MIDDLE
+      .setSoccerPlayerNameFilterSearch(lineup(7))
+      .addSoccerPlayerFromList(1)
+
       .selectForwardFromLineup(2) // FORWARD
-      .setSoccerPlayerNameFilterSearch("jack")
+      .setSoccerPlayerNameFilterSearch(lineup(10))
       .addSoccerPlayerFromList(1)
+
       .selectMiddleFromLineup(4) // MIDDLE
-      .setSoccerPlayerNameFilterSearch("andre")
+      .setSoccerPlayerNameFilterSearch(lineup(8))
       .addSoccerPlayerFromList(1)
-    // left 0
+
+      .selectDefenseFromLineup(3) // DEFENSE
+      .setSoccerPlayerNameFilterSearch(lineup(3))
+      .addSoccerPlayerFromList(1)
+
+      .selectDefenseFromLineup(4) // DEFENSE
+      .setSoccerPlayerNameFilterSearch(lineup(4))
+      .addSoccerPlayerFromList(1)
   }
 /*
   private def enterInContest: LobbyPage ={

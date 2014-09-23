@@ -47,13 +47,16 @@ class PaginatorControl(res:Resolution, prefix: String) extends SharedPage(res) {
   }
 
   def goToPage(index:Int) = {
-    if (getNumberOfPages < index) { throw new Exception("Page index is greater than number of pages.") }
+    val numOfPages = getNumberOfPages
+    if (numOfPages < index) { throw new Exception("Page index is greater than number of pages.") }
     if (1 > index) { throw new Exception("Page index should be greater than 0.") }
-
-    if ( isDisplayed ) {
+    if (index == numOfPages) {
+      goToLastPage
+    } else if (index == 1) {
+      goToFirstPage
+    } else if ( isDisplayed ) {
       val cssSel = PAGER_BOX + " .pagination .page-link:nth-child(" + (index + 3) + ") a"
       val currPage = getCurrentPage
-      val numPages = getNumberOfPages
       var attempts = 0
       var isBttDisplayed:Boolean = false
       eventually { isBttDisplayed = find(cssSelector(cssSel)).get.isDisplayed }
@@ -67,7 +70,7 @@ class PaginatorControl(res:Resolution, prefix: String) extends SharedPage(res) {
 
         eventually { isBttDisplayed = find(cssSelector(cssSel)).get.isDisplayed }
         attempts += 1
-        if (attempts == numPages) {
+        if (attempts == numOfPages) {
           throw new Exception("page cannot be found")
         }
       }

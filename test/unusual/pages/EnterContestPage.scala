@@ -59,6 +59,7 @@ class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813
 
   override def isAt = {
     var _isAt = true
+    logger.debug("Contest id: " + contestId)
     _isAt = _isAt && pageTitle == TITLE
 
     _isAt = _isAt && new MenuBar(resolution).isAt
@@ -81,8 +82,6 @@ class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813
 
       _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(1))
       _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(2))
-      _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(3))
-      _isAt = _isAt && isElemDisplayed(FILTER_MATCH_DESKTOP(4))
     }
 
     _isAt = _isAt && getNumberOfSoccerPlayers > 0
@@ -104,11 +103,18 @@ class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813
                         find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None &&
                         find(cssSelector(ENTER_CONTEST_TAB(1) + ACTIVE_ELEMENT)) != None
     } else {
-      versionCheck = getNumberOfSoccerPlayers == totalPlayers &&
-                        isOrderedByPos &&
-                        find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None &&
-                        find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None
+      val numSoccerPlayers = getNumberOfSoccerPlayers
+      versionCheck = numSoccerPlayers == totalPlayers
+      logger.debug("Soccer players are " + numSoccerPlayers + " should be: " + totalPlayers, versionCheck)
+      versionCheck = versionCheck && isOrderedByPos
+      logger.debug("Is ordered by pos ", versionCheck)
+      versionCheck = versionCheck && find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None
+      logger.debug("Position filter should be ''All'' ", versionCheck)
+      versionCheck = versionCheck && find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None
+      logger.debug("Match filter should be ''All'' ", versionCheck)
     }
+
+    
 
     isLineupEmpty &&
       versionCheck &&
