@@ -6,9 +6,16 @@ import unusual.model.{LobbyState, Contest}
 import unusual.tests.contestDescriptionTest._
 import unusual.tests.enterContestTest.EnterContestAuthTest
 import unusual.tests.lobbyTest._
+import unusual.tests.simulatorController._
 
 
 class SequentialTestRunner extends Sequential(
+  new InitializerTest
+  /*, {
+    val test = new LobbyAuthTest
+    test.lobbyState = LobbyState.DEFAULT_LOBBY
+    test
+  }*/
   /*{
     val test = new ContestDescriptionAuthTest
     test.contest = Contest.DEFAULT_LIST(0)
@@ -33,11 +40,14 @@ class SequentialTestRunner extends Sequential(
     val test = new EnterContestAuthTest
     test.enterContestState.contest = Contest.DEFAULT_LIST(1)
     test
-  }, */{
+  }, {
     val test = new EnterContestAuthTest
     test.enterContestState.contest = Contest.DEFAULT_LIST(2)
     test
-  }/*
+  }, *//*, {
+    val test = new TimeShiftTest(15,6,2014,0,0)
+    test
+  }*//*
   {
     val test = new ContestDescriptionAuthTest
     val contest = new Contest()

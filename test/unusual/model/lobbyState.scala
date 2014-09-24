@@ -35,90 +35,25 @@ object LobbyState {
   var DEFAULT_LOBBY = {
     val state = new LobbyState
 
-    state.numContests_NoFilter = 1275
-    state.numContests_Free = 51
-    state.numContests_League = 864
-    state.numContests_FiftyFifty = 288
-    state.numContests_HeadToHead = 72
+    state.numContests_NoFilter = 636
+    state.numContests_Free = 24
+    state.numContests_League = 432
+    state.numContests_FiftyFifty = 154
+    state.numContests_HeadToHead = 36
 
     state.minEntryFeeFilter = 2
-    state.numContests_MinEntryFee = 1020
+    state.numContests_MinEntryFee = 510
 
     state.maxEntryMoney = 6
 
     state.filterPanel_SearchResults = Map(
-      "vie., 13" -> 637,
-      "jun" -> 1275
+      "vie., 13" -> 318,
+      "jun" -> 636
     )
 
-    /*
-    state.numContests_NoFilter = 672
-    state.numContests_Free = 24
-    state.numContests_League = 432
-    state.numContests_FiftyFifty = 144
-    state.numContests_HeadToHead = 72
-
-    state.minEntryFeeFilter = 2
-    state.numContests_MinEntryFee = 540
-
-    state.filterPanel_SearchResults = Map(
-      "vie., 13" -> 336,
-      "jun" -> 672
-    )
-    */
     state.contests = Contest.DEFAULT_LIST
 
     state
   }
 
-/* Array({
-    val contest = new Contest()
-    contest.name = "jue., 12 jun."
-    contest.description = "Free: 2 de 3 jugadores - LIM. SAL.: 90000"
-    contest.entryFee = "0€"
-    contest.prize = "0€"
-    contest.id = "541ac0be300430b52c466ce3"
-    contest.date = "Hoy"
-    contest.numMatches = 3
-    contest.numContestants = 2
-    contest.numPrizes = 0
-
-    contest.nameOrder = 2
-    contest.entryFeeOrder = 1
-    contest.startDateOrder = 1
-    contest
-  }, {
-    val contest = new Contest()
-    contest.name = "jue., 12 jun!!"
-    contest.description = "Free: 3 de 4 jugadores - LIM. SAL.: 70000"
-    contest.entryFee = "0€"
-    contest.prize = "0€"
-    contest.id = "541afb21300430b52c4691d0"
-    contest.date = "13/06"
-    contest.numMatches = 2
-    contest.numContestants = 3
-    contest.numPrizes = 0
-
-    contest.nameOrder = 1
-    contest.entryFeeOrder = 50
-    contest.startDateOrder = 638
-    contest
-  }, {
-    val contest = new Contest()
-    contest.name = "jue., 12 jun. Perso1"
-    contest.description = "Free: 4 de 5 jugadores - LIM. SAL.: 90000"
-    contest.entryFee = "0€"
-    contest.prize = "0€"
-    contest.id = "541afb21300430b52c4691cb"
-    contest.date = "Hoy"
-    contest.numMatches = 5
-    contest.numContestants = 4
-    contest.numPrizes = 0
-
-    contest.nameOrder = 638
-    contest.entryFeeOrder = 49
-    contest.startDateOrder = 637
-    contest
-  }
-  )*/
 }
