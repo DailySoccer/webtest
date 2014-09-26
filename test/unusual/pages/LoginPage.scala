@@ -7,10 +7,11 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
 
   override val url = SharedPage.baseUrl + "/#/login"
 
-  //val LEGEND  = "Login"
+  //val LEGEND        = "Login"
   val FORM_EMAIL    = "login-mail"
   val FORM_PASSWORD = "login-password"
-  val FORM_SUBMIT = "joinNow"
+  val FORM_SUBMIT   = "btnSubmit"
+  val FORM_CANCEL   = "btnCancelLogin"
 
   //val DEFAULT_USER : User = new User("Test", "Test", "test@test.com", "Test", "private")
 
@@ -18,9 +19,10 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
     pageTitle should be (TITLE)
     eventually {
       //find(tagName("legend")).get.text should be (LEGEND)
-      find(id(FORM_EMAIL)) should be ('defined)
+      find(id(FORM_EMAIL))    should be ('defined)
       find(id(FORM_PASSWORD)) should be ('defined)
-      find(id(FORM_SUBMIT)) should be ('defined)
+      find(id(FORM_SUBMIT))   should be ('defined)
+      find(id(FORM_CANCEL))   should be ('defined)
     }
     new FooterBar(resolution).isAt
 
@@ -33,7 +35,7 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
   }
 
   private def fillAndSubmitForm(u: User) = {
-    emailField(FORM_EMAIL).value = u.email
+    emailField(FORM_EMAIL).value  = u.email
     pwdField(FORM_PASSWORD).value = u.password
     submit
     this
