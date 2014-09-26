@@ -11,9 +11,9 @@ import unusual.tests._
 import unusual.pages._
 import unusual.tests.contestDescriptionTest.ContestDescriptionCommon
 
-class LobbyTestCommon extends SharedTest {
+class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
 
-  var lobbyState = LobbyState.DEFAULT_LOBBY
+  var lobbyState = lobbySt
 
 
   val N_CONTESTS_SEARCH = 0

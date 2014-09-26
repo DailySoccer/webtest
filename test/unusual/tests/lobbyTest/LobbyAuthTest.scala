@@ -1,11 +1,11 @@
 package unusual.tests.lobbyTest
 
-import unusual.model.Resolution
+import unusual.model.{LobbyState, Resolution}
 import unusual.pages.{HomePage, EnterContestPage, LobbyPage}
 import unusual.testTags.scala._
 import unusual.tests.contestDescriptionTest._
 
-class LobbyAuthTest extends LobbyTestCommon {
+class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbySt) {
 
   def orderBy = afterWord("ORDER BY")
   def filterBy = afterWord("FILTER BY")

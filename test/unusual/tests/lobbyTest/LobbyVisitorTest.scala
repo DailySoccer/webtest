@@ -1,11 +1,11 @@
 package unusual.tests.lobbyTest
 
-import unusual.model.Resolution
+import unusual.model.{LobbyState, Resolution}
 import unusual.pages._
 import unusual.testTags.scala._
 import unusual.tests.SharedTest
 
-class LobbyVisitorTest extends LobbyTestCommon {
+class LobbyVisitorTest(lobbySt:LobbyState = LobbyState.DEFAULT_LOBBY) extends LobbyTestCommon(lobbySt) {
 
   before {
     status.ensureVisitor
