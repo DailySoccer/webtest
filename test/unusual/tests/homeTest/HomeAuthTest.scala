@@ -1,6 +1,6 @@
 package unusual.tests.homeTest
 
-import unusual.model.Resolution
+import unusual.model.{LobbyState, Resolution}
 import unusual.pages.{EnterContestPage, LobbyPage, HomePage}
 import unusual.testTags.scala.{BigResolution, MediumResolution, SmallResolution, WIP}
 import unusual.tests._
@@ -19,7 +19,7 @@ class HomeAuthTest extends HomeTestCommon {
 
     "try to go to lobby without be logged in. Page should redirect to home" in {
       new HomePage(resolution).open
-      assert(new LobbyPage(resolution).isAt, "is not lobby page")
+      assert(new LobbyPage(resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney).isAt, "is not lobby page")
     }
 
   }

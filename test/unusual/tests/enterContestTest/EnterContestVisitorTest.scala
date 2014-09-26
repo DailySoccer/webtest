@@ -17,7 +17,7 @@ class EnterContestVisitorTest extends EnterContestTestCommon {
     implicit val resolution: Resolution = res
 
     "try to go to contest. Page should redirect to home" in {
-      val enterC = new EnterContestPage(resolution)
+      val enterC = new EnterContestPage(resolution, enterContestState.contest)
       val home = new HomePage(resolution)
       enterC.open
       home.isAt

@@ -31,8 +31,8 @@ trait DOM_Ops {
               jQElemHour = $('.contest-row:nth-child(' + i + ') .column-contest-start-date .column-start-date-hour'),
               valueOf = function(strDay, strHour) {
                             var strDayArr = strDay.split('/')
-                                day = (strDayArr[0] == 'Hoy')? 13 : parseInt(strDayArr[0]),
-                                month = (strDayArr[0] == 'Hoy')? 6 : parseInt(strDayArr[1]),
+                                day = (strDayArr[0] == 'Hoy')? 0 : parseInt(strDayArr[0]),
+                                month = (strDayArr[0] == 'Hoy')? 0 : parseInt(strDayArr[1]),
                                 hour = parseInt(strHour.split(':')[0]),
                                 minute = parseInt(strHour.split(':')[1].split('h')[0]),
                                 value = ((month * 31 + day) * 24 + hour) * 60 + minute;
@@ -43,6 +43,7 @@ trait DOM_Ops {
           while (jQElemDay.length > 0 && jQElemHour.length > 0 && isOrdered) {
             val = valueOf(jQElemDay.text(), jQElemHour.text())
             isOrdered = val >= oldVal;
+            console.log(oldVal + ' .. ' + val + ' | is ordered:' + isOrdered)
             oldVal = val;
 
             i++;
@@ -53,7 +54,6 @@ trait DOM_Ops {
           return isOrdered;
         })()
     """
-
     WebBrowser.executeScript(script).asInstanceOf[Boolean]
   }
 
@@ -113,6 +113,7 @@ trait DOM_Ops {
 
           while (jQElem.length > 0 && isOrdered) {
             val = normalize(jQElem.text()).toLowerCase();
+            console.log(oldVal + ' .. ' + val + ' | is ordered:' + isOrdered)
             isOrdered = val >= oldVal;
             oldVal = val;
 

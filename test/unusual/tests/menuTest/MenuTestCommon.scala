@@ -8,7 +8,7 @@ import unusual.pages._
 class MenuTestCommon extends SharedTest {
 
   def doLogout(implicit resolution:Resolution): Unit = {
-    goToLobbyPage
+    goToLobbyPage(LobbyState.DEFAULT_LOBBY)
     val menuBar = new MenuBar(resolution)
     assert(menuBar.isAt && menuBar.isLoggedBar)
 
@@ -18,7 +18,7 @@ class MenuTestCommon extends SharedTest {
   }
 
   def checkUserName(implicit resolution:Resolution): Unit = {
-    goToLobbyPage
+    goToLobbyPage(LobbyState.DEFAULT_LOBBY)
     val user:User = User.DEFAULT
 
     val menuBar:MenuBar = new MenuBar(resolution)
@@ -31,12 +31,12 @@ class MenuTestCommon extends SharedTest {
 
 
   def goToMyContestsFromLobby(implicit resolution:Resolution): Unit = {
-    goToLobbyPage
+    goToLobbyPage(LobbyState.DEFAULT_LOBBY)
     new MenuBar(resolution).clickOnMyContests
   }
 
   def goToGamePromosFromLobby(implicit resolution:Resolution): Unit = {
-    goToLobbyPage
+    goToLobbyPage(LobbyState.DEFAULT_LOBBY)
     new MenuBar(resolution).clickOnGamePromos
   }
 

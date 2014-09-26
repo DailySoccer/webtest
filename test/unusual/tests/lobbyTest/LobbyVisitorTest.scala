@@ -19,7 +19,7 @@ class LobbyVisitorTest extends LobbyTestCommon {
     implicit val resolution: Resolution = res
 
     "try to go to lobby. Page should redirect to home" taggedAs(DoesNotWorkYet) in {
-      val lobby = new LobbyPage(resolution).open
+      val lobby = new LobbyPage(resolution, lobbyState.maxEntryMoney).open
       val home = new HomePage(resolution)
       lobby.open
       assert(home.isAt, "Is not at home.")

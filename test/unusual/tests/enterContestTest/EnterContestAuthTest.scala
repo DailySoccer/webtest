@@ -1,7 +1,7 @@
 package unusual.tests.enterContestTest
 
 import unusual.model._
-import unusual.testTags.scala.WIP
+import unusual.testTags.scala.{DoesNotWorkYet, WIP}
 
 class EnterContestAuthTest extends EnterContestTestCommon {
 
@@ -46,7 +46,10 @@ class EnterContestAuthTest extends EnterContestTestCommon {
 
       "(soccer) All" in filterByAll
 
+      "match" in filterByMatch
 
+      "Mixed filters" in filterMix_Position_Match
+      /*
       "(match) All" in filterByMatch_None
 
       "(match) Cle-Aus" in filterByMatch_CleAus
@@ -65,6 +68,7 @@ class EnterContestAuthTest extends EnterContestTestCommon {
       "Middle and Cle-Aus" in filterMix_Middle_CleAus
 
       "Forward and Col-Grc" in filterMix_Forward_ColGrc
+      */
     }
 
     "use lineup elements" which filterBy {
