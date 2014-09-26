@@ -7,7 +7,6 @@ class Contest () {
   var entryFee = ""
   var prize = ""
   var date = ""
-  var id = ""
 
   var numMatches = 0
   var numContestants = 0
@@ -34,7 +33,7 @@ class Contest () {
   var expendAllMoney = Array[String]()
 
   override def toString: String = {
-    name + " - " + id + "\n" + description + " \n" + entryFee + " - " + prize + " - " + date + "\n"
+    name + "\n" + description + " \n" + entryFee + " - " + prize + " - " + date + "\n"
   }
 
 }
@@ -48,23 +47,22 @@ object Contest {
   val FORWARD = 5
 
   // 12/06/14 08:00:39
-  var DEFAULT_LIST = Array(
+  val TIME_0_LIST = Array(
     {
       val contest = new Contest()
-      contest.name = "jue., 12 jun."
-      contest.description = "Free: 2 de 3 jugadores - LIM. SAL.: 90000"
+      contest.name = "jue., 12 jun.++"
+      contest.description = "Free: 3 de 4 jugadores - LIM. SAL.: 80000"
       contest.entryFee = "0€"
       contest.prize = "0€"
-      contest.id = "541ac0be300430b52c466ce3"
       contest.date = "Hoy"
       // BRA-HRV MEX-CMR ESP-NLD
       contest.numMatches = 3
-      contest.numContestants = 2
+      contest.numContestants = 3
       contest.numPrizes = 0
 
-      contest.nameOrder = 3
-      contest.entryFeeOrder = 1
-      contest.startDateOrder = 1
+      contest.nameOrder = 320
+      contest.entryFeeOrder = 27
+      contest.startDateOrder = 320
 
       // enterContest specifics
       contest.numGoalKeepersPlayers = 18
@@ -122,25 +120,25 @@ object Contest {
         "Ante Rebic"
       )
 
-      contest.initialSalary = 90000
+      contest.initialSalary = 80000
 
       contest
-    }, {
+    },
+    {
       val contest = new Contest()
       contest.name = "jue., 12 jun!!"
       contest.description = "Free: 3 de 4 jugadores - LIM. SAL.: 70000"
       contest.entryFee = "0€"
       contest.prize = "0€"
-      contest.id = "541afb21300430b52c4691d0"
-      contest.date = "13/06"
+      contest.date = "14/06"
       // ESP-NLD ENG-ITA
       contest.numMatches = 2
-      contest.numContestants = 3
+      contest.numContestants = 12
       contest.numPrizes = 0
 
-      contest.nameOrder = 1
-      contest.entryFeeOrder = 50
-      contest.startDateOrder = 639
+      contest.nameOrder = 319
+      contest.entryFeeOrder = 25
+      contest.startDateOrder = 321
 
 
       // enterContest specifics
@@ -199,36 +197,36 @@ object Contest {
       contest.initialSalary = 70000
 
       contest
-    }, {
+    },
+    {
       val contest = new Contest()
-      contest.name = "jue., 12 jun. Perso2"
+      contest.name = "jue., 12 jun...."
       contest.description = "Free: 4 de 5 jugadores - LIM. SAL.: 90000"
       contest.entryFee = "0€"
       contest.prize = "0€"
-      contest.id = "542138693004a11aed2a7dc4"
       contest.date = "Hoy"
       // BRA-HRV FRA-HND ARG-IRN KOR-BEL
       contest.numMatches = 4
-      contest.numContestants = 4
+      contest.numContestants = 12
       contest.numPrizes = 0
 
-      contest.nameOrder = 645
-      contest.entryFeeOrder = 53
-      contest.startDateOrder = 638
+      contest.nameOrder = 321
+      contest.entryFeeOrder = 26
+      contest.startDateOrder = 319
 
       // enterContest specifics
-      contest.numGoalKeepersPlayers = 24
+      contest.numGoalKeepersPlayers = 25
       contest.numDefensePlayers = 61
-      contest.numMiddlePlayers = 67
+      contest.numMiddlePlayers = 70
       contest.numForwardPlayers = 32
-      contest.numAllPlayers = 184
+      contest.numAllPlayers = 188
 
       contest.matchPlayers = Map(
         1 -> contest.numAllPlayers,
         2 -> 46,
-        3 -> 46,
+        3 -> 49,
         4 -> 46,
-        5 -> 46
+        5 -> 47
       )
 
       contest.matchPositionMixNumPlayers = Map(
@@ -238,7 +236,7 @@ object Contest {
         ),
         3 -> Map(
           SoccerPlayer.POS_FORWARD -> 7,
-          SoccerPlayer.POS_MIDDLE -> 18
+          SoccerPlayer.POS_MIDDLE -> 21
         ),
         4 -> Map(
           SoccerPlayer.POS_DEFENSE -> 15
@@ -283,4 +281,9 @@ object Contest {
       contest
     }
   )
+
+  val TIME_1_LIST = {
+    val list = TIME_0_LIST
+  }
+
 }

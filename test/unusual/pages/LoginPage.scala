@@ -10,7 +10,7 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
   //val LEGEND  = "Login"
   val FORM_EMAIL    = "login-mail"
   val FORM_PASSWORD = "login-password"
-  val FORM_SUBMIT = "login"
+  val FORM_SUBMIT = "joinNow"
 
   //val DEFAULT_USER : User = new User("Test", "Test", "test@test.com", "Test", "private")
 

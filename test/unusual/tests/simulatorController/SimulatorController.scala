@@ -1,6 +1,7 @@
 package unusual.tests.simulatorController
 
 import unusual.pages.SharedPage
+import unusual.testTags.scala.WIP
 import unusual.tests.SharedTest
 
 class SimulatorController extends SharedTest {
@@ -46,9 +47,9 @@ class SimulatorController extends SharedTest {
 }
 
 class InitializerTest extends SimulatorController {
-  "Simulator" should ("set up initial configuration" in initialTestsSetup)
+  "Simulator" should ("set up initial configuration" taggedAs WIP in initialTestsSetup)
 }
 
 class TimeShiftTest(day:Int, month:Int, year:Int, hour:Int, minute:Int, returnedString:String) extends SimulatorController {
-  "Simulator" should ("perform a time shift" in timeShift(day, month, year, hour, minute, returnedString))
+  "Simulator" should ("perform a time shift" taggedAs WIP in timeShift(day, month, year, hour, minute, returnedString))
 }

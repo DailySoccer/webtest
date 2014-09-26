@@ -56,15 +56,21 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   val FILTERS_PANEL = "#filtersPanel"
   val RESET_FILTERS_BUTTON = ".reset-button-wrapper .btn-reset"
 
-  val FILTERS_PANEL_FILTER_FREE_CHECK         = "filtroFree"
-  val FILTERS_PANEL_FILTER_LEAGUE_CHECK       = "filtroleague"
-  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK  = "filtroFiftyFifty"
-  val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK = "filtroHeadToHead"
+  val FILTERS_PANEL_FILTER_FREE_CHECK            = "filtroFree"
+  val FILTERS_PANEL_FILTER_LEAGUE_CHECK          = "filtroleague"
+  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK     = "filtroFiftyFifty"
+  val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK    = "filtroHeadToHead"
+  val FILTERS_PANEL_FILTER_BEGINNER_SALARY       = "filtroPrincipiante"
+  val FILTERS_PANEL_FILTER_STANDARD_SALARY       = "filtroEstandar"
+  val FILTERS_PANEL_FILTER_EXPERT_SALARY         = "filtroExperto"
 
-  val FILTERS_PANEL_FILTER_FREE_LABEL         = "label[for=\"" + FILTERS_PANEL_FILTER_FREE_CHECK + "\"]"
-  val FILTERS_PANEL_FILTER_LEAGUE_LABEL       = "label[for=\"" + FILTERS_PANEL_FILTER_LEAGUE_CHECK + "\"]"
-  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_LABEL  = "label[for=\"" + FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK + "\"]"
-  val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK + "\"]"
+  val FILTERS_PANEL_FILTER_FREE_LABEL            = "label[for=\"" + FILTERS_PANEL_FILTER_FREE_CHECK + "\"]"
+  val FILTERS_PANEL_FILTER_LEAGUE_LABEL          = "label[for=\"" + FILTERS_PANEL_FILTER_LEAGUE_CHECK + "\"]"
+  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_LABEL     = "label[for=\"" + FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK + "\"]"
+  val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_LABEL    = "label[for=\"" + FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK + "\"]"
+  val FILTERS_PANEL_FILTER_BEGINNER_SALARY_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_BEGINNER_SALARY + "\"]"
+  val FILTERS_PANEL_FILTER_STANDARD_SALARY_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_STANDARD_SALARY + "\"]"
+  val FILTERS_PANEL_FILTER_EXPERT_SALARY_LABEL   = "label[for=\"" + FILTERS_PANEL_FILTER_EXPERT_SALARY + "\"]"
 
   val SORT_BY_NAME = "#sortContestName"
   val SORT_BY_ENTRY_FEE = "#sortContestEntryFee"
@@ -237,6 +243,18 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     applyFilter(FILTERS_PANEL_FILTER_HEAD_TO_HEAD_LABEL)
   }
 
+  def clickBeginnerSalaryFilter = {
+    applyFilter(FILTERS_PANEL_FILTER_BEGINNER_SALARY_LABEL)
+  }
+
+  def clickStandardSalaryFilter = {
+    applyFilter(FILTERS_PANEL_FILTER_STANDARD_SALARY_LABEL)
+  }
+
+  def clickExpertSalaryFilter = {
+    applyFilter(FILTERS_PANEL_FILTER_EXPERT_SALARY_LABEL)
+  }
+
   def clickSortContestsByName = {
     click on find(cssSelector(SORT_BY_NAME)).get
     this
@@ -305,7 +323,11 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
 
   def playContestNumber(ordinal: Int) = {
-    eventually { click on find(cssSelector( CONTEST_ROW_PLAY_BUTTON(ordinal) )).get }
+    val subOrdinal = ((ordinal - 1) % PaginatorControl.ELEMENTS_PER_PAGE) + 1
+    val page = Math.floor((ordinal - 1) / PaginatorControl.ELEMENTS_PER_PAGE).toInt + 1
+    val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
+    paginator.goToPage(page)
+    eventually { click on find(cssSelector( CONTEST_ROW_PLAY_BUTTON(subOrdinal) )).get }
     this
   }
 
@@ -336,6 +358,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
       }
     }
 
+    //Thread.sleep(100000)
     areOrdered
   }
 
@@ -368,6 +391,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
       }
     }
 
+    //Thread.sleep(100000)
     areOrdered
   }
 

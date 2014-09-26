@@ -20,6 +20,10 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
     l
   }
 
+  val DESKTOP_ENABLED = true
+  val TABLET_ENABLED = true
+  val SMARTPHONE_ENABLED = true
+
 
   override def beforeAll {
     println("========= BEFORE ALL!")  // start up your web server or whatever
@@ -68,15 +72,11 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
     promosPage
   }
 
-  def goToEnterContest(contestId:String) : EnterContestPage = {
+  def goToEnterContest(contest:Contest) : EnterContestPage = {
     var enterContest:EnterContestPage = null
-    if (contestId == null) {
-      enterContest = new EnterContestPage(status.resolution)
-    } else {
-      enterContest = new EnterContestPage(status.resolution, contestId)
-    }
-
-    assert(enterContest.open.isAt, "trying to access to enterContest")
+    enterContest = new EnterContestPage(status.resolution, contest)
+    enterContest.open
+    assert(enterContest.isAt, "trying to access to enterContest")
     enterContest
   }
 
@@ -108,7 +108,8 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
   }
 
   def sizeTesting(behavior: (Resolution) => Unit) = {
-    "use DESKTOP device" must {
+
+    if (DESKTOP_ENABLED) "use DESKTOP device" must {
       val resolution:Resolution = Resolution.BIG
 
       "stablish browser resolution" taggedAs(WIP) in {
@@ -118,7 +119,7 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
       behave like behavior(resolution)
     }
 
-    "use TABLET device" must {
+    if (TABLET_ENABLED) "use TABLET device" must {
       val resolution:Resolution = Resolution.MEDIUM
 
       "stablish browser resolution" taggedAs(WIP) in {
@@ -128,7 +129,7 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
       behave like behavior(resolution)
     }
 
-    "use SMARTPHONE device" must {
+    if (SMARTPHONE_ENABLED) "use SMARTPHONE device" must {
       val resolution:Resolution = Resolution.SMALL
 
       "stablish browser resolution" taggedAs(WIP) in {

@@ -8,7 +8,7 @@ import unusual.model._
 
 class ContestDescriptionCommon extends SharedTest {
 
-  var contest = Contest.DEFAULT_LIST(0)
+  var contest = Contest.TIME_0_LIST(0)
 
   def changeTabs(implicit resolution: Resolution): Unit = {
     if (resolution == Resolution.BIG) {
@@ -35,7 +35,7 @@ class ContestDescriptionCommon extends SharedTest {
       assert(contestDescription.countMatches == contest.numMatches)
     } else {
       eventually {
-        goToEnterContest(contest.id).openContestDescription
+        goToEnterContest(contest).openContestDescription
       }
       assert(new ContestDescriptionWindow(resolution).countMatches == contest.numMatches)
     }
@@ -50,7 +50,7 @@ class ContestDescriptionCommon extends SharedTest {
       assert(contestDescription.countContestants == contest.numContestants)
     } else {
       eventually {
-        goToEnterContest(contest.id).openContestDescription
+        goToEnterContest(contest).openContestDescription
       }
       assert(new ContestDescriptionWindow(resolution).countContestants == contest.numContestants)
     }
@@ -65,7 +65,7 @@ class ContestDescriptionCommon extends SharedTest {
       assert(contestDescription.countPrizes == contest.numPrizes)
     } else {
       eventually {
-        goToEnterContest(contest.id).openContestDescription
+        goToEnterContest(contest).openContestDescription
       }
       assert(new ContestDescriptionWindow(resolution).countPrizes == contest.numPrizes)
     }
@@ -120,7 +120,7 @@ class ContestDescriptionCommon extends SharedTest {
       goToLobbyContestDescription
       logger.debug("Open contest description")
       val desc = new ContestDescriptionWindow(resolution)
-      val enterContPage:EnterContestPage = new EnterContestPage(resolution, contest.id)
+      val enterContPage:EnterContestPage = new EnterContestPage(resolution, contest)
       desc.enterContest
       logger.debug("Click on enter contest")
       eventually (timeout(5 seconds)) {

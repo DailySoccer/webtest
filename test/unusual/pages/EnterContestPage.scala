@@ -1,11 +1,11 @@
 package unusual.pages
 
-import unusual.model.{SoccerPlayer, Resolution}
+import unusual.model.{Contest, SoccerPlayer, Resolution}
 import unusual.pages.components.{FooterBar, MenuBar}
 
-class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813966c9") extends SharedPage(res) {
+class EnterContestPage(res: Resolution, contest: Contest) extends SharedPage(res) {
 
-  override val url = SharedPage.baseUrl + "/#/lobby/enter_contest/" + contestId
+  //override val url = SharedPage.baseUrl + "/#/lobby/enter_contest/"
 
   val SOCCER_PLAYER_POSITION_FILTER_TAB = Map(
     SoccerPlayer.POS_ALL -> 1,
@@ -59,7 +59,7 @@ class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813
 
   override def isAt = {
     var _isAt = true
-    logger.debug("Contest id: " + contestId)
+    logger.debug("Contest id: " + contest.nameOrder + ". " + contest.name)
     _isAt = _isAt && pageTitle == TITLE
 
     _isAt = _isAt && new MenuBar(resolution).isAt
@@ -89,6 +89,13 @@ class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813
     _isAt
   }
 
+  override def open = {
+    val lobby = new LobbyPage(resolution, 6)
+    lobby.open
+    lobby.clickOnMenuAllContests.clickOnMenuFreeContests.clearFilters
+    lobby.playContestNumber(contest.nameOrder)
+    this
+  }
 
 
   def isDefaultState(totalPlayers:Int, initialSalary: Int): Boolean = {
@@ -114,14 +121,19 @@ class EnterContestPage(res: Resolution, contestId: String = "540d4d1330045601813
       logger.debug("Match filter should be ''All'' ", versionCheck)
     }
 
-    
 
-    isLineupEmpty &&
-      versionCheck &&
-      isCleanLineupDisabled &&
-      isConfirmLineupDisabled &&
-      getLineUpSalary == initialSalary
 
+    versionCheck = versionCheck && isLineupEmpty
+    logger.debug("Line up should be empty", versionCheck)
+    versionCheck = versionCheck && isCleanLineupDisabled
+    logger.debug("Clean line up should be empty", versionCheck)
+    versionCheck = versionCheck && isConfirmLineupDisabled
+    logger.debug("Confirm line up should be disabled", versionCheck)
+    val salary = getLineUpSalary
+    versionCheck = versionCheck && salary == initialSalary
+    logger.debug("Line up salary is " + salary + " should be " + initialSalary, versionCheck)
+
+    versionCheck
   }
 
   def clickOnCloseButton = {

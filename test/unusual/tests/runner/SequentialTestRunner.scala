@@ -11,11 +11,23 @@ import unusual.tests.simulatorController._
 
 class SequentialTestRunner extends Sequential(
   new InitializerTest
-  /*, {
+  , {
     val test = new LobbyAuthTest
     test.lobbyState = LobbyState.DEFAULT_LOBBY
     test
-  }*/
+  }, {
+    val test = new EnterContestAuthTest
+    test.enterContestState.contest = Contest.TIME_0_LIST(0)
+    test
+  }, {
+    val test = new EnterContestAuthTest
+    test.enterContestState.contest = Contest.TIME_0_LIST(1)
+    test
+  }, {
+    val test = new EnterContestAuthTest
+    test.enterContestState.contest = Contest.TIME_0_LIST(2)
+    test
+  }
   /*{
     val test = new ContestDescriptionAuthTest
     test.contest = Contest.DEFAULT_LIST(0)

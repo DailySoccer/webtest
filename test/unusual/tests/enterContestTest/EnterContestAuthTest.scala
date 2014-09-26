@@ -25,7 +25,7 @@ class EnterContestAuthTest extends EnterContestTestCommon {
 
       "position" in orderByPosition
 
-      "name" taggedAs DoesNotWorkYet in orderByName
+      "name" in orderByName
 
       "DFP" in orderByDFP
 
@@ -94,7 +94,7 @@ class EnterContestAuthTest extends EnterContestTestCommon {
 
       "fill with priceless lineup" in pickTooExpensiveLineUp
 
-      "fill with priceless lineup. Then correct it to submit" taggedAs WIP in pickFailLineupAndCorrectIt
+      "fill with priceless lineup. Then correct it to submit" in pickFailLineupAndCorrectIt
     }
 
     "perform known BUG SEQUENCE" which causes {
