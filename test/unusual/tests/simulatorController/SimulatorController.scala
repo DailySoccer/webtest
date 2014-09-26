@@ -6,7 +6,7 @@ import unusual.tests.SharedTest
 
 class SimulatorController extends SharedTest {
 
-  val MAX_TIMEOUT_TIME = 300
+  val MAX_TIMEOUT_TIME = 3000
   val INTERVAL_TIME = 1
   val WORLD_CUP = 4
   val CHAMPIONS_LEAGUE = 5
