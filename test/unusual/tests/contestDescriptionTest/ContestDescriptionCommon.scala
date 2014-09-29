@@ -6,9 +6,9 @@ import unusual.tests._
 import unusual.pages._
 import unusual.model._
 
-class ContestDescriptionCommon extends SharedTest {
+class ContestDescriptionCommon(cont: Contest) extends SharedTest {
 
-  var contest = Contest.TIME_0_LIST(0)
+  var contest = cont
 
   def changeTabs(implicit resolution: Resolution): Unit = {
     if (resolution == Resolution.BIG) {

@@ -437,7 +437,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   def openContestDescription(idx:Int) = {
 
-    val page:Int = (Math.floor(idx/10) + 1).toInt
+    val page:Int = (Math.floor( (idx - 1) / 10) + 1).toInt
     new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).goToPage(page)
     val row:Int = ((idx-1) % 10) + 1
 

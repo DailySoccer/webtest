@@ -5,29 +5,9 @@ import unusual.model._
 import unusual.pages._
 import unusual.tests._
 
-class EnterContestTestCommon extends SharedTest {
+class EnterContestTestCommon(state: EnterContestState) extends SharedTest {
 
-  val enterContestState = new EnterContestState
-  /*
-  val N_GOAL_KEEPER_PLAYERS = 19
-  val N_DEFENSE_PLAYERS = 43
-  val N_MIDDLE_PLAYERS = 55
-  val N_FORWARD_PLAYERS = 27
-
-  val N_CLE_AUS = 50
-  val N_COL_GRC = 48
-  val N_URY_CRI = 46
-
-  val N_ALL_PLAYERS = 144
-
-  val N_MIX_GK_URY_CRI = 6
-  val N_MIX_GK_CLE_AUS = 7
-  val N_MIX_DEF_URY_CRI = 16
-  val N_MIX_MID_CLE_AUS = 22
-  val N_MIX_FOR_COL_GRC = 9
-
-  val INITIAL_SALARY = 90000
-  */
+  val enterContestState = state
 
   def checkDefaultState(implicit resolution:Resolution):Unit = {
 
@@ -255,21 +235,21 @@ class EnterContestTestCommon extends SharedTest {
         }),
         2 -> ((page) => {
           val r = scala.util.Random.nextInt(4) + 1
-          logger.debug("Defense{$r} Selected")
+          logger.debug(s"Defense{$r} Selected")
           page.selectDefenseFromLineup(r)
               .getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
           page
         }),
         3 -> ((page) => {
           val r = scala.util.Random.nextInt(4) + 1
-          logger.debug("Middle{$r} Selected")
+          logger.debug(s"Middle{$r} Selected")
           page.selectMiddleFromLineup(r)
               .getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
           page
         }),
         4 -> ((page) => {
           val r = scala.util.Random.nextInt(2) + 1
-          logger.debug("Forward{$r} Selected")
+          logger.debug(s"Forward{$r} Selected")
           page.selectForwardFromLineup(r)
               .getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS)
           page
@@ -466,7 +446,6 @@ class EnterContestTestCommon extends SharedTest {
     pickWholeLineup(resolution, enterContestState.contest.expendAllMoney)
 
     page.getLineUpSalary must be equals 0
-    Thread.sleep(10000)
     page.removeSoccerPlayerFromLineUp(1).getLineUpSalary must be > 0
 
     page.clearLineupList.getLineUpSalary must be (enterContestState.contest.initialSalary)
@@ -477,9 +456,7 @@ class EnterContestTestCommon extends SharedTest {
 
     page.getLineUpSalary must be (enterContestState.contest.initialSalary)
 
-
     pickWholeLineup(resolution, enterContestState.contest.expensiveLineup)
-
     page.getLineUpSalary must be < 0
 
     assert( page.confirmLineup.isOverSalaryErrorShown )
@@ -491,7 +468,6 @@ class EnterContestTestCommon extends SharedTest {
     val page = goToEnterContest(enterContestState.contest)
 
     page.getLineUpSalary must be (enterContestState.contest.initialSalary)
-
 
     pickWholeLineup(resolution, enterContestState.contest.expensiveLineup)
 
@@ -521,7 +497,7 @@ class EnterContestTestCommon extends SharedTest {
     page.getLineUpSalary must be equals 0
 
     page.confirmLineup
-    new LobbyPage(resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney).isAt
+    //new LobbyPage(resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney).isAt
   }
 
 /*

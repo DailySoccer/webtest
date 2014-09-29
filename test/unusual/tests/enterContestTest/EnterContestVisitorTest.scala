@@ -4,7 +4,7 @@ import unusual.model._
 import unusual.pages._
 import unusual.testTags.scala._
 
-class EnterContestVisitorTest extends EnterContestTestCommon {
+class EnterContestVisitorTest(state:EnterContestState) extends EnterContestTestCommon(state) {
 
   before {
     status.ensureVisitor

@@ -3,7 +3,7 @@ package unusual.tests.enterContestTest
 import unusual.model._
 import unusual.testTags.scala.{DoesNotWorkYet, WIP}
 
-class EnterContestAuthTest extends EnterContestTestCommon {
+class EnterContestAuthTest(state:EnterContestState) extends EnterContestTestCommon(state) {
 
   before {
     status.ensureAuthUser
@@ -13,7 +13,7 @@ class EnterContestAuthTest extends EnterContestTestCommon {
   def filterBy = afterWord("FILTER BY")
   def causes = afterWord("causes:")
 
-  "Auth user" when sizeTesting(enterContestPageBehavior)
+  s"Auth user in contest: ${enterContestState.contest.name}" when sizeTesting(enterContestPageBehavior)
 
 
   def enterContestPageBehavior(res:Resolution): Unit = {
@@ -50,6 +50,7 @@ class EnterContestAuthTest extends EnterContestTestCommon {
 
       "Mixed filters" in filterMix_Position_Match
       /*
+
       "(match) All" in filterByMatch_None
 
       "(match) Cle-Aus" in filterByMatch_CleAus

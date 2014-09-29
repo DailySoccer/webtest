@@ -4,7 +4,7 @@ import unusual.model.{Contest, Resolution}
 import unusual.pages._
 import unusual.testTags.scala.WIP
 
-class ContestDescriptionAuthTest extends ContestDescriptionCommon {
+class ContestDescriptionAuthTest(cont:Contest) extends ContestDescriptionCommon(cont) {
 
   def orderBy = afterWord("ORDER BY")
   def filterBy = afterWord("FILTER BY")

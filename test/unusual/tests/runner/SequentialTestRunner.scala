@@ -1,7 +1,7 @@
 package unusual.tests.runner
 
 import org.scalatest.Sequential
-import unusual.model.{LobbyState, Contest}
+import unusual.model.{EnterContestState, LobbyState, Contest}
 
 import unusual.tests.contestDescriptionTest._
 import unusual.tests.enterContestTest.EnterContestAuthTest
@@ -12,19 +12,11 @@ import unusual.tests.simulatorController._
 class SequentialTestRunner extends Sequential(
   new InitializerTest
   , new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
-  , {
-    val test = new EnterContestAuthTest
-    test.enterContestState.contest = Contest.TIME_0_LIST(0)
-    test
-  }, {
-    val test = new EnterContestAuthTest
-    test.enterContestState.contest = Contest.TIME_0_LIST(1)
-    test
-  }, {
-    val test = new EnterContestAuthTest
-    test.enterContestState.contest = Contest.TIME_0_LIST(2)
-    test
-  }
+  , new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
+  , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(0))
+  //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
+  //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(2))
+
   /*{
     val test = new ContestDescriptionAuthTest
     test.contest = Contest.DEFAULT_LIST(0)

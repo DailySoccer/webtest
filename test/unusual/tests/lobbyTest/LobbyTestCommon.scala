@@ -252,10 +252,8 @@ class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
   }
 
   def orderByName(implicit resolution:Resolution): Unit = {
-    val page = goToLobbyContest
-    assert(page.areContestsOrderedByName, "Contest are not sorted by name")
+    val page = goToLobbyContest.clickSortContestsByName
 
-    page.clickSortContestsByName.clickSortContestsByName
     assert(page.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
     assert(page.areContestsOrderedByName, "Contest are not sorted by name")
   }
@@ -268,8 +266,10 @@ class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
   }
 
   def orderByStartTime(implicit resolution:Resolution): Unit = {
-    val page = goToLobbyContest.clickSortContestsByStartTime
+    val page = goToLobbyContest
+    assert(page.areContestsOrderedByStartTime, "Contest are not sorted by name")
 
+    page.clickSortContestsByStartTime.clickSortContestsByStartTime
     assert(page.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
     assert(page.areContestsOrderedByStartTime, "Contest are not sorted by start time")
   }

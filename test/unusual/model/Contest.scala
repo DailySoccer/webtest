@@ -136,7 +136,7 @@ object Contest {
       contest.numContestants = 12
       contest.numPrizes = 0
 
-      contest.nameOrder = 319
+      contest.nameOrder = 321
       contest.entryFeeOrder = 25
       contest.startDateOrder = 321
 
@@ -210,7 +210,7 @@ object Contest {
       contest.numContestants = 12
       contest.numPrizes = 0
 
-      contest.nameOrder = 321
+      contest.nameOrder = 319
       contest.entryFeeOrder = 26
       contest.startDateOrder = 319
 
