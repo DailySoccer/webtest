@@ -23,6 +23,7 @@ class SimulatorController extends SharedTest {
 
 
   def initialTestsSetup: Unit = {
+    prepareInitialBrowserState
     go to URL_START
     go to URL_SELECT_COMPETITION(2013, WORLD_CUP)
     timeShift(10,6,2014,0,0, "14/06/10 08:00:49 UTC")
@@ -42,6 +43,11 @@ class SimulatorController extends SharedTest {
 
   def createTemplateContest(mockIndex:Int): Unit = {
       go to URL_CREATE_TEMPLATES(mockIndex)
+  }
+
+  def prepareInitialBrowserState: Unit = {
+    go to SharedPage.baseUrl
+    delete all cookies
   }
 
 }
