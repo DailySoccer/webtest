@@ -14,8 +14,8 @@ class SequentialTestRunner extends Sequential(
   , new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
   , new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
   , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(0))
-  //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
-  //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(2))
+  , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
+  , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(2))
 
   /*{
     val test = new ContestDescriptionAuthTest

@@ -23,13 +23,20 @@ class SimulatorController extends SharedTest {
 
 
   def initialTestsSetup: Unit = {
+    Given("a clean browser")
     prepareInitialBrowserState
+    Then("reset simulator")
     go to URL_START
+    And("select World Cup competiton.")
     go to URL_SELECT_COMPETITION(2013, WORLD_CUP)
-    timeShift(10,6,2014,0,0, "14/06/10 08:00:49 UTC")
+    When("go to date: 2014/06/10 08:00:49 UTC")
+    timeShift(10,6,2014,0,0, "2014/06/10 08:00:49 UTC")
+    Then("perform a initial setup")
     go to URL_INITIAL_SETUP
+    And("create presonalized contests")
     createTemplateContest(0)
-    timeShift(12,6,2014,0,0, "14/06/12 08:00:36 UTC")
+    And("finally go to 2014/06/12 08:00:36 UTC")
+    timeShift(12,6,2014,0,0, "2014/06/12 08:00:36 UTC")
   }
 
   def timeShift(day:Int, month:Int, year:Int, hour:Int, minute:Int, returnedString:String): Unit ={
