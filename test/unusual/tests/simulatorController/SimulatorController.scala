@@ -25,10 +25,10 @@ class SimulatorController extends SharedTest {
   def initialTestsSetup: Unit = {
     go to URL_START
     go to URL_SELECT_COMPETITION(2013, WORLD_CUP)
-    timeShift(10,6,2014,0,0, "10/06/14 08:00:49 UTC")
+    timeShift(10,6,2014,0,0, "14/06/10 08:00:49 UTC")
     go to URL_INITIAL_SETUP
     createTemplateContest(0)
-    timeShift(12,6,2014,0,0, "12/06/14 08:00:36 UTC")
+    timeShift(12,6,2014,0,0, "14/06/12 08:00:36 UTC")
   }
 
   def timeShift(day:Int, month:Int, year:Int, hour:Int, minute:Int, returnedString:String): Unit ={
