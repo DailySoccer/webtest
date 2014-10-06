@@ -20,7 +20,7 @@ class ViewContestTestCommon(state: ViewContestState) extends SharedTest {
   }
 
   def checkHimselfAtPlayersList:Unit = {
-    
+
   }
 
   def checkPlayersList:Unit = {

@@ -10,7 +10,7 @@ class ViewContestAuthTest(state:ViewContestState) extends ViewContestTestCommon(
   def filterBy = afterWord("FILTER BY")
   def causes = afterWord("causes:")
 
-//  s"Auth user in contest: ${state.contest.name}" when sizeTesting(enterContestPageBehavior)
+  s"Auth user in contest: ${state.contest.name}" when sizeTesting(enterContestPageBehavior)
 
 
   def enterContestPageBehavior(res:Resolution): Unit = {
