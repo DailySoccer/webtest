@@ -29,8 +29,8 @@ class Contest () {
 
   var initialSalary = 90000
 
-  var expensiveLineup = Array[String]()
-  var expendAllMoney = Array[String]()
+  var expensiveLineup:Lineup = null
+  var expendAllMoney:Lineup = null
 
   override def toString: String = {
     name + "\n" + description + " \n" + entryFee + " - " + prize + " - " + date + "\n"
@@ -51,7 +51,7 @@ object Contest {
     {
       val contest = new Contest()
       contest.name = "jue., 12 jun.++"
-      contest.description = "Free: 3 de 4 jugadores - LIM. SAL.: 80000"
+      contest.description = "Gratuito: 3 de 4 jugadores - Límite de salario: 80000"
       contest.entryFee = "0€"
       contest.prize = "0€"
       contest.date = "Hoy"
@@ -92,33 +92,9 @@ object Contest {
         )
       )
 
-      contest.expensiveLineup = Array[String](
-        "Guille",
-        "miguel Lay",
-        "maxwell",
-        "Henrique",
-        "Thiago",
-        "paulinho",
-        "sammir",
-        "Willi",
-        "Oscar",
-        "Robin van persie",
-        "Ante Rebic"
-      )
+      contest.expensiveLineup = Lineup.TIME_0_EXPENSIVE_LIST(0)
 
-      contest.expendAllMoney = Array[String](
-        "Guille",
-        "miguel Lay",
-        "maxwell",
-        "Henrique",
-        "Gordon Schil",
-        "paulinho",
-        "sammir",
-        "Willi",
-        "Ognjen",
-        "Robin van persie",
-        "Ante Rebic"
-      )
+      contest.expendAllMoney = Lineup.TIME_0_EXPEND_ALL_MONEY_LIST(0)
 
       contest.initialSalary = 80000
 
@@ -127,7 +103,7 @@ object Contest {
     {
       val contest = new Contest()
       contest.name = "jue., 12 jun!!"
-      contest.description = "Free: 3 de 4 jugadores - LIM. SAL.: 70000"
+      contest.description = "Gratuito: 3 de 4 jugadores - Límite de salario: 70000"
       contest.entryFee = "0€"
       contest.prize = "0€"
       contest.date = "14/06"
@@ -166,33 +142,9 @@ object Contest {
       )
 
 
-      contest.expensiveLineup = Array[String](
-        "Mattia perin",
-        "juan",
-        "ron vlaar",
-        "stefan de vrij",
-        "Terence",
-        "thiago",
-        "koke",
-        "juan mata",
-        "Francesc F",
-        "danny welbeck",
-        "ciro"
-      )
+      contest.expensiveLineup = Lineup.TIME_0_EXPENSIVE_LIST(1)
 
-      contest.expendAllMoney = Array[String](
-        "Mattia perin",
-        "juan",
-        "albiol",
-        "velt",
-        "Terence",
-        "thiago",
-        "koke",
-        "juan mata",
-        "Francesc F",
-        "danny welbeck",
-        "ciro"
-      )
+      contest.expendAllMoney = Lineup.TIME_0_EXPEND_ALL_MONEY_LIST(1)
 
       contest.initialSalary = 70000
 
@@ -201,7 +153,7 @@ object Contest {
     {
       val contest = new Contest()
       contest.name = "jue., 12 jun...."
-      contest.description = "Free: 4 de 5 jugadores - LIM. SAL.: 90000"
+      contest.description = "Gratuito: 4 de 5 jugadores - Límite de salario: 90000"
       contest.entryFee = "0€"
       contest.prize = "0€"
       contest.date = "Hoy"
@@ -248,33 +200,9 @@ object Contest {
       )
 
 
-      contest.expensiveLineup = Array[String](
-        "Sergio romero",
-        "dante",
-        "maxwell",
-        "marcos rojo",
-        "Maicon",
-        "koo ja",
-        "luka mo",
-        "javad nekou",
-        "han kook",
-        "messi",
-        "Kevin mirallas"
-      )
+      contest.expensiveLineup = Lineup.TIME_0_EXPENSIVE_LIST(2)
 
-      contest.expendAllMoney = Array[String](
-        "Sergio romero",
-        "dante",
-        "maxwell",
-        "henrique",
-        "Maicon",
-        "koo ja",
-        "luka mo",
-        "javad nekou",
-        "han kook",
-        "alireza jahan",
-        "Kevin mirallas"
-      )
+      contest.expendAllMoney = Lineup.TIME_0_EXPEND_ALL_MONEY_LIST(2)
 
       contest.initialSalary = 90000
 

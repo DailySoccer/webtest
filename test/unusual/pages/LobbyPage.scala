@@ -4,6 +4,7 @@ import org.openqa.selenium.WebElement
 import org.openqa.selenium.By.ByCssSelector
 import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.interactions.Action
+import org.scalatest.selenium.WebBrowser
 import unusual.model._
 import unusual.pages.components.{ContestDescriptionWindow, FooterBar, PaginatorControl, MenuBar}
 
@@ -17,11 +18,12 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   val ROWS_PER_PAGE = 10
 
   val CONTEST_LIST_MENU_MOBILE = "#lobbyContestListMenuXS"
+  /*
   val MENU_ALL_CONTEST = "#lobby_AllContests"
     val MENU_PRIZED_CONTEST = "#lobby_PrizedContests"
     val MENU_FREE_CONTEST = "#lobby_FreeContests"
   val MENU_MY_CONTEST = "#lobby_MyContests"
-
+  */
   val PROMOS_COMPONENT = "#promosComponent"
   val CONTEST_LIST_CONTAINER = ".contests-list-root"
   val CONTEST_ROW_CONTAINER = ".contest-row"
@@ -48,8 +50,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   /**************** FILTERS CONSTANTS ****************/
 
-  val FILTERS_BUTTON_MOBILE  = "#filtersButtonMobile"
-  val FILTERS_BUTTON_DESKTOP = "#filtersButtonDesktop"
+  def FILTERS_BUTTON  = if (resolution == Resolution.SMALL) "#filtersButtonMobile" else "#filtersButtonDesktop"
+  //val FILTERS_BUTTON_DESKTOP = "#filtersButtonDesktop"
 
   val FILTERS_PANEL_SEARCH   = "#contestFastSearch input"
 
@@ -152,7 +154,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
 
   /**************** NAVIGATION XS METHODS ****************/
-
+/*
   def clickOnMenuAllContests = {
     if (resolution == Resolution.SMALL) {
       click on find(cssSelector(MENU_ALL_CONTEST)).get
@@ -181,7 +183,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     this
   }
 
-
+*/
   /**************** FILTERS METHODS ****************/
 
   def clearFilters = {
@@ -195,7 +197,6 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   def setEntryFeeFilter(inf: Int, sup: Int) = {
     openFilters
-
     val sliderWidth = find(cssSelector(SLIDER_RANGE)).get.underlying.getSize.width - 1
     val inferior = find(cssSelector(SLIDER_RANGE_INFERIOR)).get.underlying
     val superior = find(cssSelector(SLIDER_RANGE_SUPERIOR)).get.underlying
@@ -283,9 +284,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     val inferiorTextNode = find(cssSelector(SLIDER_RANGE_TEXT_INFERIOR)).get
     var n:Integer = 0
 
-    eventually {
-      n = Integer.parseInt( inferiorTextNode.text.substring(5, inferiorTextNode.text.length - 1) )
-    }
+    eventually { n = Integer.parseInt( inferiorTextNode.text.substring(5, inferiorTextNode.text.length - 1) ) }
 
     n
   }
@@ -294,9 +293,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     val superiorTextNode = find(cssSelector(SLIDER_RANGE_TEXT_SUPERIOR)).get
     var n:Integer = 0
 
-    eventually {
-      n = Integer.parseInt( superiorTextNode.text.substring(5, superiorTextNode.text.length - 1) )
-    }
+    eventually { n = Integer.parseInt( superiorTextNode.text.substring(5, superiorTextNode.text.length - 1) ) }
 
     n
   }
@@ -452,7 +449,6 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   /**************** PRIVATE METHODS ****************/
 
   private def applyFilter(forId : String) = {
-
     openFilters
     val filter = find(cssSelector(forId)).get
 
@@ -463,21 +459,15 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   }
 
   private def openFilters = {
-    val panel = find(cssSelector(FILTERS_PANEL)).get
-    if (!panel.isDisplayed) {
-      eventually {
-        if (resolution == Resolution.SMALL) {
-          click on find(cssSelector(FILTERS_BUTTON_MOBILE)).get
-        } else {
-          click on find(cssSelector(FILTERS_BUTTON_DESKTOP)).get
-        }
-      }
-    }
-    this
-  }
+    val button = find(cssSelector(FILTERS_BUTTON + ".toggleOff"))
 
-  private def closeFilters = {
-    val panel = find(cssSelector(FILTERS_PANEL)).get
+    //var panel:WebBrowser.Element = null
+
+    if (button != None) {
+      eventually { assert( !find(cssSelector(FILTERS_PANEL)).get.isDisplayed ) }
+      click on button.get
+    }
+    /*
     if (panel.isDisplayed) {
       eventually {
         if (resolution == Resolution.SMALL) {
@@ -487,6 +477,19 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
         }
       }
     }
+    */
+
+    this
+  }
+
+  private def closeFilters = {
+    val button = find(cssSelector(FILTERS_BUTTON + ".toggleOn"))
+
+    if (button != None) {
+      eventually { assert( find(cssSelector(FILTERS_PANEL)).get.isDisplayed ) }
+      click on button.get
+    }
+
     this
   }
 

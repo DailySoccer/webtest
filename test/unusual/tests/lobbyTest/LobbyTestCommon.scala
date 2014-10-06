@@ -93,22 +93,26 @@ class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
   }
 
   def checkClearFiltersButton(implicit resolution:Resolution): Unit = {
-    val page = goToLobbyPage(lobbyState).clickOnMenuAllContests
-                                        .clickOnMenuFreeContests
-
+    val page = goToLobbyPage(lobbyState)
+    Given("a lobby page")
     if (resolution == Resolution.SMALL){
+      When("press clear filters")
       page.clearFilters
     }
-
+    Then("filters should be clear")
     assert(page.areAllFiltersClear, "Filters are not clear")
+    When("set up some filters that hide all contests")
     page.searchContestByName(FILTERS_PANEL_SEARCH_TEXT)
         .setEntryFeeFilter(0, 0)
         .clickLeagueContestFilter
         .clickFiftyFiftyContestsFilter
         .clickHeadToHeadContestsFilter
         .getNumberOfContests must be(0)
+    And("clear filters")
     page.clearFilters
+    Then("filters should be clear again")
     assert(page.areAllFiltersClear, "Filters are not clear after clear filters")
+    And("number of contest should be restored")
     page.getNumberOfContests must be(lobbyState.numContests_NoFilter)
   }
 
@@ -352,7 +356,7 @@ class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
 
 
   private def goToLobbyContest:LobbyPage = {
-    goToLobbyPage(lobbyState).clickOnMenuAllContests.clickOnMenuFreeContests.clearFilters
+    goToLobbyPage(lobbyState).clearFilters
   }
 
 

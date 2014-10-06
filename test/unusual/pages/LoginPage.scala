@@ -16,8 +16,8 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
   //val DEFAULT_USER : User = new User("Test", "Test", "test@test.com", "Test", "private")
 
   override def isAt = {
-    pageTitle should be (TITLE)
     eventually {
+      pageTitle should be (TITLE)
       //find(tagName("legend")).get.text should be (LEGEND)
       find(id(FORM_EMAIL))    should be ('defined)
       find(id(FORM_PASSWORD)) should be ('defined)

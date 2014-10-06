@@ -21,8 +21,8 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
   }
 
   val DESKTOP_ENABLED = true
-  val TABLET_ENABLED = true
-  val SMARTPHONE_ENABLED = true
+  val TABLET_ENABLED = false
+  val SMARTPHONE_ENABLED = false
 
 
   override def beforeAll {
@@ -72,12 +72,18 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
     promosPage
   }
 
-  def goToEnterContest(contest:Contest) : EnterContestPage = {
-    var enterContest:EnterContestPage = null
-    enterContest = new EnterContestPage(status.resolution, contest)
+  def goToEnterContest(state:EnterContestState) : EnterContestPage = {
+    val enterContest:EnterContestPage = new EnterContestPage(status.resolution, state)
     enterContest.open
     assert(enterContest.isAt, "trying to access to enterContest")
     enterContest
+  }
+
+  def goToViewContest(state:ViewContestState) : ViewContestPage = {
+    val viewContest:ViewContestPage = new ViewContestPage(status.resolution, state)
+    viewContest.open
+    assert(viewContest.isAt, "trying to access to enterContest")
+    viewContest
   }
 
   def featureNotImplemented = {

@@ -34,7 +34,7 @@ class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbySt) {
 
     "use filters" which filterBy {
 
-      "clear filters control" in checkClearFiltersButton
+      "clear filters control" taggedAs WIP in checkClearFiltersButton
 
       "free contests" in filterByFreeContests
 
@@ -57,11 +57,11 @@ class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbySt) {
 
     "use order buttons" which orderBy {
 
-      "order by name" taggedAs WIP in orderByName
+      "order by name" in orderByName
 
       "order by entry fee" in orderByEntryFee
 
-      "order by start time" taggedAs WIP in orderByStartTime
+      "order by start time" in orderByStartTime
     }
 
     "press play button of first contest to select team" in playFirstContest

@@ -1,9 +1,9 @@
 package unusual.pages
 
-import unusual.model.{Contest, SoccerPlayer, Resolution}
+import unusual.model._
 import unusual.pages.components.{FooterBar, MenuBar}
 
-class EnterContestPage(res: Resolution, contest: Contest) extends SharedPage(res) {
+class EnterContestPage(res: Resolution, state: EnterContestState) extends SharedPage(res) {
 
   //override val url = SharedPage.baseUrl + "/#/lobby/enter_contest/"
 
@@ -59,7 +59,7 @@ class EnterContestPage(res: Resolution, contest: Contest) extends SharedPage(res
 
   override def isAt = {
     var _isAt = true
-    logger.debug("Contest id: " + contest.nameOrder + ". " + contest.name)
+    logger.debug("Contest id: " + state.contest.nameOrder + ". " + state.contest.name)
     _isAt = _isAt && pageTitle == TITLE
 
     _isAt = _isAt && new MenuBar(resolution).isAt
@@ -92,8 +92,8 @@ class EnterContestPage(res: Resolution, contest: Contest) extends SharedPage(res
   override def open = {
     val lobby = new LobbyPage(resolution, 6)
     lobby.open
-    lobby.clickOnMenuAllContests.clickOnMenuFreeContests.clearFilters
-    lobby.playContestNumber(contest.nameOrder)
+    lobby.clearFilters
+    lobby.playContestNumber(state.contest.nameOrder)
     this
   }
 
@@ -384,6 +384,53 @@ class EnterContestPage(res: Resolution, contest: Contest) extends SharedPage(res
     fastClicksByCssSelector(4, BUTTON_CONFIRM_LINEUP)
   }
 
+  def pickWholeLineup(lineup:Lineup):Unit = {
+    val list = lineup.soccerPlayerList
+
+    selectMiddleFromLineup(1) // MIDDLE
+    setSoccerPlayerNameFilterSearch(list(5).name)
+    addSoccerPlayerFromList(1)
+
+    selectDefenseFromLineup(1) // DEFENSE
+    setSoccerPlayerNameFilterSearch(list(1).name)
+    addSoccerPlayerFromList(1)
+
+    selectForwardFromLineup(1) // FORWARD
+    setSoccerPlayerNameFilterSearch(list(9).name)
+    addSoccerPlayerFromList(1)
+
+    selectMiddleFromLineup(2) // MIDDLE
+    setSoccerPlayerNameFilterSearch(list(6).name)
+    addSoccerPlayerFromList(1)
+
+    selectGoalKeeperFromLineup // GOALKEEPER
+    setSoccerPlayerNameFilterSearch(list(0).name)
+    addSoccerPlayerFromList(1)
+
+    selectDefenseFromLineup(2) // DEFENSE
+    setSoccerPlayerNameFilterSearch(list(2).name)
+    addSoccerPlayerFromList(1)
+
+    selectMiddleFromLineup(3) // MIDDLE
+    setSoccerPlayerNameFilterSearch(list(7).name)
+    addSoccerPlayerFromList(1)
+
+    selectForwardFromLineup(2) // FORWARD
+    setSoccerPlayerNameFilterSearch(list(10).name)
+    addSoccerPlayerFromList(1)
+
+    selectMiddleFromLineup(4) // MIDDLE
+    setSoccerPlayerNameFilterSearch(list(8).name)
+    addSoccerPlayerFromList(1)
+
+    selectDefenseFromLineup(3) // DEFENSE
+    setSoccerPlayerNameFilterSearch(list(3).name)
+    addSoccerPlayerFromList(1)
+
+    selectDefenseFromLineup(4) // DEFENSE
+    setSoccerPlayerNameFilterSearch(list(4).name)
+    addSoccerPlayerFromList(1)
+  }
 
   /**
    * Aunque el usuario no ve una clase, si ve el color de fondo y
@@ -418,6 +465,7 @@ class EnterContestPage(res: Resolution, contest: Contest) extends SharedPage(res
     }
     player
   }
+
 
 }
 

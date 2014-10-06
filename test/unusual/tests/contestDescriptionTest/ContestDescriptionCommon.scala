@@ -34,8 +34,10 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
 
       assert(contestDescription.countMatches == contest.numMatches)
     } else {
+      val enterContestState = new EnterContestState
+      enterContestState.contest = contest
       eventually {
-        goToEnterContest(contest).openContestDescription
+        goToEnterContest(enterContestState).openContestDescription
       }
       assert(new ContestDescriptionWindow(resolution).countMatches == contest.numMatches)
     }
@@ -49,8 +51,10 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
 
       assert(contestDescription.countContestants == contest.numContestants)
     } else {
+      val enterContestState = new EnterContestState
+      enterContestState.contest = contest
       eventually {
-        goToEnterContest(contest).openContestDescription
+        goToEnterContest(enterContestState).openContestDescription
       }
       assert(new ContestDescriptionWindow(resolution).countContestants == contest.numContestants)
     }
@@ -64,8 +68,10 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
 
       assert(contestDescription.countPrizes == contest.numPrizes)
     } else {
+      val enterContestState = new EnterContestState
+      enterContestState.contest = contest
       eventually {
-        goToEnterContest(contest).openContestDescription
+        goToEnterContest(enterContestState).openContestDescription
       }
       assert(new ContestDescriptionWindow(resolution).countPrizes == contest.numPrizes)
     }
@@ -120,7 +126,9 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
       goToLobbyContestDescription
       logger.debug("Open contest description")
       val desc = new ContestDescriptionWindow(resolution)
-      val enterContPage:EnterContestPage = new EnterContestPage(resolution, contest)
+      val enterContestState = new EnterContestState
+      enterContestState.contest = contest
+      val enterContPage:EnterContestPage = new EnterContestPage(resolution, enterContestState)
       desc.enterContest
       logger.debug("Click on enter contest")
       eventually (timeout(5 seconds)) {
@@ -133,8 +141,6 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
 
   private def goToLobbyContestDescription:LobbyPage = {
     goToLobbyPage(LobbyState.DEFAULT_LOBBY)
-                 .clickOnMenuAllContests
-                 .clickOnMenuFreeContests
                  .clearFilters
                  .clickSortContestsByName
                  .openContestDescription(contest.nameOrder)

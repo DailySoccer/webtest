@@ -1,22 +1,23 @@
 package unusual.tests.runner
 
 import org.scalatest.Sequential
-import unusual.model.{EnterContestState, LobbyState, Contest}
+import unusual.model.{ViewContestState, EnterContestState, LobbyState, Contest}
 
 import unusual.tests.contestDescriptionTest._
 import unusual.tests.enterContestTest.EnterContestAuthTest
 import unusual.tests.lobbyTest._
 import unusual.tests.simulatorController._
+import unusual.tests.viewContestEntryTest.ViewContestAuthTest
 
 
 class SequentialTestRunner extends Sequential(
   new InitializerTest
-  , new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
-  , new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
-  , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(0))
-  , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
-  , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(2))
-
+  //, new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
+  //, new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
+  //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(0))
+  //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
+  //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(2))
+  , new ViewContestAuthTest(ViewContestState.TIME_0_LIST(0))
   /*{
     val test = new ContestDescriptionAuthTest
     test.contest = Contest.DEFAULT_LIST(0)

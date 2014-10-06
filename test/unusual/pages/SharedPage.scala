@@ -16,7 +16,7 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
     with IntegrationPatience with SpanSugar with DOM_Ops{
   implicit val driver : WebDriver = SharedPage.driver
 
-  val TITLE = "Daily Soccer"
+  val TITLE = "Epic Eleven"
   val resolution: Resolution = res
   val url = SharedPage.baseUrl
 
