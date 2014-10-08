@@ -15,6 +15,11 @@ object User {
 
   // Signed up user
   val DEFAULT:User = new User("Test", "Test", "test@test.com", "Test", "private")
+
+  val DEFAULT_DESKTOP:User = new User("TestD", "Test", "testD@testtest.com", "Test", "private")
+  val DEFAULT_TABLET:User = new User("TestT", "Test", "testT@testtest.com", "Test", "private")
+  val DEFAULT_SMARTPHONE:User = new User("TestS", "Test", "testS@testtest.com", "Test", "private")
+
   val OTHER:User = new User("Goyo", "Iniesta", "goyo@test.com", "Goyo", "private")
   val SIGNED_UP_WRONG_PASS:User = new User("First", "Last", "new@test.com", "The newbie", "asd")
 

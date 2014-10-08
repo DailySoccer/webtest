@@ -64,19 +64,6 @@ class EnterContestAuthTest(state:EnterContestState) extends EnterContestTestComm
       "Random" in multipleRandomSelection
     }
 
-    "pick soccer players from list" which {
-
-      "add first goal keeper" in addFirstGoalKeeperFromList
-
-      "add fourth defense" in addFourthDefenseFromList
-
-      "fill whole lineup, then clear it" taggedAs WIP in pickAndClearWholeLineup
-
-      "fill with priceless lineup" in pickTooExpensiveLineUp
-
-      "fill with priceless lineup. Then correct it to submit" in pickFailLineupAndCorrectIt
-    }
-
     "perform known BUG SEQUENCE" which causes {
 
       "Duplicated players at delete all" in knownBugSequence_DuplicatedPlayersAtDeleteAll
@@ -88,6 +75,19 @@ class EnterContestAuthTest(state:EnterContestState) extends EnterContestTestComm
       "Add a forward as goalkeeper" in knownBugSequence_AddForwardAsGoalKeeper
 
       //"Try to confirm multiple times" in tryToConfirmMultipleTimes
+    }
+
+    "pick soccer players from list" which {
+
+      "add first goal keeper" in addFirstGoalKeeperFromList
+
+      "add fourth defense" in addFourthDefenseFromList
+
+      "fill whole lineup, then clear it" in pickAndClearWholeLineup
+
+      "fill with priceless lineup" in pickTooExpensiveLineUp
+
+      "fill with priceless lineup. Then correct it to submit" in pickFailLineupAndCorrectIt
     }
 
   }

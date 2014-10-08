@@ -268,10 +268,13 @@ trait DOM_Ops {
               salaryText = "",
               jQElem = $('.soccer-players-list .soccer-players-list-slot:nth-child(' + i + ') .column-salary');
 
+
+          oldVal = parseInt(jQElem.text().trim().substring(0, jQElem.text().length - 1));
           while (jQElem.length > 0 && isOrdered) {
             salaryText = jQElem.text();
             val = parseInt(salaryText.trim().substring(0, salaryText.length - 1));
-            isOrdered = val >= oldVal;
+            isOrdered = val <= oldVal;
+            console.log(oldVal + ' .. ' + val + ' | is ordered:' + isOrdered)
             oldVal = val;
 
             i++;

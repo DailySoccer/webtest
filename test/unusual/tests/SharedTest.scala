@@ -20,10 +20,6 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
     l
   }
 
-  val DESKTOP_ENABLED = true
-  val TABLET_ENABLED = false
-  val SMARTPHONE_ENABLED = false
-
 
   override def beforeAll {
     println("========= BEFORE ALL!")  // start up your web server or whatever
@@ -115,7 +111,7 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
 
   def sizeTesting(behavior: (Resolution) => Unit) = {
 
-    if (DESKTOP_ENABLED) "use DESKTOP device" must {
+    if ((SharedTest.DESKTOP & SharedTest.SIZES_ENABLED) > 0) "use DESKTOP device" must {
       val resolution:Resolution = Resolution.BIG
 
       "stablish browser resolution" taggedAs(WIP) in {
@@ -125,7 +121,7 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
       behave like behavior(resolution)
     }
 
-    if (TABLET_ENABLED) "use TABLET device" must {
+    if ((SharedTest.TABLET & SharedTest.SIZES_ENABLED) > 0) "use TABLET device" must {
       val resolution:Resolution = Resolution.MEDIUM
 
       "stablish browser resolution" taggedAs(WIP) in {
@@ -135,7 +131,7 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
       behave like behavior(resolution)
     }
 
-    if (SMARTPHONE_ENABLED) "use SMARTPHONE device" must {
+    if ((SharedTest.SMARTPHONE & SharedTest.SIZES_ENABLED) > 0) "use SMARTPHONE device" must {
       val resolution:Resolution = Resolution.SMALL
 
       "stablish browser resolution" taggedAs(WIP) in {
@@ -154,4 +150,13 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
     this
   }
 */
+}
+
+object SharedTest {
+
+  val DESKTOP = 1
+  val TABLET = 2
+  val SMARTPHONE = 4
+
+  var SIZES_ENABLED = 7
 }

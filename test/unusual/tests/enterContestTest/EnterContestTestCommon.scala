@@ -20,6 +20,7 @@ class EnterContestTestCommon(state: EnterContestState) extends SharedTest {
     eventually { page = goToEnterContest(enterContestState) }
     //val lobby = new LobbyPage(resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
     Then("page should be at and default state")
+      Thread.sleep(10000)
     assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     When("go navigate back and forward")
     goBack()
@@ -30,7 +31,12 @@ class EnterContestTestCommon(state: EnterContestState) extends SharedTest {
     When("go navigate back and click on play button")
     goBack()
     lobby.clearFilters
-         .playContestNumber(enterContestState.contest.nameOrder)
+    if (resolution == Resolution.SMALL) {
+      lobby.playContestNumber(state.contest.nameOrder)
+    } else {
+      lobby.searchContestByName(state.contest.name)
+           .playContestNumber(1)
+    }
     Then("page should be at and default state")
     assert(page.isAt, "is not at")
     assert(page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY), "is not default")
@@ -42,7 +48,12 @@ class EnterContestTestCommon(state: EnterContestState) extends SharedTest {
     When("click on close button and click on play button")
     page.clickOnCloseButton
     lobby.clearFilters
-         .playContestNumber(enterContestState.contest.nameOrder)
+    if (resolution == Resolution.SMALL) {
+      lobby.playContestNumber(state.contest.nameOrder)
+    } else {
+      lobby.searchContestByName(state.contest.name)
+        .playContestNumber(1)
+    }
     Then("page should be at and default state")
     assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     /*
@@ -89,7 +100,7 @@ class EnterContestTestCommon(state: EnterContestState) extends SharedTest {
   }
   def orderBySalary(implicit resolution:Resolution):Unit = {
     if (resolution == Resolution.BIG) {
-      assert(goToEnterContest(enterContestState).orderBySalary.isOrderedBySalary)
+      assert(goToEnterContest(enterContestState).orderBySalary.isOrderedBySalary, "page is not ordered by salary")
     } else {
       featureNotTestableInResolution
     }
@@ -427,8 +438,8 @@ class EnterContestTestCommon(state: EnterContestState) extends SharedTest {
     assert(playerOnList != page.getSoccerPlayerFromList(4))
     page.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers - 1)
 
-    page.setSoccerPlayerNameFilterSearch(playerOnList.name)
-        .getNumberOfSoccerPlayers must be equals 0
+    assert(page.setSoccerPlayerNameFilterSearch(playerOnList.name)
+               .getNumberOfSoccerPlayers == 0, "Should not exist any player.")
 
 
     assert(page.getLineUpSalary < enterContestState.contest.initialSalary)
@@ -441,7 +452,7 @@ class EnterContestTestCommon(state: EnterContestState) extends SharedTest {
 
     page.pickWholeLineup(enterContestState.contest.expendAllMoney)
 
-    page.getLineUpSalary must be equals 0
+    assert(page.getLineUpSalary == 0)
     page.removeSoccerPlayerFromLineUp(1).getLineUpSalary must be > 0
 
     page.clearLineupList.getLineUpSalary must be (enterContestState.contest.initialSalary)
@@ -492,10 +503,12 @@ class EnterContestTestCommon(state: EnterContestState) extends SharedTest {
             .addSoccerPlayerFromList(1)
       }
     }
-
-    page.getLineUpSalary must be equals 0
+    assert(page.getLineUpSalary == 0)
 
     page.confirmLineup
+    val viewContestState = new ViewContestState
+    viewContestState.contest = state.contest
+    new ViewContestPage(resolution, viewContestState).isAt
     //new LobbyPage(resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney).isAt
   }
 

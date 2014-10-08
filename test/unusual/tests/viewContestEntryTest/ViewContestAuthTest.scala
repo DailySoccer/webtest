@@ -18,9 +18,10 @@ class ViewContestAuthTest(state:ViewContestState) extends ViewContestTestCommon(
 
     "check the lineup" in isCorrectLineup
 
+    "check himself is at the players list" in checkHimselfAtPlayersList
+
     "look at the players list" in checkPlayersList
 
-    "check himself is at the players list" in checkHimselfAtPlayersList
 /*
     "check the lineup" which orderBy {
 

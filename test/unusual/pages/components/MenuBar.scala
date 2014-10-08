@@ -13,20 +13,22 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
   val MENU_ROOT = "#mainMenu"
   val BRAND_LINK = MENU_ROOT + " .navbar-brand"
 
-  val ADD_MONEY_BUTTON = "addMoney"
+  //val ADD_MONEY_BUTTON = "addMoney"
+
+  val MENU_TOGGLE = ".navbar-header button.navbar-toggle"
+  val MENU_OFFCANVAS = "#menuSlide"
 
   // USER MENU IDs
-  val USER_MENU = "userMenuCollapse"
-  val USER_MENU_TOGGLE = "menuToggleUserMenu"
-  val USER_MENU_TOGGLE_DROPDOWN = "userMenuToggleDropDown"
+  //val USER_MENU = "userMenuCollapse"
+  val USER_MENU_TOGGLE = "#menuUser"
+  val USER_MENU_TOGGLE_DROPDOWN = ".dropdown-menu"
   val MY_ACCOUNT = "userMenuMyAccount"
   val USER_MENU_ADD_MONEY = "userMenuAddFunds"
   val TRANSACTION_HISTORIC = "userMenuTransactionHistoric"
   val REFERENCES_CENTER = "userMenuReferencesCenter"
   val CLASSIFICATION = "userMenuClassification"
   val USER_PROMOS = "userMenuPromos"
-  val LOGOUT = "userMenuLogOut"
-
+  val LOGOUT = "#menuUserLogOut"
 
   // HELP MENU IDs
   val SUPPORT = "userMenuSupport"
@@ -36,7 +38,6 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
 
   // GAME MENU IDs
   val GAME_MENU = "gameMenuCollapse"
-  val GAME_MENU_TOGGLE = "menuToggleGameMenu"
   val TOURNAMENTS = "gameMenuTournaments"
   val MY_TOURNAMENTS = "gameMenuMyTournaments"
   val GAME_PROMOS = "gameMenuPromos"
@@ -64,8 +65,8 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
 
 
       is = is && !find(id(GAME_MENU)).isDefined
-      is = is && !find(id(USER_MENU)).isDefined
-      is = is && !find(id(ADD_MONEY_BUTTON)).isDefined
+      //is = is && !find(id(USER_MENU)).isDefined
+      //is = is && !find(id(ADD_MONEY_BUTTON)).isDefined
     }
     is
   }
@@ -80,7 +81,7 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
 
 
       is = is && hasUserMenu && hasHelpMenu && hasGameMenu
-      is = is && find(id(ADD_MONEY_BUTTON)).isDefined
+      //is = is && find(id(ADD_MONEY_BUTTON)).isDefined
     }
     is
   }
@@ -91,7 +92,7 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
     val elem = find(id(USER_MENU_TOGGLE_DROPDOWN)).get
 
     if (resolution == Resolution.SMALL && !elem.isDisplayed) {
-      clickOnToggleUserMenu
+      clickOnToggleMenu
     }
 
     var name = ""
@@ -152,17 +153,19 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
   /**************************************************************/
 
 
-  private def clickOnUserMenuOption(eleId: String) = {
-    displayUserMenuForId(eleId)
+  private def clickOnUserMenuOption(cssSel: String) = {
+    logger.debug("enter clickOnUserMenuOption")
+    displayUserMenuOption(cssSel)
 
+    logger.debug(s"click on ($cssSel) clickOnUserMenuOption")
     eventually {
-      click on id(eleId)
+      click on find(cssSelector(cssSel)).get
     }
     this
   }
 
   private def clickOnGameMenuOption(eleId: String) = {
-    if ( !find(id(eleId)).get.isDisplayed ) clickOnToggleGameMenu
+    if ( !find(id(eleId)).get.isDisplayed ) clickOnToggleMenu
 
     eventually {
       click on id(eleId)
@@ -170,31 +173,34 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
     this
   }
 
-  private def clickOnToggleGameMenu = {
+  private def clickOnToggleMenu = {
     eventually {
-      click on id(GAME_MENU_TOGGLE)
-    }
-    this
-  }
-
-  private def clickOnToggleUserMenu = {
-    eventually {
-      click on id(USER_MENU_TOGGLE)
+      click on id(MENU_TOGGLE)
     }
     this
   }
 
   private def clickOnToggleUserMenuDropDown = {
     eventually {
-      click on id(USER_MENU_TOGGLE_DROPDOWN)
+      click on cssSelector(USER_MENU_TOGGLE)
     }
     this
   }
 
-  private def displayUserMenuForId(e: String) = {
+  private def displayUserMenuOption(cssSel: String) = {
+    if (resolution == Resolution.SMALL) {
+      if (!isElemDisplayed(MENU_OFFCANVAS)){
+        logger.debug(s"offCanvasMenu is not displayed, click on it")
+        clickOnToggleMenu
+      }
+      eventually { assert(isElemDisplayed(MENU_OFFCANVAS)) }
+    }
+
     eventually {
-      if (!find(id(USER_MENU_TOGGLE_DROPDOWN)).get.isDisplayed) clickOnToggleUserMenu
-      if (!find(id(e)).get.isDisplayed) clickOnToggleUserMenuDropDown
+      if (!isElemDisplayed(USER_MENU_TOGGLE_DROPDOWN)) {
+        logger.debug(s"userMenuDropdown is not displayed, click on it")
+        clickOnToggleUserMenuDropDown
+      }
     }
     this
   }
@@ -209,7 +215,7 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
 
   private def hasUserMenu:Boolean = {
     var is = true
-    is = is && find(id(USER_MENU)).isDefined
+    //is = is && find(id(USER_MENU)).isDefined
     is = is && find(id(MY_ACCOUNT)).isDefined
     is = is && find(id(USER_MENU_ADD_MONEY)).isDefined
     is = is && find(id(TRANSACTION_HISTORIC)).isDefined

@@ -9,6 +9,7 @@ class TestStatus {
   val RESOLUTIONS = Resolution.ALL
   val DEFAULT_RESOLUTION = Resolution.BIG
   var resolution = DEFAULT_RESOLUTION
+  var user:User = User.DEFAULT
   private var _loggedIn : Boolean = false
 
   def setDefault : TestStatus = {
@@ -32,15 +33,16 @@ class TestStatus {
     this
   }
 
-  private def doLogin : TestStatus = {
+  def doLogin : TestStatus = {
     val login = new LoginPage(resolution)
     login.open
     assert(login.isAt)
-    login.doLogin(User.DEFAULT)
+    login.doLogin(user)
     _loggedIn = true
     this
   }
-  private def doLogout : TestStatus = {
+
+  def doLogout : TestStatus = {
     val menu = new MenuBar(resolution)
     assert(menu.isAt)
     menu.clickOnLogout

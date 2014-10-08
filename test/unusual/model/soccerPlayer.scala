@@ -5,11 +5,15 @@ class SoccerPlayer (n: String, pos: String, sal: Int) {
   var position = pos
   var salary = sal
 
-  def ==(other:SoccerPlayer) = name == other.name && position == other.position && salary == other.salary
+  def ==(other:SoccerPlayer) = name.toLowerCase == other.name.toLowerCase &&
+                               position.toLowerCase == other.position.toLowerCase &&
+                               salary == other.salary
+
+  def !=(other:SoccerPlayer) = !(this == other)
 
   def isEmpty:Boolean = name == "" && salary == 0
 
-  override def toString:String = "{Name: " + name + ", Position: " + pos + ", Salary: " + salary + "}"
+  override def toString:String = "{Name: " + name + ", Position: " + position + ", Salary: " + salary + "}"
 }
 
 object SoccerPlayer {

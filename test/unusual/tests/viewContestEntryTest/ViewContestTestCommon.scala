@@ -14,8 +14,9 @@ class ViewContestTestCommon(state: ViewContestState) extends SharedTest {
     val playerLineup = state.contest.expendAllMoney.soccerPlayerList
 
     for(i <- 0 to 10) {
-      val player = page.getSoccerPlayer(i)
-      assert(player == playerLineup(i), s"SoccerPlayer #$i does not match {page = $player, state = ${page.getSoccerPlayer(i)}" )
+      val player = page.getSoccerPlayer(i + 1)
+
+      assert(player == playerLineup(i), s"SoccerPlayer #$i does not match {page = $player, state = ${playerLineup(i)}" )
     }
   }
 

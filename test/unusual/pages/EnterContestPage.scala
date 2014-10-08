@@ -17,12 +17,12 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   val ACTIVE_ELEMENT = ".active"
 
-  def FILTER_MATCH_DESKTOP(idx:Int) = "#matchTeamsFilterContainer button:nth-child(" + idx + ")"
+  def FILTER_MATCH_DESKTOP(idx:Int) = s"#matchTeamsFilterContainer button:nth-child($idx)"
   val FILTER_MATCH_MOBILE = "#match-filter"
 
   val FILTER_SOCCER_PLAYER_NAME = ".name-player-input-filter"
 
-  def FILTER_POSITION_DESKTOP(idx:Int) = "button.button-filtro-position:nth-of-type(" + idx + ")"
+  def FILTER_POSITION_DESKTOP(idx:Int) = s"button.button-filtro-position:nth-of-type($idx)"
 
   val LINEUP_SALARY_DESKTOP = ".enter-contest-lineup-wrapper .total-salary-money"
   val LINEUP_SALARY_MOBILE = ".enter-contest-actions-wrapper .total-salary-money"
@@ -38,18 +38,18 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   val LINEUP_SELECTOR_ALERT = "lineup-selector .alert"
 
   val ENTER_CONTEST_TABS = ".enter-contest-tabs"
-  def ENTER_CONTEST_TAB(idx:Int) = ENTER_CONTEST_TABS + " li:nth-of-type(" + idx + ")"
+  def ENTER_CONTEST_TAB(idx:Int) = ENTER_CONTEST_TABS + s" li:nth-of-type($idx)"
   def ENTER_CONTEST_TAB_LINK(idx:Int) = ENTER_CONTEST_TAB(idx) + " a"
 
   val SOCCER_PLAYER_LIST_SLOT:String = ".soccer-players-list .soccer-players-list-slot"
-  def SOCCER_PLAYER_LIST_SLOT(idx:Int):String            = SOCCER_PLAYER_LIST_SLOT + ":nth-child(" + idx + ")"
+  def SOCCER_PLAYER_LIST_SLOT(idx:Int):String            = SOCCER_PLAYER_LIST_SLOT + s":nth-child($idx)"
   def SOCCER_PLAYER_LIST_SLOT_NAME(idx:Int):String       = SOCCER_PLAYER_LIST_SLOT(idx) + " .soccer-player-name"
   def SOCCER_PLAYER_LIST_SLOT_SALARY(idx:Int):String     = SOCCER_PLAYER_LIST_SLOT(idx) + " .column-salary"
   def SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(idx:Int):String = SOCCER_PLAYER_LIST_SLOT(idx) + " .column-add button"
   //def SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(idx:Int):String = SOCCER_PLAYER_LIST_SLOT(idx) + " .column-add button"
 
   val SOCCER_PLAYER_LINEUP_SLOT:String = ".enter-contest-lineup .lineup-selector-slot"
-  def SOCCER_PLAYER_LINEUP_SLOT(idx:Int):String          = SOCCER_PLAYER_LINEUP_SLOT + ":nth-child(" + idx + ")"
+  def SOCCER_PLAYER_LINEUP_SLOT(idx:Int):String          = SOCCER_PLAYER_LINEUP_SLOT + s":nth-child($idx)"
   def SOCCER_PLAYER_LINEUP_SLOT_EMPTY(idx:Int):String    = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .column-empty-slot"
   def SOCCER_PLAYER_LINEUP_SLOT_POSITION(idx:Int):String = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .column-fieldpos"
   def SOCCER_PLAYER_LINEUP_SLOT_NAME(idx:Int):String     = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .soccer-player-name"
@@ -59,7 +59,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   override def isAt = {
     var _isAt = true
-    logger.debug("Contest id: " + state.contest.nameOrder + ". " + state.contest.name)
+    logger.debug(s"Contest id: ${state.contest.nameOrder}. ${state.contest.name}")
     _isAt = _isAt && pageTitle == TITLE
 
     _isAt = _isAt && new MenuBar(resolution).isAt
@@ -93,7 +93,12 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     val lobby = new LobbyPage(resolution, 6)
     lobby.open
     lobby.clearFilters
-    lobby.playContestNumber(state.contest.nameOrder)
+    if (resolution == Resolution.SMALL) {
+      lobby.playContestNumber(state.contest.nameOrder)
+    } else {
+      lobby.searchContestByName(state.contest.name)
+           .playContestNumber(1)
+    }
     this
   }
 
@@ -104,11 +109,17 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     if (resolution == Resolution.SMALL) {
       versionCheck = find(cssSelector(ENTER_CONTEST_TAB(1) + ACTIVE_ELEMENT)) != None
     } else if (resolution == Resolution.MEDIUM) {
-      versionCheck = getNumberOfSoccerPlayers == totalPlayers &&
-                        isOrderedByPos &&
-                        find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None &&
-                        find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None &&
-                        find(cssSelector(ENTER_CONTEST_TAB(1) + ACTIVE_ELEMENT)) != None
+      val numSoccerPlayers = getNumberOfSoccerPlayers
+      versionCheck = numSoccerPlayers == totalPlayers
+      logger.debug(s"Soccer players are $numSoccerPlayers should be: $totalPlayers", versionCheck)
+      versionCheck = versionCheck && isOrderedByPos
+      logger.debug("Is ordered by pos ", versionCheck)
+      versionCheck = versionCheck && find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None
+      logger.debug("Position filter should be ''All'' ", versionCheck)
+      versionCheck = versionCheck && find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None
+      logger.debug("Match filter should be ''All'' ", versionCheck)
+      versionCheck = versionCheck && find(cssSelector(ENTER_CONTEST_TAB(1)+ ACTIVE_ELEMENT)) != None
+      logger.debug("EnterContest tab should be ''All'' ", versionCheck)
     } else {
       val numSoccerPlayers = getNumberOfSoccerPlayers
       versionCheck = numSoccerPlayers == totalPlayers
@@ -118,7 +129,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
       versionCheck = versionCheck && find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None
       logger.debug("Position filter should be ''All'' ", versionCheck)
       versionCheck = versionCheck && find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None
-      logger.debug("Match filter should be ''All'' ", versionCheck)
+      logger.debug("Match filter should be ''Your align'' ", versionCheck)
     }
 
 
@@ -131,7 +142,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     logger.debug("Confirm line up should be disabled", versionCheck)
     val salary = getLineUpSalary
     versionCheck = versionCheck && salary == initialSalary
-    logger.debug("Line up salary is " + salary + " should be " + initialSalary, versionCheck)
+    logger.debug(s"Line up salary is $salary should be $initialSalary", versionCheck)
 
     versionCheck
   }
