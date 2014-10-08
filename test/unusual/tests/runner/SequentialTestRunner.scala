@@ -16,8 +16,8 @@ class SequentialTestRunner extends Sequential(
   {SharedTest.SIZES_ENABLED = SharedTest.DESKTOP
    new InitializerTest
   }
-  //, new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
-  //, new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
+  , new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
+  , new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
   , new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
   , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(0))
   , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
@@ -25,7 +25,7 @@ class SequentialTestRunner extends Sequential(
   , new ViewContestAuthTest(ViewContestState.TIME_0_LIST(0))
   , new ViewContestAuthTest(ViewContestState.TIME_0_LIST(1))
 
-  {SharedTest.SIZES_ENABLED = SharedTest.TABLET
+  ,{SharedTest.SIZES_ENABLED = SharedTest.TABLET
     new InitializerTest
   }
   , new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
@@ -35,7 +35,7 @@ class SequentialTestRunner extends Sequential(
   , new InitializerTest
   , new ViewContestAuthTest(ViewContestState.TIME_0_LIST(0))
 
-  {SharedTest.SIZES_ENABLED = SharedTest.SMARTPHONE
+  ,{SharedTest.SIZES_ENABLED = SharedTest.SMARTPHONE
     new InitializerTest
   }
   , new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)

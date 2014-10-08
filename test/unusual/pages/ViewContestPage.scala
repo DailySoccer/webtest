@@ -17,7 +17,7 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
   def SOCCER_PLAYER_LINEUP_SLOT_POSITION(idx:Int):String   = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .column-fieldpos"
 
   val USER_PLAYER_LIST_WRAPPER:String = "#usersListRoot"
-  val USER_PLAYER_LIST_HEADER:String = ".users-header"
+  val USER_PLAYER_LIST_HEADER:String = ".users-header-next"
   val USER_PLAYER_LIST_TABLE_HEADER:String = ".users-table-header"
   val USER_PLAYER_LIST_TABLE_ROWS:String = ".users-table-rows"
 
