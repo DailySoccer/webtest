@@ -133,16 +133,16 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
   }
 
   def getContestName:String = {
-    find(cssSelector(CONTEST_NAME)).get.text
+    eventually { find(cssSelector(CONTEST_NAME)).get.text }
   }
   def getContestDescription:String = {
-    find(cssSelector(CONTEST_DESCRIPTION)).get.text
+    eventually { find(cssSelector(CONTEST_DESCRIPTION)).get.text }
   }
   def getContestEntryFee:String = {
-    find(cssSelector(CONTEST_ENTRY_FEE)).get.text
+    eventually { find(cssSelector(CONTEST_ENTRY_FEE)).get.text }
   }
   def getContestPrize:String = {
-    find(cssSelector(CONTEST_PRIZE)).get.text
+    eventually { find(cssSelector(CONTEST_PRIZE)).get.text }
   }
 
 }
