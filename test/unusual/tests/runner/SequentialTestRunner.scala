@@ -12,12 +12,12 @@ import unusual.tests.viewContestEntryTest.ViewContestAuthTest
 
 
 class SequentialTestRunner extends Sequential(
-
+/*
   {SharedTest.SIZES_ENABLED = SharedTest.DESKTOP
    new InitializerTest
   }
-  , new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
-  , new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
+  ,*/ new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
+  , new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)/*
   , new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
   , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(0))
   , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
@@ -43,7 +43,7 @@ class SequentialTestRunner extends Sequential(
   , new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
   , new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
   , new InitializerTest
-  , new ViewContestAuthTest(ViewContestState.TIME_0_LIST(1))
+  , new ViewContestAuthTest(ViewContestState.TIME_0_LIST(1))*/
 
 
   )

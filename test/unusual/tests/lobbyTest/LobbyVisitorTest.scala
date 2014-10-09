@@ -18,7 +18,7 @@ class LobbyVisitorTest(lobbySt:LobbyState = LobbyState.DEFAULT_LOBBY) extends Lo
   def lobbyBehavior(res:Resolution): Unit = {
     implicit val resolution: Resolution = res
 
-    "try to go to lobby. Page should redirect to home" taggedAs(DoesNotWorkYet) in {
+    "try to go to lobby. Page should redirect to home" in {
       val lobby = new LobbyPage(resolution, lobbyState.maxEntryMoney).open
       val home = new HomePage(resolution)
       lobby.open

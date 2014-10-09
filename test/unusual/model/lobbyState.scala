@@ -38,23 +38,24 @@ object LobbyState {
   var DEFAULT_LOBBY = {
     val state = new LobbyState
 
-    state.numContests_NoFilter = 639
-    state.numContests_Free = 27
-    state.numContests_League = 432
-    state.numContests_FiftyFifty = 144
-    state.numContests_HeadToHead = 36
-    state.numContests_Beginner = 637
+    state.numContests_NoFilter = 321
+    state.numContests_Free = 15
+    state.numContests_League = 216
+    state.numContests_FiftyFifty = 72
+    state.numContests_HeadToHead = 18
+    state.numContests_Beginner = 319
     state.numContests_Standard = 1
     state.numContests_Expert = 1
 
     state.minEntryFeeFilter = 2
-    state.numContests_MinEntryFee = 510
+    state.numContests_MinEntryFee = 255
 
     state.maxEntryMoney = 6
 
     state.filterPanel_SearchResults = Map(
-      "sáb., 14" -> 318,
-      "jun" -> 639
+      "sáb., 14" -> 0,
+      "jun" -> 321,
+      "!!" -> 1
     )
 
     state.contests = Contest.TIME_0_LIST

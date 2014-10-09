@@ -34,7 +34,7 @@ class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbySt) {
 
     "use filters" which filterBy {
 
-      "clear filters control" taggedAs WIP in checkClearFiltersButton
+      "clear filters control" in checkClearFiltersButton
 
       "free contests" in filterByFreeContests
 
