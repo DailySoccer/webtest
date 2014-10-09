@@ -58,7 +58,7 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
   def close = {
     if (resolution == Resolution.BIG){
       if (isElemDisplayed(CLOSE_BUTTON)) {
-        click on find(cssSelector(CLOSE_BUTTON)).get
+        eventually { click on find(cssSelector(CLOSE_BUTTON)).get }
       } else {
         fail("Close button is not displayed")
       }

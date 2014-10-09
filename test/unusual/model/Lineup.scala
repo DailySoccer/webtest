@@ -76,12 +76,12 @@ object Lineup {
     },
     { val lineup = new Lineup
       lineup.soccerPlayerList = Array( new SoccerPlayer ("mattia perin"      , SoccerPlayer.POS_GOAL_KEEPER, 4500)
-                                     , new SoccerPlayer ("juanfran"          , SoccerPlayer.POS_DEFENSE    , 7200)
-                                     , new SoccerPlayer ("raúl albiol"       , SoccerPlayer.POS_DEFENSE    , 7100)
-                                     , new SoccerPlayer ("joël veltman"      , SoccerPlayer.POS_DEFENSE    , 7200)
-                                     , new SoccerPlayer ("terence kongolo"   , SoccerPlayer.POS_DEFENSE    , 6900)
+                                     , new SoccerPlayer ("gerard piqué"      , SoccerPlayer.POS_DEFENSE    , 4500)
+                                     , new SoccerPlayer ("leighton baines"   , SoccerPlayer.POS_DEFENSE    , 7100)
+                                     , new SoccerPlayer ("ignazio abate"     , SoccerPlayer.POS_DEFENSE    , 7200)
+                                     , new SoccerPlayer ("gabriel paletta"   , SoccerPlayer.POS_DEFENSE    , 6900)
                                      , new SoccerPlayer ("thiago motta"      , SoccerPlayer.POS_MIDDLE     , 5800)
-                                     , new SoccerPlayer ("koke"              , SoccerPlayer.POS_MIDDLE     , 8000)
+                                     , new SoccerPlayer ("alex oxlade-chamber", SoccerPlayer.POS_MIDDLE     , 8000)
                                      , new SoccerPlayer ("juan mata"         , SoccerPlayer.POS_MIDDLE     , 6000)
                                      , new SoccerPlayer ("francesc fábregas" , SoccerPlayer.POS_MIDDLE     , 5800)
                                      , new SoccerPlayer ("danny welbeck"     , SoccerPlayer.POS_FORWARD    , 6300)

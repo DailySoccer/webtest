@@ -5,7 +5,7 @@ class SoccerPlayer (n: String, pos: String, sal: Int) {
   var position = pos
   var salary = sal
 
-  def ==(other:SoccerPlayer) = name.toLowerCase == other.name.toLowerCase &&
+  def ==(other:SoccerPlayer) = name.toLowerCase.substring(0, 17) == other.name.toLowerCase.substring(0, 17) &&
                                position.toLowerCase == other.position.toLowerCase &&
                                salary == other.salary
 
