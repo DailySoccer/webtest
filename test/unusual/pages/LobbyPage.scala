@@ -377,6 +377,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   def areContestsOrderedByStartTime: Boolean = {
     val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
+    paginator.goToFirstPage
     val pagesCount = paginator.getNumberOfPages
     logger.debug(s"Num pages: $pagesCount")
     var areOrdered = fastLobby_ContestAreOrderedByStartTime
