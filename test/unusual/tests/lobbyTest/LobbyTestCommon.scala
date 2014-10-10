@@ -118,12 +118,15 @@ class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
 
   def lookAtContestDescription(implicit resolution:Resolution): Unit = {
     if (resolution == Resolution.BIG){
-      logger.debug("Looking at contest description, resolution big")
+      logger.debug("Enter to lobby, resolution big")
 
-      val page = goToLobbyContest.openContestDescription(1)
+      val page = goToLobbyContest
+      logger.debug("Looking at contest description")
+      page.openContestDescription(1)
+      logger.debug("Contest description should be opened(1)")
       val description = new ContestDescriptionWindow(resolution)
 
-      logger.debug("Contest description should be opened(1)")
+      logger.debug(".")
       eventually { assert(description.isAt, "Description should be visible") }
       logger.debug("Description is visible")
       description.close

@@ -437,11 +437,15 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     val page:Int = (Math.floor( (idx - 1) / 10) + 1).toInt
     new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).goToPage(page)
     val row:Int = ((idx-1) % 10) + 1
+    logger.debug(s"Calculated page[$page] and row[$row])")
 
-    isElemDisplayed(CONTEST_ROW_NAME(row))
-    val elem = find(cssSelector( CONTEST_ROW_NAME(row) )).get
-    click on elem
-
+    eventually { isElemDisplayed(CONTEST_ROW_NAME(row)) }
+    logger.debug(s"Contest row name at row($row) exists")
+    eventually (timeout(60 seconds)) {
+      fastClicksByCssSelector(1, CONTEST_ROW_NAME(row))
+      //click on find(cssSelector( CONTEST_ROW_NAME(row) )).get
+    }
+    logger.debug(s"Has been clicked in name")
     this
 
   }
