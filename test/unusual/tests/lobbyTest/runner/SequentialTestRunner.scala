@@ -8,8 +8,8 @@ import unusual.tests.simulatorController._
 
 
 class SequentialTestRunner extends Sequential(
-    //new InitializerTest
-  new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
+  new InitializerTest
+  , new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
   , new LobbyVisitorTest
 
 )
