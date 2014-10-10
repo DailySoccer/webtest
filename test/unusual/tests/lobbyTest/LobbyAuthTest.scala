@@ -62,6 +62,8 @@ class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbySt) {
       "order by entry fee" in orderByEntryFee
 
       "order by start time" in orderByStartTime
+
+      "Reorder by start time" in ReorderByStartTime
     }
 
     "press play button of first contest to select team" in playFirstContest
