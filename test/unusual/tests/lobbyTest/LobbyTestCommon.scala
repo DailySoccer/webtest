@@ -284,11 +284,16 @@ class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
 
   def orderByStartTime(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest
+    logger.debug("Ordering by start time")
     assert(page.areContestsOrderedByStartTime, "Contest are not sorted by name")
 
+    logger.debug("Contest are sorted by name")
     page.clickSortContestsByStartTime.clickSortContestsByStartTime
+    logger.debug("clicked two times in sort contest")
     assert(page.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
+    logger.debug("No contest desapeared during process")
     assert(page.areContestsOrderedByStartTime, "Contest are not sorted by start time")
+    logger.debug("Contest are still sorted by name")
   }
 
   /// PAGINATOR TESTS
