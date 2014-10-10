@@ -23,11 +23,11 @@ class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbySt) {
 
     "watch basic information" which consistIn {
 
-      "to be logged in" in goToLobby
+      "to be logged in" taggedAs WIP in goToLobby
 
-      "change resolutions" in changeResolutionTests
+      "change resolutions" taggedAs WIP in changeResolutionTests
 
-      "look for default contests" in lookForDefaultContests
+      "look for default contests" taggedAs WIP in lookForDefaultContests
 
       "look at contest description" in lookAtContestDescription
     }
