@@ -16,15 +16,15 @@ class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbySt) {
     status.ensureAuthUser
   }
 
-  "Auth user" when sizeTesting(enterContestPageBehaviorBasicInfo)
+  "(Basic Info)Auth user" when sizeTesting(enterContestPageBehaviorBasicInfo)
 
-  "Auth user" when sizeTesting(enterContestPageBehaviorFilters)
+  "(Filters)Auth user" when sizeTesting(enterContestPageBehaviorFilters)
 
-  "Auth user" when sizeTesting(enterContestPageBehaviorOrderBy)
+  "(Order By)Auth user" when sizeTesting(enterContestPageBehaviorOrderBy)
 
-  "Auth user" when sizeTesting(enterContestPageBehaviorOthers)
+  "(Others)Auth user" when sizeTesting(enterContestPageBehaviorOthers)
 
-  "Auth user" when sizeTesting(enterContestPageBehaviorBUG)
+  "(BUG)Auth user" when sizeTesting(enterContestPageBehaviorBUG)
 
 
   def enterContestPageBehaviorBasicInfo(res:Resolution): Unit = {

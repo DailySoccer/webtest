@@ -8,10 +8,10 @@ import unusual.tests.simulatorController._
 
 
 class SequentialTestRunner extends Sequential(
-   new InitializerTest
+   /*new InitializerTest
  , new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
- , new LobbyVisitorTest
-   /* { SharedTest.SIZES_ENABLED = SharedTest.DESKTOP
+ , new LobbyVisitorTest*/
+  { SharedTest.SIZES_ENABLED = SharedTest.DESKTOP
       new InitializerTest
   },  new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
 
@@ -25,6 +25,6 @@ class SequentialTestRunner extends Sequential(
 
   , { SharedTest.SIZES_ENABLED = SharedTest.DESKTOP | SharedTest.TABLET | SharedTest.SMARTPHONE
       new LobbyVisitorTest
-  }*/
+  }
 
 )
