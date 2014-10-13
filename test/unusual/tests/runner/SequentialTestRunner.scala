@@ -7,24 +7,25 @@ import unusual.tests.SharedTest
 import unusual.tests.contestDescriptionTest._
 import unusual.tests.enterContestTest.EnterContestAuthTest
 import unusual.tests.lobbyTest._
-import unusual.tests.simulatorController._
+import unusual.tests.runner.enterContest.EnterContestSequentialTestRunner
+import unusual.tests.runner.simulatorController._
 import unusual.tests.viewContestEntryTest.ViewContestAuthTest
 import unusual.tests.runner.lobby._
 
 
 class SequentialTestRunner extends Sequential(
-  new LobbySequentialTestRunner
-
+  new LobbySequentialTestRunner,
+  new EnterContestSequentialTestRunner
   //, new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
   //, new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
-  , new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
+  //, new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
   //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(0))
   //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
   //, new InitializerTest
   //, new ViewContestAuthTest(ViewContestState.TIME_0_LIST(0))
   //, new ViewContestAuthTest(ViewContestState.TIME_0_LIST(1))
 
-  ,{SharedTest.SIZES_ENABLED = SharedTest.TABLET
+  /*,{SharedTest.SIZES_ENABLED = SharedTest.TABLET
     new InitializerTest
   }
   //, new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
@@ -43,6 +44,6 @@ class SequentialTestRunner extends Sequential(
   //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
   //, new InitializerTest
   //, new ViewContestAuthTest(ViewContestState.TIME_0_LIST(1))
-
+*/
 
   )

@@ -64,7 +64,7 @@ abstract class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbyS
 
       "look for default contests" in lookForDefaultContests
 
-      "look at contest description" taggedAs WIP in lookAtContestDescription
+      "look at contest description" in lookAtContestDescription
     }
   }
 

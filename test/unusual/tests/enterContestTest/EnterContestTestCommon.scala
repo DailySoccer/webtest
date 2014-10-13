@@ -5,7 +5,7 @@ import unusual.model._
 import unusual.pages._
 import unusual.tests._
 
-class EnterContestTestCommon(state: EnterContestState) extends SharedTest {
+abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTest {
 
   val enterContestState = state
 

@@ -1,4 +1,4 @@
-package unusual.tests.simulatorController
+package unusual.tests.runner.simulatorController
 
 import unusual.pages.SharedPage
 import unusual.testTags.scala.WIP
