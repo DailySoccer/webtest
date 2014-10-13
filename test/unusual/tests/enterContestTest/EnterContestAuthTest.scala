@@ -32,6 +32,7 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
 
 
   def enterContestPageBehavior_OrderBy(res:Resolution): Unit = {
+    implicit val resolution: Resolution = res
 
     "look at default state" in checkDefaultState
 
@@ -51,6 +52,7 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
   }
 
   def enterContestPageBehavior_FilterBy(res:Resolution): Unit = {
+    implicit val resolution: Resolution = res
 
     "use filters" which filterBy {
 
@@ -72,6 +74,7 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
   }
 
   def enterContestPageBehavior_SelectPos(res:Resolution): Unit = {
+    implicit val resolution: Resolution = res
 
     "use lineup elements" which filterBy {
 
@@ -89,6 +92,8 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
   }
 
   def enterContestPageBehavior_Bug(res:Resolution): Unit = {
+    implicit val resolution: Resolution = res
+
     "perform known BUG SEQUENCE" which causes {
 
       "Duplicated players at delete all" in knownBugSequence_DuplicatedPlayersAtDeleteAll
@@ -104,6 +109,7 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
   }
 
   def enterContestPageBehavior_Pick(res:Resolution): Unit = {
+    implicit val resolution: Resolution = res
 
     "pick soccer players from list" which {
 

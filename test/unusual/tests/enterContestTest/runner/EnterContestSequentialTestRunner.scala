@@ -1,4 +1,4 @@
-package unusual.tests.runner.enterContest
+package unusual.tests.enterContestTest.runner
 
 import org.scalatest.Sequential
 import unusual.model.{LobbyState, EnterContestState}

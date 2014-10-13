@@ -7,10 +7,10 @@ import unusual.tests.SharedTest
 import unusual.tests.contestDescriptionTest._
 import unusual.tests.enterContestTest.EnterContestAuthTest
 import unusual.tests.lobbyTest._
-import unusual.tests.runner.enterContest.EnterContestSequentialTestRunner
+import unusual.tests.enterContestTest.runner.EnterContestSequentialTestRunner
 import unusual.tests.runner.simulatorController._
 import unusual.tests.viewContestEntryTest.ViewContestAuthTest
-import unusual.tests.runner.lobby._
+import unusual.tests.lobbyTest.runner._
 
 
 class SequentialTestRunner extends Sequential(

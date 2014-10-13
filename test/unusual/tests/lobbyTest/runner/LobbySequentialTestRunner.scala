@@ -1,4 +1,4 @@
-package unusual.tests.runner.lobby
+package unusual.tests.lobbyTest.runner
 
 import org.scalatest.Sequential
 import unusual.model.LobbyState
