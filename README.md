@@ -33,7 +33,7 @@ Test filtering and running
 
 You may want to filter test to run only one. In /build.sbt in testOptions, we can select suites package, included tag
 and excluded tags on tagged test.
-```
+```Scala
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
                                                                 , "-n", "unusual.testTags.java.WIP" // Incluidas
                                                                 , "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
@@ -41,9 +41,9 @@ testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual
                                                                 )
 ```
 
-   - `-w` indicates test package to run, in each test package should be a runner package that runs that test package sequentially
-   - `-n` indicates included test tags. Each test should indicates their tags with `taggedAs XXXXX` for example `taggedAs WIP`
-   - `-w` indicates excluded test tags.
+   - `-w` indicates test package to run, in each test package should be a runner package that runs that test package sequentially.
+   - `-n` indicates included test tags. Each test should indicates their own tags with `taggedAs XXXXX` for example `taggedAs WIP`.
+   - `-w` indicates excluded test tags same as `-n`.
 
 If some argument does not appear, is ignored and it does what is expected. For example: if `-n` is commented this way `//, "-n", "unusual.testTags.java.WIP" // Incluidas`, then all test are included.
 
@@ -53,7 +53,7 @@ Test filter tuning
 
 ### Filter by test groups
 
-In each test runner the list of tests can be find. Each test which should not be executed should be commented.
+In each test runner the list of tests can be find. Each test which should not be executed must be commented.
 
 
 ### Filter by concrete test
@@ -72,9 +72,11 @@ In each test class (`LobbyAuthTest`, `LobbyVisitorTest`, `EnterContestAuthTest`.
 }
 ```
 
-To execute only some tests, a tag should be added to the tests. That tag should be included in build.sbt file (`-n` argument as explained before).
-To execute all test but some, a tag should be added too. That tag should be included in `-l` argument this time. That tests will be ignored.
-Multiple tags could be added.
+    * To execute only some tests, a tag should be added to the tests and included in build.sbt file (`-n` argument as explained before).
+
+    * To execute all test but some, a tag should be added too and included in `-l` argument this time. That tests will be ignored.
+
+    * Multiple tags could be added.
 
 
 For example:
@@ -88,13 +90,11 @@ With this test suite configuration:
   "concrete test 2" taggedAs(DoesNotWorkYet, WIP) in concreteTest2
 
   "concrete test 3" in concreteTest3
-  
-  ...
 }
 ```
 
 This sbt will execute concreteTest1 and concreteTest2
-```
+```Scala
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
                                                                 , "-n", "unusual.testTags.java.WIP" // Incluidas
                                                                 //, "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
@@ -103,7 +103,7 @@ testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual
 ```     
 
 This sbt will execute concreteTest1
-```
+```Scala
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
                                                                 , "-n", "unusual.testTags.java.WIP" // Incluidas
                                                                 , "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
@@ -113,7 +113,7 @@ testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual
 
 
 This sbt will execute all test
-```
+```Scala
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
                                                                 //, "-n", "unusual.testTags.java.WIP" // Incluidas
                                                                 //, "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
