@@ -284,7 +284,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     val inferiorTextNode = find(cssSelector(SLIDER_RANGE_TEXT_INFERIOR)).get
     var n:Integer = 0
 
-    eventually { n = Integer.parseInt( inferiorTextNode.text.substring(5, inferiorTextNode.text.length - 1) ) }
+    eventually { n = Integer.parseInt( inferiorTextNode.text.substring(5, inferiorTextNode.text.length - 1).replace(",", "") ) }
 
     n
   }
@@ -293,7 +293,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     val superiorTextNode = find(cssSelector(SLIDER_RANGE_TEXT_SUPERIOR)).get
     var n:Integer = 0
 
-    eventually { n = Integer.parseInt( superiorTextNode.text.substring(5, superiorTextNode.text.length - 1) ) }
+    eventually { n = Integer.parseInt( superiorTextNode.text.substring(5, superiorTextNode.text.length - 1).replace(",", "") ) }
 
     n
   }
@@ -443,9 +443,9 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     val page:Int = (Math.floor( (idx - 1) / 10) + 1).toInt
     new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).goToPage(page)
     val row:Int = ((idx-1) % 10) + 1
-    logger.debug(s"Calculated page[$page] and row[$row])")
+    logger.debug(s"Calculated page[$page] and row[$row]), ${CONTEST_ROW_NAME(row)}")
 
-    eventually { isElemDisplayed(CONTEST_ROW_NAME(row)) }
+    eventually (timeout(60 seconds)) { isElemDisplayed(CONTEST_ROW_NAME(row)) }
     logger.debug(s"Contest row name at row($row) exists")
     eventually (timeout(60 seconds)) {
       fastClicksByCssSelector(1, CONTEST_ROW_NAME(row))
