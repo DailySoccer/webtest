@@ -11,7 +11,7 @@ import unusual.tests._
 import unusual.pages._
 import unusual.tests.contestDescriptionTest.ContestDescriptionCommon
 
-class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
+abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
 
   var lobbyState = lobbySt
 

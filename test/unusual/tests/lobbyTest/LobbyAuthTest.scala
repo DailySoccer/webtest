@@ -5,17 +5,32 @@ import unusual.pages.{HomePage, EnterContestPage, LobbyPage}
 import unusual.testTags.scala._
 import unusual.tests.contestDescriptionTest._
 
-class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbySt) {
 
-  def orderBy = afterWord("ORDER BY")
-  def filterBy = afterWord("FILTER BY")
-  def causes = afterWord("causes:")
-  def consistIn = afterWord("consist in")
+class LobbyAuthTest_BasicInfo(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
+  "(Basic Info) Auth user" when sizeTesting(enterContestPageBehaviorBasicInfo)
+}
 
-  before {
-    status.ensureAuthUser
-  }
+class LobbyAuthTest_Filters(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
+  "(Filters) Auth user" when sizeTesting(enterContestPageBehaviorFilters)
+}
 
+class LobbyAuthTest_OrderBy(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
+  "(Order By) Auth user" when sizeTesting(enterContestPageBehaviorOrderBy)
+}
+
+class LobbyAuthTest_Others(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
+  "(Others) Auth user" when sizeTesting(enterContestPageBehaviorOthers)
+}
+
+class LobbyAuthTest_Bug(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
+  "(BUG) Auth user" when sizeTesting(enterContestPageBehaviorBUG)
+}
+
+
+/**
+ * No lo vamos a usar a priori
+ */
+class LobbyAuthTest_All(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
   "(Basic Info)Auth user" when sizeTesting(enterContestPageBehaviorBasicInfo)
 
   "(Filters)Auth user" when sizeTesting(enterContestPageBehaviorFilters)
@@ -25,7 +40,18 @@ class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbySt) {
   "(Others)Auth user" when sizeTesting(enterContestPageBehaviorOthers)
 
   "(BUG)Auth user" when sizeTesting(enterContestPageBehaviorBUG)
+}
 
+abstract class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbySt) {
+
+  def orderBy = afterWord("ORDER BY")
+  def filterBy = afterWord("FILTER BY")
+  def causes = afterWord("causes:")
+  def consistIn = afterWord("consist in")
+
+  before {
+    status.ensureAuthUser
+  }
 
   def enterContestPageBehaviorBasicInfo(res:Resolution): Unit = {
     implicit val resolution: Resolution = res
