@@ -34,7 +34,7 @@ Test filtering and running
 You may want to filter test to run only one. In /build.sbt in testOptions, we can select suites package, included tag
 and excluded tags on tagged test.
     
-    ```sbt
+    ```
     testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
                                                                     , "-n", "unusual.testTags.java.WIP" // Incluidas
                                                                     , "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
@@ -61,7 +61,7 @@ In each test runner the list of tests can be find. Each test which should not be
 
 In each test class (`LobbyAuthTest`, `LobbyVisitorTest`, `EnterContestAuthTest`...) there are tests like:
     
-    ```scala
+    ```Scala
     
         "test group" which doAnAction {
     
@@ -84,7 +84,7 @@ For example:
 
 With this test suite configuration:
 
-    ```scala
+    ```Scala
     
         "test group" which doAnAction {
     
@@ -99,7 +99,7 @@ With this test suite configuration:
     ```
 
 This sbt will execute concreteTest1 and concreteTest2
-```sbt
+```
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
                                                                 , "-n", "unusual.testTags.java.WIP" // Incluidas
                                                                 //, "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
@@ -108,23 +108,23 @@ testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual
 ```     
 
 This sbt will execute concreteTest1
-```sbt
+```
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
                                                                 , "-n", "unusual.testTags.java.WIP" // Incluidas
                                                                 , "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
                                                                 , "-eIKNCHLPQ"
                                                                 )`
-```     
+```  
 
 
 This sbt will execute all test
-```sbt
+```
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
                                                                 //, "-n", "unusual.testTags.java.WIP" // Incluidas
                                                                 //, "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
                                                                 , "-eIKNCHLPQ"
                                                                 )`
-```     
+```  
 
 
 
