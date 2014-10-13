@@ -33,7 +33,7 @@ Running remotely on SauceLabs is the default if you don't export the URL or unse
 Logger configuration
 ====================
 
-You can change log level by changing /conf/application-logger.xml.
+You can change the log level by changing /conf/application-logger.xml.
 
 The logger tag named 'unusual' refers to logging calls in our package (unusual). If u set the level to TRACE all logs
 will be displayed.
