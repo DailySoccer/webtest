@@ -1,38 +1,49 @@
 Preparation
 ===========
 
-You need first to prepare both backend and webclient projects. If you want to test locally what you're doing.
+If you want to test locally and not only on SauceLabs, you have to compile both the backend and webclient projects.
+Don't forget to compile the webclient with "pub build" to make sure you are testing the latest version.
 
-Afterwards, when you can access the project through http://localhost:9000 or any local URL reachable by a normal web
-browser, you need to install Selenium's firefox webdriver or chrome webdriver.
+Launch the backend normally. You must be able to access the game through http://localhost:9000.
 
-For firefox, sbt downloads every needed lib and scalatest connects to firefox.
+If you want to use Chrome, install Chrome's webdriver extension. "brew install chromedriver" works like a charm.
 
-For the second one, "brew install chromedriver" works like a charm.
+For Firefox you don't need anything. SBT downloads some libs that enable ScalaTest to connect with Firefox directly.
 
-You will need to set your driver accordingly in test/SauceLabsFactory.scala (CHROME or FIREFOX)
 
-Once you have that, to run the tests locally, run in your terminal:
+Running locally
+===============
+
+To run the tests locally, run in your terminal:
 
     $ export URL="http://localhost:9000"
     $ play test
+    
+The default browser is Firefox. You can change it in test/SauceLabsFactory.scala (CHROME or FIREFOX).
 
-To run on SauceLabs just do not export the URL or unset it.
+
+Running remotely
+===============
+
+Running remotely on SauceLabs is the default if you don't export the URL or unset it. Just run:
+
+    $ play test
 
 
 Logger configuration
 ====================
 
-You can change log level by changing /conf/application-logger.xml
-logger tag named as unusual refers to logger calls in our package (unusual). If u set level to TRACE, every log should be
-displayed.
+You can change log level by changing /conf/application-logger.xml.
+
+The logger tag named 'unusual' refers to logging calls in our package (unusual). If u set the level to TRACE all logs
+will be displayed.
 
 
 Test filtering and running
 ==========================
 
-You may want to filter test to run only one. In /build.sbt in testOptions, we can select suites package, included tag
-and excluded tags on tagged test.
+You may want to filter out all tests except one. In /build.sbt, using testOptions we can select suites packages and
+include/exclude tests based on tags.
 ```Scala
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
                                                                 , "-n", "unusual.testTags.java.WIP" // Incluidas
@@ -41,11 +52,13 @@ testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual
                                                                 )
 ```
 
-   - `-w` indicates test package to run, in each test package should be a runner package that runs that test package sequentially.
-   - `-n` indicates included test tags. Each test should indicates their own tags with `taggedAs XXXXX` for example `taggedAs WIP`.
-   - `-w` indicates excluded test tags same as `-n`.
+   - `-w` Test package to run. There must be a 'runner' in each test package that runs its tests sequentially.
+   - `-n` Included test tags. Each test defines its own tags with `taggedAs XXXXX`. For example `taggedAs WIP`.
+   - `-w` Excluded test tags.
 
-If some argument does not appear, is ignored and it does what is expected. For example: if `-n` is commented this way `//, "-n", "unusual.testTags.java.WIP" // Incluidas`, then all test are included.
+If some argument does not appear, it is ignored and it works as expected. For example: if `-n` is commented out in this way 
+`//, "-n", "unusual.testTags.java.WIP"`
+then all test are included.
 
 
 Test filter tuning
@@ -53,7 +66,7 @@ Test filter tuning
 
 ### Filter by test groups
 
-In each test runner the list of tests can be find. Each test which should not be executed must be commented.
+You can find the list of test to run in each test runner. Each test not be executed must be commented out.
 
 
 ### Filter by concrete test
@@ -72,16 +85,16 @@ In each test class (`LobbyAuthTest`, `LobbyVisitorTest`, `EnterContestAuthTest`.
 }
 ```
 
-    * To execute only some tests, a tag should be added to the tests and included in build.sbt file (`-n` argument as explained before).
+    * To execute only some tests, a tag should be added to those tests and included in the `-n` argument.
 
-    * To execute all test but some, a tag should be added too and included in `-l` argument this time. That tests will be ignored.
+    * To execute all tests except one, add a tag to it and include that tag in `-l`. That test will be ignored.
 
     * Multiple tags could be added.
 
 
-For example:
+Example:
 
-With this test suite configuration:
+Given this tests package:
 ```Scala
 "test group" which doAnAction {
 
@@ -95,32 +108,27 @@ With this test suite configuration:
 
 This sbt will execute concreteTest1 and concreteTest2
 ```Scala
-testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
-                                                                , "-n", "unusual.testTags.java.WIP" // Incluidas
-                                                                //, "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
+testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner"
+                                                                , "-n", "unusual.testTags.java.WIP"
+                                                                //, "-l", "unusual.testTags.java.DoesNotWorkYet"
                                                                 , "-eIKNCHLPQ"
                                                                 )
 ```     
 
 This sbt will execute concreteTest1
 ```Scala
-testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
-                                                                , "-n", "unusual.testTags.java.WIP" // Incluidas
-                                                                , "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
+testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner"
+                                                                , "-n", "unusual.testTags.java.WIP"
+                                                                , "-l", "unusual.testTags.java.DoesNotWorkYet"
                                                                 , "-eIKNCHLPQ"
                                                                 )
 ```  
 
-
-This sbt will execute all test
+This sbt will execute all tests
 ```Scala
-testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner" // Paquete de tests
-                                                                //, "-n", "unusual.testTags.java.WIP" // Incluidas
-                                                                //, "-l", "unusual.testTags.java.DoesNotWorkYet" // Excluidas
+testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual.tests.runner"
+                                                                //, "-n", "unusual.testTags.java.WIP"
+                                                                //, "-l", "unusual.testTags.java.DoesNotWorkYet"
                                                                 , "-eIKNCHLPQ"
                                                                 )
-```  
-
-
-
-
+```
