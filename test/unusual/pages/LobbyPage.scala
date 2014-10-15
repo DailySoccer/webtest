@@ -282,9 +282,14 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   def getInferiorMoneyFilter :Int = {
     val inferiorTextNode = find(cssSelector(SLIDER_RANGE_TEXT_INFERIOR)).get
+    var text = ""
     var n:Integer = 0
 
-    eventually { n = Integer.parseInt( inferiorTextNode.text.substring(5, inferiorTextNode.text.length - 1).replace(",", "") ) }
+    eventually {
+      text = inferiorTextNode.text
+    }
+
+    n = Integer.parseInt( text.substring(5, text.length - 1).replace(",", "") )
 
     n
   }
@@ -469,34 +474,25 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   }
 
   private def openFilters = {
+    eventually { assert( find(cssSelector(FILTERS_PANEL + ".collapsing")) == None ) }
+
     val button = find(cssSelector(FILTERS_BUTTON + ".toggleOff"))
 
-    //var panel:WebBrowser.Element = null
-
     if (button != None) {
-      eventually { assert( !find(cssSelector(FILTERS_PANEL)).get.isDisplayed ) }
+      //eventually { assert( !find(cssSelector(FILTERS_PANEL)).get.isDisplayed ) }
       click on button.get
     }
-    /*
-    if (panel.isDisplayed) {
-      eventually {
-        if (resolution == Resolution.SMALL) {
-          click on find(cssSelector(FILTERS_BUTTON_MOBILE)).get
-        } else {
-          click on find(cssSelector(FILTERS_BUTTON_DESKTOP)).get
-        }
-      }
-    }
-    */
 
     this
   }
 
   private def closeFilters = {
+    eventually { assert( find(cssSelector(FILTERS_PANEL + ".collapsing")) == None ) }
+
     val button = find(cssSelector(FILTERS_BUTTON + ".toggleOn"))
 
     if (button != None) {
-      eventually { assert( find(cssSelector(FILTERS_PANEL)).get.isDisplayed ) }
+      //eventually { assert( find(cssSelector(FILTERS_PANEL)).get.isDisplayed ) }
       click on button.get
     }
 

@@ -17,7 +17,8 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
       "name"    -> "DailySoccer Test",
       "os"      -> "OSX 10.9",
       "version" -> "28",
-      "browser" -> "firefox"
+      "browser" -> "firefox",
+      "boost-mode" -> "true"
     )
   )
   val CHROME_HOST   = "chrome"
@@ -66,11 +67,13 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
   private def createSauceLabsDriver = {
     val driver = new RemoteWebDriver(urlSauceLabs, createDesiredCapabilities(SAUCE_LABS_CONFIG(0)))
     sessionId = driver.getSessionId.toString
+    //driver.
     driver
   }
 
   private def urlSauceLabs = {
-    new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey + "@ondemand.saucelabs.com:80/wd/hub")
+    //new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey + "@ondemand.saucelabs.com:80/wd/hub")
+    new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey + "@localhost:4445/wd/hub")
   }
 
   private def createDesiredCapabilities (config : Map[String,String]) = {
@@ -81,6 +84,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
       capabilities.setCapability(CapabilityType.VERSION, config("version"))
     }
     capabilities.setCapability(CapabilityType.PLATFORM, config("os"))
+    capabilities.setCapability("boost-mode", config("boost-mode"))
     capabilities
   }
 

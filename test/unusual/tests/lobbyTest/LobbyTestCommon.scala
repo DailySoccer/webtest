@@ -103,11 +103,16 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
     assert(page.areAllFiltersClear, "Filters are not clear")
     When("set up some filters that hide all contests")
     page.searchContestByName(FILTERS_PANEL_SEARCH_TEXT)
-        .setEntryFeeFilter(0, 0)
-        .clickLeagueContestFilter
-        .clickFiftyFiftyContestsFilter
-        .clickHeadToHeadContestsFilter
-        .getNumberOfContests must be(0)
+    logger.debug("searched by name")
+    page.setEntryFeeFilter(0, 0)
+    logger.debug("filter by entry fee 0 , 0")
+    page.clickLeagueContestFilter
+    logger.debug("filter by league contest")
+    page.clickFiftyFiftyContestsFilter
+    logger.debug("filter by fifty fifty")
+    page.clickHeadToHeadContestsFilter
+    logger.debug("filter by head to head")
+    page.getNumberOfContests must be(0)
     And("clear filters")
     page.clearFilters
     Then("filters should be clear again")

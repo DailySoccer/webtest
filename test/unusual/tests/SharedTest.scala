@@ -111,34 +111,40 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
 
   def sizeTesting(behavior: (Resolution) => Unit) = {
 
-    if ((SharedTest.DESKTOP & SharedTest.SIZES_ENABLED) > 0) "use DESKTOP device" must {
-      val resolution:Resolution = Resolution.BIG
+    if ((SharedTest.DESKTOP & SharedTest.SIZES_ENABLED) > 0) {
+      String.format("%-75s", "use DESKTOP device") + ("DESKTOP") must {
+        val resolution:Resolution = Resolution.BIG
 
-      "stablish browser resolution" taggedAs(WIP) in {
-        status.resolution = resolution
+        "stablish browser resolution" taggedAs(WIP) in {
+          status.resolution = resolution
+        }
+
+        behave like behavior(resolution)
       }
-
-      behave like behavior(resolution)
     }
 
-    if ((SharedTest.TABLET & SharedTest.SIZES_ENABLED) > 0) "use TABLET device" must {
-      val resolution:Resolution = Resolution.MEDIUM
+    if ((SharedTest.TABLET & SharedTest.SIZES_ENABLED) > 0) {
+      String.format("%-75s", "use TABLET device") + ("TABLET") must {
+        val resolution: Resolution = Resolution.MEDIUM
 
-      "stablish browser resolution" taggedAs(WIP) in {
-        status.resolution = resolution
+        "stablish browser resolution" taggedAs (WIP) in {
+          status.resolution = resolution
+        }
+
+        behave like behavior(resolution)
       }
-
-      behave like behavior(resolution)
     }
 
-    if ((SharedTest.SMARTPHONE & SharedTest.SIZES_ENABLED) > 0) "use SMARTPHONE device" must {
-      val resolution:Resolution = Resolution.SMALL
+    if ((SharedTest.SMARTPHONE & SharedTest.SIZES_ENABLED) > 0) {
+      String.format("%-75s", "use SMARTPHONE device") + ("SMARTPHONE") must {
+        val resolution:Resolution = Resolution.SMALL
 
-      "stablish browser resolution" taggedAs(WIP) in {
-        status.resolution = resolution
+        "stablish browser resolution" taggedAs(WIP) in {
+          status.resolution = resolution
+        }
+
+        behave like behavior(resolution)
       }
-
-      behave like behavior(resolution)
     }
   }
 /*

@@ -8,14 +8,14 @@ import unusual.tests.contestDescriptionTest._
 import unusual.tests.enterContestTest.EnterContestAuthTest
 import unusual.tests.lobbyTest._
 import unusual.tests.enterContestTest.runner.EnterContestSequentialTestRunner
-import unusual.tests.runner.simulatorController._
+import unusual.tests.simulatorController._
 import unusual.tests.viewContestEntryTest.ViewContestAuthTest
 import unusual.tests.lobbyTest.runner._
 
 
 class SequentialTestRunner extends Sequential(
-  new LobbySequentialTestRunner,
-  new EnterContestSequentialTestRunner
+  new LobbySequentialTestRunner
+  , new EnterContestSequentialTestRunner
   //, new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
   //, new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
   //, new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))

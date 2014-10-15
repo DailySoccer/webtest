@@ -60,12 +60,12 @@ object Lineup {
 
   val TIME_0_EXPEND_ALL_MONEY_LIST = Array(
     { val lineup = new Lineup
-      lineup.soccerPlayerList = Array( new SoccerPlayer ("guillermo ochoa"   , SoccerPlayer.POS_GOAL_KEEPER, 10100)
-                                     , new SoccerPlayer ("jordi alba"        , SoccerPlayer.POS_DEFENSE    , 8200)
+      lineup.soccerPlayerList = Array( new SoccerPlayer ("jefferson"         , SoccerPlayer.POS_GOAL_KEEPER, 4500)
+                                     , new SoccerPlayer ("raúl albiol"       , SoccerPlayer.POS_DEFENSE    , 7100)
                                      , new SoccerPlayer ("maxwell"           , SoccerPlayer.POS_DEFENSE    , 7800)
                                      , new SoccerPlayer ("henrique"          , SoccerPlayer.POS_DEFENSE    , 6200)
                                      , new SoccerPlayer ("gordon schildenfeld", SoccerPlayer.POS_DEFENSE   , 4500)
-                                     , new SoccerPlayer ("paulinho"          , SoccerPlayer.POS_MIDDLE     , 12800)
+                                     , new SoccerPlayer ("jean makoun"       , SoccerPlayer.POS_MIDDLE     , 4500)
                                      , new SoccerPlayer ("sammir"            , SoccerPlayer.POS_MIDDLE     , 6100)
                                      , new SoccerPlayer ("willian"           , SoccerPlayer.POS_MIDDLE     , 10100)
                                      , new SoccerPlayer ("Ognjen vukojevic"  , SoccerPlayer.POS_MIDDLE     , 4500)
@@ -81,8 +81,8 @@ object Lineup {
                                      , new SoccerPlayer ("ignazio abate"     , SoccerPlayer.POS_DEFENSE    , 7200)
                                      , new SoccerPlayer ("gabriel paletta"   , SoccerPlayer.POS_DEFENSE    , 6900)
                                      , new SoccerPlayer ("thiago motta"      , SoccerPlayer.POS_MIDDLE     , 5800)
-                                     , new SoccerPlayer ("alex oxlade-chamber", SoccerPlayer.POS_MIDDLE     , 8000)
-                                     , new SoccerPlayer ("juan mata"         , SoccerPlayer.POS_MIDDLE     , 6000)
+                                     , new SoccerPlayer ("alex oxlade-chamber", SoccerPlayer.POS_MIDDLE    , 8000)
+                                     , new SoccerPlayer ("adam lallana"      , SoccerPlayer.POS_MIDDLE     , 6000)
                                      , new SoccerPlayer ("francesc fábregas" , SoccerPlayer.POS_MIDDLE     , 5800)
                                      , new SoccerPlayer ("danny welbeck"     , SoccerPlayer.POS_FORWARD    , 6300)
                                      , new SoccerPlayer ("ciro immobile"     , SoccerPlayer.POS_FORWARD    , 5200)

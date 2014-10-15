@@ -4,7 +4,7 @@ import org.scalatest.Sequential
 import unusual.model.LobbyState
 import unusual.tests.SharedTest
 import unusual.tests.lobbyTest._
-import unusual.tests.runner.simulatorController._
+import unusual.tests.simulatorController._
 
 
 class LobbySequentialTestRunner extends Sequential(

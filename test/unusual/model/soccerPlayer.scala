@@ -5,9 +5,14 @@ class SoccerPlayer (n: String, pos: String, sal: Int) {
   var position = pos
   var salary = sal
 
-  def ==(other:SoccerPlayer) = name.toLowerCase.substring(0, 17) == other.name.toLowerCase.substring(0, 17) &&
-                               position.toLowerCase == other.position.toLowerCase &&
-                               salary == other.salary
+  def ==(other:SoccerPlayer) = {
+    val name1 = (if (name.toLowerCase.length > 17) name.substring(0, 17) else name).toLowerCase
+    val name2 = (if (other.name.toLowerCase.length > 17) other.name.substring(0, 17) else other.name).toLowerCase
+
+    name1 == name2 &&
+    position.toLowerCase == other.position.toLowerCase &&
+    salary == other.salary
+  }
 
   def !=(other:SoccerPlayer) = !(this == other)
 

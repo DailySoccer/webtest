@@ -1,10 +1,11 @@
-package unusual.tests.runner.simulatorController
+package unusual.tests.simulatorController
 
 import unusual.pages.SharedPage
+import unusual.pages.util.DOM_Ops
 import unusual.testTags.scala.WIP
 import unusual.tests.SharedTest
 
-class SimulatorController extends SharedTest {
+class SimulatorController extends SharedTest with DOM_Ops{
 
   val MAX_TIMEOUT_TIME = 3000
   val INTERVAL_TIME = 1
@@ -17,6 +18,7 @@ class SimulatorController extends SharedTest {
   val URL_START = url + "/test_start"
   val URL_CURRENT_DATE = url + "/test_current_date"
   val URL_INITIAL_SETUP = url + "/test_initial_setup"
+  val URL_IMPORT_SALARIES = url + "/import_salaries"
   def URL_GO_TO_DATE(day:Int, month:Int, year:Int, hour:Int, minute:Int) = url + s"/test_goto/$year/$month/$day/$hour/$minute"
   def URL_SELECT_COMPETITION(seasonId:Int, competitionId:Int) = url + s"/opta_competitions/${seasonId}-${competitionId}/activated/true"
   def URL_CREATE_TEMPLATES(mockIndex:Int) = url + s"/create_contests/$mockIndex"
@@ -29,9 +31,12 @@ class SimulatorController extends SharedTest {
     go to URL_START
     And("select World Cup competiton.")
     go to URL_SELECT_COMPETITION(2013, WORLD_CUP)
+    Then("import soccers' salaries")
+    go to URL_IMPORT_SALARIES
+
     When("go to date: 2014/06/10 08:00:49 UTC")
     timeShift(10,6,2014,0,0, "2014/06/10 08:00:49 UTC")
-    Then("perform a initial setup")
+    Then("perform initial set up")
     go to URL_INITIAL_SETUP
     And("create presonalized contests")
     createTemplateContest(0)
@@ -55,6 +60,7 @@ class SimulatorController extends SharedTest {
   def prepareInitialBrowserState: Unit = {
     go to SharedPage.baseUrl
     delete all cookies
+    fastCleanLocalStorage
   }
 
 }

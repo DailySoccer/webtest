@@ -5,8 +5,13 @@ import org.scalatest.selenium.WebBrowser
 
 trait DOM_Ops {
 
-  def fastCountByCssSelector(cssSel:String)(implicit driver:WebDriver):Int = {
-      //implicit val webDriver:WebDriver = driver
+  def fastCleanLocalStorage()(implicit driver:WebDriver): Unit = {
+    //implicit val webDriver:WebDriver = driver
+    WebBrowser.executeScript("window.localStorage.clear();")
+  }
+
+  def fastCountByCssSelector(cssSel:String)(implicit driver:WebDriver): Int = {
+    //implicit val webDriver:WebDriver = driver
     WebBrowser.executeScript("return $('" + cssSel + "').length").asInstanceOf[Long].toInt
   }
 
@@ -19,7 +24,7 @@ trait DOM_Ops {
     WebBrowser.executeScript(script)
   }
 
-  def fastLobby_ContestAreOrderedByStartTime()(implicit driver:WebDriver):Boolean = {
+  def fastLobby_ContestAreOrderedByStartTime()(implicit driver:WebDriver): Boolean = {
     //implicit val webDriver:WebDriver = driver
     val script = """
         return (function () {
