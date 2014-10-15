@@ -5,6 +5,7 @@ import unusual.model.{ViewContestState, EnterContestState, LobbyState, Contest}
 import unusual.tests.SharedTest
 
 import unusual.tests.contestDescriptionTest._
+import unusual.tests.contestDescriptionTest.runner.ContestDescriptionSequentialTestRunner
 import unusual.tests.enterContestTest.EnterContestAuthTest
 import unusual.tests.lobbyTest._
 import unusual.tests.enterContestTest.runner.EnterContestSequentialTestRunner
@@ -14,8 +15,9 @@ import unusual.tests.lobbyTest.runner._
 
 
 class SequentialTestRunner extends Sequential(
-  new LobbySequentialTestRunner
+  /*new LobbySequentialTestRunner
   , new EnterContestSequentialTestRunner
+  , */new ContestDescriptionSequentialTestRunner
   //, new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
   //, new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
   //, new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))

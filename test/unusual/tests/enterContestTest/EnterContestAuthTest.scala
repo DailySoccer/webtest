@@ -127,7 +127,11 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
   }
 
 
-
+  /**
+   * Borrar si finalmente se dejan divididos
+   * @deprecated
+   */
+  /*
   def enterContestPageBehavior(res:Resolution): Unit = {
     implicit val resolution:Resolution = res
 
@@ -202,6 +206,6 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
       "fill with priceless lineup. Then correct it to submit" in pickFailLineupAndCorrectIt
     }
 
-  }
+  }*/
 
  }

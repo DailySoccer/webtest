@@ -7,23 +7,23 @@ import unusual.tests.contestDescriptionTest._
 
 
 class LobbyAuthTest_BasicInfo(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
-  "(Basic Info) Auth user" when sizeTesting(enterContestPageBehaviorBasicInfo)
+  "(Basic Info) Auth user" when sizeTesting(lobbyPageBehaviorBasicInfo)
 }
 
 class LobbyAuthTest_Filters(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
-  "(Filters) Auth user" when sizeTesting(enterContestPageBehaviorFilters)
+  "(Filters) Auth user" when sizeTesting(lobbyPageBehaviorFilters)
 }
 
 class LobbyAuthTest_OrderBy(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
-  "(Order By) Auth user" when sizeTesting(enterContestPageBehaviorOrderBy)
+  "(Order By) Auth user" when sizeTesting(lobbyPageBehaviorOrderBy)
 }
 
 class LobbyAuthTest_Others(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
-  "(Others) Auth user" when sizeTesting(enterContestPageBehaviorOthers)
+  "(Others) Auth user" when sizeTesting(lobbyPageBehaviorOthers)
 }
 
 class LobbyAuthTest_Bug(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
-  "(BUG) Auth user" when sizeTesting(enterContestPageBehaviorBUG)
+  "(BUG) Auth user" when sizeTesting(lobbyPageBehaviorBUG)
 }
 
 
@@ -31,15 +31,15 @@ class LobbyAuthTest_Bug(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
  * No lo vamos a usar a priori
  */
 class LobbyAuthTest_All(lobbySt: LobbyState) extends LobbyAuthTest(lobbySt){
-  "(Basic Info)Auth user" when sizeTesting(enterContestPageBehaviorBasicInfo)
+  "(Basic Info)Auth user" when sizeTesting(lobbyPageBehaviorBasicInfo)
 
-  "(Filters)Auth user" when sizeTesting(enterContestPageBehaviorFilters)
+  "(Filters)Auth user" when sizeTesting(lobbyPageBehaviorFilters)
 
-  "(Order By)Auth user" when sizeTesting(enterContestPageBehaviorOrderBy)
+  "(Order By)Auth user" when sizeTesting(lobbyPageBehaviorOrderBy)
 
-  "(Others)Auth user" when sizeTesting(enterContestPageBehaviorOthers)
+  "(Others)Auth user" when sizeTesting(lobbyPageBehaviorOthers)
 
-  "(BUG)Auth user" when sizeTesting(enterContestPageBehaviorBUG)
+  "(BUG)Auth user" when sizeTesting(lobbyPageBehaviorBUG)
 }
 
 abstract class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbySt) {
@@ -53,7 +53,7 @@ abstract class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbyS
     status.ensureAuthUser
   }
 
-  def enterContestPageBehaviorBasicInfo(res:Resolution): Unit = {
+  def lobbyPageBehaviorBasicInfo(res:Resolution): Unit = {
     implicit val resolution: Resolution = res
 
     "watch basic information" which consistIn {
@@ -69,7 +69,7 @@ abstract class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbyS
   }
 
 
-  def enterContestPageBehaviorFilters(res:Resolution): Unit = {
+  def lobbyPageBehaviorFilters(res:Resolution): Unit = {
     implicit val resolution: Resolution = res
 
     "use filters" which filterBy {
@@ -97,7 +97,7 @@ abstract class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbyS
   }
 
 
-  def enterContestPageBehaviorOrderBy(res:Resolution): Unit = {
+  def lobbyPageBehaviorOrderBy(res:Resolution): Unit = {
     implicit val resolution: Resolution = res
 
     "use order buttons" which orderBy {
@@ -113,7 +113,7 @@ abstract class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbyS
   }
 
 
-  def enterContestPageBehaviorOthers(res:Resolution): Unit = {
+  def lobbyPageBehaviorOthers(res:Resolution): Unit = {
     implicit val resolution: Resolution = res
 
     "press play button of first contest to select team" in playFirstContest
@@ -127,7 +127,7 @@ abstract class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbyS
   }
 
 
-  def enterContestPageBehaviorBUG(res:Resolution): Unit = {
+  def lobbyPageBehaviorBUG(res:Resolution): Unit = {
     implicit val resolution: Resolution = res
 
     "perform known BUG SEQUENCE" which causes {
@@ -139,8 +139,11 @@ abstract class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbyS
   }
 
 
-
-  def enterContestPageBehavior(res:Resolution): Unit = {
+  /**
+   * Borrar si finalmente se lanzan individualmente
+   * @deprecated
+   */
+  /*def lobbyPageBehavior(res:Resolution): Unit = {
     implicit val resolution: Resolution = res
 
     "watch basic information" which consistIn {
@@ -204,6 +207,6 @@ abstract class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbyS
       "Paginator goes to first page after refresh ordered list of contest." in knownBugSequence_PaginatorOrderedRefresh
     }
 
-  }
+  }*/
 
 }

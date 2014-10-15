@@ -139,11 +139,16 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
     }
   }
 
-  private def goToLobbyContestDescription:LobbyPage = {
-    goToLobbyPage(LobbyState.DEFAULT_LOBBY)
-                 .clearFilters
-                 .clickSortContestsByName
-                 .openContestDescription(contest.nameOrder)
+  private def goToLobbyContestDescription(implicit resolution:Resolution):LobbyPage = {
+    var lobby: LobbyPage = null
+    if (resolution == Resolution.BIG) {
+      lobby = goToLobbyPage(LobbyState.DEFAULT_LOBBY).clearFilters
+                                             .searchContestByName(contest.name)
+                                             .openContestDescription(1)
+    } else {
+      featureNotTestableInResolution
+    }
+    lobby
   }
 
 }
