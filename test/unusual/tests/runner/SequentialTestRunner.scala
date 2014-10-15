@@ -15,37 +15,8 @@ import unusual.tests.lobbyTest.runner._
 
 
 class SequentialTestRunner extends Sequential(
-  /*new LobbySequentialTestRunner
+  new LobbySequentialTestRunner
   , new EnterContestSequentialTestRunner
-  , */new ContestDescriptionSequentialTestRunner
-  //, new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
-  //, new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
-  //, new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
-  //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(0))
-  //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
-  //, new InitializerTest
-  //, new ViewContestAuthTest(ViewContestState.TIME_0_LIST(0))
-  //, new ViewContestAuthTest(ViewContestState.TIME_0_LIST(1))
-
-  /*,{SharedTest.SIZES_ENABLED = SharedTest.TABLET
-    new InitializerTest
-  }
-  //, new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
-  //, new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
-  , new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
-  //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(0))
-  //, new InitializerTest
-  //, new ViewContestAuthTest(ViewContestState.TIME_0_LIST(0))
-
-  ,{SharedTest.SIZES_ENABLED = SharedTest.SMARTPHONE
-    new InitializerTest
-  }
-  //, new LobbyVisitorTest(LobbyState.DEFAULT_LOBBY)
-  //, new LobbyAuthTest(LobbyState.DEFAULT_LOBBY)
-  , new ContestDescriptionAuthTest(Contest.TIME_0_LIST(0))
-  //, new EnterContestAuthTest(EnterContestState.TIME_0_LIST(1))
-  //, new InitializerTest
-  //, new ViewContestAuthTest(ViewContestState.TIME_0_LIST(1))
-*/
+  , new ContestDescriptionSequentialTestRunner
 
   )
