@@ -276,21 +276,22 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
   def orderByName(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest.clickSortContestsByName
 
-    assert(page.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
     assert(page.areContestsOrderedByName, "Contest are not sorted by name")
+    assert(page.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
   }
 
   def orderByEntryFee(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest.clickSortContestsByEntryFee
 
-    assert(page.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
     assert(page.areContestsOrderedByEntryFee, "Contest are not sorted by entry fee")
+    assert(page.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
   }
 
   def orderByStartTime(implicit resolution:Resolution): Unit = {
     val page = goToLobbyContest
     logger.debug("Contest should be ordered by start time by default")
     assert(page.areContestsOrderedByStartTime, "Contest are not sorted by name")
+    assert(page.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
   }
 
   def ReorderByStartTime(implicit resolution:Resolution): Unit = {
@@ -357,14 +358,21 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
   }
 
   def knownBugSequence_DisappearedPaginatorOnFilter(implicit resolution:Resolution): Unit = {
+    logger.debug("go to lobby")
     val page = goToLobbyContest
     val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
+    logger.debug("look at paginator")
     assert( paginator.isAt, "Paginator is not at the page.")
     assert( paginator.isDisplayed, "Paginator is not displayed.")
+    logger.debug("go to last page")
     paginator.goToLastPage
+    logger.debug("filter by free contest")
     page.clickFreeContestFilter
+    logger.debug("paginator should not be displayed")
     assert( paginator.isDisplayed, "Paginator is not displayed.")
+    logger.debug("look at current page")
     paginator.getCurrentPage must be (1)
+    logger.debug("look at number of pages")
     assert(paginator.getNumberOfPages >= 1, "Number of pages should be grater (or equals) than 1")
   }
 

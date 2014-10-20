@@ -164,8 +164,8 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
   def selectGoalKeeper(implicit resolution:Resolution):Unit = {
     goToEnterContest(enterContestState)
     new EnterContestPage(resolution, enterContestState)
-      .selectGoalKeeperFromLineup
-      .getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers)
+        .selectGoalKeeperFromLineup
+        .getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers)
   }
 
   def selectDefense(implicit resolution:Resolution):Unit = {

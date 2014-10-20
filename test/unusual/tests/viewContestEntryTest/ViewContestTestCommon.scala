@@ -8,9 +8,13 @@ import unusual.tests.enterContestTest.EnterContestTestCommon
 class ViewContestTestCommon(state: ViewContestState) extends SharedTest {
 
   val viewContestState = state
+  var page:ViewContestPage = null
+
+  def accessToViewContest:Unit = {
+    val page = goToViewContest(viewContestState)
+  }
 
   def isCorrectLineup:Unit = {
-    val page = goToViewContest(viewContestState)
     val playerLineup = state.contest.expendAllMoney.soccerPlayerList
 
     for(i <- 0 to 10) {
@@ -20,11 +24,36 @@ class ViewContestTestCommon(state: ViewContestState) extends SharedTest {
     }
   }
 
-  def checkHimselfAtPlayersList:Unit = {
+  def checkPlayersList:Unit = {
+    var everyUserExists = true
+    var i = 0
+    for(user <- state.userList) {
+      i += 1
+      val isUserName = page.getUserName(i) == user.firstName
+      logger.debug(s"User[$i] should be: ${user.firstName}", isUserName)
+      everyUserExists &&= isUserName
+    }
+
+    assert(everyUserExists, "Player list does not match")
+  }
+
+  def isRightContestName:Unit = {
 
   }
 
-  def checkPlayersList:Unit = {
+  def isRightContestDescription:Unit = {
+
+  }
+
+  def checkMatches:Unit = {
+
+  }
+
+  def checkEntryAndPrize:Unit = {
+
+  }
+
+  def checkButtons:Unit = {
 
   }
 

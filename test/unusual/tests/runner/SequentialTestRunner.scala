@@ -15,8 +15,9 @@ import unusual.tests.lobbyTest.runner._
 
 
 class SequentialTestRunner extends Sequential(
-  new LobbySequentialTestRunner
+  new LobbySequentialTestRunner // smartphone not working
   , new EnterContestSequentialTestRunner
   , new ContestDescriptionSequentialTestRunner
+  //, new ContestDescriptionSequentialTestRunner
 
   )

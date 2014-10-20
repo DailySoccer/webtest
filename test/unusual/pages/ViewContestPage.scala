@@ -5,6 +5,12 @@ import unusual.pages.components.{FooterBar, MenuBar}
 
 class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPage(res) {
 
+  val CONTEST_HEADER:String = "#headerContestWidget"
+
+  val CONTEST_NAME:String = CONTEST_HEADER + " .contest-name"
+  val CONTEST_DESCRIPTION:String = CONTEST_HEADER + " .contest-explanation"
+  val CONTEST_ENTRY:String = CONTEST_HEADER + " .contest-name"
+  //val CONTEST_NAME:String = CONTEST_HEADER + " .contest-name"
 
   val SOCCER_PLAYER_LINEUP_WRAPPER:String = ".fantasy-team-wrapper"
   val SOCCER_PLAYER_LINEUP_HEADER:String = ".fantasy-team-header"
@@ -80,15 +86,23 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
     player
   }
 
-  def isUserPlayerAtList(user:User) : Boolean = {
-    var isUserAt = false
-
-    //for()
-    true
+  def getUserName(idx:Int):String = {
+    find(cssSelector(USER_PLAYER_SLOT_NAME(idx))).get.text
   }
-
-
-
+  def getContestName():String = {
+    find(cssSelector(CONTEST_NAME)).get.text
+  }
+  /*
+  def getContestDescription():String = {
+    find(cssSelector(USER_PLAYER_SLOT_NAME(idx))).get.text
+  }
+  def getContestName():String = {
+    find(cssSelector(USER_PLAYER_SLOT_NAME(idx))).get.text
+  }
+  def getContestName():String = {
+    find(cssSelector(USER_PLAYER_SLOT_NAME(idx))).get.text
+  }
+*/
   private def getSoccerPlayerPositionFromList(index: Int) = {
     var pos:String = ""
     val posTxt:String = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text

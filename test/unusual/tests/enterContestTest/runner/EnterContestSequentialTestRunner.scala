@@ -12,6 +12,7 @@ class EnterContestSequentialTestRunner extends Sequential(
 
   { SharedTest.SIZES_ENABLED = SharedTest.DESKTOP
     new InitializerTest
+    //new EnterContestAuthTest_OrderBy(EnterContestState.TIME_0_LIST(0))
   }
   ,  new EnterContestAuthTest_OrderBy(EnterContestState.TIME_0_LIST(0))
   ,  new EnterContestAuthTest_FilterBy(EnterContestState.TIME_0_LIST(0))
@@ -32,7 +33,7 @@ class EnterContestSequentialTestRunner extends Sequential(
   ,  new EnterContestAuthTest_SelectPos(EnterContestState.TIME_0_LIST(0))
   ,  new EnterContestAuthTest_Bug(EnterContestState.TIME_0_LIST(0))
   ,  new EnterContestAuthTest_Pick(EnterContestState.TIME_0_LIST(0))
-
+/*
   , { SharedTest.SIZES_ENABLED = SharedTest.SMARTPHONE
      new InitializerTest
   }
@@ -41,6 +42,7 @@ class EnterContestSequentialTestRunner extends Sequential(
   ,  new EnterContestAuthTest_SelectPos(EnterContestState.TIME_0_LIST(0))
   ,  new EnterContestAuthTest_Bug(EnterContestState.TIME_0_LIST(0))
   ,  new EnterContestAuthTest_Pick(EnterContestState.TIME_0_LIST(0))
+*/
 /*
   , { SharedTest.SIZES_ENABLED = SharedTest.DESKTOP | SharedTest.TABLET | SharedTest.SMARTPHONE
      new InitializerTest

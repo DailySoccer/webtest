@@ -105,11 +105,11 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
     _isAt = _isAt && isElemDisplayed(PROMOS_COMPONENT)
 
-    if (resolution != Resolution.SMALL) {
-      _isAt = _isAt && isElemDisplayed(CONTEST_LIST_CONTAINER)
-    } else {
+    //if (resolution != Resolution.SMALL) {
+    _isAt = _isAt && isElemDisplayed(CONTEST_LIST_CONTAINER)
+    /*} else {
       _isAt = _isAt && isElemDisplayed(CONTEST_LIST_MENU_MOBILE)
-    }
+    }*/
 
     _isAt
   }
@@ -128,11 +128,11 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
       logger.debug("{" + FILTERS_PANEL + "} is not displayed", isDefault)
     }
 
-
+/*
     if (resolution == Resolution.SMALL) {
       isDefault = isDefault && isElemDisplayed(CONTEST_LIST_MENU_MOBILE)
 
-    } else {
+    } else {*/
       isDefault = isDefault && new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).getCurrentPage == 1
       logger.debug("Paginator page should be 1", isDefault)
       isDefault = isDefault && areAllFiltersClear
@@ -140,7 +140,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
       logger.debug("Are all filters clear", isDefault)
       isDefault = isDefault && getNumberOfContests == numberOfContest
       logger.debug("Number of contests: current(" + getNumberOfContests + "), expected(" + numberOfContest + ")", isDefault)
-    }
+    //}
 
     isDefault
   }
@@ -356,6 +356,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
       for (i <- 1 to pagesCount) {
         paginator.goToNextPage
         areOrdered = areOrdered && fastLobby_ContestAreOrderedByName
+        logger.debug(s"page: $i, is ordered: ", areOrdered)
         if(!areOrdered) scala.util.control.Breaks.break()
       }
     }

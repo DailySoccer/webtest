@@ -20,7 +20,6 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
     l
   }
 
-
   override def beforeAll {
     println("========= BEFORE ALL!")  // start up your web server or whatever
     SharedPage.driver = webDriver
@@ -71,14 +70,14 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
   def goToEnterContest(state:EnterContestState) : EnterContestPage = {
     val enterContest:EnterContestPage = new EnterContestPage(status.resolution, state)
     enterContest.open
-    assert(enterContest.isAt, "trying to access to enterContest")
+    eventually { assert(enterContest.isAt, "trying to access to enterContest") }
     enterContest
   }
 
   def goToViewContest(state:ViewContestState) : ViewContestPage = {
     val viewContest:ViewContestPage = new ViewContestPage(status.resolution, state)
     viewContest.open
-    assert(viewContest.isAt, "trying to access to enterContest")
+    eventually { assert(viewContest.isAt, "trying to access to enterContest") }
     viewContest
   }
 

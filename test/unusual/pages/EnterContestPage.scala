@@ -17,7 +17,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   val ACTIVE_ELEMENT = ".active"
 
-  def FILTER_MATCH_DESKTOP(idx:Int) = s"#matchTeamsFilterContainer button:nth-child($idx)"
+  def FILTER_MATCH_DESKTOP(idx:Int) = s"#matchesFilter button:nth-child($idx)"
   val FILTER_MATCH_MOBILE = "#match-filter"
 
   val FILTER_SOCCER_PLAYER_NAME = ".name-player-input-filter"
@@ -106,9 +106,10 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   def isDefaultState(totalPlayers:Int, initialSalary: Int): Boolean = {
     var versionCheck = true
 
-    if (resolution == Resolution.SMALL) {
-      versionCheck = find(cssSelector(ENTER_CONTEST_TAB(1) + ACTIVE_ELEMENT)) != None
-    } else if (resolution == Resolution.MEDIUM) {
+    versionCheck = find(cssSelector(ENTER_CONTEST_TAB(1) + ACTIVE_ELEMENT)) != None
+    logger.debug("EnterContest tab should be ''Your Lineup'' ", versionCheck)
+
+    if (resolution != Resolution.SMALL) {
       val numSoccerPlayers = getNumberOfSoccerPlayers
       versionCheck = numSoccerPlayers == totalPlayers
       logger.debug(s"Soccer players are $numSoccerPlayers should be: $totalPlayers", versionCheck)
@@ -116,22 +117,11 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
       logger.debug("Is ordered by pos ", versionCheck)
       versionCheck = versionCheck && find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None
       logger.debug("Position filter should be ''All'' ", versionCheck)
-      versionCheck = versionCheck && find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None
+      versionCheck = versionCheck && find(cssSelector(FILTER_MATCH_DESKTOP(1) + ACTIVE_ELEMENT)) != None
       logger.debug("Match filter should be ''All'' ", versionCheck)
-      versionCheck = versionCheck && find(cssSelector(ENTER_CONTEST_TAB(1)+ ACTIVE_ELEMENT)) != None
-      logger.debug("EnterContest tab should be ''All'' ", versionCheck)
-    } else {
-      val numSoccerPlayers = getNumberOfSoccerPlayers
-      versionCheck = numSoccerPlayers == totalPlayers
-      logger.debug("Soccer players are " + numSoccerPlayers + " should be: " + totalPlayers, versionCheck)
-      versionCheck = versionCheck && isOrderedByPos
-      logger.debug("Is ordered by pos ", versionCheck)
-      versionCheck = versionCheck && find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None
-      logger.debug("Position filter should be ''All'' ", versionCheck)
-      versionCheck = versionCheck && find(cssSelector(FILTER_MATCH_DESKTOP(1)+ ACTIVE_ELEMENT)) != None
-      logger.debug("Match filter should be ''Your align'' ", versionCheck)
+      //versionCheck = versionCheck && find(cssSelector(ENTER_CONTEST_TAB(1) + ACTIVE_ELEMENT)) != None
+      //logger.debug("EnterContest tab should be ''Your Lineup'' ", versionCheck)
     }
-
 
 
     versionCheck = versionCheck && isLineupEmpty
