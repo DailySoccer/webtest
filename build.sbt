@@ -8,6 +8,7 @@ testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest  , "-w", "unusual
                                                                 , "-eIKNCHLPQ"
                                                                 )
 
+
 libraryDependencies ++= Seq(
   cache,
   filters,

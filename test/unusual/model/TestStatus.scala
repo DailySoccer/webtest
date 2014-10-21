@@ -1,5 +1,6 @@
 package unusual.model
 
+import org.scalatest.concurrent.Eventually
 import unusual.pages._
 import unusual.pages.components.MenuBar
 
@@ -35,9 +36,12 @@ class TestStatus {
 
   def doLogin : TestStatus = {
     val login = new LoginPage(resolution)
+
     login.open
     assert(login.isAt)
-    login.doLogin(user)
+
+    login.ensureDoLogin(user)
+
     _loggedIn = true
     this
   }

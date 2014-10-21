@@ -29,8 +29,28 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
     true
   }
 
+  /**
+   * Try to do a login
+   * @param usr may not exists
+   * @return
+   */
   def doLogin(usr: User) = {
     fillAndSubmitForm(usr)
+    this
+  }
+
+  /**
+   * Try to do a login ensuring to be logged in
+   * @param usr that should exists
+   * @return
+   */
+  def ensureDoLogin(usr: User) = {
+    val lobby = new LobbyPage(resolution, 6)
+    eventually {
+      fillAndSubmitForm(usr)
+      eventually (timeout(3 seconds)) { assert(lobby.isAt) }
+    }
+
     this
   }
 

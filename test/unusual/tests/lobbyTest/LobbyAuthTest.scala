@@ -58,9 +58,9 @@ abstract class LobbyAuthTest(lobbySt: LobbyState) extends LobbyTestCommon(lobbyS
 
     "watch basic information" which consistIn {
 
-      "to be logged in" in goToLobby
+      "to be logged in" taggedAs BigResolution in goToLobby
 
-      "change resolutions" in changeResolutionTests
+      "change resolutions" taggedAs WIP in changeResolutionTests
 
       "look for default contests" in lookForDefaultContests
 
