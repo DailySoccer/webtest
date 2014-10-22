@@ -5,11 +5,11 @@ import unusual.tests._
 import unusual.model._
 import unusual.pages._
 
-class MenuTestCommon extends SharedTest {
+class MenuTestCommon(res:Resolution) extends SharedTest(res) {
 
-  def doLogout(implicit resolution:Resolution): Unit = {
+  def doLogout: Unit = {
     goToLobbyPage(LobbyState.DEFAULT_LOBBY)
-    val menuBar = new MenuBar(resolution)
+    val menuBar = new MenuBar(status.resolution)
     assert(menuBar.isAt && menuBar.isLoggedBar)
 
     menuBar.clickOnLogout
@@ -17,11 +17,11 @@ class MenuTestCommon extends SharedTest {
 
   }
 
-  def checkUserName(implicit resolution:Resolution): Unit = {
+  def checkUserName: Unit = {
     goToLobbyPage(LobbyState.DEFAULT_LOBBY)
     val user:User = User.DEFAULT
 
-    val menuBar:MenuBar = new MenuBar(resolution)
+    val menuBar:MenuBar = new MenuBar(status.resolution)
     assert(menuBar.isAt)
     menuBar.getUserName must be(user.firstName + " " + user.lastName)
   }
@@ -30,34 +30,34 @@ class MenuTestCommon extends SharedTest {
 
 
 
-  def goToMyContestsFromLobby(implicit resolution:Resolution): Unit = {
+  def goToMyContestsFromLobby: Unit = {
     goToLobbyPage(LobbyState.DEFAULT_LOBBY)
-    new MenuBar(resolution).clickOnMyContests
+    new MenuBar(status.resolution).clickOnMyContests
   }
 
-  def goToGamePromosFromLobby(implicit resolution:Resolution): Unit = {
+  def goToGamePromosFromLobby: Unit = {
     goToLobbyPage(LobbyState.DEFAULT_LOBBY)
-    new MenuBar(resolution).clickOnGamePromos
+    new MenuBar(status.resolution).clickOnGamePromos
   }
 
-  def goToGamePromosFromMyContests(implicit resolution:Resolution): Unit = {
+  def goToGamePromosFromMyContests: Unit = {
     goToMyContestsPage
-    new MenuBar(resolution).clickOnContests
+    new MenuBar(status.resolution).clickOnContests
   }
 
-  def goToLobbyFromMyContests(implicit resolution:Resolution): Unit = {
+  def goToLobbyFromMyContests: Unit = {
     goToMyContestsPage
-    new MenuBar(resolution).clickOnGamePromos
+    new MenuBar(status.resolution).clickOnGamePromos
   }
 
-  def goToLobbyFromGamePromos(implicit resolution:Resolution): Unit = {
+  def goToLobbyFromGamePromos: Unit = {
     goToPromos
-    new MenuBar(resolution).clickOnContests
+    new MenuBar(status.resolution).clickOnContests
   }
 
-  def goToMyContestsFromGamePromos(implicit resolution:Resolution): Unit = {
+  def goToMyContestsFromGamePromos: Unit = {
     goToPromos
-    new MenuBar(resolution).clickOnMyContests
+    new MenuBar(status.resolution).clickOnMyContests
   }
 
 

@@ -94,7 +94,7 @@ object Contest {
 
     contest.expensiveLineup = Lineup.TIME_0_EXPENSIVE_LIST(0)
 
-    contest.expendAllMoney = Lineup.TIME_0_EXPEND_ALL_MONEY_LIST(0)
+    contest.expendAllMoney = Lineup.TIME_0_AFFORDABLE_LIST(0)
 
     contest.initialSalary = 65000
 
@@ -144,7 +144,7 @@ object Contest {
 
     contest.expensiveLineup = Lineup.TIME_0_EXPENSIVE_LIST(1)
 
-    contest.expendAllMoney = Lineup.TIME_0_EXPEND_ALL_MONEY_LIST(1)
+    contest.expendAllMoney = Lineup.TIME_0_AFFORDABLE_LIST(1)
 
     contest.initialSalary = 60000
 
@@ -202,7 +202,7 @@ object Contest {
 
     contest.expensiveLineup = Lineup.TIME_0_EXPENSIVE_LIST(2)
 
-    contest.expendAllMoney = Lineup.TIME_0_EXPEND_ALL_MONEY_LIST(2)
+    contest.expendAllMoney = Lineup.TIME_0_AFFORDABLE_LIST(2)
 
     contest.initialSalary = 70000
 

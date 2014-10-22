@@ -6,22 +6,21 @@ import unusual.pages._
 import unusual.testTags.scala._
 
 
-class MenuAuthTest extends MenuTestCommon {
+class MenuAuthTest(res:Resolution) extends MenuTestCommon(res) {
 
   before {
     status.ensureAuthUser
   }
 
-  "Auth User in User Menu" when {
+  if(status.resolution.enabled) "Auth User in User Menu" when {
     behave like sizeTesting(userMenuBehavior)
   }
 
-  "Auth User in Game Menu" when {
+  if(status.resolution.enabled) "Auth User in Game Menu" when {
     behave like sizeTesting(userMenuBehavior)
   }
 
-  def userMenuBehavior(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def userMenuBehavior: Unit = {
 
     "log out from lobby" in doLogout
 
@@ -30,8 +29,7 @@ class MenuAuthTest extends MenuTestCommon {
     "go through user menu links" in featureNotImplemented
   }
 
-  def gameMenuBehavior(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def gameMenuBehavior: Unit = {
 
     "go to my contests from lobby" in goToMyContestsFromLobby
 

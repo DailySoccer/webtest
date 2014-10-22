@@ -6,14 +6,14 @@ import unusual.tests._
 import unusual.pages._
 import unusual.model._
 
-class ContestDescriptionCommon(cont: Contest) extends SharedTest {
+class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest(res) {
 
   var contest = cont
 
-  def changeTabs(implicit resolution: Resolution): Unit = {
-    if (resolution == Resolution.BIG) {
+  def changeTabs: Unit = {
+    if (status.resolution == Resolution.BIG) {
       goToLobbyContestDescription
-      val contestDescription = new ContestDescriptionWindow(resolution)
+      val contestDescription = new ContestDescriptionWindow(status.resolution)
 
       contestDescription.changeToTab(ContestDescriptionWindow.INFO_TAB)
       assert(contestDescription.activeTab == ContestDescriptionWindow.INFO_TAB)
@@ -26,10 +26,10 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
     }
   }
 
-  def numberOfMatches(implicit resolution: Resolution): Unit = {
-    if (resolution == Resolution.BIG) {
+  def numberOfMatches: Unit = {
+    if (status.resolution == Resolution.BIG) {
       goToLobbyContestDescription
-      val contestDescription = new ContestDescriptionWindow(resolution)
+      val contestDescription = new ContestDescriptionWindow(status.resolution)
       contestDescription.changeToTab(ContestDescriptionWindow.INFO_TAB)
 
       assert(contestDescription.countMatches == contest.numMatches)
@@ -39,14 +39,14 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
       eventually {
         goToEnterContest(enterContestState).openContestDescription
       }
-      assert(new ContestDescriptionWindow(resolution).countMatches == contest.numMatches)
+      assert(new ContestDescriptionWindow(status.resolution).countMatches == contest.numMatches)
     }
   }
 
-  def numberOfContestants(implicit resolution: Resolution): Unit = {
-    if (resolution == Resolution.BIG) {
+  def numberOfContestants: Unit = {
+    if (status.resolution == Resolution.BIG) {
       goToLobbyContestDescription
-      val contestDescription = new ContestDescriptionWindow(resolution)
+      val contestDescription = new ContestDescriptionWindow(status.resolution)
       contestDescription.changeToTab(ContestDescriptionWindow.CONTESTANTS_TAB)
 
       assert(contestDescription.countContestants == contest.numContestants)
@@ -56,14 +56,14 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
       eventually {
         goToEnterContest(enterContestState).openContestDescription
       }
-      assert(new ContestDescriptionWindow(resolution).countContestants == contest.numContestants)
+      assert(new ContestDescriptionWindow(status.resolution).countContestants == contest.numContestants)
     }
   }
 
-  def numberOfPrizes(implicit resolution: Resolution): Unit = {
-    if (resolution == Resolution.BIG) {
+  def numberOfPrizes: Unit = {
+    if (status.resolution == Resolution.BIG) {
       goToLobbyContestDescription
-      val contestDescription = new ContestDescriptionWindow(resolution)
+      val contestDescription = new ContestDescriptionWindow(status.resolution)
       contestDescription.changeToTab(ContestDescriptionWindow.PRIZES_TAB)
 
       assert(contestDescription.countPrizes == contest.numPrizes)
@@ -73,14 +73,14 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
       eventually {
         goToEnterContest(enterContestState).openContestDescription
       }
-      assert(new ContestDescriptionWindow(resolution).countPrizes == contest.numPrizes)
+      assert(new ContestDescriptionWindow(status.resolution).countPrizes == contest.numPrizes)
     }
   }
 
-  def contestName(implicit resolution: Resolution): Unit = {
-    if (resolution == Resolution.BIG) {
+  def contestName: Unit = {
+    if (status.resolution == Resolution.BIG) {
       goToLobbyContestDescription
-      val contestDescription = new ContestDescriptionWindow(resolution)
+      val contestDescription = new ContestDescriptionWindow(status.resolution)
 
       assert(contestDescription.getContestName == contest.name)
     } else {
@@ -88,10 +88,10 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
     }
   }
 
-  def contestDescription(implicit resolution: Resolution): Unit = {
-    if (resolution == Resolution.BIG) {
+  def contestDescription: Unit = {
+    if (status.resolution == Resolution.BIG) {
       goToLobbyContestDescription
-      val contestDescription = new ContestDescriptionWindow(resolution)
+      val contestDescription = new ContestDescriptionWindow(status.resolution)
 
       assert(contestDescription.getContestDescription == contest.description)
     } else {
@@ -99,10 +99,10 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
     }
   }
 
-  def contestEntryFee(implicit resolution: Resolution): Unit = {
-    if (resolution == Resolution.BIG) {
+  def contestEntryFee: Unit = {
+    if (status.resolution == Resolution.BIG) {
       goToLobbyContestDescription
-      val contestDescription = new ContestDescriptionWindow(resolution)
+      val contestDescription = new ContestDescriptionWindow(status.resolution)
 
       assert(contestDescription.getContestEntryFee == contest.entryFee)
     } else {
@@ -110,10 +110,10 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
     }
   }
 
-  def contestPrize(implicit resolution: Resolution): Unit = {
-    if (resolution == Resolution.BIG) {
+  def contestPrize: Unit = {
+    if (status.resolution == Resolution.BIG) {
       goToLobbyContestDescription
-      val contestDescription = new ContestDescriptionWindow(resolution)
+      val contestDescription = new ContestDescriptionWindow(status.resolution)
 
       assert(contestDescription.getContestPrize == contest.prize)
     } else {
@@ -121,14 +121,14 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
     }
   }
 
-  def knownBugSequence_ScrollBarDisappeared(implicit resolution:Resolution): Unit = {
-    if (resolution == Resolution.BIG){
+  def knownBugSequence_ScrollBarDisappeared: Unit = {
+    if (status.resolution == Resolution.BIG){
       goToLobbyContestDescription
       logger.debug("Open contest description")
-      val desc = new ContestDescriptionWindow(resolution)
+      val desc = new ContestDescriptionWindow(status.resolution)
       val enterContestState = new EnterContestState
       enterContestState.contest = contest
-      val enterContPage:EnterContestPage = new EnterContestPage(resolution, enterContestState)
+      val enterContPage:EnterContestPage = new EnterContestPage(status.resolution, enterContestState)
       desc.enterContest
       logger.debug("Click on enter contest")
       eventually (timeout(5 seconds)) {
@@ -139,9 +139,9 @@ class ContestDescriptionCommon(cont: Contest) extends SharedTest {
     }
   }
 
-  private def goToLobbyContestDescription(implicit resolution:Resolution):LobbyPage = {
+  private def goToLobbyContestDescription:LobbyPage = {
     var lobby: LobbyPage = null
-    if (resolution == Resolution.BIG) {
+    if (status.resolution == Resolution.BIG) {
       lobby = goToLobbyPage(LobbyState.DEFAULT_LOBBY).clearFilters
                                              .searchContestByName(contest.name)
                                              .openContestDescription(1)

@@ -4,23 +4,23 @@ import unusual.model._
 import unusual.testTags.scala.{DoesNotWorkYet, WIP}
 
 
-class EnterContestAuthTest_OrderBy(state:EnterContestState) extends EnterContestAuthTest(state) {
+class EnterContestAuthTest_OrderBy(state:EnterContestState, res:Resolution) extends EnterContestAuthTest(state, res) {
   s"(OrderBy) Auth user in contest: ${enterContestState.contest.name}" when sizeTesting(enterContestPageBehavior_OrderBy)
 }
-class EnterContestAuthTest_FilterBy(state:EnterContestState) extends EnterContestAuthTest(state) {
+class EnterContestAuthTest_FilterBy(state:EnterContestState, res:Resolution) extends EnterContestAuthTest(state, res) {
   s"(FilterBy) Auth user in contest: ${enterContestState.contest.name}" when sizeTesting(enterContestPageBehavior_FilterBy)
 }
-class EnterContestAuthTest_SelectPos(state:EnterContestState) extends EnterContestAuthTest(state) {
+class EnterContestAuthTest_SelectPos(state:EnterContestState, res:Resolution) extends EnterContestAuthTest(state, res) {
   s"(SelectPos) Auth user in contest: ${enterContestState.contest.name}" when sizeTesting(enterContestPageBehavior_SelectPos)
 }
-class EnterContestAuthTest_Bug(state:EnterContestState) extends EnterContestAuthTest(state) {
+class EnterContestAuthTest_Bug(state:EnterContestState, res:Resolution) extends EnterContestAuthTest(state, res) {
   s"(Bug) Auth user in contest: ${enterContestState.contest.name}" when sizeTesting(enterContestPageBehavior_Bug)
 }
-class EnterContestAuthTest_Pick(state:EnterContestState) extends EnterContestAuthTest(state) {
+class EnterContestAuthTest_Pick(state:EnterContestState, res:Resolution) extends EnterContestAuthTest(state, res) {
   s"(Pick) Auth user in contest: ${enterContestState.contest.name}" when sizeTesting(enterContestPageBehavior_Pick)
 }
 
-abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContestTestCommon(state) {
+abstract class EnterContestAuthTest(state:EnterContestState, res:Resolution) extends EnterContestTestCommon(state, res) {
 
   before {
     status.ensureAuthUser
@@ -31,9 +31,8 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
   def causes = afterWord("causes:")
 
 
-  def enterContestPageBehavior_OrderBy(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
-
+  def enterContestPageBehavior_OrderBy: Unit = {
+    
     "look at default state" in checkDefaultState
 
     "use headers" which orderBy {
@@ -51,8 +50,7 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
 
   }
 
-  def enterContestPageBehavior_FilterBy(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def enterContestPageBehavior_FilterBy: Unit = {
 
     "use filters" which filterBy {
 
@@ -73,8 +71,7 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
 
   }
 
-  def enterContestPageBehavior_SelectPos(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def enterContestPageBehavior_SelectPos: Unit = {
 
     "use lineup elements" which filterBy {
 
@@ -91,8 +88,7 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
 
   }
 
-  def enterContestPageBehavior_Bug(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def enterContestPageBehavior_Bug: Unit = {
 
     "perform known BUG SEQUENCE" which causes {
 
@@ -108,8 +104,7 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
     }
   }
 
-  def enterContestPageBehavior_Pick(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def enterContestPageBehavior_Pick: Unit = {
 
     "pick soccer players from list" which {
 
@@ -132,7 +127,7 @@ abstract class EnterContestAuthTest(state:EnterContestState) extends EnterContes
    * @deprecated
    */
   /*
-  def enterContestPageBehavior(res:Resolution): Unit = {
+  def enterContestPageBehavior: Unit = {
     implicit val resolution:Resolution = res
 
     "look at default state" in checkDefaultState

@@ -4,16 +4,15 @@ import unusual.model.Resolution
 import unusual.pages.{HomePage, EnterContestPage, LoginPage, SignUpPage}
 import unusual.testTags.scala.{BigResolution, MediumResolution, SmallResolution, WIP}
 
-class HomeVisitorTest extends HomeTestCommon {
+class HomeVisitorTest(res:Resolution) extends HomeTestCommon(res) {
 
   before {
     status.ensureVisitor
   }
 
-  "Auth user" when sizeTesting(homeBehavior)
+  if(status.resolution.enabled) "Auth user" when sizeTesting(homeBehavior)
 
-  def homeBehavior(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def homeBehavior: Unit = {
 
     "go to home" in goToHomePage
 

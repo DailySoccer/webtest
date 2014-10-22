@@ -4,21 +4,20 @@ import unusual.model._
 import unusual.pages._
 import unusual.testTags.scala._
 
-class EnterContestVisitorTest(state:EnterContestState) extends EnterContestTestCommon(state) {
+class EnterContestVisitorTest(state:EnterContestState, res:Resolution) extends EnterContestTestCommon(state, res) {
 
   before {
     status.ensureVisitor
   }
 
-  "As visitor" when sizeTesting(enterContestPageBehavior)
+  if(status.resolution.enabled) "As visitor" when sizeTesting(enterContestPageBehavior)
 
 
-  def enterContestPageBehavior(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def enterContestPageBehavior: Unit = {
 
     "try to go to contest. Page should redirect to home" in {
-      val enterC = new EnterContestPage(resolution, enterContestState)
-      val home = new HomePage(resolution)
+      val enterC = new EnterContestPage(status.resolution, enterContestState)
+      val home = new HomePage(status.resolution)
       enterC.open
       home.isAt
     }

@@ -5,7 +5,7 @@ import unusual.pages._
 import unusual.tests._
 import unusual.tests.enterContestTest.EnterContestTestCommon
 
-class ViewContestTestCommon(state: ViewContestState) extends SharedTest {
+class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends SharedTest(res) {
 
   val viewContestState = state
   var page:ViewContestPage = null

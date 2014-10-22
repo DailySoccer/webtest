@@ -6,31 +6,21 @@ import unusual.model._
 import unusual.pages._
 
 
-class MenuVisitorTest extends MenuTestCommon {
+class MenuVisitorTest(res:Resolution) extends MenuTestCommon(res) {
 
   before {
     status.ensureVisitor
   }
 
 
-  "Visitor does not" when {
+  if(status.resolution.enabled) "Visitor does not" when {
     behave like sizeTesting(menuBehavior)
   }
 
-  def menuBehavior(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def menuBehavior: Unit = {
+    "log out from lobby" in intercept[Exception] { doLogout }
 
-    "log out from lobby" in {
-      intercept[Exception] {
-        super.doLogout(resolution)
-      }
-    }
-
-    "look at his name. User name at menu should be ok" in {
-      intercept[Exception] {
-        super.checkUserName(resolution)
-      }
-    }
+    "look at his name. User name at menu should be ok" in intercept[Exception] { checkUserName }
 
   }
 

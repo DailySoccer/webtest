@@ -13,13 +13,13 @@ class ViewContestAuthTest_UserSpecific(state:ViewContestState) extends ViewConte
 }
 */
 
-class ViewContestAuthTest(state:ViewContestState) extends ViewContestTestCommon(state) {
+class ViewContestAuthTest(state:ViewContestState, res:Resolution) extends ViewContestTestCommon(state, res) {
 
   before { status.ensureAuthUser }
 
   def consistIn = afterWord("consist in")
 
-  s"Auth user in contest: ${state.contest.name}" when sizeTesting(ViewContestPageBehavior)
+  if(status.resolution.enabled) s"Auth user in contest: ${state.contest.name}" when sizeTesting(ViewContestPageBehavior)
 
 /*
   def ViewContestPageBehaviorHeader(res:Resolution): Unit = {
@@ -50,8 +50,7 @@ class ViewContestAuthTest(state:ViewContestState) extends ViewContestTestCommon(
   }
 */
 
-  def ViewContestPageBehavior(res:Resolution): Unit = {
-    implicit val resolution:Resolution = res
+  def ViewContestPageBehavior: Unit = {
 
     "check the lineup" in isCorrectLineup
 

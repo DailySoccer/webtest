@@ -5,11 +5,11 @@ import unusual.model._
 import unusual.pages._
 import unusual.tests._
 
-abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTest {
+abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) extends SharedTest(res) {
 
   val enterContestState = state
 
-  def checkDefaultState(implicit resolution:Resolution):Unit = {
+  def checkDefaultState:Unit = {
 
     val N_ALL_PLAYERS = enterContestState.contest.numAllPlayers
     val INITIAL_SALARY = enterContestState.contest.initialSalary
@@ -18,7 +18,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     val lobby = goToLobbyPage().clearFilters
     var page:EnterContestPage = null
     eventually { page = goToEnterContest(enterContestState) }
-    //val lobby = new LobbyPage(resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
+    //val lobby = new LobbyPage(status.resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
     Then("page should be at and default state")
       Thread.sleep(10000)
     assert(page.isAt && page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
@@ -31,7 +31,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     When("go navigate back and click on play button")
     goBack()
     lobby.clearFilters
-    if (resolution == Resolution.SMALL) {
+    if (status.resolution == Resolution.SMALL) {
       lobby.playContestNumber(state.contest.nameOrder)
     } else {
       lobby.searchContestByName(state.contest.name)
@@ -48,7 +48,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     When("click on close button and click on play button")
     page.clickOnCloseButton
     lobby.clearFilters
-    if (resolution == Resolution.SMALL) {
+    if (status.resolution == Resolution.SMALL) {
       lobby.playContestNumber(state.contest.nameOrder)
     } else {
       lobby.searchContestByName(state.contest.name)
@@ -63,51 +63,51 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
 
   }
 
-  def orderByPosition(implicit resolution:Resolution):Unit = {
-    if (resolution == Resolution.BIG) {
+  def orderByPosition:Unit = {
+    if (status.resolution == Resolution.BIG) {
       val page = goToEnterContest(enterContestState)
       if (page.isOrderedByPos) { // si ya esta ordenado, lo ordenamos inversamente...
         page.orderByPosition
       }// ... y lo ordenamos al derecho
       page.orderByPosition
 
-      assert(new EnterContestPage(resolution, enterContestState).isOrderedByPos)
+      assert(new EnterContestPage(status.resolution, enterContestState).isOrderedByPos)
     } else {
       featureNotTestableInResolution
     }
   }
-  def orderByName(implicit resolution:Resolution):Unit = {
-    if (resolution == Resolution.BIG) {
+  def orderByName:Unit = {
+    if (status.resolution == Resolution.BIG) {
       val page = goToEnterContest(enterContestState).orderByName
       assert(page.isOrderedByName, "Is not ordered by name")
     } else {
       featureNotTestableInResolution
     }
   }
-  def orderByDFP(implicit resolution:Resolution):Unit = {
-    if (resolution == Resolution.BIG) {
+  def orderByDFP:Unit = {
+    if (status.resolution == Resolution.BIG) {
       assert(goToEnterContest(enterContestState).orderByDFP.isOrderedByDFP)
     } else {
       featureNotTestableInResolution
     }
   }
-  def orderByPlayed(implicit resolution:Resolution):Unit = {
-    if (resolution == Resolution.BIG) {
+  def orderByPlayed:Unit = {
+    if (status.resolution == Resolution.BIG) {
       assert(goToEnterContest(enterContestState).orderByPlayed.isOrderedByPlayed)
     } else {
       featureNotTestableInResolution
     }
   }
-  def orderBySalary(implicit resolution:Resolution):Unit = {
-    if (resolution == Resolution.BIG) {
+  def orderBySalary:Unit = {
+    if (status.resolution == Resolution.BIG) {
       assert(goToEnterContest(enterContestState).orderBySalary.isOrderedBySalary, "page is not ordered by salary")
     } else {
       featureNotTestableInResolution
     }
   }
 
-  def filterByGoalKeeper(implicit resolution:Resolution):Unit = {
-    if (resolution != Resolution.SMALL) {
+  def filterByGoalKeeper:Unit = {
+    if (status.resolution != Resolution.SMALL) {
       val page = goToEnterContest(enterContestState)
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_GOAL_KEEPER)
       page.getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers)
@@ -116,8 +116,8 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     }
   }
 
-  def filterByDefense(implicit resolution:Resolution):Unit = {
-    if (resolution != Resolution.SMALL) {
+  def filterByDefense:Unit = {
+    if (status.resolution != Resolution.SMALL) {
       val page = goToEnterContest(enterContestState)
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_DEFENSE)
       page.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers)
@@ -126,8 +126,8 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     }
   }
 
-  def filterByMiddle(implicit resolution:Resolution):Unit = {
-    if (resolution != Resolution.SMALL) {
+  def filterByMiddle:Unit = {
+    if (status.resolution != Resolution.SMALL) {
       val page = goToEnterContest(enterContestState)
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_MIDDLE)
       page.getNumberOfSoccerPlayers must be (enterContestState.contest.numMiddlePlayers)
@@ -136,8 +136,8 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     }
   }
 
-  def filterByForward(implicit resolution:Resolution):Unit = {
-    if (resolution != Resolution.SMALL) {
+  def filterByForward:Unit = {
+    if (status.resolution != Resolution.SMALL) {
       val page = goToEnterContest(enterContestState)
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_FORWARD)
       page.getNumberOfSoccerPlayers must be (enterContestState.contest.numForwardPlayers)
@@ -146,8 +146,8 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     }
   }
 
-  def filterByAll(implicit resolution:Resolution):Unit = {
-    if (resolution != Resolution.SMALL) {
+  def filterByAll:Unit = {
+    if (status.resolution != Resolution.SMALL) {
       goToEnterContest(enterContestState)
         .setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
         .getNumberOfSoccerPlayers must be(enterContestState.contest.numAllPlayers)
@@ -161,14 +161,14 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
   }
 
 
-  def selectGoalKeeper(implicit resolution:Resolution):Unit = {
+  def selectGoalKeeper:Unit = {
     goToEnterContest(enterContestState)
-    new EnterContestPage(resolution, enterContestState)
+    new EnterContestPage(status.resolution, enterContestState)
         .selectGoalKeeperFromLineup
         .getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers)
   }
 
-  def selectDefense(implicit resolution:Resolution):Unit = {
+  def selectDefense:Unit = {
     val page = goToEnterContest(enterContestState)
     val N_DEFENSE_PLAYERS = enterContestState.contest.numDefensePlayers
     page.selectDefenseFromLineup(1)
@@ -189,7 +189,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     page.cancelSoccerPlayerSelection
   }
 
-  def selectMiddle(implicit resolution:Resolution):Unit = {
+  def selectMiddle:Unit = {
     val page = goToEnterContest(enterContestState)
     val N_MIDDLE_PLAYERS = enterContestState.contest.numMiddlePlayers
     page.selectMiddleFromLineup(1)
@@ -210,7 +210,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     page.cancelSoccerPlayerSelection
   }
 
-  def selectForward(implicit resolution:Resolution):Unit = {
+  def selectForward:Unit = {
     val page = goToEnterContest(enterContestState)
     val N_FORWARD_PLAYERS = enterContestState.contest.numForwardPlayers
 
@@ -225,7 +225,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
   }
 
 
-  def multipleRandomSelection(implicit resolution:Resolution):Unit = {
+  def multipleRandomSelection:Unit = {
     var i = 0
     val page = goToEnterContest(enterContestState)
     val N_FORWARD_PLAYERS = enterContestState.contest.numForwardPlayers
@@ -269,8 +269,8 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     }
   }
 
-  def filterByMatch(implicit resolution:Resolution):Unit = {
-    if (resolution != Resolution.SMALL) {
+  def filterByMatch:Unit = {
+    if (status.resolution != Resolution.SMALL) {
       val page = goToEnterContest(enterContestState)
       Given("a list of matches")
       for ((matchOrder, numPlayers) <- enterContestState.contest.matchPlayers) {
@@ -284,10 +284,10 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     }
   }
   /*
-  def filterByMatch_None(implicit resolution:Resolution):Unit = {
+  def filterByMatch_None:Unit = {
     val page = goToEnterContest()
 
-    if (resolution != Resolution.SMALL) {
+    if (status.resolution != Resolution.SMALL) {
       page.setSoccerPlayerMatchFilter(1)
           .getNumberOfSoccerPlayers must be (contest.numAllPlayers)
     } else {
@@ -295,10 +295,10 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     }
   }
 
-  def filterByMatch_CleAus(implicit resolution:Resolution):Unit = {
+  def filterByMatch_CleAus:Unit = {
     val page = goToEnterContest()
 
-    if (resolution != Resolution.SMALL) {
+    if (status.resolution != Resolution.SMALL) {
       page.setSoccerPlayerMatchFilter(2)
           .getNumberOfSoccerPlayers must be (N_CLE_AUS)
     } else {
@@ -306,10 +306,10 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     }
   }
 
-  def filterByMatch_ColGrc(implicit resolution:Resolution):Unit = {
+  def filterByMatch_ColGrc:Unit = {
     val page = goToEnterContest()
 
-    if (resolution != Resolution.SMALL) {
+    if (status.resolution != Resolution.SMALL) {
       page.setSoccerPlayerMatchFilter(3)
           .getNumberOfSoccerPlayers must be (N_COL_GRC)
     } else {
@@ -317,10 +317,10 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     }
   }
 
-  def filterByMatch_UryCri(implicit resolution:Resolution):Unit = {
+  def filterByMatch_UryCri:Unit = {
     val page = goToEnterContest()
 
-    if (resolution != Resolution.SMALL) {
+    if (status.resolution != Resolution.SMALL) {
       page.setSoccerPlayerMatchFilter(4)
           .getNumberOfSoccerPlayers must be (N_URY_CRI)
     } else {
@@ -329,8 +329,8 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
   }
   */
 
-  def filterMix_Position_Match(implicit resolution:Resolution): Unit = {
-    if (resolution != Resolution.SMALL) {
+  def filterMix_Position_Match: Unit = {
+    if (status.resolution != Resolution.SMALL) {
       val page = goToEnterContest(enterContestState)
       Given("a list of matches")
       for ((matchOrder, positionList) <- enterContestState.contest.matchPositionMixNumPlayers) {
@@ -351,7 +351,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     }
   }
 /*
-  def filterMix_GoalKeeper_UryCri(implicit resolution:Resolution):Unit = {
+  def filterMix_GoalKeeper_UryCri:Unit = {
     val page = goToEnterContest()
 
     page.selectGoalKeeperFromLineup
@@ -360,7 +360,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     page.getNumberOfSoccerPlayers must be (N_MIX_GK_URY_CRI)
   }
 
-  def filterMix_GoalKeeper_CleAus(implicit resolution:Resolution):Unit = {
+  def filterMix_GoalKeeper_CleAus:Unit = {
     val page = goToEnterContest()
 
     page.selectGoalKeeperFromLineup
@@ -368,16 +368,16 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     page.getNumberOfSoccerPlayers must be (N_MIX_GK_CLE_AUS)
   }
 
-  def filterMix_Defense_UryCri(implicit resolution:Resolution):Unit = {
+  def filterMix_Defense_UryCri:Unit = {
     goToEnterContest()
-    val page = new EnterContestPage(resolution)
+    val page = new EnterContestPage(status.resolution)
 
     page.selectDefenseFromLineup(1)
         .setSoccerPlayerMatchFilter(4)
     page.getNumberOfSoccerPlayers must be (N_MIX_DEF_URY_CRI)
   }
 
-  def filterMix_Middle_CleAus(implicit resolution:Resolution):Unit = {
+  def filterMix_Middle_CleAus:Unit = {
     val page = goToEnterContest()
 
     page.selectMiddleFromLineup(1)
@@ -385,7 +385,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     page.getNumberOfSoccerPlayers must be (N_MIX_MID_CLE_AUS)
   }
 
-  def filterMix_Forward_ColGrc(implicit resolution:Resolution):Unit = {
+  def filterMix_Forward_ColGrc:Unit = {
     val page = goToEnterContest()
 
     page.selectForwardFromLineup(1)
@@ -394,7 +394,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
   }
 */
 
-  def addFirstGoalKeeperFromList(implicit resolution:Resolution):Unit = {
+  def addFirstGoalKeeperFromList:Unit = {
     val page = goToEnterContest(enterContestState)
 
     page.getLineUpSalary must be (enterContestState.contest.initialSalary)
@@ -406,7 +406,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     page.addSoccerPlayerFromList(1)
     assert(playerOnList == page.getSoccerPlayerFromLineUp(1))
 
-    if (resolution != Resolution.SMALL) {
+    if (status.resolution != Resolution.SMALL) {
       assert(playerOnList != page.getSoccerPlayerFromList(1))
       page.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
           .getNumberOfSoccerPlayers must be (enterContestState.contest.numAllPlayers - 1)
@@ -422,7 +422,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     assert(page.getLineUpSalary < enterContestState.contest.initialSalary)
   }
 
-  def addFourthDefenseFromList(implicit resolution:Resolution):Unit = {
+  def addFourthDefenseFromList:Unit = {
     val page = goToEnterContest(enterContestState)
 
     page.getLineUpSalary must be (enterContestState.contest.initialSalary)
@@ -445,7 +445,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     assert(page.getLineUpSalary < enterContestState.contest.initialSalary)
   }
 
-  def pickAndClearWholeLineup(implicit resolution:Resolution):Unit = {
+  def pickAndClearWholeLineup:Unit = {
     val page = goToEnterContest(enterContestState)
 
     page.getLineUpSalary must be (enterContestState.contest.initialSalary)
@@ -458,7 +458,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     page.clearLineupList.getLineUpSalary must be (enterContestState.contest.initialSalary)
   }
 
-  def pickTooExpensiveLineUp(implicit resolution:Resolution):Unit = {
+  def pickTooExpensiveLineUp:Unit = {
     val page = goToEnterContest(enterContestState)
 
     page.getLineUpSalary must be (enterContestState.contest.initialSalary)
@@ -471,7 +471,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     page.clearLineupList.getLineUpSalary must be (enterContestState.contest.initialSalary)
   }
 
-  def pickFailLineupAndCorrectIt(implicit resolution:Resolution):Unit = {
+  def pickFailLineupAndCorrectIt:Unit = {
     val page = goToEnterContest(enterContestState)
 
     page.getLineUpSalary must be (enterContestState.contest.initialSalary)
@@ -508,15 +508,15 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     page.confirmLineup
     val viewContestState = new ViewContestState
     viewContestState.contest = state.contest
-    new ViewContestPage(resolution, viewContestState).isAt
-    //new LobbyPage(resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney).isAt
+    new ViewContestPage(status.resolution, viewContestState).isAt
+    //new LobbyPage(status.resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney).isAt
   }
 
 /*
-  def tryToConfirmMultipleTimes(implicit resolution:Resolution):Unit = {
+  def tryToConfirmMultipleTimes:Unit = {
     val page = goToEnterContest("540d4d1430045601813966ff")
 
-    pickWholeLineup_Cheap(resolution)
+    pickWholeLineup_Cheap(status.resolution)
 
     page.manyClicksOnConfirm
 
@@ -524,7 +524,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
   }
 */
 
-  def knownBugSequence_DuplicatedPlayersAtDeleteAll(implicit resolution:Resolution):Unit = {
+  def knownBugSequence_DuplicatedPlayersAtDeleteAll:Unit = {
     Given("EnterContest page")
     val page = goToEnterContest(enterContestState)
     var playerOnList:SoccerPlayer = null
@@ -559,10 +559,10 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
 
   }
 
-  def knownBugSequence_DisappearedPlayers(implicit resolution:Resolution):Unit = {
+  def knownBugSequence_DisappearedPlayers:Unit = {
     val page = goToEnterContest(enterContestState)
 
-    if (resolution == Resolution.SMALL) {
+    if (status.resolution == Resolution.SMALL) {
       page.selectGoalKeeperFromLineup
     }
 
@@ -570,7 +570,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     page.addSoccerPlayerFromList(1)
     page.removeSoccerPlayerFromLineUp(1)
 
-    if (resolution == Resolution.SMALL) {
+    if (status.resolution == Resolution.SMALL) {
       page.selectGoalKeeperFromLineup
     }
 
@@ -578,7 +578,7 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
     page.getNumberOfSoccerPlayers must be (1)
   }
 
-  def knownBugSequence_DuplicatedPlayersAtInsert(implicit resolution:Resolution):Unit = {
+  def knownBugSequence_DuplicatedPlayersAtInsert:Unit = {
     val page = goToEnterContest(enterContestState)
 
     page.selectDefenseFromLineup(1)
@@ -590,9 +590,9 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
 
   }
 
-  def knownBugSequence_AddForwardAsGoalKeeper(implicit resolution:Resolution):Unit = {
+  def knownBugSequence_AddForwardAsGoalKeeper:Unit = {
 
-    if (resolution != Resolution.SMALL) {
+    if (status.resolution != Resolution.SMALL) {
 
       val page = goToEnterContest(enterContestState)
 
@@ -606,10 +606,10 @@ abstract class EnterContestTestCommon(state: EnterContestState) extends SharedTe
 
   }
 /*
-  private def pickWholeLineup(implicit resolution:Resolution, lineup:Lineup):Unit = {
+  private def pickWholeLineup(implicit status.resolution:Resolution, lineup:Lineup):Unit = {
     val list = lineup.soccerPlayerList
 
-    new EnterContestPage(resolution, enterContestState.contest)
+    new EnterContestPage(status.resolution, enterContestState.contest)
 
       .selectMiddleFromLineup(1) // MIDDLE
       .setSoccerPlayerNameFilterSearch(list(5).name)

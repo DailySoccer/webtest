@@ -5,7 +5,7 @@ import unusual.pages.{HomePage, EnterContestPage}
 import unusual.tests._
 import unusual.testTags.scala._
 
-class LoginAuthTest extends LoginTestCommon {
+class LoginAuthTest(res:Resolution) extends LoginTestCommon(res) {
 /*
    val TEST_SINGUP_FORM_MAP = Map(
      "firstName" -> "First",
@@ -21,24 +21,15 @@ class LoginAuthTest extends LoginTestCommon {
    )
 */
 
-  before {
-    status.ensureAuthUser
-  }
+  before { status.ensureAuthUser }
 
-  "Auth user" when {
-    behave like sizeTesting(loginBehavior)
-  }
+  if (status.resolution.enabled) "Auth user" when { behave like sizeTesting(loginBehavior) }
 
-  def loginBehavior(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def loginBehavior: Unit = {
 
-    "sign up" taggedAs(WIP, DoesNotWorkYet) in {
-      featureNotImplemented
-    }
+    "sign up" taggedAs(WIP, DoesNotWorkYet) in featureNotImplemented
 
-    "right login" taggedAs(WIP) in {
-      doLogin
-    }
+    "right login" taggedAs(WIP) in doLogin
 
   }
 

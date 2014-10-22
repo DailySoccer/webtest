@@ -1,11 +1,12 @@
 package unusual.tests.simulatorController
 
+import unusual.model.Resolution
 import unusual.pages.SharedPage
 import unusual.pages.util.DOM_Ops
 import unusual.testTags.scala.WIP
 import unusual.tests.SharedTest
 
-class SimulatorController extends SharedTest with DOM_Ops{
+class SimulatorController(res:Resolution) extends SharedTest(res) with DOM_Ops{
 
   val MAX_TIMEOUT_TIME = 3000
   val INTERVAL_TIME = 1
@@ -65,10 +66,10 @@ class SimulatorController extends SharedTest with DOM_Ops{
 
 }
 
-class InitializerTest extends SimulatorController {
-  "Simulator" should ("set up initial configuration" taggedAs WIP in initialTestsSetup)
+class InitializerTest(res:Resolution) extends SimulatorController(res) {
+  if(status.resolution.enabled) "Simulator" should ("set up initial configuration" taggedAs WIP in initialTestsSetup)
 }
 
-class TimeShiftTest(day:Int, month:Int, year:Int, hour:Int, minute:Int, returnedString:String) extends SimulatorController {
-  "Simulator" should ("perform a time shift" taggedAs WIP in timeShift(day, month, year, hour, minute, returnedString))
+class TimeShiftTest(res:Resolution, day:Int, month:Int, year:Int, hour:Int, minute:Int, returnedString:String) extends SimulatorController(res) {
+  if(status.resolution.enabled) "Simulator" should ("perform a time shift" taggedAs WIP in timeShift(day, month, year, hour, minute, returnedString))
 }

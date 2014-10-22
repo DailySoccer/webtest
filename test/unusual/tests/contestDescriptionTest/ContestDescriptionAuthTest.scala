@@ -5,20 +5,20 @@ import unusual.pages._
 import unusual.testTags.scala.WIP
 
 
-class ContestDescriptionAuthTest_Header(cont: Contest) extends ContestDescriptionAuthTest(cont){
-  "(Header) Auth user" when sizeTesting(ContestDescriptionBehaviorHeader)
+class ContestDescriptionAuthTest_Header(cont: Contest, res:Resolution) extends ContestDescriptionAuthTest(cont, res){
+  s"(Header) Auth user in contest: ${contest.name}" when sizeTesting(ContestDescriptionBehaviorHeader)
 }
 
-class ContestDescriptionAuthTest_Sections(cont: Contest) extends ContestDescriptionAuthTest(cont){
-  "(Sections) Auth user" when sizeTesting(ContestDescriptionBehaviorSections)
+class ContestDescriptionAuthTest_Sections(cont: Contest, res:Resolution) extends ContestDescriptionAuthTest(cont, res){
+  s"(Sections) Auth user in contest: ${contest.name}" when sizeTesting(ContestDescriptionBehaviorSections)
 }
 
-class ContestDescriptionAuthTest_Bug(cont: Contest) extends ContestDescriptionAuthTest(cont){
-  "(Bug) Auth user" when sizeTesting(ContestDescriptionBehaviorBug)
+class ContestDescriptionAuthTest_Bug(cont: Contest, res:Resolution) extends ContestDescriptionAuthTest(cont, res){
+  s"(Bug) Auth user in contest: ${contest.name}" when sizeTesting(ContestDescriptionBehaviorBug)
 }
 
 
-abstract class ContestDescriptionAuthTest(cont:Contest) extends ContestDescriptionCommon(cont) {
+abstract class ContestDescriptionAuthTest(cont:Contest, res:Resolution) extends ContestDescriptionCommon(cont, res) {
 
   def orderBy = afterWord("ORDER BY")
   def filterBy = afterWord("FILTER BY")
@@ -32,8 +32,7 @@ abstract class ContestDescriptionAuthTest(cont:Contest) extends ContestDescripti
   //"Auth user in Match: " + contest.name when sizeTesting(ContestDescriptionBehavior)
 
 
-  def ContestDescriptionBehaviorHeader(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def ContestDescriptionBehaviorHeader: Unit = {
 
     "click on tabs" in changeTabs
 
@@ -50,8 +49,8 @@ abstract class ContestDescriptionAuthTest(cont:Contest) extends ContestDescripti
 
   }
 
-  def ContestDescriptionBehaviorSections(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def ContestDescriptionBehaviorSections: Unit = {
+    
 
     "look at contest sections" which consistIn {
 
@@ -64,8 +63,8 @@ abstract class ContestDescriptionAuthTest(cont:Contest) extends ContestDescripti
 
   }
 
-  def ContestDescriptionBehaviorBug(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def ContestDescriptionBehaviorBug: Unit = {
+    
 
     "perform known BUG SEQUENCE" which causes {
 
@@ -79,8 +78,8 @@ abstract class ContestDescriptionAuthTest(cont:Contest) extends ContestDescripti
    * @deprecated
    */
   /*
-  def ContestDescriptionBehavior(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def ContestDescriptionBehavior: Unit = {
+    
 
     "click on tabs" in changeTabs
 

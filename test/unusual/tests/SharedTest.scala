@@ -9,11 +9,12 @@ import unusual.pages._
 import org.scalatest.time._
 import unusual.testTags.scala.WIP
 
-class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
+class SharedTest(resolution:Resolution) extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
     with SauceLabsFactory with BeforeAndAfter with BeforeAndAfterAll
     with BeforeAndAfterEach with SpanSugar with GivenWhenThen {
 
   var status:TestStatus = new TestStatus
+  status.resolution = resolution
   var logger:UnusualLogger = {
     val l = new UnusualLogger()
     l.logger = Logger(this.getClass)
@@ -96,6 +97,11 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
   def changeBrowserResolution(res: Resolution) {
     webDriver.manage().window().setSize(new org.openqa.selenium.Dimension(res.width, res.height));
   }
+
+  def setTestResolution(res:Resolution) = {
+    status.resolution
+    this
+  }
 /*
   def explicitChangeBrowserResolution(res: Resolution) {
     webDriver.manage().window().setSize(new org.openqa.selenium.Dimension(res.width, res.height));
@@ -108,6 +114,13 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
     //reloadPage
   }
 
+  def sizeTesting(behavior: => Unit) = {
+    String.format("%-75s", s"use ${status.resolution} device") + status.resolution must {
+      behave like behavior
+    }
+  }
+
+  /*
   def sizeTesting(behavior: (Resolution) => Unit) = {
 
     if ((SharedTest.DESKTOP & SharedTest.SIZES_ENABLED) > 0) {
@@ -120,6 +133,8 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
 
         behave like behavior(resolution)
       }
+    } else {
+      logger.info("DESKTOP IS DISABLED")
     }
 
     if ((SharedTest.TABLET & SharedTest.SIZES_ENABLED) > 0) {
@@ -132,6 +147,8 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
 
         behave like behavior(resolution)
       }
+    } else {
+      logger.info("TABLET IS DISABLED")
     }
 
     if ((SharedTest.SMARTPHONE & SharedTest.SIZES_ENABLED) > 0) {
@@ -144,8 +161,12 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
 
         behave like behavior(resolution)
       }
+    } else {
+      logger.info("SMARTPHONE IS DISABLED")
     }
   }
+*/
+
 /*
   def callTest(test: (Resolution) => Unit)(implicit resolution:Resolution) = {
     status.resolution = resolution
@@ -157,11 +178,16 @@ class SharedTest extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
 */
 }
 
+
+/*
 object SharedTest {
 
-  val DESKTOP = 1
-  val TABLET = 2
-  val SMARTPHONE = 4
+  private val PARAM_SIZE = scala.util.Properties.envOrElse("RESOLUTION", "ALL").toUpperCase
+
+  val DESKTOP = if (PARAM_SIZE == "ALL" || PARAM_SIZE == "DESKTOP") 1 else 0
+  val TABLET = if (PARAM_SIZE == "ALL" || PARAM_SIZE == "TABLET") 2 else 0
+  val SMARTPHONE = if (PARAM_SIZE == "ALL" || PARAM_SIZE == "SMARTPHONE") 4 else 0
 
   var SIZES_ENABLED = 7
 }
+*/

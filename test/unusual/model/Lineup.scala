@@ -58,7 +58,7 @@ object Lineup {
   )
 
 
-  val TIME_0_EXPEND_ALL_MONEY_LIST = Array(
+  val TIME_0_AFFORDABLE_LIST = Array(
     { val lineup = new Lineup
       lineup.soccerPlayerList = Array( new SoccerPlayer ("jefferson"         , SoccerPlayer.POS_GOAL_KEEPER, 4500)
                                      , new SoccerPlayer ("raúl albiol"       , SoccerPlayer.POS_DEFENSE    , 7100)

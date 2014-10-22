@@ -4,20 +4,20 @@ import unusual.model.Resolution
 import unusual.pages.{LoginPage, SignUpPage}
 import unusual.tests._
 
-class HomeTestCommon extends SharedTest {
+class HomeTestCommon(res:Resolution) extends SharedTest(res) {
 
-  def goToHomeAndSignUp(implicit resolution:Resolution): Unit = {
+  def goToHomeAndSignUp: Unit = {
     goToHomePage.clickOnSignUp
-    assert(new SignUpPage(resolution).isAt, "is not sign up page")
+    assert(new SignUpPage(status.resolution).isAt, "is not sign up page")
   }
 
-  def goToHomeAndLogin(implicit resolution:Resolution): Unit = {
+  def goToHomeAndLogin: Unit = {
     goToHomePage.clickOnLogin
-    assert(new LoginPage(resolution).isAt, "is not login page")
+    assert(new LoginPage(status.resolution).isAt, "is not login page")
   }
 
-  def goThroughScreenSeparatorLinks(implicit resolution:Resolution): Unit = {
-    if (resolution != Resolution.SMALL) {
+  def goThroughScreenSeparatorLinks: Unit = {
+    if (status.resolution != Resolution.SMALL) {
       val home = goToHomePage
       home.clickOnScreenSeparator1
       currentUrl must be(home.SCREEN_2_URL)
@@ -28,29 +28,29 @@ class HomeTestCommon extends SharedTest {
     }
   }
 
-  def clickOnPlayButton0(implicit resolution:Resolution): Unit = {
+  def clickOnPlayButton0: Unit = {
     goToHomePage.clickOnPlayButton0
-    assert(new SignUpPage(resolution).isAt, "is not sign up page")
+    assert(new SignUpPage(status.resolution).isAt, "is not sign up page")
   }
 
-  def clickOnPlayButton1(implicit resolution:Resolution): Unit = {
+  def clickOnPlayButton1: Unit = {
     goToHomePage.clickOnPlayButton1
-    if (resolution != Resolution.SMALL) {
-      assert(new SignUpPage(resolution).isAt, "is not sign up page")
+    if (status.resolution != Resolution.SMALL) {
+      assert(new SignUpPage(status.resolution).isAt, "is not sign up page")
     }
   }
 
-  def clickOnPlayButton2(implicit resolution:Resolution): Unit = {
+  def clickOnPlayButton2: Unit = {
     goToHomePage.clickOnPlayButton2
-    if (resolution != Resolution.SMALL) {
-      assert(new SignUpPage(resolution).isAt, "is not sign up page")
+    if (status.resolution != Resolution.SMALL) {
+      assert(new SignUpPage(status.resolution).isAt, "is not sign up page")
     }
   }
 
-  def clickOnPlayButton3(implicit resolution:Resolution): Unit = {
+  def clickOnPlayButton3: Unit = {
     goToHomePage.clickOnPlayButton3
-    if (resolution != Resolution.SMALL) {
-      assert(new SignUpPage(resolution).isAt, "is not sign up page")
+    if (status.resolution != Resolution.SMALL) {
+      assert(new SignUpPage(status.resolution).isAt, "is not sign up page")
     }
   }
 }

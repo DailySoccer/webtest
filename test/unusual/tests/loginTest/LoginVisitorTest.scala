@@ -5,7 +5,7 @@ import unusual.pages._
 import unusual.testTags.scala._
 import unusual.tests._
 
-class LoginVisitorTest extends LoginTestCommon {
+class LoginVisitorTest(res:Resolution) extends LoginTestCommon(res) {
 /*
    val TEST_SINGUP_FORM_MAP = Map(
      "firstName" -> "First",
@@ -28,8 +28,7 @@ class LoginVisitorTest extends LoginTestCommon {
     behave like sizeTesting(loginBehavior)
   }
 
-  def loginBehavior(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def loginBehavior: Unit = {
 
     "sign up" taggedAs(WIP, DoesNotWorkYet) in {
       featureNotImplemented

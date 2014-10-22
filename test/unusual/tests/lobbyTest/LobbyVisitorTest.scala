@@ -5,22 +5,21 @@ import unusual.pages._
 import unusual.testTags.scala._
 import unusual.tests.SharedTest
 
-class LobbyVisitorTest(lobbySt:LobbyState = LobbyState.DEFAULT_LOBBY) extends LobbyTestCommon(lobbySt) {
+class LobbyVisitorTest(lobbySt:LobbyState, res:Resolution) extends LobbyTestCommon(lobbySt, res) {
 
   before {
     status.ensureVisitor
   }
 
-  "As visitor" when {
+  if (status.resolution.enabled) "As visitor" when {
     behave like sizeTesting(lobbyBehavior)
   }
 
-  def lobbyBehavior(res:Resolution): Unit = {
-    implicit val resolution: Resolution = res
+  def lobbyBehavior: Unit = {
 
     "try to go to lobby. Page should redirect to home" in {
-      val lobby = new LobbyPage(resolution, lobbyState.maxEntryMoney).open
-      val home = new HomePage(resolution)
+      val lobby = new LobbyPage(status.resolution, lobbyState.maxEntryMoney).open
+      val home = new HomePage(status.resolution)
       lobby.open
       assert(home.isAt, "Is not at home.")
     }

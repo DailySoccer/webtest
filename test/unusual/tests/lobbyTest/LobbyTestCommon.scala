@@ -11,26 +11,25 @@ import unusual.tests._
 import unusual.pages._
 import unusual.tests.contestDescriptionTest.ContestDescriptionCommon
 
-abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
+abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends SharedTest(res) {
 
   var lobbyState = lobbySt
-
 
   val N_CONTESTS_SEARCH = 0
   val FILTERS_PANEL_SEARCH_TEXT = "NingunTorneoDeberiaLlamarseAsi"
 
 
-  def goToLobby(implicit resolution:Resolution): Unit = {
+  def goToLobby: Unit = {
     val page = goToLobbyPage(lobbyState)
     assert(page.isDefaultState(lobbyState.numContests_NoFilter), "Lobby is not at default state")
   }
 
-  def changeResolutionTests(implicit resolution:Resolution): Unit = {
+  def changeResolutionTests: Unit = {
     val isDefaultSmall = () => new LobbyPage(Resolution.SMALL, lobbyState.maxEntryMoney).isDefaultState(lobbyState.numContests_NoFilter)
     val isDefaultMedium = () => new LobbyPage(Resolution.MEDIUM, lobbyState.maxEntryMoney).isDefaultState(lobbyState.numContests_NoFilter)
     val isDefaultBig = () => new LobbyPage(Resolution.BIG, lobbyState.maxEntryMoney).isDefaultState(lobbyState.numContests_NoFilter)
 
-    if (resolution == Resolution.BIG) {
+    if (status.resolution == Resolution.BIG) {
 
       goToLobbyPage(lobbyState)
       assert(isDefaultBig(), "Big is not default state")
@@ -52,7 +51,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
       changeBrowserResolution(Resolution.SMALL)
       assert(isDefaultSmall(), "From big to small")
 
-    } else if (resolution == Resolution.MEDIUM) {
+    } else if (status.resolution == Resolution.MEDIUM) {
 
       goToLobbyPage(lobbyState)
       assert(isDefaultMedium(), "Medium is not default state")
@@ -92,10 +91,10 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
     }
   }
 
-  def checkClearFiltersButton(implicit resolution:Resolution): Unit = {
+  def checkClearFiltersButton: Unit = {
     val page = goToLobbyPage(lobbyState)
     Given("a lobby page")
-    if (resolution == Resolution.SMALL){
+    if (status.resolution == Resolution.SMALL){
       When("press clear filters")
       page.clearFilters
     }
@@ -121,15 +120,15 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
     page.getNumberOfContests must be(lobbyState.numContests_NoFilter)
   }
 
-  def lookAtContestDescription(implicit resolution:Resolution): Unit = {
-    if (resolution == Resolution.BIG){
+  def lookAtContestDescription: Unit = {
+    if (status.resolution == Resolution.BIG){
       logger.debug("Enter to lobby, resolution big")
 
       val page = goToLobbyContest
       logger.debug("Looking at contest description")
       page.openContestDescription(1)
       logger.debug("Contest description should be opened(1)")
-      val description = new ContestDescriptionWindow(resolution)
+      val description = new ContestDescriptionWindow(status.resolution)
 
       logger.debug(".")
       eventually { assert(description.isAt, "Description should be visible") }
@@ -153,52 +152,52 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
     }
   }
 
-  def lookForDefaultContests(implicit resolution:Resolution): Unit = {
+  def lookForDefaultContests: Unit = {
     goToLobbyContest.getNumberOfContests must be(lobbyState.numContests_NoFilter)
   }
 
-  def filterByFreeContests(implicit resolution:Resolution): Unit = {
+  def filterByFreeContests: Unit = {
     goToLobbyContest.clickFreeContestFilter
                  .getNumberOfContests must be(lobbyState.numContests_Free)
   }
 
-  def filterByLeagueContests(implicit resolution:Resolution): Unit = {
+  def filterByLeagueContests: Unit = {
     goToLobbyContest.clickLeagueContestFilter
                  .getNumberOfContests must be(lobbyState.numContests_League)
   }
 
-  def filterByFiftyFiftyContests(implicit resolution:Resolution): Unit = {
+  def filterByFiftyFiftyContests: Unit = {
     goToLobbyContest.clickFiftyFiftyContestsFilter
                  .getNumberOfContests must be(lobbyState.numContests_FiftyFifty)
   }
 
-  def filterByHeadToHeadContests(implicit resolution:Resolution): Unit = {
+  def filterByHeadToHeadContests: Unit = {
     goToLobbyContest.clickHeadToHeadContestsFilter
                  .getNumberOfContests must be(lobbyState.numContests_HeadToHead)
   }
 
-  def filterByEntryFee(implicit resolution:Resolution): Unit = {
+  def filterByEntryFee: Unit = {
     val page = goToLobbyContest
     page.setEntryFeeFilter(lobbyState.minEntryFeeFilter, page.MAX_ENTRY_MONEY)
       .getNumberOfContests must be(lobbyState.numContests_MinEntryFee)
   }
 
-  def filterByBeginnerSalary(implicit resolution:Resolution): Unit = {
+  def filterByBeginnerSalary: Unit = {
     goToLobbyContest.clickBeginnerSalaryFilter
                     .getNumberOfContests must be(lobbyState.numContests_Beginner)
   }
 
-  def filterByStandardSalary(implicit resolution:Resolution): Unit = {
+  def filterByStandardSalary: Unit = {
     goToLobbyContest.clickStandardSalaryFilter
                     .getNumberOfContests must be(lobbyState.numContests_Standard)
   }
 
-  def filterByExpertSalary(implicit resolution:Resolution): Unit = {
+  def filterByExpertSalary: Unit = {
     goToLobbyContest.clickExpertSalaryFilter
                     .getNumberOfContests must be(lobbyState.numContests_Expert)
   }
 
-  def checkEntryFeeFilterCtrl(implicit resolution:Resolution): Unit = {
+  def checkEntryFeeFilterCtrl: Unit = {
     val page = goToLobbyContest
     val MAX = page.MAX_ENTRY_MONEY
     val MIN = 0
@@ -244,7 +243,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
 
   }
 
-  def filterByFreeContestsWithMinFilter(implicit resolution:Resolution): Unit = {
+  def filterByFreeContestsWithMinFilter: Unit = {
     val page = goToLobbyContest
 
     page.setEntryFeeFilter(1, page.MAX_ENTRY_MONEY)
@@ -252,12 +251,12 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
         .getNumberOfContests must be(0)
   }
 
-  def playFirstContest(implicit resolution:Resolution): Unit = {
+  def playFirstContest: Unit = {
     goToLobbyContest.playContestNumber(1)
   }
 
-  def searchContests(implicit resolution:Resolution): Unit = {
-    if (resolution != Resolution.SMALL) {
+  def searchContests: Unit = {
+    if (status.resolution != Resolution.SMALL) {
       val page = goToLobbyContest
       for ((key,value) <- lobbyState.filterPanel_SearchResults) {
         logger.debug("Search key: " + key + " || contest should be: " + value)
@@ -266,35 +265,35 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
     }
   }
 
-  def searchNonExistentContest(implicit resolution:Resolution): Unit = {
-    if (resolution != Resolution.SMALL) {
+  def searchNonExistentContest: Unit = {
+    if (status.resolution != Resolution.SMALL) {
       val page = goToLobbyContest.searchContestByName(FILTERS_PANEL_SEARCH_TEXT)
       page.getNumberOfContests must be(N_CONTESTS_SEARCH)
     }
   }
 
-  def orderByName(implicit resolution:Resolution): Unit = {
+  def orderByName: Unit = {
     val page = goToLobbyContest.clickSortContestsByName
 
     assert(page.areContestsOrderedByName, "Contest are not sorted by name")
     assert(page.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
   }
 
-  def orderByEntryFee(implicit resolution:Resolution): Unit = {
+  def orderByEntryFee: Unit = {
     val page = goToLobbyContest.clickSortContestsByEntryFee
 
     assert(page.areContestsOrderedByEntryFee, "Contest are not sorted by entry fee")
     assert(page.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
   }
 
-  def orderByStartTime(implicit resolution:Resolution): Unit = {
+  def orderByStartTime: Unit = {
     val page = goToLobbyContest
     logger.debug("Contest should be ordered by start time by default")
     assert(page.areContestsOrderedByStartTime, "Contest are not sorted by name")
     assert(page.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
   }
 
-  def ReorderByStartTime(implicit resolution:Resolution): Unit = {
+  def ReorderByStartTime: Unit = {
     val page = goToLobbyContest
 
     logger.debug("Contest should be sorted by start time by default and should be at the same state after sort them two times")
@@ -308,9 +307,9 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
 
   /// PAGINATOR TESTS
 
-  def paginatorMainFunctionality(implicit resolution:Resolution): Unit = {
+  def paginatorMainFunctionality: Unit = {
     val page = goToLobbyContest
-    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
+    val paginator = new PaginatorControl(status.resolution, page.CONTEST_LIST_CONTAINER)
     assert( paginator.isAt, "Paginator is not at the page.")
     assert( paginator.isDisplayed, "Paginator is not displayed.")
 
@@ -343,9 +342,9 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
 
   }
 
-  def paginatorIsDisplayedWhenNecessary(implicit resolution:Resolution): Unit = {
+  def paginatorIsDisplayedWhenNecessary: Unit = {
     val page = goToLobbyContest
-    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
+    val paginator = new PaginatorControl(status.resolution, page.CONTEST_LIST_CONTAINER)
     assert( paginator.isAt, "Paginator is not at the page.")
     assert( paginator.isDisplayed, "Paginator is not displayed.")
     paginator.getNumberOfPages must be (lobbyState.maxPaginatorPage)
@@ -357,10 +356,10 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
     paginator.getNumberOfPages must be (1)
   }
 
-  def knownBugSequence_DisappearedPaginatorOnFilter(implicit resolution:Resolution): Unit = {
+  def knownBugSequence_DisappearedPaginatorOnFilter: Unit = {
     logger.debug("go to lobby")
     val page = goToLobbyContest
-    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
+    val paginator = new PaginatorControl(status.resolution, page.CONTEST_LIST_CONTAINER)
     logger.debug("look at paginator")
     assert( paginator.isAt, "Paginator is not at the page.")
     assert( paginator.isDisplayed, "Paginator is not displayed.")
@@ -376,9 +375,9 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
     assert(paginator.getNumberOfPages >= 1, "Number of pages should be grater (or equals) than 1")
   }
 
-  def knownBugSequence_PaginatorOrderedRefresh(implicit resolution:Resolution): Unit = {
+  def knownBugSequence_PaginatorOrderedRefresh: Unit = {
     val page = goToLobbyContest.clickSortContestsByName
-    val paginator = new PaginatorControl(resolution, page.CONTEST_LIST_CONTAINER)
+    val paginator = new PaginatorControl(status.resolution, page.CONTEST_LIST_CONTAINER)
     paginator.goToNextPage.goToNextPage.goToNextPage.goToNextPage
 
     withClue("Paginator should not reset page at lobby contest-list refresh") {
@@ -396,7 +395,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState) extends SharedTest {
 
 
 /*
-  def searchContest(implicit resolution:Resolution): Unit = {
+  def searchContest(): Unit = {
     val page = goToLobbyPage.clearFilters
       .searchContestByName(FILTERS_PANEL_SEARCH_TEXT_1)
     if (resolution != Resolution.SMALL){

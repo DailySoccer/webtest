@@ -5,7 +5,7 @@ import unusual.pages.LobbyPage
 import unusual.pages.components.MenuBar
 import unusual.tests._
 
-class LoginTestCommon extends SharedTest {
+class LoginTestCommon(res:Resolution) extends SharedTest(res) {
 
   //val NEW_USER : User = new User("First", "Last", "new@test.com", "The newbie", "private")
   //val DEFAULT_USER : User = new User("Test", "Test", "test@test.com", "Test", "private")
@@ -24,15 +24,15 @@ class LoginTestCommon extends SharedTest {
     "password" -> "private"
   )
   */
-  def doRightSignUp(implicit resolution:Resolution):Unit = {
+  def doRightSignUp:Unit = {
     goToSignUpPage.doSignUp(User.NEW)
   }
 
-  def doLogin(implicit resolution:Resolution): Unit = {
+  def doLogin: Unit = {
     goToLoginPage.doLogin(User.OTHER)
-    val lobby = new LobbyPage(resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney )
+    val lobby = new LobbyPage(status.resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney )
     assert(lobby.isAt && lobby.isLoggedIn)
-    val menu = new MenuBar(resolution)
+    val menu = new MenuBar(status.resolution)
     assert(menu.isAt)
     menu.getUserName must be(User.OTHER.firstName)
   }
