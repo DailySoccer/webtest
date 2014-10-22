@@ -4,6 +4,12 @@ class Lineup {
 
   var soccerPlayerList = Array[SoccerPlayer]()
 
+  def price: Int = {
+    var money = 0
+    for (soccer <- soccerPlayerList) { money += soccer.salary }
+    money
+  }
+
 }
 
 
@@ -77,12 +83,12 @@ object Lineup {
     { val lineup = new Lineup
       lineup.soccerPlayerList = Array( new SoccerPlayer ("mattia perin"      , SoccerPlayer.POS_GOAL_KEEPER, 4500)
                                      , new SoccerPlayer ("gerard piqué"      , SoccerPlayer.POS_DEFENSE    , 4500)
-                                     , new SoccerPlayer ("leighton baines"   , SoccerPlayer.POS_DEFENSE    , 7100)
-                                     , new SoccerPlayer ("ignazio abate"     , SoccerPlayer.POS_DEFENSE    , 7200)
-                                     , new SoccerPlayer ("gabriel paletta"   , SoccerPlayer.POS_DEFENSE    , 6900)
+                                     , new SoccerPlayer ("leighton baines"   , SoccerPlayer.POS_DEFENSE    , 5900)
+                                     , new SoccerPlayer ("ignazio abate"     , SoccerPlayer.POS_DEFENSE    , 5800)
+                                     , new SoccerPlayer ("gabriel paletta"   , SoccerPlayer.POS_DEFENSE    , 5900)
                                      , new SoccerPlayer ("thiago motta"      , SoccerPlayer.POS_MIDDLE     , 5800)
-                                     , new SoccerPlayer ("alex oxlade-chamber", SoccerPlayer.POS_MIDDLE    , 8000)
-                                     , new SoccerPlayer ("adam lallana"      , SoccerPlayer.POS_MIDDLE     , 6000)
+                                     , new SoccerPlayer ("alex oxlade-chamber", SoccerPlayer.POS_MIDDLE    , 4500)
+                                     , new SoccerPlayer ("adam lallana"      , SoccerPlayer.POS_MIDDLE     , 5800)
                                      , new SoccerPlayer ("francesc fábregas" , SoccerPlayer.POS_MIDDLE     , 5800)
                                      , new SoccerPlayer ("danny welbeck"     , SoccerPlayer.POS_FORWARD    , 6300)
                                      , new SoccerPlayer ("ciro immobile"     , SoccerPlayer.POS_FORWARD    , 5200)

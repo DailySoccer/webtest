@@ -34,8 +34,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     if (status.resolution == Resolution.SMALL) {
       lobby.playContestNumber(state.contest.nameOrder)
     } else {
-      lobby.searchContestByName(state.contest.name)
-           .playContestNumber(1)
+      lobby.searchContestByName(state.contest.name).playContestNumber(1)
     }
     Then("page should be at and default state")
     assert(page.isAt, "is not at")
@@ -283,51 +282,6 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
       featureNotTestableInResolution
     }
   }
-  /*
-  def filterByMatch_None:Unit = {
-    val page = goToEnterContest()
-
-    if (status.resolution != Resolution.SMALL) {
-      page.setSoccerPlayerMatchFilter(1)
-          .getNumberOfSoccerPlayers must be (contest.numAllPlayers)
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-
-  def filterByMatch_CleAus:Unit = {
-    val page = goToEnterContest()
-
-    if (status.resolution != Resolution.SMALL) {
-      page.setSoccerPlayerMatchFilter(2)
-          .getNumberOfSoccerPlayers must be (N_CLE_AUS)
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-
-  def filterByMatch_ColGrc:Unit = {
-    val page = goToEnterContest()
-
-    if (status.resolution != Resolution.SMALL) {
-      page.setSoccerPlayerMatchFilter(3)
-          .getNumberOfSoccerPlayers must be (N_COL_GRC)
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-
-  def filterByMatch_UryCri:Unit = {
-    val page = goToEnterContest()
-
-    if (status.resolution != Resolution.SMALL) {
-      page.setSoccerPlayerMatchFilter(4)
-          .getNumberOfSoccerPlayers must be (N_URY_CRI)
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-  */
 
   def filterMix_Position_Match: Unit = {
     if (status.resolution != Resolution.SMALL) {
@@ -350,49 +304,6 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
       featureNotTestableInResolution
     }
   }
-/*
-  def filterMix_GoalKeeper_UryCri:Unit = {
-    val page = goToEnterContest()
-
-    page.selectGoalKeeperFromLineup
-        .setSoccerPlayerMatchFilter(4)
-
-    page.getNumberOfSoccerPlayers must be (N_MIX_GK_URY_CRI)
-  }
-
-  def filterMix_GoalKeeper_CleAus:Unit = {
-    val page = goToEnterContest()
-
-    page.selectGoalKeeperFromLineup
-      .setSoccerPlayerMatchFilter(2)
-    page.getNumberOfSoccerPlayers must be (N_MIX_GK_CLE_AUS)
-  }
-
-  def filterMix_Defense_UryCri:Unit = {
-    goToEnterContest()
-    val page = new EnterContestPage(status.resolution)
-
-    page.selectDefenseFromLineup(1)
-        .setSoccerPlayerMatchFilter(4)
-    page.getNumberOfSoccerPlayers must be (N_MIX_DEF_URY_CRI)
-  }
-
-  def filterMix_Middle_CleAus:Unit = {
-    val page = goToEnterContest()
-
-    page.selectMiddleFromLineup(1)
-        .setSoccerPlayerMatchFilter(2)
-    page.getNumberOfSoccerPlayers must be (N_MIX_MID_CLE_AUS)
-  }
-
-  def filterMix_Forward_ColGrc:Unit = {
-    val page = goToEnterContest()
-
-    page.selectForwardFromLineup(1)
-        .setSoccerPlayerMatchFilter(3)
-    page.getNumberOfSoccerPlayers must be (N_MIX_FOR_COL_GRC)
-  }
-*/
 
   def addFirstGoalKeeperFromList:Unit = {
     val page = goToEnterContest(enterContestState)
@@ -447,15 +358,15 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
   def pickAndClearWholeLineup:Unit = {
     val page = goToEnterContest(enterContestState)
+    val contest = enterContestState.contest
+    page.getLineUpSalary must be (contest.initialSalary)
 
-    page.getLineUpSalary must be (enterContestState.contest.initialSalary)
+    page.pickWholeLineup(contest.affordableLineup)
 
-    page.pickWholeLineup(enterContestState.contest.expendAllMoney)
-
-    assert(page.getLineUpSalary == 0)
+    assert(page.getLineUpSalary == (contest.initialSalary - contest.affordableLineup.price))
     page.removeSoccerPlayerFromLineUp(1).getLineUpSalary must be > 0
 
-    page.clearLineupList.getLineUpSalary must be (enterContestState.contest.initialSalary)
+    page.clearLineupList.getLineUpSalary must be (contest.initialSalary)
   }
 
   def pickTooExpensiveLineUp:Unit = {
@@ -473,19 +384,20 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
   def pickFailLineupAndCorrectIt:Unit = {
     val page = goToEnterContest(enterContestState)
+    val contest = enterContestState.contest
 
-    page.getLineUpSalary must be (enterContestState.contest.initialSalary)
+    page.getLineUpSalary must be (contest.initialSalary)
 
-    page.pickWholeLineup(enterContestState.contest.expensiveLineup)
+    page.pickWholeLineup(contest.expensiveLineup)
 
     page.getLineUpSalary must be < 0
 
     assert( page.confirmLineup.isOverSalaryErrorShown )
 
-    val expensiveLineup = enterContestState.contest.expensiveLineup.soccerPlayerList
-    val expendAllMoneyLineup = enterContestState.contest.expendAllMoney.soccerPlayerList
+    val expensiveLineup = contest.expensiveLineup.soccerPlayerList
+    val expendAllMoneyLineup = contest.affordableLineup.soccerPlayerList
 
-    for (i <- 0 to 10){
+    for (i <- 0 to 10) {
       if (expensiveLineup(i) != expendAllMoneyLineup(i)) {
         page.removeSoccerPlayerFromLineUp(i + 1)
 
@@ -503,7 +415,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
             .addSoccerPlayerFromList(1)
       }
     }
-    assert(page.getLineUpSalary == 0)
+
+    assert(page.getLineUpSalary == (contest.initialSalary - contest.affordableLineup.price))
 
     page.confirmLineup
     val viewContestState = new ViewContestState
@@ -605,61 +518,5 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     }
 
   }
-/*
-  private def pickWholeLineup(implicit status.resolution:Resolution, lineup:Lineup):Unit = {
-    val list = lineup.soccerPlayerList
 
-    new EnterContestPage(status.resolution, enterContestState.contest)
-
-      .selectMiddleFromLineup(1) // MIDDLE
-      .setSoccerPlayerNameFilterSearch(list(5).name)
-      .addSoccerPlayerFromList(1)
-
-      .selectDefenseFromLineup(1) // DEFENSE
-      .setSoccerPlayerNameFilterSearch(list(1).name)
-      .addSoccerPlayerFromList(1)
-
-      .selectForwardFromLineup(1) // FORWARD
-      .setSoccerPlayerNameFilterSearch(list(9).name)
-      .addSoccerPlayerFromList(1)
-
-      .selectMiddleFromLineup(2) // MIDDLE
-      .setSoccerPlayerNameFilterSearch(list(6).name)
-      .addSoccerPlayerFromList(1)
-
-      .selectGoalKeeperFromLineup // GOALKEEPER
-      .setSoccerPlayerNameFilterSearch(list(0).name)
-      .addSoccerPlayerFromList(1)
-
-      .selectDefenseFromLineup(2) // DEFENSE
-      .setSoccerPlayerNameFilterSearch(list(2).name)
-      .addSoccerPlayerFromList(1)
-
-      .selectMiddleFromLineup(3) // MIDDLE
-      .setSoccerPlayerNameFilterSearch(list(7).name)
-      .addSoccerPlayerFromList(1)
-
-      .selectForwardFromLineup(2) // FORWARD
-      .setSoccerPlayerNameFilterSearch(list(10).name)
-      .addSoccerPlayerFromList(1)
-
-      .selectMiddleFromLineup(4) // MIDDLE
-      .setSoccerPlayerNameFilterSearch(list(8).name)
-      .addSoccerPlayerFromList(1)
-
-      .selectDefenseFromLineup(3) // DEFENSE
-      .setSoccerPlayerNameFilterSearch(list(3).name)
-      .addSoccerPlayerFromList(1)
-
-      .selectDefenseFromLineup(4) // DEFENSE
-      .setSoccerPlayerNameFilterSearch(list(4).name)
-      .addSoccerPlayerFromList(1)
-  }*/
-/*
-  private def enterInContest: LobbyPage ={
-    goToLobbyPage.clickOnMenuAllContests
-                 .clickOnMenuPrizedContests
-                 .playContestNumber(1)
-  }
-*/
 }

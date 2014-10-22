@@ -30,7 +30,7 @@ class Contest () {
   var initialSalary = 0
 
   var expensiveLineup:Lineup = null
-  var expendAllMoney:Lineup = null
+  var affordableLineup:Lineup = null
 
   override def toString: String = {
     name + "\n" + description + " \n" + entryFee + " - " + prize + " - " + date + "\n"
@@ -94,7 +94,7 @@ object Contest {
 
     contest.expensiveLineup = Lineup.TIME_0_EXPENSIVE_LIST(0)
 
-    contest.expendAllMoney = Lineup.TIME_0_AFFORDABLE_LIST(0)
+    contest.affordableLineup = Lineup.TIME_0_AFFORDABLE_LIST(0)
 
     contest.initialSalary = 65000
 
@@ -144,7 +144,7 @@ object Contest {
 
     contest.expensiveLineup = Lineup.TIME_0_EXPENSIVE_LIST(1)
 
-    contest.expendAllMoney = Lineup.TIME_0_AFFORDABLE_LIST(1)
+    contest.affordableLineup = Lineup.TIME_0_AFFORDABLE_LIST(1)
 
     contest.initialSalary = 60000
 
@@ -202,7 +202,7 @@ object Contest {
 
     contest.expensiveLineup = Lineup.TIME_0_EXPENSIVE_LIST(2)
 
-    contest.expendAllMoney = Lineup.TIME_0_AFFORDABLE_LIST(2)
+    contest.affordableLineup = Lineup.TIME_0_AFFORDABLE_LIST(2)
 
     contest.initialSalary = 70000
 

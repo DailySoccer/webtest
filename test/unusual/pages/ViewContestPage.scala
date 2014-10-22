@@ -62,7 +62,7 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
     val enterContestState = new EnterContestState
     enterContestState.contest = state.contest
     val enterContest = new EnterContestPage(resolution, enterContestState)
-    enterContest.open.pickWholeLineup(state.contest.expendAllMoney)
+    enterContest.open.pickWholeLineup(state.contest.affordableLineup)
     enterContest.confirmLineup
     this
   }

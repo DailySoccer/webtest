@@ -15,7 +15,7 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
   }
 
   def isCorrectLineup:Unit = {
-    val playerLineup = state.contest.expendAllMoney.soccerPlayerList
+    val playerLineup = state.contest.affordableLineup.soccerPlayerList
 
     for(i <- 0 to 10) {
       val player = page.getSoccerPlayer(i + 1)

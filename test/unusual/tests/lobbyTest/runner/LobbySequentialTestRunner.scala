@@ -30,38 +30,6 @@ private object LobbySequentialTestRunner {
     }
 }
 
-/*
-class LobbySequentialTestRunner extends Sequential(
-  { SharedTest.SIZES_ENABLED = SharedTest.DESKTOP
-     //new InitializerTest
-     new LobbyAuthTest_BasicInfo(LobbyState.DEFAULT_LOBBY)
-  }
-  ,  new LobbyAuthTest_BasicInfo(LobbyState.DEFAULT_LOBBY)
-  ,  new LobbyAuthTest_Filters(LobbyState.DEFAULT_LOBBY)
-  ,  new LobbyAuthTest_OrderBy(LobbyState.DEFAULT_LOBBY)
-  ,  new LobbyAuthTest_Others(LobbyState.DEFAULT_LOBBY)
-  ,  new LobbyAuthTest_Bug(LobbyState.DEFAULT_LOBBY)
-
-  , { SharedTest.SIZES_ENABLED = SharedTest.TABLET
-     new LobbyAuthTest_BasicInfo(LobbyState.DEFAULT_LOBBY)
-  }
-  ,  new LobbyAuthTest_Filters(LobbyState.DEFAULT_LOBBY)
-  ,  new LobbyAuthTest_OrderBy(LobbyState.DEFAULT_LOBBY)
-  ,  new LobbyAuthTest_Others(LobbyState.DEFAULT_LOBBY)
-  ,  new LobbyAuthTest_Bug(LobbyState.DEFAULT_LOBBY)
-
-  , { SharedTest.SIZES_ENABLED = SharedTest.SMARTPHONE
-     new LobbyAuthTest_BasicInfo(LobbyState.DEFAULT_LOBBY)
-  }
-  ,  new LobbyAuthTest_Filters(LobbyState.DEFAULT_LOBBY)
-  ,  new LobbyAuthTest_OrderBy(LobbyState.DEFAULT_LOBBY)
-  ,  new LobbyAuthTest_Others(LobbyState.DEFAULT_LOBBY)
-  ,  new LobbyAuthTest_Bug(LobbyState.DEFAULT_LOBBY)
-
-  , { SharedTest.SIZES_ENABLED = SharedTest.DESKTOP | SharedTest.TABLET | SharedTest.SMARTPHONE
-      new LobbyVisitorTest
-  }
-)*/
 
 
 
