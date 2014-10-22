@@ -21,11 +21,11 @@ private object EnterContestSequentialTestRunner {
   def createBunchOfTests(resolution:Resolution, state: EnterContestState) =
     if (resolution.enabled) {
       new Sequential(
-           new EnterContestAuthTest_OrderBy(state, resolution)
+         /*  new EnterContestAuthTest_OrderBy(state, resolution)
         ,  new EnterContestAuthTest_FilterBy(state, resolution)
         ,  new EnterContestAuthTest_SelectPos(state, resolution)
         ,  new EnterContestAuthTest_Bug(state, resolution)
-        ,  new EnterContestAuthTest_Pick(state, resolution)
+        , */ new EnterContestAuthTest_Pick(state, resolution)
       )
     } else {
       new Sequential()

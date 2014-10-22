@@ -119,9 +119,9 @@ object Contest {
 
     // enterContest specifics
     contest.numGoalKeepersPlayers = 12
-    contest.numDefensePlayers = 29
-    contest.numMiddlePlayers = 32
-    contest.numForwardPlayers = 19
+    contest.numDefensePlayers = 31
+    contest.numMiddlePlayers = 29
+    contest.numForwardPlayers = 20
     contest.numAllPlayers = 92
 
     contest.matchPlayers = Map(
@@ -136,8 +136,8 @@ object Contest {
         SoccerPlayer.POS_DEFENSE -> 15
       ),
       3 -> Map(
-        SoccerPlayer.POS_FORWARD -> 10,
-        SoccerPlayer.POS_MIDDLE -> 16
+        SoccerPlayer.POS_FORWARD -> 12,
+        SoccerPlayer.POS_MIDDLE -> 12
       )
     )
 
