@@ -28,7 +28,7 @@ The default browser is Firefox. You can change it in test/SauceLabsFactory.scala
 
 
 Running remotely
-===============
+================
 
 Running remotely on SauceLabs is the default if you don't export the URL or unset it. Just run (RESOLUTION is optional):
 
