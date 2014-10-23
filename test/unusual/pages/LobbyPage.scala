@@ -302,8 +302,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
     n
 
-    logger.error("Forzando devolver un 6 para continuar el paso de test")
-    6
+    /*logger.error("Forzando devolver un 6 para continuar el paso de test")
+    6*/
   }
 
   def areAllFiltersClear:Boolean = {
