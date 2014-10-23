@@ -14,10 +14,15 @@ For Firefox you don't need anything. SBT downloads some libs that enable ScalaTe
 Running locally
 ===============
 
-To run the tests locally, run in your terminal:
+To run the tests locally, run in your terminal (RESOLUTION is optional):
 
+    $ export RESOLUTION="{smartphone|desktop|tablet|all}"
     $ export URL="http://localhost:9000"
     $ play test
+    
+Or via script:
+
+    $ ./playTest [{-r|--resolution} {smartphone|desktop|tablet|all}] {-l|--localhost}
     
 The default browser is Firefox. You can change it in test/SauceLabsFactory.scala (CHROME or FIREFOX).
 
@@ -25,10 +30,14 @@ The default browser is Firefox. You can change it in test/SauceLabsFactory.scala
 Running remotely
 ===============
 
-Running remotely on SauceLabs is the default if you don't export the URL or unset it. Just run:
+Running remotely on SauceLabs is the default if you don't export the URL or unset it. Just run (RESOLUTION is optional):
 
+    $ export RESOLUTION="{smartphone|desktop|tablet|all}"
     $ play test
+    
+Or via script:
 
+    $ ./playTest [{-r|--resolution} {smartphone|desktop|tablet}]
 
 Logger configuration
 ====================

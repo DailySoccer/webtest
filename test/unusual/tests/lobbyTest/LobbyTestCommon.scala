@@ -157,23 +157,27 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
   }
 
   def filterByFreeContests: Unit = {
-    goToLobbyContest.clickFreeContestFilter
-                 .getNumberOfContests must be(lobbyState.numContests_Free)
+    val lobby = goToLobbyContest.clickFreeContestFilter
+    val numContests = lobby.getNumberOfContests
+    assert(numContests == lobbyState.numContests_Free, s"Num of contests: $numContests, expected: ${lobbyState.numContests_Free}")
   }
 
   def filterByLeagueContests: Unit = {
-    goToLobbyContest.clickLeagueContestFilter
-                 .getNumberOfContests must be(lobbyState.numContests_League)
+    val lobby = goToLobbyContest.clickLeagueContestFilter
+    val numContests = lobby.getNumberOfContests
+    assert(numContests == lobbyState.numContests_Free, s"Num of contests: $numContests, expected: ${lobbyState.numContests_League}")
   }
 
   def filterByFiftyFiftyContests: Unit = {
-    goToLobbyContest.clickFiftyFiftyContestsFilter
-                 .getNumberOfContests must be(lobbyState.numContests_FiftyFifty)
+    val lobby = goToLobbyContest.clickFiftyFiftyContestsFilter
+    val numContests = lobby.getNumberOfContests
+    assert(numContests == lobbyState.numContests_Free, s"Num of contests: $numContests, expected: ${lobbyState.numContests_FiftyFifty}")
   }
 
   def filterByHeadToHeadContests: Unit = {
-    goToLobbyContest.clickHeadToHeadContestsFilter
-                 .getNumberOfContests must be(lobbyState.numContests_HeadToHead)
+    val lobby = goToLobbyContest.clickHeadToHeadContestsFilter
+    val numContests = lobby.getNumberOfContests
+    assert(numContests == lobbyState.numContests_Free, s"Num of contests: $numContests, expected: ${lobbyState.numContests_HeadToHead}")
   }
 
   def filterByEntryFee: Unit = {
@@ -183,18 +187,21 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
   }
 
   def filterByBeginnerSalary: Unit = {
-    goToLobbyContest.clickBeginnerSalaryFilter
-                    .getNumberOfContests must be(lobbyState.numContests_Beginner)
+    val lobby = goToLobbyContest.clickBeginnerSalaryFilter
+    val numContests = lobby.getNumberOfContests
+    assert(numContests == lobbyState.numContests_Free, s"Num of contests: $numContests, expected: ${lobbyState.numContests_Beginner}")
   }
 
   def filterByStandardSalary: Unit = {
-    goToLobbyContest.clickStandardSalaryFilter
-                    .getNumberOfContests must be(lobbyState.numContests_Standard)
+    val lobby = goToLobbyContest.clickStandardSalaryFilter
+    val numContests = lobby.getNumberOfContests
+    assert(numContests == lobbyState.numContests_Free, s"Num of contests: $numContests, expected: ${lobbyState.numContests_Standard}")
   }
 
   def filterByExpertSalary: Unit = {
-    goToLobbyContest.clickExpertSalaryFilter
-                    .getNumberOfContests must be(lobbyState.numContests_Expert)
+    val lobby = goToLobbyContest.clickExpertSalaryFilter
+    val numContests = lobby.getNumberOfContests
+    assert(numContests == lobbyState.numContests_Free, s"Num of contests: $numContests, expected: ${lobbyState.numContests_Expert}")
   }
 
   def checkEntryFeeFilterCtrl: Unit = {
@@ -306,7 +313,6 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
   }
 
   /// PAGINATOR TESTS
-
   def paginatorMainFunctionality: Unit = {
     val page = goToLobbyContest
     val paginator = new PaginatorControl(status.resolution, page.CONTEST_LIST_CONTAINER)

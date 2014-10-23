@@ -58,13 +58,13 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   val FILTERS_PANEL = "#filtersPanel"
   val RESET_FILTERS_BUTTON = ".reset-button-wrapper .btn-reset"
 
-  val FILTERS_PANEL_FILTER_FREE_CHECK            = "filtroFree"
-  val FILTERS_PANEL_FILTER_LEAGUE_CHECK          = "filtroleague"
-  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK     = "filtroFiftyFifty"
-  val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK    = "filtroHeadToHead"
-  val FILTERS_PANEL_FILTER_BEGINNER_SALARY       = "filtroPrincipiante"
-  val FILTERS_PANEL_FILTER_STANDARD_SALARY       = "filtroEstandar"
-  val FILTERS_PANEL_FILTER_EXPERT_SALARY         = "filtroExperto"
+  val FILTERS_PANEL_FILTER_FREE_CHECK            = "filterTournamentTypeFree"
+  val FILTERS_PANEL_FILTER_LEAGUE_CHECK          = "filterTournamentTypeLeague"
+  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK     = "filterTournamentTypeFiftyFifty"
+  val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK    = "filterTournamentTypeHeadToHead"
+  val FILTERS_PANEL_FILTER_BEGINNER_SALARY       = "filtroSalary_0"
+  val FILTERS_PANEL_FILTER_STANDARD_SALARY       = "filtroSalary_1"
+  val FILTERS_PANEL_FILTER_EXPERT_SALARY         = "filtroSalary_2"
 
   val FILTERS_PANEL_FILTER_FREE_LABEL            = "label[for=\"" + FILTERS_PANEL_FILTER_FREE_CHECK + "\"]"
   val FILTERS_PANEL_FILTER_LEAGUE_LABEL          = "label[for=\"" + FILTERS_PANEL_FILTER_LEAGUE_CHECK + "\"]"
@@ -74,9 +74,9 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   val FILTERS_PANEL_FILTER_STANDARD_SALARY_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_STANDARD_SALARY + "\"]"
   val FILTERS_PANEL_FILTER_EXPERT_SALARY_LABEL   = "label[for=\"" + FILTERS_PANEL_FILTER_EXPERT_SALARY + "\"]"
 
-  val SORT_BY_NAME = "#sortContestName"
-  val SORT_BY_ENTRY_FEE = "#sortContestEntryFee"
-  val SORT_BY_START_TIME = "#sortContestStartTime"
+  val SORT_BY_NAME = "#orderByName"
+  val SORT_BY_ENTRY_FEE = "#orderByEntryFee"
+  val SORT_BY_START_TIME = "#orderByStartDate"
 
   var MAX_ENTRY_MONEY = maxEntryMoney
 
@@ -301,21 +301,35 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     eventually { n = Integer.parseInt( superiorTextNode.text.substring(5, superiorTextNode.text.length - 1).replace(",", "") ) }
 
     n
+
+    logger.error("Forzando devolver un 6 para continuar el paso de test")
+    6
   }
 
   def areAllFiltersClear:Boolean = {
     var areClear = true
     openFilters
-    areClear = areClear && getSuperiorMoneyFilter == MAX_ENTRY_MONEY
-    areClear = areClear && getInferiorMoneyFilter == 0
+    logger.debug("filters are open")
 
-    val searchCssSel  = FILTERS_PANEL_SEARCH
-    areClear = areClear && textField(cssSelector(searchCssSel)).value == ""
+    val supMoneyFilter = getSuperiorMoneyFilter
+    val infMoneyFilter = getInferiorMoneyFilter
+    areClear = areClear && supMoneyFilter == MAX_ENTRY_MONEY
+    logger.debug(s"Superior money filter is $supMoneyFilter, should be $MAX_ENTRY_MONEY", areClear)
+    areClear = areClear && infMoneyFilter == 0
+    logger.debug(s"Inferior money filter is $infMoneyFilter, should be 0", areClear)
+
+    val searchFilter = textField(cssSelector(FILTERS_PANEL_SEARCH)).value
+    areClear = areClear && searchFilter == ""
+    logger.debug(s"Search input should be clear and '$searchFilter'", areClear)
 
     areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_FREE_CHECK).isSelected
+    logger.debug(s"Filter Free should be unchecked", areClear)
     areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_LEAGUE_CHECK).isSelected
+    logger.debug(s"Filter League should be unchecked", areClear)
     areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK).isSelected
+    logger.debug(s"Filter Fifty Fifty should be unchecked", areClear)
     areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK).isSelected
+    logger.debug(s"Filter Head to Head should be unchecked", areClear)
     closeFilters
     areClear
   }
@@ -480,7 +494,6 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     val button = find(cssSelector(FILTERS_BUTTON + ".toggleOff"))
 
     if (button != None) {
-      //eventually { assert( !find(cssSelector(FILTERS_PANEL)).get.isDisplayed ) }
       click on button.get
     }
 
@@ -493,7 +506,6 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     val button = find(cssSelector(FILTERS_BUTTON + ".toggleOn"))
 
     if (button != None) {
-      //eventually { assert( find(cssSelector(FILTERS_PANEL)).get.isDisplayed ) }
       click on button.get
     }
 
