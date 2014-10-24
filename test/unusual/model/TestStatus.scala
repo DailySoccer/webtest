@@ -7,15 +7,16 @@ import unusual.pages.components.MenuBar
 
 class TestStatus {
 
-  val RESOLUTIONS = Resolution.ALL
-  val DEFAULT_RESOLUTION = Resolution.BIG
-  var resolution = DEFAULT_RESOLUTION
-  var user:User = User.DEFAULT
+  private var defaultResolution = Resolution.BIG
   private var _loggedIn : Boolean = false
+
+  val RESOLUTIONS = Resolution.ALL
+  var resolution = defaultResolution
+  var user:User = User.DEFAULT
 
   def setDefault : TestStatus = {
     ensureVisitor
-    resolution = DEFAULT_RESOLUTION
+    resolution = defaultResolution
     this
   }
 
@@ -27,6 +28,11 @@ class TestStatus {
   def ensureAuthUser : TestStatus = {
     if (!_loggedIn) { doLogin }
     this
+  }
+
+  def setBaseResolution(res: Resolution) = {
+    defaultResolution = res
+    resolution = res
   }
 
   def ensureVisitor : TestStatus = {

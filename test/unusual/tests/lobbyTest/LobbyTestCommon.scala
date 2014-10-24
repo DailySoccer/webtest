@@ -165,19 +165,19 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
   def filterByLeagueContests: Unit = {
     val lobby = goToLobbyContest.clickLeagueContestFilter
     val numContests = lobby.getNumberOfContests
-    assert(numContests == lobbyState.numContests_Free, s"Num of contests: $numContests, expected: ${lobbyState.numContests_League}")
+    assert(numContests == lobbyState.numContests_League, s"Num of contests: $numContests, expected: ${lobbyState.numContests_League}")
   }
 
   def filterByFiftyFiftyContests: Unit = {
     val lobby = goToLobbyContest.clickFiftyFiftyContestsFilter
     val numContests = lobby.getNumberOfContests
-    assert(numContests == lobbyState.numContests_Free, s"Num of contests: $numContests, expected: ${lobbyState.numContests_FiftyFifty}")
+    assert(numContests == lobbyState.numContests_FiftyFifty, s"Num of contests: $numContests, expected: ${lobbyState.numContests_FiftyFifty}")
   }
 
   def filterByHeadToHeadContests: Unit = {
     val lobby = goToLobbyContest.clickHeadToHeadContestsFilter
     val numContests = lobby.getNumberOfContests
-    assert(numContests == lobbyState.numContests_Free, s"Num of contests: $numContests, expected: ${lobbyState.numContests_HeadToHead}")
+    assert(numContests == lobbyState.numContests_HeadToHead, s"Num of contests: $numContests, expected: ${lobbyState.numContests_HeadToHead}")
   }
 
   def filterByEntryFee: Unit = {

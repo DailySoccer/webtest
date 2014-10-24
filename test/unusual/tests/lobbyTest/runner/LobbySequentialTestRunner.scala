@@ -8,8 +8,8 @@ import unusual.tests.simulatorController._
 
 
 class LobbySequentialTestRunner extends Sequential(
-  /*new InitializerTest(Resolution.BIG)
-  , */LobbySequentialTestRunner.createBunchOfTests(Resolution.BIG, LobbyState.DEFAULT_LOBBY)
+  new InitializerTest(Resolution.ANY)
+  , LobbySequentialTestRunner.createBunchOfTests(Resolution.BIG, LobbyState.DEFAULT_LOBBY)
   , LobbySequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, LobbyState.DEFAULT_LOBBY)
   , LobbySequentialTestRunner.createBunchOfTests(Resolution.SMALL, LobbyState.DEFAULT_LOBBY)
 )

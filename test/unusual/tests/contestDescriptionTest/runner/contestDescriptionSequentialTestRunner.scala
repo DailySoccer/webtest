@@ -10,7 +10,8 @@ import unusual.tests.simulatorController.InitializerTest
 
 
 class ContestDescriptionSequentialTestRunner extends Sequential(
-  ContestDescriptionSequentialTestRunner.createBunchOfTests(Resolution.BIG, Contest.TIME_0_LIST(0))
+  new InitializerTest(Resolution.ANY)
+  , ContestDescriptionSequentialTestRunner.createBunchOfTests(Resolution.BIG, Contest.TIME_0_LIST(0))
   , ContestDescriptionSequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, Contest.TIME_0_LIST(0))
   , ContestDescriptionSequentialTestRunner.createBunchOfTests(Resolution.SMALL, Contest.TIME_0_LIST(0))
   , ContestDescriptionSequentialTestRunner.createBunchOfTests(Resolution.BIG, Contest.TIME_0_LIST(1))

@@ -487,7 +487,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
       page.selectGoalKeeperFromLineup
     }
 
-    page.setSoccerPlayerNameFilterSearch(playerOnList.name)
+    page.setSoccerPlayerNameFilterSearch((if (playerOnList.name.toLowerCase.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
     page.getNumberOfSoccerPlayers must be (1)
   }
 

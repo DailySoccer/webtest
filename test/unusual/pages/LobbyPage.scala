@@ -301,8 +301,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     eventually { n = Integer.parseInt( superiorTextNode.text.substring(5, superiorTextNode.text.length - 1).replace(",", "") ) }
 
     n
-
-    /*logger.error("Forzando devolver un 6 para continuar el paso de test")
+/*
+    logger.error("Forzando devolver un 6 para continuar el paso de test")
     6*/
   }
 
@@ -375,7 +375,6 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
       }
     }
 
-    //Thread.sleep(100000)
     areOrdered
   }
 
@@ -414,7 +413,6 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     }
 
     logger.debug(s"Contest are ordered at all", areOrdered)
-    //Thread.sleep(100000)
     areOrdered
   }
 

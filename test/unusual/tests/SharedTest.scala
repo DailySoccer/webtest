@@ -14,7 +14,7 @@ class SharedTest(resolution:Resolution) extends PlaySpec with OneServerPerSuite 
     with BeforeAndAfterEach with SpanSugar with GivenWhenThen {
 
   var status:TestStatus = new TestStatus
-  status.resolution = resolution
+  status.setBaseResolution(resolution)
   var logger:UnusualLogger = {
     val l = new UnusualLogger()
     l.logger = Logger(this.getClass)

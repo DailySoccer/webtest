@@ -20,10 +20,18 @@ object Resolution {
   val BIG:Resolution = new Resolution(1920, 1080, "DESKTOP", PARAM_SIZE == "ALL" || PARAM_SIZE == "DESKTOP" || PARAM_SIZE == "BIG")
   val MEDIUM:Resolution = new Resolution(850, 720, "TABLET", PARAM_SIZE == "ALL" || PARAM_SIZE == "TABLET" || PARAM_SIZE == "MEDIUM")
   val SMALL:Resolution = new Resolution(400, 600, "SMARTPHONE", PARAM_SIZE == "ALL" || PARAM_SIZE == "SMARTPHONE" || PARAM_SIZE == "SMALL")
+
   val ALL: List[Resolution] = List(
     BIG,
     MEDIUM,
     SMALL
   )
+
+  //SPECIAL RESOLUTIONS FOR INITIALICE_TESTS
+  val ANY:Resolution = new Resolution(850, 720, "ANY", true)
+  val MEDIUM_SMALL:Resolution = new Resolution(850, 720, "TABLET_SMARTPHONE", PARAM_SIZE == "ALL"
+                                                                           || PARAM_SIZE == "SMARTPHONE" || PARAM_SIZE == "SMALL"
+                                                                           || PARAM_SIZE == "TABLET" || PARAM_SIZE == "MEDIUM")
+
 
 }
