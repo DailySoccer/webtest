@@ -46,9 +46,9 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
    */
   def ensureDoLogin(usr: User) = {
     val lobby = new LobbyPage(resolution, 6)
-    eventually {
+    eventually (timeout(20 seconds)) {
       fillAndSubmitForm(usr)
-      eventually (timeout(3 seconds)) { assert(lobby.isAt) }
+      eventually (timeout(7 seconds)) { assert(lobby.isAt) }
     }
 
     this
