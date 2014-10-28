@@ -62,9 +62,9 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   val FILTERS_PANEL_FILTER_LEAGUE_CHECK          = "filterTournamentTypeLeague"
   val FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK     = "filterTournamentTypeFiftyFifty"
   val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK    = "filterTournamentTypeHeadToHead"
-  val FILTERS_PANEL_FILTER_BEGINNER_SALARY       = "filtroSalary_0"
-  val FILTERS_PANEL_FILTER_STANDARD_SALARY       = "filtroSalary_1"
-  val FILTERS_PANEL_FILTER_EXPERT_SALARY         = "filtroSalary_2"
+  val FILTERS_PANEL_FILTER_BEGINNER_SALARY       = "filterTournamentTierBegginer"
+  val FILTERS_PANEL_FILTER_STANDARD_SALARY       = "filterTournamentTierStandard"
+  val FILTERS_PANEL_FILTER_EXPERT_SALARY         = "filterTournamentTierSkilled"
 
   val FILTERS_PANEL_FILTER_FREE_LABEL            = "label[for=\"" + FILTERS_PANEL_FILTER_FREE_CHECK + "\"]"
   val FILTERS_PANEL_FILTER_LEAGUE_LABEL          = "label[for=\"" + FILTERS_PANEL_FILTER_LEAGUE_CHECK + "\"]"
@@ -139,6 +139,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
       logger.debug("Are all filters clear", isDefault)
       isDefault = isDefault && getNumberOfContests == numberOfContest
+      logger.debug("Number of contests: current(" + getNumberOfContests + "), expected(" + numberOfContest + ")", isDefault)
+      isDefault = isDefault && areContestsOrderedByStartTime
       logger.debug("Number of contests: current(" + getNumberOfContests + "), expected(" + numberOfContest + ")", isDefault)
     //}
 
@@ -363,6 +365,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   def areContestsOrderedByName: Boolean = {
     val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
+    paginator.goToFirstPage
     val pagesCount = paginator.getNumberOfPages
     var areOrdered: Boolean = fastLobby_ContestAreOrderedByName
 
@@ -380,6 +383,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   def areContestsOrderedByEntryFee: Boolean = {
     val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
+    paginator.goToFirstPage
     val pagesCount = paginator.getNumberOfPages
     var areOrdered = fastLobby_ContestAreOrderedByEntryFee
 

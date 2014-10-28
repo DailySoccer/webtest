@@ -60,9 +60,9 @@ object Contest {
     contest.numContestants = 12
     contest.numPrizes = 0
 
-    contest.nameOrder = 320
-    contest.entryFeeOrder = 15
-    contest.startDateOrder = 320
+    contest.nameOrder = 38
+    contest.entryFeeOrder = 9
+    contest.startDateOrder = 38
 
     // enterContest specifics
     contest.numGoalKeepersPlayers = 18
@@ -112,9 +112,9 @@ object Contest {
     contest.numContestants = 12
     contest.numPrizes = 0
 
-    contest.nameOrder = 321
-    contest.entryFeeOrder = 13
-    contest.startDateOrder = 321
+    contest.nameOrder = 37
+    contest.entryFeeOrder = 7
+    contest.startDateOrder = 39
 
 
     // enterContest specifics
@@ -162,9 +162,9 @@ object Contest {
     contest.numContestants = 12
     contest.numPrizes = 0
 
-    contest.nameOrder = 319
-    contest.entryFeeOrder = 14
-    contest.startDateOrder = 319
+    contest.nameOrder = 39
+    contest.entryFeeOrder = 8
+    contest.startDateOrder = 37
 
     // enterContest specifics
     contest.numGoalKeepersPlayers = 25

@@ -57,13 +57,13 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, res:Resolution) extends LobbyT
 
     "watch basic information" which consistIn {
 
-      "to be logged in" in goToLobby
+      "go to lobby logged in" in goToLobby
 
-      "change resolutions" in changeResolutionTests
-
-      "look for default contests" in lookForDefaultContests
+      "look for default state" in lookForDefaultState
 
       "look at contest description" in lookAtContestDescription
+
+      "change resolutions" in changeResolutionTests
     }
   }
 
@@ -81,6 +81,12 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, res:Resolution) extends LobbyT
       "fifty fifty contests" in filterByFiftyFiftyContests
 
       "head to head contests" in filterByHeadToHeadContests
+
+      "beginner salary" in filterByBeginnerSalary
+
+      "standard salary" in filterByStandardSalary
+
+      "expert salary" in filterByExpertSalary
 
       "free contests with min filter applied" in filterByFreeContestsWithMinFilter
 
