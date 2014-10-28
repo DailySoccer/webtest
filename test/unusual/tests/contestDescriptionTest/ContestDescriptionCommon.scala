@@ -131,7 +131,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
       val enterContestState = new EnterContestState
       enterContestState.contest = contest
       val enterContPage:EnterContestPage = new EnterContestPage(status.resolution, enterContestState)
-      desc.enterContest
+      eventually { desc.enterContest }
       logger.debug("Click on enter contest")
       eventually (timeout(5 seconds)) { assert(enterContPage.isAt) }
     } else {
