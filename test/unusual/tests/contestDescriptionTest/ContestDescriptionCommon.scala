@@ -16,7 +16,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
       val contestDescription = new ContestDescriptionWindow(status.resolution)
 
       contestDescription.changeToTab(ContestDescriptionWindow.INFO_TAB)
-      assert(contestDescription.activeTab == ContestDescriptionWindow.INFO_TAB)
+      eventually { assert(contestDescription.activeTab == ContestDescriptionWindow.INFO_TAB) }
       contestDescription.changeToTab(ContestDescriptionWindow.CONTESTANTS_TAB)
       assert(contestDescription.activeTab == ContestDescriptionWindow.CONTESTANTS_TAB)
       contestDescription.changeToTab(ContestDescriptionWindow.PRIZES_TAB)
@@ -32,7 +32,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
       val contestDescription = new ContestDescriptionWindow(status.resolution)
       contestDescription.changeToTab(ContestDescriptionWindow.INFO_TAB)
 
-      assert(contestDescription.countMatches == contest.numMatches)
+      eventually { assert(contestDescription.countMatches == contest.numMatches) }
     } else {
       val enterContestState = new EnterContestState
       enterContestState.contest = contest
@@ -56,7 +56,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
       eventually {
         goToEnterContest(enterContestState).openContestDescription
       }
-      assert(new ContestDescriptionWindow(status.resolution).countContestants == contest.numContestants)
+      eventually { assert(new ContestDescriptionWindow(status.resolution).countContestants == contest.numContestants) }
     }
   }
 
@@ -66,14 +66,14 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
       val contestDescription = new ContestDescriptionWindow(status.resolution)
       contestDescription.changeToTab(ContestDescriptionWindow.PRIZES_TAB)
 
-      assert(contestDescription.countPrizes == contest.numPrizes)
+      eventually { assert(contestDescription.countPrizes == contest.numPrizes) }
     } else {
       val enterContestState = new EnterContestState
       enterContestState.contest = contest
       eventually {
         goToEnterContest(enterContestState).openContestDescription
       }
-      assert(new ContestDescriptionWindow(status.resolution).countPrizes == contest.numPrizes)
+      eventually { assert(new ContestDescriptionWindow(status.resolution).countPrizes == contest.numPrizes) }
     }
   }
 
@@ -82,7 +82,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
       goToLobbyContestDescription
       val contestDescription = new ContestDescriptionWindow(status.resolution)
 
-      assert(contestDescription.getContestName == contest.name)
+      eventually { assert(contestDescription.getContestName == contest.name) }
     } else {
       featureNotTestableInResolution
     }
@@ -93,7 +93,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
       goToLobbyContestDescription
       val contestDescription = new ContestDescriptionWindow(status.resolution)
 
-      assert(contestDescription.getContestDescription == contest.description)
+      eventually { assert(contestDescription.getContestDescription == contest.description) }
     } else {
       featureNotTestableInResolution
     }
@@ -104,7 +104,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
       goToLobbyContestDescription
       val contestDescription = new ContestDescriptionWindow(status.resolution)
 
-      assert(contestDescription.getContestEntryFee == contest.entryFee)
+      eventually { assert(contestDescription.getContestEntryFee == contest.entryFee) }
     } else {
       featureNotTestableInResolution
     }
@@ -115,7 +115,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
       goToLobbyContestDescription
       val contestDescription = new ContestDescriptionWindow(status.resolution)
 
-      assert(contestDescription.getContestPrize == contest.prize)
+      eventually { assert(contestDescription.getContestPrize == contest.prize) }
     } else {
       featureNotTestableInResolution
     }
@@ -131,9 +131,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
       val enterContPage:EnterContestPage = new EnterContestPage(status.resolution, enterContestState)
       desc.enterContest
       logger.debug("Click on enter contest")
-      eventually (timeout(5 seconds)) {
-        assert(enterContPage.isAt)
-      }
+      eventually (timeout(5 seconds)) { assert(enterContPage.isAt) }
     } else {
       featureNotTestableInResolution
     }
