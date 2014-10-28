@@ -35,7 +35,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
   }
 
   def lookForDefaultState: Unit = {
-    assert(lobbyPage.isDefaultState(lobbyState.numContests_NoFilter), "Lobby is not at default state")
+    eventually { assert(lobbyPage.isDefaultState(lobbyState.numContests_NoFilter), "Lobby is not at default state") }
   }
 
   def lookAtContestDescription: Unit = {
@@ -74,39 +74,44 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
     if (status.resolution == Resolution.BIG) {
 
       goToLobbyPage(lobbyState)
-      assert(isDefaultBig(), "Big is not default state")
+      eventually { assert(isDefaultBig(), "Big is not default state") }
 
       reloadPage
+      eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.MEDIUM)
-      assert(isDefaultMedium(), "From big to medium")
+      eventually { assert(isDefaultMedium(), "From big to medium") }
 
 
       changeBrowserResolution(Resolution.BIG)
       reloadPage
+      eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.MEDIUM)
       changeBrowserResolution(Resolution.SMALL)
-      assert(isDefaultSmall(), "From big to medium to small")
+      eventually { assert(isDefaultSmall(), "From big to medium to small") }
 
 
       changeBrowserResolution(Resolution.BIG)
       reloadPage
+      eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.SMALL)
-      assert(isDefaultSmall(), "From big to small")
+      eventually { assert(isDefaultSmall(), "From big to small") }
 
     } else if (status.resolution == Resolution.MEDIUM) {
 
       goToLobbyPage(lobbyState)
-      assert(isDefaultMedium(), "Medium is not default state")
+      eventually { assert(isDefaultMedium(), "Medium is not default state") }
 
       reloadPage
+      eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.BIG)
-      assert(isDefaultMedium(), "From medium to big")
+      eventually { assert(isDefaultMedium(), "From medium to big") }
 
 
       changeBrowserResolution(Resolution.MEDIUM)
       reloadPage
+      eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.SMALL)
-      assert(isDefaultSmall(), "From medium to small")
+      eventually { assert(isDefaultSmall(), "From medium to small") }
 
     } else {
 
@@ -114,21 +119,24 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
       assert(isDefaultSmall(), "Small is not default state")
 
       reloadPage
+      eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.MEDIUM)
-      assert(isDefaultMedium(), "From small to medium")
+      eventually { assert(isDefaultMedium(), "From small to medium") }
 
 
       changeBrowserResolution(Resolution.SMALL)
       reloadPage
+      eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.MEDIUM)
       changeBrowserResolution(Resolution.BIG)
-      assert(isDefaultBig(), "From small to medium to big")
+      eventually { assert(isDefaultBig(), "From small to medium to big") }
 
 
       changeBrowserResolution(Resolution.SMALL)
       reloadPage
+      eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.BIG)
-      assert(isDefaultBig(), "From small to big")
+      eventually { assert(isDefaultBig(), "From small to big") }
 
     }
   }

@@ -15,9 +15,9 @@ import unusual.tests.lobbyTest.runner._
 
 
 class SequentialTestRunner extends Sequential(
-  /*new LobbySequentialTestRunner
+  new LobbySequentialTestRunner
   //, new EnterContestSequentialTestRunner
-  , */new ContestDescriptionSequentialTestRunner
+  //, new ContestDescriptionSequentialTestRunner
   //, new ContestDescriptionSequentialTestRunner
 
   )
