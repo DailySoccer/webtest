@@ -15,8 +15,10 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
       goToLobbyContestDescription
       val contestDescription = new ContestDescriptionWindow(status.resolution)
 
-      contestDescription.changeToTab(ContestDescriptionWindow.INFO_TAB)
-      eventually { assert(contestDescription.activeTab == ContestDescriptionWindow.INFO_TAB) }
+      eventually {
+        contestDescription.changeToTab(ContestDescriptionWindow.INFO_TAB)
+        assert(contestDescription.activeTab == ContestDescriptionWindow.INFO_TAB)
+      }
       contestDescription.changeToTab(ContestDescriptionWindow.CONTESTANTS_TAB)
       assert(contestDescription.activeTab == ContestDescriptionWindow.CONTESTANTS_TAB)
       contestDescription.changeToTab(ContestDescriptionWindow.PRIZES_TAB)
@@ -30,7 +32,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
     if (status.resolution == Resolution.BIG) {
       goToLobbyContestDescription
       val contestDescription = new ContestDescriptionWindow(status.resolution)
-      contestDescription.changeToTab(ContestDescriptionWindow.INFO_TAB)
+      eventually { contestDescription.changeToTab(ContestDescriptionWindow.INFO_TAB) }
 
       eventually { assert(contestDescription.countMatches == contest.numMatches) }
     } else {
@@ -47,7 +49,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
     if (status.resolution == Resolution.BIG) {
       goToLobbyContestDescription
       val contestDescription = new ContestDescriptionWindow(status.resolution)
-      contestDescription.changeToTab(ContestDescriptionWindow.CONTESTANTS_TAB)
+      eventually { contestDescription.changeToTab(ContestDescriptionWindow.CONTESTANTS_TAB) }
 
       assert(contestDescription.countContestants == contest.numContestants)
     } else {
@@ -64,7 +66,7 @@ class ContestDescriptionCommon(cont: Contest, res:Resolution) extends SharedTest
     if (status.resolution == Resolution.BIG) {
       goToLobbyContestDescription
       val contestDescription = new ContestDescriptionWindow(status.resolution)
-      contestDescription.changeToTab(ContestDescriptionWindow.PRIZES_TAB)
+      eventually { contestDescription.changeToTab(ContestDescriptionWindow.PRIZES_TAB) }
 
       eventually { assert(contestDescription.countPrizes == contest.numPrizes) }
     } else {
