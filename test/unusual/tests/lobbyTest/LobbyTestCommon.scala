@@ -137,7 +137,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
       eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.BIG)
       eventually { assert(isDefaultBig(), "From small to big") }
-
+      
     }
   }
   /*

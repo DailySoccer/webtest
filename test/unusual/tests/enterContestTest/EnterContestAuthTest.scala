@@ -116,7 +116,7 @@ abstract class EnterContestAuthTest(state:EnterContestState, res:Resolution) ext
 
       "fill with priceless lineup" in pickTooExpensiveLineUp
 
-      "fill with priceless lineup. Then correct it to submit" in pickFailLineupAndCorrectIt
+      "fill with priceless lineup. Then correct it to submit" in CorrectFailLineup
     }
 
   }

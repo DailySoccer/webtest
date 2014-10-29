@@ -94,10 +94,9 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     lobby.open
     lobby.clearFilters
     if (resolution == Resolution.SMALL) {
-      lobby.playContestNumber(state.contest.nameOrder)
+      lobby.playContestNumber(state.contest.startDateOrder)
     } else {
-      lobby.searchContestByName(state.contest.name)
-           .playContestNumber(1)
+      lobby.searchContestByName(state.contest.name).playContestNumber(1)
     }
     this
   }
@@ -388,46 +387,57 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   def pickWholeLineup(lineup:Lineup):Unit = {
     val list = lineup.soccerPlayerList
 
+    logger.debug("pick middle")
     selectMiddleFromLineup(1) // MIDDLE
     setSoccerPlayerNameFilterSearch(list(5).name)
     addSoccerPlayerFromList(1)
 
+    logger.debug("pick defense")
     selectDefenseFromLineup(1) // DEFENSE
     setSoccerPlayerNameFilterSearch(list(1).name)
     addSoccerPlayerFromList(1)
 
+    logger.debug("pick forward")
     selectForwardFromLineup(1) // FORWARD
     setSoccerPlayerNameFilterSearch(list(9).name)
     addSoccerPlayerFromList(1)
 
+    logger.debug("pick middle")
     selectMiddleFromLineup(2) // MIDDLE
     setSoccerPlayerNameFilterSearch(list(6).name)
     addSoccerPlayerFromList(1)
 
+    logger.debug("pick goalkeeper")
     selectGoalKeeperFromLineup // GOALKEEPER
     setSoccerPlayerNameFilterSearch(list(0).name)
     addSoccerPlayerFromList(1)
 
+    logger.debug("pick defense")
     selectDefenseFromLineup(2) // DEFENSE
     setSoccerPlayerNameFilterSearch(list(2).name)
     addSoccerPlayerFromList(1)
 
+    logger.debug("pick middle")
     selectMiddleFromLineup(3) // MIDDLE
     setSoccerPlayerNameFilterSearch(list(7).name)
     addSoccerPlayerFromList(1)
 
+    logger.debug("pick forward")
     selectForwardFromLineup(2) // FORWARD
     setSoccerPlayerNameFilterSearch(list(10).name)
     addSoccerPlayerFromList(1)
 
+    logger.debug("pick middle")
     selectMiddleFromLineup(4) // MIDDLE
     setSoccerPlayerNameFilterSearch(list(8).name)
     addSoccerPlayerFromList(1)
 
+    logger.debug("pick defense")
     selectDefenseFromLineup(3) // DEFENSE
     setSoccerPlayerNameFilterSearch(list(3).name)
     addSoccerPlayerFromList(1)
 
+    logger.debug("pick defense")
     selectDefenseFromLineup(4) // DEFENSE
     setSoccerPlayerNameFilterSearch(list(4).name)
     addSoccerPlayerFromList(1)
