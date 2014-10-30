@@ -41,12 +41,10 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   def ENTER_CONTEST_TAB(idx:Int) = ENTER_CONTEST_TABS + s" li:nth-of-type($idx)"
   def ENTER_CONTEST_TAB_LINK(idx:Int) = ENTER_CONTEST_TAB(idx) + " a"
 
-  val SOCCER_PLAYER_LIST_SLOT:String = ".soccer-players-list .soccer-players-list-slot"
-  def SOCCER_PLAYER_LIST_SLOT(idx:Int):String            = SOCCER_PLAYER_LIST_SLOT + s":nth-child($idx)"
-  def SOCCER_PLAYER_LIST_SLOT_NAME(idx:Int):String       = SOCCER_PLAYER_LIST_SLOT(idx) + " .soccer-player-name"
-  def SOCCER_PLAYER_LIST_SLOT_SALARY(idx:Int):String     = SOCCER_PLAYER_LIST_SLOT(idx) + " .column-salary"
-  def SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(idx:Int):String = SOCCER_PLAYER_LIST_SLOT(idx) + " .column-add button"
-  //def SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(idx:Int):String = SOCCER_PLAYER_LIST_SLOT(idx) + " .column-add button"
+  val SOCCER_PLAYER_LIST_SLOT:String = ".soccer-players-list .soccer-players-list-slot:not(.hidden)"
+  def SOCCER_PLAYER_LIST_SLOT_NAME:String       = SOCCER_PLAYER_LIST_SLOT + " .soccer-player-name"
+  def SOCCER_PLAYER_LIST_SLOT_SALARY:String     = SOCCER_PLAYER_LIST_SLOT + " .column-salary"
+  def SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON:String = SOCCER_PLAYER_LIST_SLOT + " .column-add button"
 
   val SOCCER_PLAYER_LINEUP_SLOT:String = ".enter-contest-lineup .lineup-selector-slot"
   def SOCCER_PLAYER_LINEUP_SLOT(idx:Int):String          = SOCCER_PLAYER_LINEUP_SLOT + s":nth-child($idx)"
@@ -310,9 +308,9 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     val player = new SoccerPlayer("", "", 0)
 
     eventually {
-      player.name = find(cssSelector(SOCCER_PLAYER_LIST_SLOT_NAME(index))).get.text
+      player.name = findAll(cssSelector(SOCCER_PLAYER_LIST_SLOT_NAME)).drop(index-1).next().text
       player.position = getSoccerPlayerPositionFromList(index)
-      val salary = find(cssSelector(SOCCER_PLAYER_LIST_SLOT_SALARY(index))).get.text
+      val salary = findAll(cssSelector(SOCCER_PLAYER_LIST_SLOT_SALARY)).drop(index-1).next().text
       player.salary = Integer.parseInt(salary.substring(0, salary.length - 1))
     }
 
@@ -335,7 +333,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   def addSoccerPlayerFromList(index: Int) = {
 
     eventually {
-      click on find(cssSelector(SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(index))).get
+      click on findAll(cssSelector(SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON)).drop(index-1).next()
     }
 
     this
@@ -377,7 +375,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   }
 
   def manyClicksOnAddSoccer(index: Int) = {
-    fastClicksByCssSelector(4, SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(index))
+    fastClicksByCssSelector(4, SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON, index-1)
   }
 
   def manyClicksOnConfirm = {
@@ -451,8 +449,11 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
    * @return
    */
   private def getSoccerPlayerPositionFromList(index: Int) = {
+
+    val slot = findAll(cssSelector(SOCCER_PLAYER_LIST_SLOT)).drop(index-1).next()
+
     var pos:String = ""
-    find(cssSelector(SOCCER_PLAYER_LIST_SLOT(index))).get.attribute("class").get.split(" ").map((cssClass:String) => {
+    slot.attribute("class").get.split(" ").map((cssClass:String) => {
       cssClass match {
         case "posPOR" => pos = SoccerPlayer.POS_GOAL_KEEPER
         case "posDEF" => pos = SoccerPlayer.POS_DEFENSE

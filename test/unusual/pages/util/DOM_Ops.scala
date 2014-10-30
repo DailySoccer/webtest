@@ -24,6 +24,15 @@ trait DOM_Ops {
     WebBrowser.executeScript(script)
   }
 
+  def fastClicksByCssSelector(numOfClicks:Int, cssSel:String, childIndex:Int)(implicit driver:WebDriver) = {
+    //implicit val webDriver:WebDriver = driver
+    var script = "$('" + cssSel + s"').eq($childIndex)"
+    for( a <- 1 to numOfClicks){
+      script = script + ".click()"
+    }
+    WebBrowser.executeScript(script)
+  }
+
   def fastLobby_ContestAreOrderedByStartTime()(implicit driver:WebDriver): Boolean = {
     //implicit val webDriver:WebDriver = driver
     val script = """
