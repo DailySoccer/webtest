@@ -23,7 +23,8 @@ while [ $count -lt $# ]; do
         executePlay=false
         echo "ARGUMENTS:"
         echo "  -r or --resolution {smartphone|desktop|tablet|all}"
-        echo "  -s or --suite {lobby|contest_description|enter_contest}"
+        echo "  -s or --suite \"selectedSuite1[ selectedSuite 2 ...]\""
+        echo "          selectedSuite = {lobby|contest_description|enter_contest}"
         echo "          if not defined, all test will run."
         echo "  -l or --localhost"
         echo "          runs using localhost as host."
