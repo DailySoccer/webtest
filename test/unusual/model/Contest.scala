@@ -50,7 +50,7 @@ object Contest {
   val TIME_0_LIST = Array(
   {
     val contest = new Contest()
-    contest.name = "jue., 12 jun.++"
+    contest.name = "jue., 12 jun.++ %MockUsers"
     contest.description = "Gratuito: 12 de 100 jugadores - Límite de salario: 65000"
     contest.entryFee = "0€"
     contest.prize = "0€"
@@ -102,7 +102,7 @@ object Contest {
   },
   {
     val contest = new Contest()
-    contest.name = "jue., 12 jun.!!"
+    contest.name = "jue., 12 jun.!! %MockUsers"
     contest.description = "Gratuito: 12 de 200 jugadores - Límite de salario: 60000"
     contest.entryFee = "0€"
     contest.prize = "0€"
@@ -152,7 +152,7 @@ object Contest {
   },
   {
     val contest = new Contest()
-    contest.name = "jue., 12 jun...."
+    contest.name = "jue., 12 jun.... %MockUsers"
     contest.description = "Gratuito: 12 de 200 jugadores - Límite de salario: 70000"
     contest.entryFee = "0€"
     contest.prize = "0€"
