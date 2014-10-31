@@ -8,6 +8,6 @@ import unusual.tests.lobbyTest.runner._
 
 class SequentialTestRunner extends Sequential(
   new LobbySequentialTestRunner
-  , new EnterContestSequentialTestRunner
   , new ContestDescriptionSequentialTestRunner
+  , new EnterContestSequentialTestRunner
   )

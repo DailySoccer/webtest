@@ -9,7 +9,7 @@ import unusual.pages.components.{ContestDescriptionWindow, PaginatorControl}
 import unusual.testTags.scala._
 import unusual.tests._
 import unusual.pages._
-import unusual.tests.contestDescriptionTest.ContestDescriptionCommon
+import unusual.tests.contestDescriptionTest.ContestDescriptionWindowCommon
 
 abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends SharedTest(res) {
 

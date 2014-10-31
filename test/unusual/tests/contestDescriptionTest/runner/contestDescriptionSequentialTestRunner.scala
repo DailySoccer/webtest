@@ -1,17 +1,18 @@
 package unusual.tests.contestDescriptionTest.runner
 
 import org.scalatest.Sequential
+import org.scalatest.Suite
 import unusual.model.{LobbyState, Resolution, Contest, EnterContestState}
 import unusual.tests.SharedTest
-import unusual.tests.contestDescriptionTest.{ContestDescriptionAuthTest_Bug, ContestDescriptionAuthTest_Sections, ContestDescriptionAuthTest_Header}
+import unusual.tests.contestDescriptionTest._
 import unusual.tests.enterContestTest._
 import unusual.tests.lobbyTest._
 import unusual.tests.simulatorController.InitializerTest
 
 
 class ContestDescriptionSequentialTestRunner extends Sequential(
-  new InitializerTest(Resolution.ANY)
-  , ContestDescriptionSequentialTestRunner.createBunchOfTests(Resolution.BIG, Contest.TIME_0_LIST(0))
+  /*new InitializerTest(Resolution.ANY)
+  , */ContestDescriptionSequentialTestRunner.createBunchOfTests(Resolution.BIG, Contest.TIME_0_LIST(0))
   , ContestDescriptionSequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, Contest.TIME_0_LIST(0))
   , ContestDescriptionSequentialTestRunner.createBunchOfTests(Resolution.SMALL, Contest.TIME_0_LIST(0))
   , ContestDescriptionSequentialTestRunner.createBunchOfTests(Resolution.BIG, Contest.TIME_0_LIST(1))
@@ -21,19 +22,20 @@ class ContestDescriptionSequentialTestRunner extends Sequential(
 
 
 private object ContestDescriptionSequentialTestRunner {
-  def createBunchOfTests(resolution:Resolution, state: Contest) =
+  def createBunchOfTests(resolution:Resolution, state: Contest):Suite = {
+    var bunch = new Sequential()
     if (resolution.enabled) {
-      new Sequential(
-           new ContestDescriptionAuthTest_Header(state, resolution)
-        ,  new ContestDescriptionAuthTest_Sections(state, resolution)
-        ,  new ContestDescriptionAuthTest_Bug(state, resolution)
-        ,  new ContestDescriptionAuthTest_Header(state, resolution)
-        ,  new ContestDescriptionAuthTest_Sections(state, resolution)
-        ,  new ContestDescriptionAuthTest_Bug(state, resolution)
-      )
-    } else {
-      new Sequential()
+      if(resolution == Resolution.BIG) {
+        bunch = new Sequential(
+                        new ContestDescriptionWindowAuthTest(state, resolution)
+                        , new EnterContestDescriptionTabAuthTest(state, resolution)
+                      )
+      } else {
+        bunch = new Sequential( new EnterContestDescriptionTabAuthTest(state, resolution) )
+      }
     }
+    bunch
+  }
 }
 
 /*

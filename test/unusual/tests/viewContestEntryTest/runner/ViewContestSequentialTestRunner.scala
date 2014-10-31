@@ -3,7 +3,7 @@ package unusual.tests.viewContestEntryTest.runner
 import org.scalatest.Sequential
 import unusual.model.{LobbyState, Resolution, ViewContestState, Contest}
 import unusual.tests.SharedTest
-import unusual.tests.contestDescriptionTest.ContestDescriptionAuthTest_Header
+import unusual.tests.contestDescriptionTest._
 import unusual.tests.lobbyTest._
 import unusual.tests.simulatorController.InitializerTest
 import unusual.tests.viewContestEntryTest._

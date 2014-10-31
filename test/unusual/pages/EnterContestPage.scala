@@ -139,6 +139,16 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     this
   }
 
+  def changeToLineupTab = {
+    click on find(cssSelector(ENTER_CONTEST_TAB_LINK(1))).get
+    this
+  }
+
+  def changeToInfoTab = {
+    click on find(cssSelector(ENTER_CONTEST_TAB_LINK(2))).get
+    this
+  }
+
   def isCleanLineupDisabled: Boolean = {
     find(cssSelector(BUTTON_CLEAN_LINEUP)).get.attribute("disabled") != None
   }
