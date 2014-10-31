@@ -12,16 +12,22 @@ while [ $count -lt $# ]; do
     "-r" | "--resolution")
         let count=count+1
         playArgs="${playArgs}RESOLUTION=\"${args[count]}\" "
-       ;;
+      ;;
     "-l" | "--localhost") playArgs="${playArgs}URL=\"http://localhost:9000\" "
-       ;;
+      ;;
+    "-s" | "--suite")
+        let count=count+1
+        playArgs="${playArgs}TEST_SUITE=\"${args[count]}\" "
+      ;;
     "-h" | "--help")
         executePlay=false
         echo "ARGUMENTS:"
         echo "  -r or --resolution {smartphone|desktop|tablet|all}"
+        echo "  -s or --suite {lobby|contest_description|enter_contest}"
+        echo "          if not defined, all test will run."
         echo "  -l or --localhost"
         echo "          runs using localhost as host."
-       ;;
+      ;;
   esac
   let count=count+1
 done
