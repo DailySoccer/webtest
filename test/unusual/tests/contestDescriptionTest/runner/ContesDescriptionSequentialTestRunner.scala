@@ -20,7 +20,6 @@ class ContestDescriptionSequentialTestRunner extends Sequential(
   , ContestDescriptionSequentialTestRunner.createBunchOfTests(Resolution.SMALL, Contest.TIME_0_LIST(1))
 )
 
-
 private object ContestDescriptionSequentialTestRunner {
   def createBunchOfTests(resolution:Resolution, state: Contest):Suite = {
     var bunch = new Sequential()
