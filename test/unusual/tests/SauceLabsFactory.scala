@@ -75,6 +75,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
   }
 
   private def createDesiredCapabilities (config : Map[String,String]) = {
+
     val capabilities = new DesiredCapabilities()
     capabilities.setCapability("name", config("name"))
     capabilities.setCapability(CapabilityType.BROWSER_NAME, config("browser"))
@@ -82,6 +83,13 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
       capabilities.setCapability(CapabilityType.VERSION, config("version"))
     }
     capabilities.setCapability(CapabilityType.PLATFORM, config("os"))
+
+    /*
+    val capabilities = DesiredCapabilities.internetExplorer();
+    capabilities.setCapability(CapabilityType.VERSION, "10")
+    capabilities.setCapability("platform", Platform.ANY);
+    */
+
     capabilities
   }
 
