@@ -11,15 +11,35 @@ import org.openqa.selenium.remote.{CapabilityType, DesiredCapabilities, RemoteWe
 import unusual.pages.SharedPage
 
 trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
+
   val SAUCE_LABS_HOST   = "sauce labs"
-  val SAUCE_LABS_CONFIG = List(
+  val SAUCE_LABS_CONFIG:Map[String, DesiredCapabilities] = Map(
+    "FF_OSX" -> { val cap = DesiredCapabilities.firefox()
+                  cap.setCapability("name", "DailySoccer FF")
+                  cap.setCapability(CapabilityType.PLATFORM, "OSX 10.9")
+                  cap
+                },
+    "IE10" -> { val cap = DesiredCapabilities.internetExplorer()
+                cap.setCapability("name", "DailySoccer IE")
+                cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
+                cap
+              },
+    "CHROME_OSX" -> { val cap = DesiredCapabilities.chrome()
+                      cap.setCapability("name", "DailySoccer CHROME")
+                      cap.setCapability(CapabilityType.PLATFORM, "OSX 10.9")
+                      cap
+                    }
+  )
+
+  /*val SAUCE_LABS_CONFIG = List(
     Map(
       "name"    -> "DailySoccer Test",
       "os"      -> "OSX 10.9",
       "version" -> "28",
       "browser" -> "firefox"
     )
-  )
+  )*/
+
   val CHROME_HOST   = "chrome"
   val FIREFOX_HOST  = "firefox"
   val PHANTOMJS_HOST  = "phantom"
@@ -64,7 +84,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    * @return remote web driver
    */
   private def createSauceLabsDriver = {
-    val driver = new RemoteWebDriver(urlSauceLabs, createDesiredCapabilities(SAUCE_LABS_CONFIG(0)))
+    val driver = new RemoteWebDriver(urlSauceLabs, SAUCE_LABS_CONFIG("FF_OSX"))
     sessionId = driver.getSessionId.toString
     //driver.
     driver
@@ -74,6 +94,8 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
     new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey + "@ondemand.saucelabs.com:80/wd/hub")
   }
 
+
+  /*
   private def createDesiredCapabilities (config : Map[String,String]) = {
 
     val capabilities = new DesiredCapabilities()
@@ -91,7 +113,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
     */
 
     capabilities
-  }
+  }*/
 
   /**
    *
