@@ -21,6 +21,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
                 },
     "IE10" -> { val cap = DesiredCapabilities.internetExplorer()
                 cap.setCapability("name", "DailySoccer IE")
+                cap.setCapability(CapabilityType.VERSION, "10")
                 cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
                 cap
               },
@@ -86,7 +87,6 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
   private def createSauceLabsDriver = {
     val driver = new RemoteWebDriver(urlSauceLabs, SAUCE_LABS_CONFIG("FF_OSX"))
     sessionId = driver.getSessionId.toString
-    //driver.
     driver
   }
 
