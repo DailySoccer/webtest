@@ -16,6 +16,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
   val SAUCE_LABS_CONFIG:Map[String, DesiredCapabilities] = Map(
     "FF_OSX" -> { val cap = DesiredCapabilities.firefox()
                   cap.setCapability("name", "DailySoccer FF")
+                  cap.setCapability(CapabilityType.VERSION, "28")
                   cap.setCapability(CapabilityType.PLATFORM, "OSX 10.9")
                   cap
                 },
@@ -52,9 +53,9 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    * Constructs a {@link SauceOnDemandAuthentication} instance using the supplied user name/access key.  To use the authentication
    * supplied by environment variables or from an external file, use the no-arg {@link SauceOnDemandAuthentication} constructor.
    */
-  //val authentication = new SauceOnDemandAuthentication("korgan00", "dd8d5996-55dd-47c9-bd9c-bce939d18232")
+  val authentication = new SauceOnDemandAuthentication("korgan00", "dd8d5996-55dd-47c9-bd9c-bce939d18232")
 
-  val authentication = new SauceOnDemandAuthentication("sreveloc", "add73570-deea-44c2-82e2-331d7d0e69eb")
+  //val authentication = new SauceOnDemandAuthentication("sreveloc", "add73570-deea-44c2-82e2-331d7d0e69eb")
   //val authentication = new SauceOnDemandAuthentication("Ximo", "3b338dac-feba-4b1a-828f-dcc4e46af910")
 
   /**

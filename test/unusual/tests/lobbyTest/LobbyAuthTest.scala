@@ -117,9 +117,6 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, res:Resolution) extends LobbyT
 
 
   def lobbyPageBehaviorOthers: Unit = {
-
-    "press play button of first contest to select team" in playFirstContest
-
     "look at paginator" which {
 
       "check paginator main functionality" in paginatorMainFunctionality

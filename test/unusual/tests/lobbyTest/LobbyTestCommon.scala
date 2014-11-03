@@ -346,16 +346,13 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
   /*
    * OTHERS TESTS
    */
-  def playFirstContest: Unit = {
-    lobbyPage.playContestNumber(1)
-  }
 
   def paginatorMainFunctionality: Unit = {
     goToLobbyPage(lobbyState)
     val paginator = new PaginatorControl(status.resolution, lobbyPage.CONTEST_LIST_CONTAINER)
+
     assert( paginator.isAt, "Paginator is not at the page.")
     assert( paginator.isDisplayed, "Paginator is not displayed.")
-
 
     paginator.getNumberOfPages must be (lobbyState.maxPaginatorPage)
     paginator.getCurrentPage must be (1)
