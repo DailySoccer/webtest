@@ -52,7 +52,9 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    * Constructs a {@link SauceOnDemandAuthentication} instance using the supplied user name/access key.  To use the authentication
    * supplied by environment variables or from an external file, use the no-arg {@link SauceOnDemandAuthentication} constructor.
    */
-  val authentication = new SauceOnDemandAuthentication("korgan00", "dd8d5996-55dd-47c9-bd9c-bce939d18232")
+  //val authentication = new SauceOnDemandAuthentication("korgan00", "dd8d5996-55dd-47c9-bd9c-bce939d18232")
+
+  val authentication = new SauceOnDemandAuthentication("sreveloc", "add73570-deea-44c2-82e2-331d7d0e69eb")
   //val authentication = new SauceOnDemandAuthentication("Ximo", "3b338dac-feba-4b1a-828f-dcc4e46af910")
 
   /**
@@ -85,7 +87,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    * @return remote web driver
    */
   private def createSauceLabsDriver = {
-    val driver = new RemoteWebDriver(urlSauceLabs, SAUCE_LABS_CONFIG("FF_OSX"))
+    val driver = new RemoteWebDriver(urlSauceLabs, SAUCE_LABS_CONFIG("IE10"))
     sessionId = driver.getSessionId.toString
     driver
   }
