@@ -16,9 +16,9 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
   val HOUR = 3600
   val MAX_DURATION = 3 * HOUR
   val SAUCE_LABS_CONFIG:Map[String, DesiredCapabilities] = Map(
-    "FF_33" -> { val cap = DesiredCapabilities.firefox()
-                 cap.setCapability("name", "DFS FF 33")
-                 cap.setCapability(CapabilityType.VERSION, "33")
+    "FF_32" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 32")
+                 cap.setCapability(CapabilityType.VERSION, "32")
                  cap.setCapability("max-duration", MAX_DURATION)
                  cap
                },
@@ -50,6 +50,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    */
   val authentication = new SauceOnDemandAuthentication("korgan00", "dd8d5996-55dd-47c9-bd9c-bce939d18232")
 
+  //val authentication = new SauceOnDemandAuthentication("victormendiluce1", "jQ8keLwu3V2PuXx9BGA4")
   //val authentication = new SauceOnDemandAuthentication("sreveloc", "add73570-deea-44c2-82e2-331d7d0e69eb")
   //val authentication = new SauceOnDemandAuthentication("Ximo", "3b338dac-feba-4b1a-828f-dcc4e46af910")
 
@@ -83,13 +84,14 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    * @return remote web driver
    */
   private def createSauceLabsDriver = {
-    val driver = new RemoteWebDriver(urlSauceLabs, SAUCE_LABS_CONFIG(scala.util.Properties.envOrElse("BROWSER", "FF_33").toUpperCase))
+    val driver = new RemoteWebDriver(urlSauceLabs, SAUCE_LABS_CONFIG(scala.util.Properties.envOrElse("BROWSER", "FF_32").toUpperCase))
     sessionId = driver.getSessionId.toString
     driver
   }
 
   private def urlSauceLabs = {
     new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey + "@ondemand.saucelabs.com:80/wd/hub")
+    //new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey +  "@hub.browserstack.com/wd/hub")
   }
 
   /**
