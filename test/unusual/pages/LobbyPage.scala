@@ -97,7 +97,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     _isAt = _isAt && new FooterBar(resolution).isAt
     logger.debug("Footer bar: ", _isAt)
 
-    _isAt = _isAt && (currentUrl == url || currentUrl == SharedPage.baseUrl)
+    _isAt = _isAt && (currentUrl == url || currentUrl == SharedPage.baseUrl || currentUrl == SharedPage.baseUrl + "/")
     logger.debug("URL is " + currentUrl + ", should be " + url, _isAt)
     _isAt = _isAt && pageTitle == TITLE
     logger.debug("Title is " + pageTitle + ", should be " + TITLE, _isAt)
