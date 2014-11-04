@@ -13,25 +13,28 @@ import unusual.pages.SharedPage
 trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
 
   val SAUCE_LABS_HOST   = "sauce labs"
+  val HOUR = 3600
+  val MAX_DURATION = 3 * HOUR
   val SAUCE_LABS_CONFIG:Map[String, DesiredCapabilities] = Map(
     "FF_33" -> { val cap = DesiredCapabilities.firefox()
-                  cap.setCapability("name", "DailySoccer FF 33")
-                  cap.setCapability(CapabilityType.VERSION, "33")
-                  cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
-                  cap
-                },
+                 cap.setCapability("name", "DFS FF 33")
+                 cap.setCapability(CapabilityType.VERSION, "33")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap
+               },
     "IE_10" -> { val cap = DesiredCapabilities.internetExplorer()
-                cap.setCapability("name", "DailySoccer IE 10")
-                cap.setCapability(CapabilityType.VERSION, "10")
-                cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
-                cap
-              },
+                 cap.setCapability("name", "DFS IE 10")
+                 cap.setCapability(CapabilityType.VERSION, "10")
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap
+               },
     "CHROME_38" -> { val cap = DesiredCapabilities.chrome()
-                      cap.setCapability("name", "DailySoccer CHROME 38")
-                      cap.setCapability(CapabilityType.VERSION, "38")
-                      cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
-                      cap
-                    }
+                     cap.setCapability("name", "DFS CHROME 38")
+                     cap.setCapability(CapabilityType.VERSION, "38")
+                     cap.setCapability("max-duration", MAX_DURATION)
+                     cap
+                   }
   )
 
   val CHROME_HOST   = "chrome"
@@ -80,7 +83,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    * @return remote web driver
    */
   private def createSauceLabsDriver = {
-    val driver = new RemoteWebDriver(urlSauceLabs, SAUCE_LABS_CONFIG("CHROME_38"))
+    val driver = new RemoteWebDriver(urlSauceLabs, SAUCE_LABS_CONFIG(scala.util.Properties.envOrElse("BROWSER", "FF_33").toUpperCase))
     sessionId = driver.getSessionId.toString
     driver
   }

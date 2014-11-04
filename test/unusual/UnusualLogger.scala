@@ -35,9 +35,17 @@ class UnusualLogger {
 }
 
 object  UnusualLogger {
-  var isErrorEnabled = true
-  var isInfoEnabled  = true
-  var isTraceEnabled = true
-  var isWarnEnabled  = true
-  var isDebugEnabled = true
+  private val logLevel = scala.util.Properties.envOrElse("LOG_LEVEL", "ERROR").toUpperCase match {
+    case "ERROR" => 1
+    case "WARNING" => 2
+    case "INFO" => 3
+    case "DEBUG" => 4
+    case "TRACE" => 5
+  }
+
+  var isErrorEnabled = logLevel >= 1
+  var isWarnEnabled  = logLevel >= 2
+  var isInfoEnabled  = logLevel >= 3
+  var isDebugEnabled = logLevel >= 4
+  var isTraceEnabled = logLevel == 5
 }

@@ -17,7 +17,7 @@ while [ $count -lt $# ]; do
     "-l" | "--localhost")
         if "$choosenHost"; then
             executePlay=false
-            echo "ERROR: Parameter error: -l, -H or -S cannot appear simultaneously"
+            echo "ERROR: Parameter error: -l|--localhost and -S|--sauce cannot appear simultaneously"
         fi
         choosenHost=true
         playArgs="${playArgs}URL=\"http://localhost:9000\" "
@@ -25,32 +25,27 @@ while [ $count -lt $# ]; do
     "-S" | "--sauce")
         if "$choosenHost"; then
             executePlay=false
-            echo "ERROR: Parameter error: -l, -H or -S cannot appear simultaneously"
-        fi
-        choosenHost=true
-      ;;
-    "-H" | "--host")
-        if "$choosenHost"; then
-            executePlay=false
-            echo "ERROR: Parameter error: -l, -H or -S cannot appear simultaneously"
+            echo "ERROR: Parameter error: -l|--localhost and -S|--sauce cannot appear simultaneously"
         fi
         choosenHost=true
 
         let count=count+1
-        argParam=${args[count]}
-        if [ "$argParam" == "localhost" ]; then
-            playArgs="${playArgs}URL=\"http://localhost:9000\" "
-        else if [ "$argParam" == "saucelabs" ]; then
-                playArgs="${playArgs}"
-            else
-                executePlay=false
-                echo "ERROR: Parameter error: -h {localhost|saucelabs}, currently: $argParam"
-            fi
+        nextArg=${args[count]}
+
+        if [[ "$nextArg" == "-"* ]]; then
+            let count=count-1
+        else
+            playArgs="${playArgs}BROWSER=\"${nextArg}\" "
         fi
+
       ;;
     "-s" | "--suite")
         let count=count+1
         playArgs="${playArgs}TEST_SUITE=\"${args[count]}\" "
+      ;;
+    "-v" | "--verbose")
+        let count=count+1
+        playArgs="${playArgs}LOG_LEVEL=\"${args[count]}\" "
       ;;
     "-h" | "--help")
         executePlay=false
@@ -73,9 +68,13 @@ else
     echo "  -H or --host {localhost|saucelabs}"
     echo "          runs using localhost or saucelabs as test host"
     echo "  -l or --localhost"
-    echo "          shortcut of '--host localhost'"
-    echo "  -S or --sauce"
-    echo "          shortcut of '--host sauce'"
+    echo "          runs using localhost as test host"
+    echo "  -S or --sauce [{FF_33|IE_10|CHROME_38}]"
+    echo "          default = FF_33"
+    echo "          runs using saucelabs as test host"
+    echo "  -v or --verbose {trace|debug|info|warning|error}"
+    echo "          default = error"
+    echo "          sets the level of log verbosity"
     echo "  -h or --help"
     echo "          shows this help."
 fi
