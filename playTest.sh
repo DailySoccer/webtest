@@ -55,9 +55,9 @@ while [ $count -lt $# ]; do
 done
 
 if "$executePlay" && [ "$#" != "0" ]; then
-    eval "${playArgs}play test"
+    eval "${playArgs}sbt test"
     #echo "IS OK!"
-    #echo "${playArgs}play test"
+    #echo "${playArgs}sbt test"
 else
     echo "ARGUMENTS:"
     echo "  -r or --resolution {smartphone|desktop|tablet|all}"
