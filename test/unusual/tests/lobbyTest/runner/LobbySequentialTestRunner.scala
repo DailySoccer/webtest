@@ -8,6 +8,18 @@ import unusual.tests.simulatorController._
 
 
 class LobbySequentialTestRunner extends Sequential(
+  LobbySequentialTestRunner.createBunchOfTests(Resolution.BIG, LobbyState.DEFAULT_LOBBY)
+  , LobbySequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, LobbyState.DEFAULT_LOBBY)
+  , LobbySequentialTestRunner.createBunchOfTests(Resolution.SMALL, LobbyState.DEFAULT_LOBBY)
+)
+
+private object LobbySequentialTestRunner {
+  def createBunchOfTests(resolution:Resolution, lobbySt: LobbyState) =
+    if (resolution.enabled) new LobbyAuthTest_All(lobbySt, resolution) else new Sequential()
+}
+
+/*
+class LobbySequentialTestRunner extends Sequential(
   new InitializerTest(Resolution.ANY)
   , LobbySequentialTestRunner.createBunchOfTests(Resolution.BIG, LobbyState.DEFAULT_LOBBY)
   , LobbySequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, LobbyState.DEFAULT_LOBBY)
@@ -29,7 +41,7 @@ private object LobbySequentialTestRunner {
       new Sequential()
     }
 }
-
+*/
 
 
 

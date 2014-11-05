@@ -19,6 +19,17 @@ class EnterContestAuthTest_Bug(state:EnterContestState, res:Resolution) extends 
 class EnterContestAuthTest_Pick(state:EnterContestState, res:Resolution) extends EnterContestAuthTest(state, res) {
   s"(Pick) Auth user in contest: ${enterContestState.contest.name}" when sizeTesting(enterContestPageBehavior_Pick)
 }
+class EnterContestAuthTest_All(state:EnterContestState, res:Resolution) extends EnterContestAuthTest(state, res) {
+  s"Auth user in contest: ${enterContestState.contest.name}" when {
+    sizeTesting({
+      enterContestPageBehavior_OrderBy
+      enterContestPageBehavior_FilterBy
+      enterContestPageBehavior_SelectPos
+      enterContestPageBehavior_Bug
+      enterContestPageBehavior_Pick
+    })
+  }
+}
 
 abstract class EnterContestAuthTest(state:EnterContestState, res:Resolution) extends EnterContestTestCommon(state, res) {
 

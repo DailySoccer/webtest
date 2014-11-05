@@ -31,15 +31,31 @@ class LobbyAuthTest_Bug(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTe
  * No lo vamos a usar a priori
  */
 class LobbyAuthTest_All(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTest(lobbySt, res){
-  "(Basic Info)Auth user" when sizeTesting(lobbyPageBehaviorBasicInfo)
+  "Auth user" when {
+    sizeTesting({
+      lobbyPageBehaviorBasicInfo
+      lobbyPageBehaviorFilters
+      lobbyPageBehaviorOrderBy
+      lobbyPageBehaviorOthers
+      lobbyPageBehaviorBUG
+    })
+/*
+    sizeTesting(lobbyPageBehaviorFilters)
 
+    sizeTesting(lobbyPageBehaviorOrderBy)
+
+    sizeTesting(lobbyPageBehaviorOthers)
+
+    sizeTesting(lobbyPageBehaviorBUG)*/
+  }
+/*
   "(Filters)Auth user" when sizeTesting(lobbyPageBehaviorFilters)
 
   "(Order By)Auth user" when sizeTesting(lobbyPageBehaviorOrderBy)
 
   "(Others)Auth user" when sizeTesting(lobbyPageBehaviorOthers)
 
-  "(BUG)Auth user" when sizeTesting(lobbyPageBehaviorBUG)
+  "(BUG)Auth user" when sizeTesting(lobbyPageBehaviorBUG)*/
 }
 
 abstract class LobbyAuthTest(lobbySt: LobbyState, res:Resolution) extends LobbyTestCommon(lobbySt, res) {

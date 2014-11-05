@@ -6,6 +6,26 @@ import unusual.tests.SharedTest
 import unusual.tests.enterContestTest._
 import unusual.tests.lobbyTest._
 import unusual.tests.simulatorController.InitializerTest
+
+class EnterContestSequentialTestRunner extends Sequential(
+  new InitializerTest(Resolution.BIG)
+  , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, EnterContestState.TIME_0_LIST(0))
+  , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, EnterContestState.TIME_0_LIST(1))
+  , new InitializerTest(Resolution.MEDIUM)
+  , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, EnterContestState.TIME_0_LIST(0))
+  , new InitializerTest(Resolution.SMALL)
+  , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.SMALL, EnterContestState.TIME_0_LIST(1))
+)
+
+private object EnterContestSequentialTestRunner {
+  def createBunchOfTests(resolution:Resolution, state: EnterContestState) =
+    if (resolution.enabled) {
+      new EnterContestAuthTest_All(state, resolution)
+    } else {
+      new Sequential()
+    }
+}
+/*
 class EnterContestSequentialTestRunner extends Sequential(
   new InitializerTest(Resolution.BIG)
   , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, EnterContestState.TIME_0_LIST(0))
@@ -31,4 +51,5 @@ private object EnterContestSequentialTestRunner {
       new Sequential()
     }
 }
+*/
 
