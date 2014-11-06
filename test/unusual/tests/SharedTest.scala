@@ -3,15 +3,17 @@ package unusual.tests
 import org.scalatest._
 import org.scalatestplus.play._
 import play.api.Logger
+import play.api.mvc.RequestHeader
 import unusual.UnusualLogger
 import unusual.model._
 import unusual.pages._
 import org.scalatest.time._
 import unusual.testTags.scala.WIP
 
-class SharedTest(resolution:Resolution) extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite
+class SharedTest(resolution:Resolution) extends PlaySpec
+    with OneServerPerSuite with OneBrowserPerSuite
     with SauceLabsFactory with BeforeAndAfter with BeforeAndAfterAll
-    with BeforeAndAfterEach with SpanSugar with GivenWhenThen {
+    with BeforeAndAfterEach with SpanSugar with GivenWhenThen /*with Distributor*/{
 
   var status:TestStatus = new TestStatus
   status.setBaseResolution(resolution)
@@ -20,6 +22,10 @@ class SharedTest(resolution:Resolution) extends PlaySpec with OneServerPerSuite 
     l.logger = Logger(this.getClass)
     l
   }
+  // TODO: INTERESANTE
+  // override val port = 5646
+  // app.global.onError
+
 
   override def beforeAll {
     println("========= BEFORE ALL!")  // start up your web server or whatever
