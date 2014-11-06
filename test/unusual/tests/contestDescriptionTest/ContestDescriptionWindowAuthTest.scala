@@ -49,42 +49,5 @@ class ContestDescriptionWindowAuthTest(cont:Contest, res:Resolution) extends Con
 
   }
 
-  /**
-   * Borrar si finalmente se dejan divididos
-   * @deprecated
-   */
-  /*
-  def ContestDescriptionBehavior: Unit = {
-    
-
-    "click on tabs" in changeTabs
-
-    "look at contest header" which consistIn {
-
-      "name" in contestName
-
-      "description" in contestDescription
-
-      "entry fee" in contestEntryFee
-
-      "prize" in contestPrize
-    }
-
-    "look at contest sections" which consistIn {
-
-      "involved matches" in numberOfMatches
-
-      "involved contestants" in numberOfContestants
-
-      "prizes" in numberOfPrizes
-    }
-
-    "perform known BUG SEQUENCE" which causes {
-
-      "Scroll bar disappear when enter contest through button at information. B" in knownBugSequence_ScrollBarDisappeared
-    }
-
-  }*/
-
 
 }

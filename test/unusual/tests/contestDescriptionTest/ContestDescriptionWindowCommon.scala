@@ -119,7 +119,7 @@ class ContestDescriptionWindowCommon(cont: Contest, res:Resolution) extends Shar
       eventually { contestDescriptionWindow.enterContest }
       logger.debug("Enter contest page should be at")
       eventually { assert(enterContPage.isAt) }
-
+      
     } else {
       featureNotTestableInResolution
     }

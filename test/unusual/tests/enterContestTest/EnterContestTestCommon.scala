@@ -226,6 +226,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
           assert(enterContestPage.getNumberOfSoccerPlayers == numPlayers)
         }
       }
+      enterContestPage.setSoccerPlayerMatchFilter(1)
+      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
     } else {
       featureNotTestableInResolution
     }
@@ -543,6 +545,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
       enterContestPage.addSoccerPlayerFromList(1)
       assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
       assert(!enterContestPage.getSoccerPlayerFromLineUp(10).isEmpty)
+      enterContestPage.clearLineupList
     }
 
   }
