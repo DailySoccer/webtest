@@ -1,13 +1,16 @@
 package unusual.tests.runner
 
 import org.scalatest._
+import unusual.model.Resolution
 import unusual.tests.contestDescriptionTest.runner.ContestDescriptionSequentialTestRunner
 import unusual.tests.enterContestTest.runner.EnterContestSequentialTestRunner
 import unusual.tests.lobbyTest.runner._
+import unusual.tests.simulatorController.InitializerTest
 
 
 class SequentialTestRunner extends Sequential(
-  SequentialTestRunner.lobbyTests
+  new InitializerTest(Resolution.ANY)
+  , SequentialTestRunner.lobbyTests
   , SequentialTestRunner.contestDescriptionTests
   , SequentialTestRunner.enterContestTests
 )
