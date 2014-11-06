@@ -5,6 +5,7 @@ count=0
 args=("$@")
 executePlay=true
 choosenHost=false
+isDrone=false
 playArgs=""
 
 while [ $count -lt $# ]; do
@@ -43,6 +44,8 @@ while [ $count -lt $# ]; do
         let count=count+1
         playArgs="${playArgs}TEST_SUITE=\"${args[count]}\" "
       ;;
+    "--drone") isDrone=true
+      ;;
     "-v" | "--verbose")
         let count=count+1
         playArgs="${playArgs}LOG_LEVEL=\"${args[count]}\" "
@@ -55,9 +58,11 @@ while [ $count -lt $# ]; do
 done
 
 if "$executePlay" && [ "$#" != "0" ]; then
-    eval "${playArgs}sbt test"
-    #echo "IS OK!"
-    #echo "${playArgs}sbt test"
+    if "$isDrone"; then
+        eval "${playArgs}sbt test"
+    else
+        eval "${playArgs}play test"
+    fi
 else
     echo "ARGUMENTS:"
     echo "  -r or --resolution {smartphone|desktop|tablet|all}"
