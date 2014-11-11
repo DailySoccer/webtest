@@ -356,16 +356,16 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     assert(playerOnList == enterContestPage.getSoccerPlayerFromLineUp(1))
 
     if (status.resolution != Resolution.SMALL) {
-      assert(playerOnList != enterContestPage.getSoccerPlayerFromList(1))
+      assert(playerOnList == enterContestPage.getSoccerPlayerFromList(1))
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
-          .getNumberOfSoccerPlayers must be (enterContestState.contest.numAllPlayers - 1)
+          .getNumberOfSoccerPlayers must be (enterContestState.contest.numAllPlayers)
 
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_GOAL_KEEPER)
-          .getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers - 1)
+          .getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers)
 
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
           .setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
-          .getNumberOfSoccerPlayers must be (0)
+          .getNumberOfSoccerPlayers must be (1)
     }
 
     assert(enterContestPage.getLineUpSalary < enterContestState.contest.initialSalary)
@@ -383,11 +383,11 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     assert(playerOnList == enterContestPage.getSoccerPlayerFromLineUp(2))
 
     enterContestPage.selectDefenseFromLineup(3)
-    assert(playerOnList != enterContestPage.getSoccerPlayerFromList(4))
-    enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers - 1)
+    assert(playerOnList == enterContestPage.getSoccerPlayerFromList(4))
+    enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers)
 
     assert(enterContestPage.setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
-               .getNumberOfSoccerPlayers == 0, "Should not exist any player.")
+               .getNumberOfSoccerPlayers == 1, "Player should exist.")
 
     enterContestPage.cancelSoccerPlayerSelection
     assert(enterContestPage.getLineUpSalary < enterContestState.contest.initialSalary)
@@ -395,7 +395,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   }
 
   def pickAndClearWholeLineup:Unit = {
-    enterContestPage
+    enterContestPage.clearLineupList
     val contest = enterContestState.contest
 
     enterContestPage.pickWholeLineup(contest.affordableLineup)
@@ -469,35 +469,34 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     Given("EnterContest page")
     enterContestPage
-    var playerOnList:SoccerPlayer = null
+    //var playerOnList:SoccerPlayer = null
 
     And("select a soccer player")
     enterContestPage.selectDefenseFromLineup(1)
-    playerOnList = enterContestPage.getSoccerPlayerFromList(1)
+    logger.debug("Selected defense")
+    val playerOnList:SoccerPlayer = enterContestPage.getSoccerPlayerFromList(1)
+    val playerName = (if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase
+    logger.debug("Soccer info recolected")
     enterContestPage.addSoccerPlayerFromList(1)
+    logger.debug("Added a soccer player from list")
 
     When("clear lineup")
     enterContestPage.clearLineupList
 
     And("search the soccer player")
-    if (playerOnList.name.length > 19) {
-      playerOnList.name = playerOnList.name.substring(0, 19)
-    }
     enterContestPage.selectDefenseFromLineup(1)
-        .setSoccerPlayerNameFilterSearch(playerOnList.name)
 
     Then("soccer player should appear alone.")
-    enterContestPage.getNumberOfSoccerPlayers must be (1)
+    enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers)
 
     When("add the soccer player")
     enterContestPage.addSoccerPlayerFromList(1)
 
     And("search him again")
     enterContestPage.selectDefenseFromLineup(2)
-    enterContestPage.setSoccerPlayerNameFilterSearch("")
-        .setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
-    Then("soccer player should not appear.")
-    enterContestPage.getNumberOfSoccerPlayers must be (0) // En la reproduccion del bug es 1
+    Then("soccer player should appear alone as inserted (action button as remove).")
+    logger.debug(s"Soccer player lines: ${enterContestPage.getNumberOfSoccerPlayers}, should be: ${enterContestState.contest.numDefensePlayers}")
+    enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers)
 
   }
 
