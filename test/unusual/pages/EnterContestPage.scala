@@ -17,7 +17,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   val ACTIVE_ELEMENT = ".active"
 
-  def FILTER_MATCH_DESKTOP(idx:Int) = s"#matchesFilterButtons button:nth-child($idx)"
+  def FILTER_MATCH_DESKTOP(idx:Int) = s"#matchesFilterButtons .button-filtro-wrapper:nth-child($idx) button"
   val FILTER_MATCH_MOBILE = "#match-filter"
 
   val FILTER_SOCCER_PLAYER_NAME = ".name-player-input-filter"
