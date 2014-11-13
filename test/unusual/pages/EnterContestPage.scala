@@ -115,7 +115,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
       versionCheck = versionCheck && isOrderedByPos
       logger.debug("Is ordered by pos ", versionCheck)
       versionCheck = versionCheck && find(cssSelector(FILTER_POSITION_DESKTOP(1) + ACTIVE_ELEMENT)) != None
-      logger.debug("Position filter should be ''All'' ", versionCheck)
+      logger.debug("Position filter should be ''ALL'' ", versionCheck)
       versionCheck = versionCheck && find(cssSelector(FILTER_MATCH_DESKTOP(1) + ACTIVE_ELEMENT)) != None
       logger.debug("Match filter should be ''All'' ", versionCheck)
       //versionCheck = versionCheck && find(cssSelector(ENTER_CONTEST_TAB(1) + ACTIVE_ELEMENT)) != None

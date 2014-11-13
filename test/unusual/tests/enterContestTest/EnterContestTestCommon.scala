@@ -400,6 +400,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     enterContestPage.pickWholeLineup(contest.affordableLineup)
 
+    Thread.sleep(6000)
     assert(enterContestPage.getLineUpSalary == (contest.initialSalary - contest.affordableLineup.price))
     enterContestPage.removeSoccerPlayerFromLineUp(1).getLineUpSalary must be > 0
 

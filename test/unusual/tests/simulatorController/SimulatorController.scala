@@ -32,8 +32,8 @@ class SimulatorController(res:Resolution) extends SharedTest(res) with DOM_Ops{
     go to URL_START
     And("select World Cup competiton.")
     go to URL_SELECT_COMPETITION(2013, WORLD_CUP)
-    Then("import soccers' salaries")
-    go to URL_IMPORT_SALARIES
+    //Then("import soccers' salaries")
+    //go to URL_IMPORT_SALARIES
 
     When("go to date: 2014/06/10 08:00:49 UTC")
     timeShift(10,6,2014,0,0, "2014/06/10 08:00:49 UTC")
