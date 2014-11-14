@@ -33,7 +33,7 @@ while [ $count -lt $# ]; do
         let count=count+1
         nextArg=${args[count]}
 
-        if [[ "$nextArg" == "-"* ]]; then
+        if [[ "$nextArg" == "-"* ]] || [ $count -ge $# ]; then
             let count=count-1
         else
             playArgs="${playArgs}BROWSER=\"${nextArg}\" "

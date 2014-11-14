@@ -143,7 +143,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
       isDefault = isDefault && getNumberOfContests == numberOfContest
       logger.debug("Number of contests: current(" + getNumberOfContests + "), expected(" + numberOfContest + ")", isDefault)
       isDefault = isDefault && areContestsOrderedByStartTime
-      logger.debug("Number of contests: current(" + getNumberOfContests + "), expected(" + numberOfContest + ")", isDefault)
+      logger.debug("Contests are ordered by start time", isDefault)
     //}
 
     isDefault
