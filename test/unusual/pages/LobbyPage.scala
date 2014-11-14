@@ -134,7 +134,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
     } else {*/
       val currentPage = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).getCurrentPage
-      isDefault = isDefault && new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).getCurrentPage == 1
+      isDefault = isDefault && currentPage == 1
       logger.debug(s"Paginator page is $currentPage, should be 1", isDefault)
 
       isDefault = isDefault && areAllFiltersClear
@@ -488,6 +488,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     this
 
   }
+
+  def goToFirstMatchesPage = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).goToFirstPage
 
   /**************** PRIVATE METHODS ****************/
 

@@ -61,6 +61,8 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
       eventually { assert(!description.isAt, "Description should NOT be visible") }
       logger.debug("Last description is closed")
 
+      lobbyPage.goToFirstMatchesPage
+      
     } else {
       featureNotTestableInResolution
     }
@@ -72,8 +74,8 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
     val isDefaultBig = () => new LobbyPage(Resolution.BIG, lobbyState.maxEntryMoney).isDefaultState(lobbyState.numContests_NoFilter)
 
     if (status.resolution == Resolution.BIG) {
-
       goToLobbyPage(lobbyState)
+
       eventually { assert(isDefaultBig(), "Big is not default state") }
 
       reloadPage
