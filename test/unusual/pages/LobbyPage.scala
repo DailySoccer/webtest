@@ -402,6 +402,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   def areContestsOrderedByStartTime: Boolean = {
     val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
+    val currPage = paginator.getCurrentPage
     paginator.goToFirstPage
     val pagesCount = paginator.getNumberOfPages
     logger.debug(s"Num pages: $pagesCount")
@@ -417,8 +418,9 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
         if(!areOrdered) scala.util.control.Breaks.break()
       }
     }
-    paginator.goToFirstPage
-    logger.debug("Goes to first page")
+
+    paginator.goToPage(currPage)
+    logger.debug(s"Return to $currPage")
 
     logger.debug(s"Contest are ordered at all", areOrdered)
     areOrdered
