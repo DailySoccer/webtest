@@ -67,17 +67,17 @@ object Lineup {
 
   val TIME_0_AFFORDABLE_LIST = Array(
     { val lineup = new Lineup
-      lineup.soccerPlayerList = Array(  new SoccerPlayer ("jefferson"         , SoccerPlayer.POS_GOAL_KEEPER, 4500)
-                                      , new SoccerPlayer ("dante"             , SoccerPlayer.POS_DEFENSE    , 2500)
-                                      , new SoccerPlayer ("miguel layun"      , SoccerPlayer.POS_DEFENSE    , 6000)
-                                      , new SoccerPlayer ("nyom"              , SoccerPlayer.POS_DEFENSE    , 2000)
-                                      , new SoccerPlayer ("henri bedimo"      , SoccerPlayer.POS_DEFENSE    , 6000)
-                                      , new SoccerPlayer ("paulinho"          , SoccerPlayer.POS_MIDDLE     , 4000)
-                                      , new SoccerPlayer ("koke"              , SoccerPlayer.POS_MIDDLE     , 2000)
-                                      , new SoccerPlayer ("leroy fer"         , SoccerPlayer.POS_MIDDLE     , 4500)
-                                      , new SoccerPlayer ("xavi"              , SoccerPlayer.POS_MIDDLE     , 2000)
-                                      , new SoccerPlayer ("hulk"              , SoccerPlayer.POS_FORWARD    , 2000)
-                                      , new SoccerPlayer ("fred"              , SoccerPlayer.POS_FORWARD    , 2000)
+      lineup.soccerPlayerList = Array( new SoccerPlayer ("jefferson"         , SoccerPlayer.POS_GOAL_KEEPER, 4500)
+                                     , new SoccerPlayer ("dante"             , SoccerPlayer.POS_DEFENSE    , 2500)
+                                     , new SoccerPlayer ("miguel layun"      , SoccerPlayer.POS_DEFENSE    , 6000)
+                                     , new SoccerPlayer ("nyom"              , SoccerPlayer.POS_DEFENSE    , 2000)
+                                     , new SoccerPlayer ("henri bedimo"      , SoccerPlayer.POS_DEFENSE    , 6000)
+                                     , new SoccerPlayer ("paulinho"          , SoccerPlayer.POS_MIDDLE     , 4000)
+                                     , new SoccerPlayer ("koke"              , SoccerPlayer.POS_MIDDLE     , 2000)
+                                     , new SoccerPlayer ("leroy fer"         , SoccerPlayer.POS_MIDDLE     , 4500)
+                                     , new SoccerPlayer ("xavi"              , SoccerPlayer.POS_MIDDLE     , 2000)
+                                     , new SoccerPlayer ("hulk"              , SoccerPlayer.POS_FORWARD    , 2000)
+                                     , new SoccerPlayer ("fred"              , SoccerPlayer.POS_FORWARD    , 2000)
       )
       lineup
     }, {

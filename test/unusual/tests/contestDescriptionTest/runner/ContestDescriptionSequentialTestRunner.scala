@@ -18,20 +18,12 @@ class ContestDescriptionSequentialTestRunner extends Sequential(
 )
 
 private object ContestDescriptionSequentialTestRunner {
-  def createBunchOfTests(resolution:Resolution, state: Contest):Suite = {
-    var bunch = new Sequential()
-    if (resolution.enabled) {
-      if(resolution == Resolution.BIG) {
-        bunch = new Sequential(
-                        new ContestDescriptionWindowAuthTest(state, resolution)
-                        , new EnterContestDescriptionTabAuthTest(state, resolution)
-                      )
+  def createBunchOfTests(resolution:Resolution, state: Contest):Suite =
+      if (resolution.enabled) {
+        new ContestDescriptionAuthTest(state, resolution)
       } else {
-        bunch = new Sequential( new EnterContestDescriptionTabAuthTest(state, resolution) )
+        new Sequential
       }
-    }
-    bunch
-  }
 }
 
 /*

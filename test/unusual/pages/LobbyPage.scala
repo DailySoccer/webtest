@@ -133,11 +133,13 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
       isDefault = isDefault && isElemDisplayed(CONTEST_LIST_MENU_MOBILE)
 
     } else {*/
+      val currentPage = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).getCurrentPage
       isDefault = isDefault && new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).getCurrentPage == 1
-      logger.debug("Paginator page should be 1", isDefault)
-      isDefault = isDefault && areAllFiltersClear
+      logger.debug(s"Paginator page is $currentPage, should be 1", isDefault)
 
+      isDefault = isDefault && areAllFiltersClear
       logger.debug("Are all filters clear", isDefault)
+
       isDefault = isDefault && getNumberOfContests == numberOfContest
       logger.debug("Number of contests: current(" + getNumberOfContests + "), expected(" + numberOfContest + ")", isDefault)
       isDefault = isDefault && areContestsOrderedByStartTime
@@ -415,6 +417,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
         if(!areOrdered) scala.util.control.Breaks.break()
       }
     }
+    paginator.goToFirstPage
+    logger.debug("Goes to first page")
 
     logger.debug(s"Contest are ordered at all", areOrdered)
     areOrdered
@@ -449,12 +453,17 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
     val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
     val currPage = paginator.getCurrentPage
+    logger.debug(s"currentPage is $currPage")
     paginator.goToLastPage
+    logger.debug("Goes to last page")
     val pages = paginator.getNumberOfPages
+    logger.debug(s"Number of pages is $pages")
 
     // Esta parece la unica rapida y efectiva
     val lastPageRows = fastCountByCssSelector(CONTEST_ROW_CONTAINER)
+    logger.debug(s"Number of Rows are: $lastPageRows")
     paginator.goToPage(currPage)
+    logger.debug(s"Goes to page $currPage")
 
     // return
     (pages - 1) * ROWS_PER_PAGE + lastPageRows

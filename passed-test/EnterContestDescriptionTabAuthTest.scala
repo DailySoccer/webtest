@@ -15,10 +15,10 @@ class EnterContestDescriptionTabAuthTest(cont:Contest, res:Resolution) extends E
     status.ensureAuthUser
   }
 
-  "Auth user in enter contest description tab: " + contest.name when sizeTesting(ContestDescriptionBehavior)
+  "Auth user in enter contest description tab: " + contest.name when sizeTesting(EnterContestDescriptionBehavior)
 
 
-  def ContestDescriptionBehavior: Unit = {
+  def EnterContestDescriptionBehavior: Unit = {
 
     "look at contest sections" which consistIn {
 
