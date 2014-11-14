@@ -11,9 +11,7 @@ class LobbyVisitorTest(lobbySt:LobbyState, res:Resolution) extends LobbyTestComm
     status.ensureVisitor
   }
 
-  if (status.resolution.enabled) "As visitor" when {
-    behave like sizeTesting(lobbyBehavior)
-  }
+  "As visitor" when sizeTesting(lobbyBehavior)
 
   def lobbyBehavior: Unit = {
 

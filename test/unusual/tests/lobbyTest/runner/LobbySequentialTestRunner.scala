@@ -15,7 +15,14 @@ class LobbySequentialTestRunner extends Sequential(
 
 private object LobbySequentialTestRunner {
   def createBunchOfTests(resolution:Resolution, lobbySt: LobbyState) =
-    if (resolution.enabled) new LobbyAuthTest_All(lobbySt, resolution) else new Sequential()
+    if (resolution.enabled) {
+      new Sequential(
+        new LobbyAuthTest_All(lobbySt, resolution)
+        , new LobbyVisitorTest(lobbySt, resolution)
+      )
+    } else {
+      new Sequential()
+    }
 }
 
 /*
