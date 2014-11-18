@@ -17,12 +17,12 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   val ACTIVE_ELEMENT = ".active"
 
-  def FILTER_MATCH_DESKTOP(idx:Int) = s"#matchesFilterButtons .button-filtro-wrapper:nth-child($idx) button"
+  def FILTER_MATCH_DESKTOP(idx:Int) = s"#matchesFilterButtons .button-filter-wrapper:nth-child($idx) button"
   val FILTER_MATCH_MOBILE = "#match-filter"
 
   val FILTER_SOCCER_PLAYER_NAME = ".name-player-input-filter"
 
-  def FILTER_POSITION_DESKTOP(idx:Int) = s"button.button-filtro-position:nth-of-type($idx)"
+  def FILTER_POSITION_DESKTOP(idx:Int) = s"button.button-filter-position:nth-of-type($idx)"
 
   val LINEUP_SALARY_DESKTOP = ".enter-contest-lineup-wrapper .total-salary-money"
   val LINEUP_SALARY_MOBILE = ".enter-contest-actions-wrapper .total-salary-money"
