@@ -58,21 +58,18 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   val FILTERS_PANEL = "#filtersPanel"
   val RESET_FILTERS_BUTTON = ".reset-button-wrapper .btn-reset"
 
+  val FILTERS_PANEL_FILTER_SPANISH_LEAGUE        = "filterLeagueEsp"
+  val FILTERS_PANEL_FILTER_PREMIERE_LEAGUE       = "filterLeagueUK"
+  val FILTERS_PANEL_FILTER_CHAMPIONS_LEAGUE      = "filterUCL"
+
   val FILTERS_PANEL_FILTER_FREE_CHECK            = "filterTournamentTypeFree"
   val FILTERS_PANEL_FILTER_LEAGUE_CHECK          = "filterTournamentTypeLeague"
   val FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK     = "filterTournamentTypeFiftyFifty"
   val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK    = "filterTournamentTypeHeadToHead"
-  val FILTERS_PANEL_FILTER_BEGINNER_SALARY       = "filterTournamentTierBegginer"
+
+  val FILTERS_PANEL_FILTER_BEGINNER_SALARY       = "filterTournamentTierBeginner"
   val FILTERS_PANEL_FILTER_STANDARD_SALARY       = "filterTournamentTierStandard"
   val FILTERS_PANEL_FILTER_EXPERT_SALARY         = "filterTournamentTierSkilled"
-
-  val FILTERS_PANEL_FILTER_FREE_LABEL            = "label[for=\"" + FILTERS_PANEL_FILTER_FREE_CHECK + "\"]"
-  val FILTERS_PANEL_FILTER_LEAGUE_LABEL          = "label[for=\"" + FILTERS_PANEL_FILTER_LEAGUE_CHECK + "\"]"
-  val FILTERS_PANEL_FILTER_FIFTY_FIFTY_LABEL     = "label[for=\"" + FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK + "\"]"
-  val FILTERS_PANEL_FILTER_HEAD_TO_HEAD_LABEL    = "label[for=\"" + FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK + "\"]"
-  val FILTERS_PANEL_FILTER_BEGINNER_SALARY_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_BEGINNER_SALARY + "\"]"
-  val FILTERS_PANEL_FILTER_STANDARD_SALARY_LABEL = "label[for=\"" + FILTERS_PANEL_FILTER_STANDARD_SALARY + "\"]"
-  val FILTERS_PANEL_FILTER_EXPERT_SALARY_LABEL   = "label[for=\"" + FILTERS_PANEL_FILTER_EXPERT_SALARY + "\"]"
 
   val SORT_BY_NAME = "#orderByName"
   val SORT_BY_ENTRY_FEE = "#orderByEntryFee"
@@ -85,6 +82,185 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   val SLIDER_RANGE_SUPERIOR      = SLIDER_RANGE  + " .noUi-origin:nth-child(2) div"
   val SLIDER_RANGE_TEXT_INFERIOR = FILTERS_PANEL + " .filter-column-entry-fee .entry-fee-value-min"
   val SLIDER_RANGE_TEXT_SUPERIOR = FILTERS_PANEL + " .filter-column-entry-fee .entry-fee-value-max"
+
+
+  object filters {
+
+    private def _open = {
+      eventually { assert( find(cssSelector(FILTERS_PANEL + ".collapsing")) == None ) }
+
+      val button = find(cssSelector(FILTERS_BUTTON + ".toggleOff"))
+      if (button != None) { click on button.get }
+
+      this
+    }
+
+    private def _close = {
+      eventually { assert( find(cssSelector(FILTERS_PANEL + ".collapsing")) == None ) }
+
+      val button = find(cssSelector(FILTERS_BUTTON + ".toggleOn"))
+      if (button != None) { click on button.get }
+
+      this
+    }
+
+    def clear = {
+      val cleanBtt = find(cssSelector(RESET_FILTERS_BUTTON)).get
+
+      filters._open
+      eventually { click on cleanBtt }
+
+      this
+    }
+
+    def areAllClear:Boolean = {
+      var areClear = true
+      _open
+      logger.debug("filters are open")
+
+      val supMoneyFilter = entryFee.getSuperior
+      val infMoneyFilter = entryFee.getInferior
+      areClear = areClear && supMoneyFilter == MAX_ENTRY_MONEY
+      logger.debug(s"Superior money filter is $supMoneyFilter, should be $MAX_ENTRY_MONEY", areClear)
+      areClear = areClear && infMoneyFilter == 0
+      logger.debug(s"Inferior money filter is $infMoneyFilter, should be 0", areClear)
+
+      val searchFilter = textField(cssSelector(FILTERS_PANEL_SEARCH)).value
+      areClear = areClear && searchFilter == ""
+      logger.debug(s"Search input should be clear and '$searchFilter'", areClear)
+
+      areClear = areClear && !tournaments.free.isSelected
+      logger.debug(s"Filter Free should be unchecked 2", areClear)
+      areClear = areClear && !tournaments.league.isSelected
+      logger.debug(s"Filter League should be unchecked 2", areClear)
+      areClear = areClear && !tournaments.fiftyFifty.isSelected
+      logger.debug(s"Filter Fifty Fifty should be unchecked 2", areClear)
+      areClear = areClear && !tournaments.headToHead.isSelected
+      logger.debug(s"Filter Head to Head should be unchecked 2", areClear)
+
+      //Thread.sleep(5000)
+      areClear = areClear && !salaryLimit.beginner.isSelected
+      logger.debug(s"Filter Beginner should be unchecked", areClear)
+      areClear = areClear && !salaryLimit.standard.isSelected
+      logger.debug(s"Filter Standard should be unchecked", areClear)
+      areClear = areClear && !salaryLimit.expert.isSelected
+      logger.debug(s"Filter Expert should be unchecked", areClear)
+
+      _close
+      areClear
+    }
+    def search(name: String) = {
+      if (resolution != Resolution.SMALL) {
+        eventually { textField(cssSelector(FILTERS_PANEL_SEARCH)).value = name }
+      } else {
+        unavailableFunctionOnResolution("searchContestByName")
+      }
+      this
+    }
+
+
+    class BooleanFilter(cssSelString:String) {
+      def check = checkbox(cssSelString)
+      def label = find(cssSelector(s"label[for='${cssSelString}']")).get
+
+      def isSelected: Boolean = check.isSelected
+      def isEnabled: Boolean = {
+        val attr = check.attribute("disabled")
+        !attr.isDefined || attr.get == "true"
+      }
+      def isDisplayed: Boolean = label.isDisplayed
+
+      def doClick = {
+        _open
+        eventually { assert(isDisplayed) }
+        click on label
+        this
+      }
+    }
+    class OrderByFilter(cssSelString:String) {
+      def doClick = {
+        click on find(cssSelector(cssSelString)).get
+        this
+      }
+    }
+
+    object competition {
+      def spanishLeague  :BooleanFilter = new BooleanFilter(FILTERS_PANEL_FILTER_SPANISH_LEAGUE)
+      def premiereLeague :BooleanFilter = new BooleanFilter(FILTERS_PANEL_FILTER_PREMIERE_LEAGUE)
+      def championsLeague:BooleanFilter = new BooleanFilter(FILTERS_PANEL_FILTER_CHAMPIONS_LEAGUE)
+    }
+    object tournaments {
+      def free      :BooleanFilter = new BooleanFilter(FILTERS_PANEL_FILTER_FREE_CHECK)
+      def headToHead:BooleanFilter = new BooleanFilter(FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK)
+      def league    :BooleanFilter = new BooleanFilter(FILTERS_PANEL_FILTER_LEAGUE_CHECK)
+      def fiftyFifty:BooleanFilter = new BooleanFilter(FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK)
+    }
+    object salaryLimit {
+      def beginner:BooleanFilter = new BooleanFilter(FILTERS_PANEL_FILTER_BEGINNER_SALARY)
+      def standard:BooleanFilter = new BooleanFilter(FILTERS_PANEL_FILTER_STANDARD_SALARY)
+      def expert  :BooleanFilter = new BooleanFilter(FILTERS_PANEL_FILTER_EXPERT_SALARY)
+    }
+    object orderBy {
+      def name = new OrderByFilter(SORT_BY_NAME)
+      def entryFee = new OrderByFilter(SORT_BY_ENTRY_FEE)
+      def startTime = new OrderByFilter(SORT_BY_START_TIME)
+    }
+    object entryFee {
+      def set(inf: Int, sup: Int) = {
+        _open
+
+        val sliderWidth = find(cssSelector(SLIDER_RANGE)).get.underlying.getSize.width - 1
+        val inferior = find(cssSelector(SLIDER_RANGE_INFERIOR)).get.underlying
+        val superior = find(cssSelector(SLIDER_RANGE_SUPERIOR)).get.underlying
+        val infBound = inf - getInferior
+        val supBound = sup - getSuperior
+
+        var distance: Float = sliderWidth * infBound
+        distance /= MAX_ENTRY_MONEY
+
+        var dragAndDrop:Action = new Actions(driver)
+          .clickAndHold(inferior)
+          .moveByOffset(Math.floor(distance).toInt, 0)
+          .release(inferior)
+          .build()
+
+        dragAndDrop.perform()
+
+        distance = sliderWidth * supBound
+        distance /= MAX_ENTRY_MONEY
+
+        dragAndDrop = new Actions(driver)
+          .clickAndHold(superior)
+          .moveByOffset(Math.floor(distance).toInt, 0)
+          .release(superior)
+          .build()
+
+        dragAndDrop.perform()
+
+        this
+      }
+      def getInferior :Int = {
+        val inferiorTextNode = find(cssSelector(SLIDER_RANGE_TEXT_INFERIOR)).get
+        var text = ""
+        var n:Integer = 0
+
+        eventually { text = inferiorTextNode.text }
+        n = Integer.parseInt( text.substring(5, text.length - 1).replace(",", "") )
+
+        n
+      }
+      def getSuperior :Int = {
+        val superiorTextNode = find(cssSelector(SLIDER_RANGE_TEXT_SUPERIOR)).get
+        var n:Integer = 0
+
+        eventually { n = Integer.parseInt( superiorTextNode.text.substring(5, superiorTextNode.text.length - 1).replace(",", "") ) }
+
+        n
+      }
+    }
+  }
+
+
 
 
   /**************** COMMON METHODS ****************/
@@ -137,7 +313,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
       isDefault = isDefault && currentPage == 1
       logger.debug(s"Paginator page is $currentPage, should be 1", isDefault)
 
-      isDefault = isDefault && areAllFiltersClear
+      isDefault = isDefault && filters.areAllClear
       logger.debug("Are all filters clear", isDefault)
 
       isDefault = isDefault && getNumberOfContests == numberOfContest
@@ -189,18 +365,9 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
 */
   /**************** FILTERS METHODS ****************/
-
-  def clearFilters = {
-    val cleanBtt = find(cssSelector(RESET_FILTERS_BUTTON)).get
-
-    openFilters
-    eventually { click on cleanBtt }
-
-    this
-  }
-
+/*
   def setEntryFeeFilter(inf: Int, sup: Int) = {
-    openFilters
+    filters._open
     val sliderWidth = find(cssSelector(SLIDER_RANGE)).get.underlying.getSize.width - 1
     val inferior = find(cssSelector(SLIDER_RANGE_INFERIOR)).get.underlying
     val superior = find(cssSelector(SLIDER_RANGE_SUPERIOR)).get.underlying
@@ -230,14 +397,14 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     dragAndDrop.perform()
 
     this
-  }
-
+  }*/
+/*
   def clickFreeContestFilter = {
-    applyFilter(FILTERS_PANEL_FILTER_FREE_LABEL)
+    filters.tournaments.free.doClick
   }
 
   def clickLeagueContestFilter = {
-    applyFilter(FILTERS_PANEL_FILTER_LEAGUE_LABEL)
+    filters.tournaments.league.doClick
   }
 
   def clickFiftyFiftyContestsFilter = {
@@ -259,22 +426,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   def clickExpertSalaryFilter = {
     applyFilter(FILTERS_PANEL_FILTER_EXPERT_SALARY_LABEL)
   }
-
-  def clickSortContestsByName = {
-    click on find(cssSelector(SORT_BY_NAME)).get
-    this
-  }
-
-  def clickSortContestsByEntryFee = {
-    click on find(cssSelector(SORT_BY_ENTRY_FEE)).get
-    this
-  }
-
-  def clickSortContestsByStartTime = {
-    click on find(cssSelector(SORT_BY_START_TIME)).get
-    this
-  }
-
+*/
+/*
   def searchContestByName(name: String) = {
     if (resolution != Resolution.SMALL) {
       eventually { textField(cssSelector(FILTERS_PANEL_SEARCH)).value = name }
@@ -283,7 +436,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     }
     this
   }
-
+  */
+/*
   def getInferiorMoneyFilter :Int = {
     val inferiorTextNode = find(cssSelector(SLIDER_RANGE_TEXT_INFERIOR)).get
     var text = ""
@@ -309,35 +463,14 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     logger.error("Forzando devolver un 6 para continuar el paso de test")
     6*/
   }
+*/
+  /*trait EntryFeeFilter {
+    def inferiorBound: Boolean = checkbox(cssSelString).isSelected
+    def superiorBound: Boolean = (!checkbox(cssSelString).attribute("disabled").isDefined) || (checkbox(FILTERS_PANEL_FILTER_FREE_CHECK).attribute("disabled").get == "true")
+    protected val cssSelString: String
+  }*/
 
-  def areAllFiltersClear:Boolean = {
-    var areClear = true
-    openFilters
-    logger.debug("filters are open")
-
-    val supMoneyFilter = getSuperiorMoneyFilter
-    val infMoneyFilter = getInferiorMoneyFilter
-    areClear = areClear && supMoneyFilter == MAX_ENTRY_MONEY
-    logger.debug(s"Superior money filter is $supMoneyFilter, should be $MAX_ENTRY_MONEY", areClear)
-    areClear = areClear && infMoneyFilter == 0
-    logger.debug(s"Inferior money filter is $infMoneyFilter, should be 0", areClear)
-
-    val searchFilter = textField(cssSelector(FILTERS_PANEL_SEARCH)).value
-    areClear = areClear && searchFilter == ""
-    logger.debug(s"Search input should be clear and '$searchFilter'", areClear)
-
-    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_FREE_CHECK).isSelected
-    logger.debug(s"Filter Free should be unchecked", areClear)
-    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_LEAGUE_CHECK).isSelected
-    logger.debug(s"Filter League should be unchecked", areClear)
-    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_FIFTY_FIFTY_CHECK).isSelected
-    logger.debug(s"Filter Fifty Fifty should be unchecked", areClear)
-    areClear = areClear && !checkbox(FILTERS_PANEL_FILTER_HEAD_TO_HEAD_CHECK).isSelected
-    logger.debug(s"Filter Head to Head should be unchecked", areClear)
-    closeFilters
-    areClear
-  }
-
+  //val filters = Filters
 
   /**************** CONTESTS METHODS ****************/
 
@@ -491,41 +624,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   def goToFirstMatchesPage = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER).goToFirstPage
 
-  /**************** PRIVATE METHODS ****************/
 
-  private def applyFilter(forId : String) = {
-    openFilters
-    val filter = find(cssSelector(forId)).get
-
-    eventually { filter.isDisplayed }
-    click on filter
-
-    this
-  }
-
-  private def openFilters = {
-    eventually { assert( find(cssSelector(FILTERS_PANEL + ".collapsing")) == None ) }
-
-    val button = find(cssSelector(FILTERS_BUTTON + ".toggleOff"))
-
-    if (button != None) {
-      click on button.get
-    }
-
-    this
-  }
-
-  private def closeFilters = {
-    eventually { assert( find(cssSelector(FILTERS_PANEL + ".collapsing")) == None ) }
-
-    val button = find(cssSelector(FILTERS_BUTTON + ".toggleOn"))
-
-    if (button != None) {
-      click on button.get
-    }
-
-    this
-  }
 
 }
 

@@ -128,9 +128,10 @@ class ContestDescriptionWindowCommon(cont: Contest, res:Resolution) extends Shar
   private def goToLobbyContestDescription:ContestDescriptionWindow = {
     var lobby: LobbyPage = null
     if (status.resolution == Resolution.BIG) {
-      lobby = goToLobbyPage(LobbyState.DEFAULT_LOBBY).clearFilters
-                                             .searchContestByName(contest.name)
-                                             .openContestDescription(1)
+      lobby = goToLobbyPage(LobbyState.DEFAULT_LOBBY)
+      lobby.filters.clear
+      lobby.filters.search(contest.name)
+      lobby.openContestDescription(1)
     } else {
       featureNotTestableInResolution
     }

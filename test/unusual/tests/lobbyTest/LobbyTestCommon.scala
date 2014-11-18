@@ -152,142 +152,146 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
    */
   def checkClearFiltersButton: Unit = {
     Given("a lobby page filters should be clear")
-    assert(lobbyPage.areAllFiltersClear, "Filters are not clear")
+    assert(lobbyPage.filters.areAllClear, "Filters are not clear")
     When("set up some filters that hide all contests")
-    lobbyPage.searchContestByName(FILTERS_PANEL_SEARCH_TEXT)
+    lobbyPage.filters.search(FILTERS_PANEL_SEARCH_TEXT)
     logger.debug("searched by name")
-    lobbyPage.setEntryFeeFilter(0, 0)
+    lobbyPage.filters.entryFee.set(0, 0)
+
+    val tournaments = lobbyPage.filters.tournaments
     logger.debug("filter by entry fee 0 , 0")
-    lobbyPage.clickLeagueContestFilter
+    tournaments.league.doClick
     logger.debug("filter by league contest")
-    lobbyPage.clickFiftyFiftyContestsFilter
+    tournaments.fiftyFifty.doClick
     logger.debug("filter by fifty fifty")
-    lobbyPage.clickHeadToHeadContestsFilter
+    tournaments.headToHead.doClick
     logger.debug("filter by head to head")
     assert(lobbyPage.getNumberOfContests == 0, "Number of contests is greater than 0")
     And("clear filters")
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
     Then("filters should be clear again")
-    assert(lobbyPage.areAllFiltersClear, "Filters are not clear after clear filters")
+    assert(lobbyPage.filters.areAllClear, "Filters are not clear after clear filters")
     And("number of contest should be restored")
     assert(lobbyPage.getNumberOfContests == lobbyState.numContests_NoFilter, "Filters are not cleared correctly or some contests disappeared.")
   }
 
   def filterByFreeContests: Unit = {
-    lobbyPage.clickFreeContestFilter
+    lobbyPage.filters.tournaments.free.doClick
     val numContests = lobbyPage.getNumberOfContests
     assert(numContests == lobbyState.numContests_Free, s"Num of contests: $numContests, expected: ${lobbyState.numContests_Free}")
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
   }
 
   def filterByLeagueContests: Unit = {
-    lobbyPage.clickLeagueContestFilter
+    lobbyPage.filters.tournaments.league.doClick
     val numContests = lobbyPage.getNumberOfContests
     assert(numContests == lobbyState.numContests_League, s"Num of contests: $numContests, expected: ${lobbyState.numContests_League}")
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
   }
 
   def filterByFiftyFiftyContests: Unit = {
-    lobbyPage.clickFiftyFiftyContestsFilter
+    lobbyPage.filters.tournaments.fiftyFifty.doClick
     val numContests = lobbyPage.getNumberOfContests
     assert(numContests == lobbyState.numContests_FiftyFifty, s"Num of contests: $numContests, expected: ${lobbyState.numContests_FiftyFifty}")
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
   }
 
   def filterByHeadToHeadContests: Unit = {
-    lobbyPage.clickHeadToHeadContestsFilter
+    lobbyPage.filters.tournaments.headToHead.doClick
     val numContests = lobbyPage.getNumberOfContests
     assert(numContests == lobbyState.numContests_HeadToHead, s"Num of contests: $numContests, expected: ${lobbyState.numContests_HeadToHead}")
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
   }
 
   def filterByEntryFee: Unit = {
-    lobbyPage.setEntryFeeFilter(lobbyState.minEntryFeeFilter, lobbyPage.MAX_ENTRY_MONEY)
+    lobbyPage.filters.entryFee.set(lobbyState.minEntryFeeFilter, lobbyPage.MAX_ENTRY_MONEY)
     val numContests = lobbyPage.getNumberOfContests
     assert(numContests == lobbyState.numContests_MinEntryFee, s"Num of contests: $numContests, expected: ${lobbyState.numContests_MinEntryFee}")
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
   }
 
   def filterByBeginnerSalary: Unit = {
-    lobbyPage.clickBeginnerSalaryFilter
+    lobbyPage.filters.salaryLimit.beginner.doClick
     val numContests = lobbyPage.getNumberOfContests
     assert(numContests == lobbyState.numContests_Beginner, s"Num of contests: $numContests, expected: ${lobbyState.numContests_Beginner}")
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
   }
 
   def filterByStandardSalary: Unit = {
-    lobbyPage.clickStandardSalaryFilter
+    lobbyPage.filters.salaryLimit.standard.doClick
     val numContests = lobbyPage.getNumberOfContests
     assert(numContests == lobbyState.numContests_Standard, s"Num of contests: $numContests, expected: ${lobbyState.numContests_Standard}")
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
   }
 
   def filterByExpertSalary: Unit = {
-    lobbyPage.clickExpertSalaryFilter
+    lobbyPage.filters.salaryLimit.expert.doClick
     val numContests = lobbyPage.getNumberOfContests
     assert(numContests == lobbyState.numContests_Expert, s"Num of contests: $numContests, expected: ${lobbyState.numContests_Expert}")
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
   }
 
   def checkEntryFeeFilterCtrl: Unit = {
     val MAX = lobbyPage.MAX_ENTRY_MONEY
     val MIN = 0
 
-    assert(lobbyPage.getInferiorMoneyFilter == MIN, "Inferior filter should be: " + MIN)
-    assert(lobbyPage.getSuperiorMoneyFilter == MAX, "Superior filter should be: " + MAX)
+    assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
+    assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX)
 
-    lobbyPage.setEntryFeeFilter(1, MAX)
-    assert(lobbyPage.getInferiorMoneyFilter == 1, "Inferior filter should be: " + 1)
-    assert(lobbyPage.getSuperiorMoneyFilter == MAX, "Superior filter should be: " + MAX)
+    lobbyPage.filters.entryFee.set(1, MAX)
+    assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1)
+    assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX)
 
-    lobbyPage.clearFilters
-    assert(lobbyPage.getInferiorMoneyFilter == MIN, "Inferior filter should be: " + MIN)
-    assert(lobbyPage.getSuperiorMoneyFilter == MAX, "Superior filter should be: " + MAX)
+    lobbyPage.filters.clear
+    assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
+    assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX)
 
-    lobbyPage.setEntryFeeFilter(MIN, 4)
-    assert(lobbyPage.getInferiorMoneyFilter == MIN, "Inferior filter should be: " + MIN)
-    assert(lobbyPage.getSuperiorMoneyFilter == 4, "Superior filter should be: " + 4)
+    lobbyPage.filters.entryFee.set(MIN, 4)
+    assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
+    assert(lobbyPage.filters.entryFee.getSuperior == 4, "Superior filter should be: " + 4)
 
-    lobbyPage.clearFilters
-    assert(lobbyPage.getInferiorMoneyFilter == MIN, "Inferior filter should be: " + MIN)
-    assert(lobbyPage.getSuperiorMoneyFilter == MAX, "Superior filter should be: " + MAX)
+    lobbyPage.filters.clear
+    assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
+    assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX)
 
-    lobbyPage.setEntryFeeFilter(1, 4)
-    assert(lobbyPage.getInferiorMoneyFilter == 1, "Inferior filter should be: " + 1)
-    assert(lobbyPage.getSuperiorMoneyFilter == 4, "Superior filter should be: " + 4)
+    lobbyPage.filters.entryFee.set(1, 4)
+    assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1)
+    assert(lobbyPage.filters.entryFee.getSuperior  == 4, "Superior filter should be: " + 4)
 
-    lobbyPage.setEntryFeeFilter(2, 3)
-    assert(lobbyPage.getInferiorMoneyFilter == 2, "Inferior filter should be: " + 2)
-    assert(lobbyPage.getSuperiorMoneyFilter == 3, "Superior filter should be: " + 3)
+    lobbyPage.filters.entryFee.set(2, 3)
+    assert(lobbyPage.filters.entryFee.getInferior == 2, "Inferior filter should be: " + 2)
+    assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3)
 
-    lobbyPage.setEntryFeeFilter(4, 3)
-    assert(lobbyPage.getInferiorMoneyFilter == 3, "Inferior filter should be: " + 3)
-    assert(lobbyPage.getSuperiorMoneyFilter == 3, "Superior filter should be: " + 3)
+    lobbyPage.filters.entryFee.set(4, 3)
+    assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3)
+    assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3)
 
-    lobbyPage.setEntryFeeFilter(3, 2)
-    assert(lobbyPage.getInferiorMoneyFilter == 3, "Inferior filter should be: " + 3)
-    assert(lobbyPage.getSuperiorMoneyFilter == 3, "Superior filter should be: " + 3)
+    lobbyPage.filters.entryFee.set(3, 2)
+    assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3)
+    assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3)
 
-    lobbyPage.clearFilters
-    assert(lobbyPage.getInferiorMoneyFilter == MIN, "Inferior filter should be: " + MIN)
-    assert(lobbyPage.getSuperiorMoneyFilter == MAX, "Superior filter should be: " + MAX)
+    lobbyPage.filters.clear
+    assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
+    assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX)
 
   }
 
   def filterByFreeContestsWithMinFilter: Unit = {
-    lobbyPage.setEntryFeeFilter(1, lobbyPage.MAX_ENTRY_MONEY)
-              .clickFreeContestFilter
-              .getNumberOfContests must be(0)
-    lobbyPage.clearFilters
+    lobbyPage.filters.entryFee.set(1, lobbyPage.MAX_ENTRY_MONEY)
+    lobbyPage.filters.tournaments.free.doClick
+
+    lobbyPage.getNumberOfContests must be(0)
+    lobbyPage.filters.clear
   }
 
   def searchContests: Unit = {
     if (status.resolution != Resolution.SMALL) {
       for ((key,value) <- lobbyState.filterPanel_SearchResults) {
         logger.debug("Search key: " + key + " || contest should be: " + value)
-        assert(lobbyPage.searchContestByName(key).getNumberOfContests == value, "search does not match")
+        lobbyPage.filters.search(key)
+        assert(lobbyPage.getNumberOfContests == value, "search does not match")
       }
-      lobbyPage.clearFilters
+      lobbyPage.filters.clear
     } else {
       featureNotTestableInResolution
     }
@@ -295,9 +299,9 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
 
   def searchNonExistentContest: Unit = {
     if (status.resolution != Resolution.SMALL) {
-      lobbyPage.searchContestByName(FILTERS_PANEL_SEARCH_TEXT)
-               .getNumberOfContests must be(N_CONTESTS_SEARCH)
-      lobbyPage.clearFilters
+      lobbyPage.filters.search(FILTERS_PANEL_SEARCH_TEXT)
+      lobbyPage.getNumberOfContests must be(N_CONTESTS_SEARCH)
+      lobbyPage.filters.clear
     } else {
       featureNotTestableInResolution
     }
@@ -311,21 +315,21 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
    * ORDER BY TESTS
    */
   def orderByName: Unit = {
-    lobbyPage.clickSortContestsByName
+    lobbyPage.filters.orderBy.name.doClick
 
     assert(lobbyPage.areContestsOrderedByName, "Contest are not sorted by name")
     assert(lobbyPage.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
   }
 
   def orderByEntryFee: Unit = {
-    lobbyPage.clickSortContestsByEntryFee
+    lobbyPage.filters.orderBy.entryFee.doClick
 
     assert(lobbyPage.areContestsOrderedByEntryFee, "Contest are not sorted by entry fee")
     assert(lobbyPage.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
   }
 
   def orderByStartTime: Unit = {
-    lobbyPage.clickSortContestsByStartTime
+    lobbyPage.filters.orderBy.startTime.doClick
     logger.debug("Contest should be ordered by start time by default")
     assert(lobbyPage.areContestsOrderedByStartTime, "Contest are not sorted by name")
     assert(lobbyPage.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
@@ -333,7 +337,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
 
   def ReorderByStartTime: Unit = {
     logger.debug("Contest should be sorted by start time by default and should be at the same state after sort them two times")
-    lobbyPage.clickSortContestsByStartTime.clickSortContestsByStartTime
+    lobbyPage.filters.orderBy.startTime.doClick.doClick
     logger.debug("clicked two times in sort contest")
     assert(lobbyPage.getNumberOfContests == lobbyState.numContests_NoFilter, "Contests disappeared during sort")
     logger.debug("No contest disappeared during process")
@@ -388,12 +392,13 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
     assert( paginator.isDisplayed, "Paginator is not displayed.")
     paginator.getNumberOfPages must be (lobbyState.maxPaginatorPage)
 
-    lobbyPage.searchContestByName(FILTERS_PANEL_SEARCH_TEXT)
-             .setEntryFeeFilter(1, 1)
-             .clickFreeContestFilter
+    lobbyPage.filters.search(FILTERS_PANEL_SEARCH_TEXT).entryFee.set(1, 1)
+
+    lobbyPage.filters.tournaments.free.doClick
+
     assert(!paginator.isDisplayed, "Paginator is displayed.")
     paginator.getNumberOfPages must be (1)
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
   }
   /*
    * END OTHERS TESTS
@@ -407,19 +412,19 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
     lobbyPage
     val paginator = new PaginatorControl(status.resolution, lobbyPage.CONTEST_LIST_CONTAINER)
     logger.debug("look at paginator")
-    assert( paginator.isAt, "Paginator is not at the page.")
-    assert( paginator.isDisplayed, "Paginator is not displayed.")
+    assert(paginator.isAt, "Paginator is not at the page.")
+    assert(paginator.isDisplayed, "Paginator is not displayed.")
     logger.debug("go to last page")
     paginator.goToLastPage
-    logger.debug("filter by free contest")
-    lobbyPage.clickLeagueContestFilter
-    logger.debug("paginator should not be displayed")
+    logger.debug("filter by league contest")
+    lobbyPage.filters.tournaments.league.doClick
+    logger.debug("paginator should be displayed")
     assert( paginator.isDisplayed, "Paginator is not displayed.")
     logger.debug("look at current page")
     paginator.getCurrentPage must be (1)
     logger.debug("look at number of pages")
     assert(paginator.getNumberOfPages > 1, "Number of pages should be grater (or equals) than 1")
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
   }
 
   def knownBugSequence_PaginatorOrderedRefresh: Unit = {
@@ -432,21 +437,25 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
         eventually (timeout(12 seconds)) { assert(paginator.getCurrentPage == 1) }
       }
     }
-    lobbyPage.clearFilters
+    lobbyPage.filters.clear
     /*
      * END BUG TESTS
      */
   }
 
+  def loquesea: Unit = {
+    lobbyPage.filters.competition.spanishLeague.isSelected
+  }
+
 /*
   private def goToLobbyContest:LobbyPage = {
-    goToLobbyPage(lobbyState).clearFilters
+    goToLobbyPage(lobbyState).filters.clear
   }
 */
 
 /*
   def searchContest(): Unit = {
-    val page = goToLobbyPage.clearFilters
+    val page = goToLobbyPage.filters.clear
       .searchContestByName(FILTERS_PANEL_SEARCH_TEXT_1)
     if (resolution != Resolution.SMALL){
       page.checkNumberOfContests(N_CONTESTS_SEARCH_1)

@@ -41,7 +41,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     if (status.resolution == Resolution.SMALL) {
       lobby.playContestNumber(state.contest.startDateOrder)
     } else {
-      lobby.searchContestByName(state.contest.name).playContestNumber(1)
+      lobby.filters.search(state.contest.name)
+      lobby.playContestNumber(1)
     }
 
     Then("page should be at and default state")
@@ -54,12 +55,13 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     assert(enterContestPage.isAt && enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     When("click on close button and click on play button")
     enterContestPage.clickOnCloseButton
-    lobby.clearFilters
+    lobby.filters.clear
 
     if (status.resolution == Resolution.SMALL) {
       lobby.playContestNumber(state.contest.startDateOrder)
     } else {
-      lobby.searchContestByName(state.contest.name).playContestNumber(1)
+      lobby.filters.search(state.contest.name)
+      lobby.playContestNumber(1)
     }
 
     Then("page should be at and default state")

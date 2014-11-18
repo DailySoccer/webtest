@@ -92,11 +92,12 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   override def open = {
     val lobby = new LobbyPage(resolution, 6)
     lobby.open
-    lobby.clearFilters
+    lobby.filters.clear
     if (resolution == Resolution.SMALL) {
       lobby.playContestNumber(state.contest.startDateOrder)
     } else {
-      lobby.searchContestByName(state.contest.name).playContestNumber(1)
+      lobby.filters.search(state.contest.name)
+      lobby.playContestNumber(1)
     }
     this
   }
