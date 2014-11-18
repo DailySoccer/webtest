@@ -108,7 +108,7 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, res:Resolution) extends LobbyT
 
       "entry fee (check filter is applied)" in filterByEntryFee
 
-      "entry fee (check control funtionallity)" in checkEntryFeeFilterCtrl
+      "entry fee (check control functionality)" in checkEntryFeeFilterCtrl
 
       "(search) contest name" in searchContests
 
