@@ -18,6 +18,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
   def lobbyPage:LobbyPage = {
     if(_lobbyPageInstance == null) {
       _lobbyPageInstance = goToLobbyPage(lobbyState)
+      changeMenuPositioning
     }
     _lobbyPageInstance
   }
@@ -141,6 +142,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
       eventually { assert(isDefaultBig(), "From small to big") }
       
     }
+    changeMenuPositioning
   }
   /*
    * END BASIC INFO TESTS
@@ -277,10 +279,14 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
   }
 
   def filterByFreeContestsWithMinFilter: Unit = {
-    lobbyPage.filters.entryFee.set(1, lobbyPage.MAX_ENTRY_MONEY)
+    logger.debug("set entry fee")
+    lobbyPage.filters.entryFee.set(1, lobbyState.maxEntryMoney)
+    logger.debug("set free filter")
     lobbyPage.filters.tournaments.free.doClick
 
+    logger.debug("comparing contests")
     lobbyPage.getNumberOfContests must be(0)
+    logger.debug("clear filters")
     lobbyPage.filters.clear
   }
 

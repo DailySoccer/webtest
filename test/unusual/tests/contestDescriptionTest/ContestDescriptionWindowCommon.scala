@@ -13,6 +13,7 @@ class ContestDescriptionWindowCommon(cont: Contest, res:Resolution) extends Shar
   def contestDescriptionWindow:ContestDescriptionWindow = {
     if(_contestDescriptionWindowInstance == null) {
       _contestDescriptionWindowInstance = goToLobbyContestDescription
+      changeMenuPositioning
     }
     _contestDescriptionWindowInstance
   }

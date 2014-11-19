@@ -2,8 +2,24 @@ package unusual.pages.util
 
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser
+import unusual.model.Resolution
+import unusual.pages.components.MenuBar
 
-trait DOM_Ops {
+trait JS_Ops {
+
+  def changeMenuPositioning()(implicit driver:WebDriver): Unit = {
+    val cssSel = (new MenuBar(Resolution.BIG)).MENU_ROOT
+    //println("$('" + cssSel + "').css('position', 'relative');")
+    //Thread.sleep(10000)
+    WebBrowser.executeScript("$('" + cssSel + "').css('position', 'relative');")
+  }
+
+  def sliderSetVal(min:Int, max:Int, sliderId:String)(implicit driver:WebDriver): Unit = {
+    //val cssSel = (Resolution.BIG)).MENU_ROOT
+    //println("$('" + cssSel + "').css('position', 'relative');")
+    //Thread.sleep(10000)
+    WebBrowser.executeScript("$('" + s"$sliderId').val([$min, $max]);")
+  }
 
   def fastCleanLocalStorage()(implicit driver:WebDriver): Unit = {
     //implicit val webDriver:WebDriver = driver

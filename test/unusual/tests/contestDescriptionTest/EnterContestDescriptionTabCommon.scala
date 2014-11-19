@@ -14,6 +14,7 @@ class EnterContestDescriptionTabCommon(cont: Contest, res:Resolution) extends Sh
   def descriptionTab:EnterContestDescriptionTab = {
     if(_descriptionTabInstance == null) {
       _descriptionTabInstance = goToEnterContestDescriptionTab
+      changeMenuPositioning
     }
     _descriptionTabInstance
   }

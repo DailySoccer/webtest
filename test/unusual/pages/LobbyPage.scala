@@ -237,6 +237,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
         dragAndDrop.perform()
 
+        //sliderSetVal(inf, sup, SLIDER_RANGE)
         this
       }
       def getInferior :Int = {

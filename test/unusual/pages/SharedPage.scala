@@ -3,7 +3,7 @@ package unusual.pages
 import unusual.UnusualLogger
 import unusual.model.Resolution
 import unusual.pages.components.{FooterBar, MenuBar}
-import unusual.pages.util.DOM_Ops
+import unusual.pages.util.JS_Ops
 import org.scalatest.{GivenWhenThen, OptionValues, MustMatchers, Matchers}
 import org.scalatest.selenium.WebBrowser
 import org.scalatest.concurrent.{Eventually, IntegrationPatience}
@@ -13,7 +13,7 @@ import play.api.Logger
 
 class SharedPage(res:Resolution) extends WebBrowser.Page
     with WebBrowser with Matchers with OptionValues with Eventually
-    with IntegrationPatience with SpanSugar with DOM_Ops{
+    with IntegrationPatience with SpanSugar with JS_Ops{
   implicit val driver : WebDriver = SharedPage.driver
 
   val TITLE = "Epic Eleven"

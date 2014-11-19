@@ -12,6 +12,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def enterContestPage:EnterContestPage = {
     if(_enterContestPageInstance == null) {
       _enterContestPageInstance = goToEnterContest(enterContestState)
+      changeMenuPositioning
     }
     _enterContestPageInstance
   }
@@ -71,6 +72,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     assert(page.isAt.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
     */
 
+    changeMenuPositioning
   }
 
   def orderByPosition:Unit = {

@@ -2,11 +2,11 @@ package unusual.tests.simulatorController
 
 import unusual.model.Resolution
 import unusual.pages.SharedPage
-import unusual.pages.util.DOM_Ops
+import unusual.pages.util.JS_Ops
 import unusual.testTags.scala.WIP
 import unusual.tests.SharedTest
 
-class SimulatorController(res:Resolution) extends SharedTest(res) with DOM_Ops{
+class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
 
   val MAX_TIMEOUT_TIME = 3000
   val INTERVAL_TIME = 1

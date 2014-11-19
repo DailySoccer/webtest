@@ -8,12 +8,13 @@ import unusual.UnusualLogger
 import unusual.model._
 import unusual.pages._
 import org.scalatest.time._
+import unusual.pages.util.JS_Ops
 import unusual.testTags.scala.WIP
 
 class SharedTest(resolution:Resolution) extends PlaySpec
     with OneServerPerSuite with OneBrowserPerSuite
     with SauceLabsFactory with BeforeAndAfter with BeforeAndAfterAll
-    with BeforeAndAfterEach with SpanSugar with GivenWhenThen /*with Distributor*/{
+    with BeforeAndAfterEach with SpanSugar with GivenWhenThen with JS_Ops/*with Distributor*/{
 
   var status:TestStatus = new TestStatus
   status.setBaseResolution(resolution)
