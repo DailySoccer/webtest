@@ -14,7 +14,6 @@ class EnterContestDescriptionTabCommon(cont: Contest, res:Resolution) extends Sh
   def descriptionTab:EnterContestDescriptionTab = {
     if(_descriptionTabInstance == null) {
       _descriptionTabInstance = goToEnterContestDescriptionTab
-      changeMenuPositioning
     }
     _descriptionTabInstance
   }
@@ -24,7 +23,7 @@ class EnterContestDescriptionTabCommon(cont: Contest, res:Resolution) extends Sh
   def numberOfContestants: Unit = assert(descriptionTab.countContestants == contest.numContestants)
 
   def numberOfPrizes: Unit = assert(descriptionTab.countPrizes == contest.numPrizes)
-  
+
 
   private def goToEnterContestDescriptionTab:EnterContestDescriptionTab = {
     val state = new EnterContestState

@@ -208,7 +208,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     object entryFee {
       def set(inf: Int, sup: Int) = {
         _open
-
+/*
         val sliderWidth = find(cssSelector(SLIDER_RANGE)).get.underlying.getSize.width - 1
         val inferior = find(cssSelector(SLIDER_RANGE_INFERIOR)).get.underlying
         val superior = find(cssSelector(SLIDER_RANGE_SUPERIOR)).get.underlying
@@ -236,8 +236,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
           .build()
 
         dragAndDrop.perform()
-
-        //sliderSetVal(inf, sup, SLIDER_RANGE)
+*/
+        sliderSetVal(inf, sup, SLIDER_RANGE)
         this
       }
       def getInferior :Int = {

@@ -11,7 +11,7 @@ class ContestDescriptionAuthTest(cont:Contest, res:Resolution) extends ContestDe
   def causes = afterWord("causes:")
   def consistIn = afterWord("consist in")
 
-  val enterContestDescription = new EnterContestDescriptionTabCommon(contest, status.resolution)
+  //val enterContestDescription = new EnterContestDescriptionTabCommon(contest, status.resolution)
 
   before {
     status.ensureAuthUser
@@ -56,11 +56,11 @@ class ContestDescriptionAuthTest(cont:Contest, res:Resolution) extends ContestDe
 
     "go to EnterContestDescription and look at contest sections" which consistIn {
 
-      "involved matches" in enterContestDescription.numberOfMatches
+      "involved matches" in enterContest.numberOfMatches
 
-      "involved contestants" in enterContestDescription.numberOfContestants
+      "involved contestants" in enterContest.numberOfContestants
 
-      "prizes" in enterContestDescription.numberOfPrizes
+      "prizes" in enterContest.numberOfPrizes
     }
   }
 

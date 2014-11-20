@@ -34,6 +34,7 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
     } else {
       go to url
     }
+    changeMenuPositioning
     this
   }
 
