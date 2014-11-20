@@ -361,6 +361,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
 
   def paginatorMainFunctionality: Unit = {
     goToLobbyPage(lobbyState)
+    changeMenuPositioning
     val paginator = new PaginatorControl(status.resolution, lobbyPage.CONTEST_LIST_CONTAINER)
 
     assert( paginator.isAt, "Paginator is not at the page.")

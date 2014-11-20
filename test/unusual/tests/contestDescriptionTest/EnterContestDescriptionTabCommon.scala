@@ -19,18 +19,12 @@ class EnterContestDescriptionTabCommon(cont: Contest, res:Resolution) extends Sh
     _descriptionTabInstance
   }
 
-  def numberOfMatches: Unit = {
-    assert(descriptionTab.countMatches == contest.numMatches)
-  }
+  def numberOfMatches: Unit = assert(descriptionTab.countMatches == contest.numMatches)
 
-  def numberOfContestants: Unit = {
-    assert(descriptionTab.countContestants == contest.numContestants)
-  }
+  def numberOfContestants: Unit = assert(descriptionTab.countContestants == contest.numContestants)
 
-  def numberOfPrizes: Unit = {
-    assert(descriptionTab.countPrizes == contest.numPrizes)
-  }
-
+  def numberOfPrizes: Unit = assert(descriptionTab.countPrizes == contest.numPrizes)
+  
 
   private def goToEnterContestDescriptionTab:EnterContestDescriptionTab = {
     val state = new EnterContestState
