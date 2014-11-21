@@ -49,7 +49,7 @@ class ContestDescriptionAuthTest(cont:Contest, res:Resolution) extends ContestDe
 
       "perform known BUG SEQUENCE" which causes {
 
-        "Scroll bar disappear when enter contest through button at information" in knownBugSequence_ScrollBarDisappeared
+        "Elements disappear when enter contest through button at information" in knownBugSequence_ScrollBarDisappeared
       }
 
     }

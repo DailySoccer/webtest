@@ -468,9 +468,6 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
      */
   }
 
-  def loquesea: Unit = {
-    lobbyPage.filters.competition.spanishLeague.isSelected
-  }
 
 /*
   private def goToLobbyContest:LobbyPage = {
