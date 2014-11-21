@@ -176,7 +176,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
     logger.debug("filter by fifty fifty")
     tournaments.headToHead.doClick
     logger.debug("filter by head to head")
-    assert(lobbyPage.getNumberOfContests == 0, "Number of contests is greater than 0")
+    eventually (timeout(3 seconds)){ assert(lobbyPage.getNumberOfContests == 0, "Number of contests is greater than 0") }
     And("clear filters")
     lobbyPage.filters.clear
     Then("filters should be clear again")
@@ -215,8 +215,10 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
 
   def filterByEntryFee: Unit = {
     lobbyPage.filters.entryFee.set(lobbyState.minEntryFeeFilter, lobbyPage.MAX_ENTRY_MONEY)
-    val numContests = lobbyPage.getNumberOfContests
-    assert(numContests == lobbyState.numContests_MinEntryFee, s"Num of contests: $numContests, expected: ${lobbyState.numContests_MinEntryFee}")
+    eventually (timeout(3 seconds)) {
+      val numContests = lobbyPage.getNumberOfContests
+      assert(numContests == lobbyState.numContests_MinEntryFee, s"Num of contests: $numContests, expected: ${lobbyState.numContests_MinEntryFee}")
+    }
     lobbyPage.filters.clear
   }
 
@@ -245,44 +247,44 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
     val MAX = lobbyPage.MAX_ENTRY_MONEY
     val MIN = 0
 
-    eventually { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
-    eventually { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
 
     lobbyPage.filters.entryFee.set(1, MAX)
-    eventually { assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1) }
-    eventually { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
 
     lobbyPage.filters.clear
-    eventually { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
-    eventually { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
 
     lobbyPage.filters.entryFee.set(MIN, 4)
-    eventually { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
-    eventually { assert(lobbyPage.filters.entryFee.getSuperior == 4, "Superior filter should be: " + 4) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior == 4, "Superior filter should be: " + 4) }
 
     lobbyPage.filters.clear
-    eventually { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
-    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX) }
 
     lobbyPage.filters.entryFee.set(1, 4)
-    eventually { assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1) }
-    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == 4, "Superior filter should be: " + 4) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == 4, "Superior filter should be: " + 4) }
 
     lobbyPage.filters.entryFee.set(2, 3)
-    eventually { assert(lobbyPage.filters.entryFee.getInferior == 2, "Inferior filter should be: " + 2) }
-    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == 2, "Inferior filter should be: " + 2) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
 
     lobbyPage.filters.entryFee.set(4, 3)
-    eventually { assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3) }
-    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
 
     lobbyPage.filters.entryFee.set(3, 2)
-    eventually { assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3) }
-    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
 
     lobbyPage.filters.clear
-    eventually { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
-    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
+    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX) }
 
   }
 
@@ -293,7 +295,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
     lobbyPage.filters.tournaments.free.doClick
 
     logger.debug("comparing contests")
-    lobbyPage.getNumberOfContests must be(0)
+    eventually (timeout(3 seconds)) { lobbyPage.getNumberOfContests must be(0) }
     logger.debug("clear filters")
     lobbyPage.filters.clear
   }
