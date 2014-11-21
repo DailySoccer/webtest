@@ -29,11 +29,15 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
   def isAt:Boolean = { true }
 
   def open = {
+
     if(currentUrl == url) {
+      logger.debug("reload")
       reloadPage
     } else {
+      logger.debug("go to")
       go to url
     }
+    logger.debug("change menu positioning")
     changeMenuPositioning
     this
   }

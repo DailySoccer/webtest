@@ -43,8 +43,12 @@ class TestStatus {
   def doLogin : TestStatus = {
     val login = new LoginPage(resolution)
 
+    println("Going to login page")
+
     login.open
+    println("check if is at login page")
     assert(login.isAt)
+    println("Ensuring to be loggued in")
 
     login.ensureDoLogin(user)
 
