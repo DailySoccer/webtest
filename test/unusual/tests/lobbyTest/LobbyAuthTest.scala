@@ -33,8 +33,8 @@ class LobbyAuthTest_Bug(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTe
 class LobbyAuthTest_All(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTest(lobbySt, res){
   "Auth user" when {
     sizeTesting({
-      lobbyPageBehaviorBasicInfo
-      lobbyPageBehaviorFilters
+      //lobbyPageBehaviorBasicInfo
+      //lobbyPageBehaviorFilters
       lobbyPageBehaviorOrderBy
       lobbyPageBehaviorOthers
       lobbyPageBehaviorBUG

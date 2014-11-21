@@ -80,6 +80,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
       eventually { assert(isDefaultBig(), "Big is not default state") }
 
       reloadPage
+      changeMenuPositioning
       eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.MEDIUM)
       eventually { assert(isDefaultMedium(), "From big to medium") }
@@ -87,6 +88,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
 
       changeBrowserResolution(Resolution.BIG)
       reloadPage
+      changeMenuPositioning
       eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.MEDIUM)
       changeBrowserResolution(Resolution.SMALL)
@@ -95,6 +97,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
 
       changeBrowserResolution(Resolution.BIG)
       reloadPage
+      changeMenuPositioning
       eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.SMALL)
       eventually { assert(isDefaultSmall(), "From big to small") }
@@ -105,6 +108,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
       eventually { assert(isDefaultMedium(), "Medium is not default state") }
 
       reloadPage
+      changeMenuPositioning
       eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.BIG)
       eventually { assert(isDefaultMedium(), "From medium to big") }
@@ -112,6 +116,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
 
       changeBrowserResolution(Resolution.MEDIUM)
       reloadPage
+      changeMenuPositioning
       eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.SMALL)
       eventually { assert(isDefaultSmall(), "From medium to small") }
@@ -122,6 +127,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
       assert(isDefaultSmall(), "Small is not default state")
 
       reloadPage
+      changeMenuPositioning
       eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.MEDIUM)
       eventually { assert(isDefaultMedium(), "From small to medium") }
@@ -129,6 +135,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
 
       changeBrowserResolution(Resolution.SMALL)
       reloadPage
+      changeMenuPositioning
       eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.MEDIUM)
       changeBrowserResolution(Resolution.BIG)
@@ -137,6 +144,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
 
       changeBrowserResolution(Resolution.SMALL)
       reloadPage
+      changeMenuPositioning
       eventually { assert(lobbyPage.isAt) }
       changeBrowserResolution(Resolution.BIG)
       eventually { assert(isDefaultBig(), "From small to big") }
@@ -237,44 +245,44 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
     val MAX = lobbyPage.MAX_ENTRY_MONEY
     val MIN = 0
 
-    assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
-    assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX)
+    eventually { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
+    eventually { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
 
     lobbyPage.filters.entryFee.set(1, MAX)
-    assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1)
-    assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX)
+    eventually { assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1) }
+    eventually { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
 
     lobbyPage.filters.clear
-    assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
-    assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX)
+    eventually { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
+    eventually { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
 
     lobbyPage.filters.entryFee.set(MIN, 4)
-    assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
-    assert(lobbyPage.filters.entryFee.getSuperior == 4, "Superior filter should be: " + 4)
+    eventually { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
+    eventually { assert(lobbyPage.filters.entryFee.getSuperior == 4, "Superior filter should be: " + 4) }
 
     lobbyPage.filters.clear
-    assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
-    assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX)
+    eventually { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
+    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX) }
 
     lobbyPage.filters.entryFee.set(1, 4)
-    assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1)
-    assert(lobbyPage.filters.entryFee.getSuperior  == 4, "Superior filter should be: " + 4)
+    eventually { assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1) }
+    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == 4, "Superior filter should be: " + 4) }
 
     lobbyPage.filters.entryFee.set(2, 3)
-    assert(lobbyPage.filters.entryFee.getInferior == 2, "Inferior filter should be: " + 2)
-    assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3)
+    eventually { assert(lobbyPage.filters.entryFee.getInferior == 2, "Inferior filter should be: " + 2) }
+    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
 
     lobbyPage.filters.entryFee.set(4, 3)
-    assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3)
-    assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3)
+    eventually { assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3) }
+    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
 
     lobbyPage.filters.entryFee.set(3, 2)
-    assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3)
-    assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3)
+    eventually { assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3) }
+    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
 
     lobbyPage.filters.clear
-    assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
-    assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX)
+    eventually { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
+    eventually { assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX) }
 
   }
 

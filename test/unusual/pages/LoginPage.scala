@@ -55,7 +55,7 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
   }
 
   private def fillAndSubmitForm(u: User) = {
-    emailField(FORM_EMAIL).value  = u.email
+    textField(FORM_EMAIL).value  = u.email
     pwdField(FORM_PASSWORD).value = u.password
     submit
     this
