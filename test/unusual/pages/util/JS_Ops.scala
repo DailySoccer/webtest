@@ -16,7 +16,7 @@ trait JS_Ops {
 
   def sliderSetVal(min:Int, max:Int, sliderId:String)(implicit driver:WebDriver): Unit = {
     //val cssSel = (Resolution.BIG)).MENU_ROOT
-    println("$('" + sliderId + "').css('position', 'relative');")
+    //println("$('" + sliderId + "').css('position', 'relative');")
     //Thread.sleep(10000)
     WebBrowser.executeScript("$('" + s"$sliderId').val([$min, $max], true); ")
   }
