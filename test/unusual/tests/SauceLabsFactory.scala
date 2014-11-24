@@ -20,6 +20,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
                  cap.setCapability("name", "DFS FF 32")
                  cap.setCapability(CapabilityType.VERSION, "32")
                  cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
                  //cap.setCapability("record-video", false)
                  //cap.setCapability("passed", false)
                  cap
@@ -36,6 +37,7 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
     "CHROME_38" -> { val cap = DesiredCapabilities.chrome()
                      cap.setCapability("name", "DFS CHROME 38")
                      cap.setCapability(CapabilityType.VERSION, "38")
+                     cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
                      cap.setCapability("max-duration", MAX_DURATION)
                      //cap.setCapability("record-video", false)
                      //cap.setCapability("passed", false)
