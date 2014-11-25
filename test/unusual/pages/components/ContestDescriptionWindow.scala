@@ -8,13 +8,15 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
   val CONTENT = "contest-info"
   val MODAL = "#infoContestModal"
 
-  val HEADER = CONTENT + " .modal-info-head"
+  val HEADER = CONTENT + " contest-header"
 
-  val CONTEST_NAME = HEADER + " .content-text"
-  val CONTEST_DESCRIPTION = HEADER + " .title-text"
+  val CONTEST_NAME = HEADER + " .contest-name"
+  val CONTEST_DESCRIPTION = HEADER + " .contest-explanation"
 
-  val CONTEST_ENTRY_FEE = HEADER + " .column-entry-fee .content-text"
-  val CONTEST_PRIZE = HEADER + " .column-prize .content-text"
+  val CONTEST_ENTRY_FEE = HEADER + " .contest-price .contest-coins-content span"
+  val CONTEST_PRIZE = HEADER + " .contest-prize .contest-coins-content-with-icon span"
+
+  val CLOSE_BUTTON = HEADER + " button.close"
 
   val BODY = CONTENT + " .modal-info-content"
 
@@ -40,7 +42,6 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
 
   val ENTER_CONTEST_BUTTON = CONTENT + " .buton-place button"
 
-  val CLOSE_BUTTON = CONTENT + " .modal-info-head button.close"
 
 
   override def open = {
@@ -133,16 +134,44 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
   }
 
   def getContestName:String = {
-    eventually { find(cssSelector(CONTEST_NAME)).get.text }
+    var text = ""
+    eventually {
+      logger.debug(s"Looking at contest name {$CONTEST_NAME}")
+      text = find(cssSelector(CONTEST_NAME)).get.text
+      logger.debug(s"Contest name: $text")
+    }
+    text
   }
   def getContestDescription:String = {
-    eventually { find(cssSelector(CONTEST_DESCRIPTION)).get.text }
+    var text = ""
+    eventually {
+      logger.debug(s"Looking at contest description {$CONTEST_DESCRIPTION}")
+      text = find(cssSelector(CONTEST_DESCRIPTION)).get.text
+      logger.debug(s"Contest description: $text")
+    }
+    text
   }
   def getContestEntryFee:String = {
-    eventually { find(cssSelector(CONTEST_ENTRY_FEE)).get.text }
+    var text = ""
+    eventually {
+      logger.debug(s"Looking at contest entry fee {$CONTEST_ENTRY_FEE}")
+      text = find(cssSelector(CONTEST_ENTRY_FEE)).get.text
+      text = text.substring(0, text.length())
+      logger.debug(s"Contest entry fee: $text")
+    }
+    text
+    //eventually { find(cssSelector(CONTEST_ENTRY_FEE)).get.text }
   }
   def getContestPrize:String = {
-    eventually { find(cssSelector(CONTEST_PRIZE)).get.text }
+    var text = ""
+    eventually {
+      logger.debug(s"Looking at contest prize {$CONTEST_PRIZE}")
+      text = find(cssSelector(CONTEST_PRIZE)).get.text
+      text = text.substring(0, text.length())
+      logger.debug(s"Contest prize: $text")
+    }
+    text
+    //eventually { find(cssSelector(CONTEST_PRIZE)).get.text }
   }
 
 }

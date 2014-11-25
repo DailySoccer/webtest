@@ -51,7 +51,7 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun.++"
-    contest.description = "Gratuito: 12 de 100 participantes - Límite de salario: 65000"
+    contest.description = "Gratuito: 12 de 100 jugadores - Límite de salario: 65000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "Hoy"
@@ -103,7 +103,7 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun.!!"
-    contest.description = "Gratuito: 12 de 200 participantes - Límite de salario: 60000"
+    contest.description = "Gratuito: 12 de 200 jugadores - Límite de salario: 60000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "14/06"
@@ -153,7 +153,7 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun...."
-    contest.description = "Gratuito: 12 de 200 participantes - Límite de salario: 70000"
+    contest.description = "Gratuito: 12 de 200 jugadores - Límite de salario: 70000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "Hoy"

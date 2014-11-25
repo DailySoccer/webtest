@@ -72,7 +72,7 @@ else
     echo "          if not defined, all test will run."
     echo "  -l or --localhost"
     echo "          runs using localhost as selenium host"
-    echo "  -S or --sauce [{FF_32|IE_10|CHROME_38}]"
+    echo "  -S or --sauce [{FF_32|IE_10|CHROME_38|SAFARI_5|SAFARI_6|SAFARI_7|SAFARI_8}]"
     echo "          default = FF_32"
     echo "          runs using saucelabs as selenium host"
     echo "  --drone"

@@ -42,7 +42,41 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
                      //cap.setCapability("record-video", false)
                      //cap.setCapability("passed", false)
                      cap
-                   }
+                   },
+
+    // SAFARI VERSIONS
+    "SAFARI_5" -> { val cap = DesiredCapabilities.safari()
+                    cap.setCapability("name", "DFS SAFARI 5")
+                    cap.setCapability(CapabilityType.VERSION, "5")
+                    cap.setCapability("max-duration", MAX_DURATION)
+                    //cap.setCapability("record-video", false)
+                    //cap.setCapability("passed", false)
+                    cap
+                  },
+    "SAFARI_6" -> { val cap = DesiredCapabilities.safari()
+                    cap.setCapability("name", "DFS SAFARI 6")
+                    cap.setCapability(CapabilityType.VERSION, "6")
+                    cap.setCapability("max-duration", MAX_DURATION)
+                    //cap.setCapability("record-video", false)
+                    //cap.setCapability("passed", false)
+                    cap
+                  },
+    "SAFARI_7" -> { val cap = DesiredCapabilities.safari()
+                    cap.setCapability("name", "DFS SAFARI 7")
+                    cap.setCapability(CapabilityType.VERSION, "7")
+                    cap.setCapability("max-duration", MAX_DURATION)
+                    //cap.setCapability("record-video", false)
+                    //cap.setCapability("passed", false)
+                    cap
+                  },
+    "SAFARI_8" -> { val cap = DesiredCapabilities.safari()
+                    cap.setCapability("name", "DFS SAFARI 8")
+                    cap.setCapability(CapabilityType.VERSION, "8")
+                    cap.setCapability("max-duration", MAX_DURATION)
+                    //cap.setCapability("record-video", false)
+                    //cap.setCapability("passed", false)
+                    cap
+                  }
   )
 
   val CHROME_HOST   = "chrome"
