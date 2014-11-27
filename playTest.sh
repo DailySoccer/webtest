@@ -22,6 +22,16 @@ while [ $count -lt $# ]; do
         fi
         choosenHost=true
         playArgs="${playArgs}URL=\"http://localhost:9000\" "
+
+        let count=count+1
+        nextArg=${args[count]}
+
+        if [[ "$nextArg" == "-"* ]] || [ $count -ge $# ]; then
+            let count=count-1
+        else
+            playArgs="${playArgs}BROWSER=\"${nextArg}\" "
+        fi
+
       ;;
     "-S" | "--sauce")
         if "$choosenHost"; then

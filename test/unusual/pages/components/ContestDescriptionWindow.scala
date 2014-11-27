@@ -40,7 +40,7 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
   val PRIZES_PANE = CONTENT + " #prizes-list"
   val PRIZES_PANE_PRIZE = PRIZES_PANE + " .prize-element-wrapper"
 
-  val ENTER_CONTEST_BUTTON = CONTENT + " .buton-place button"
+  val ENTER_CONTEST_BUTTON = CONTENT + " #btn-go-enter-contest"
 
 
 

@@ -6,6 +6,7 @@ import com.saucelabs.common.{SauceOnDemandAuthentication, SauceOnDemandSessionId
 import org.openqa.selenium._
 import org.openqa.selenium.chrome._
 import org.openqa.selenium.firefox._
+import org.openqa.selenium.safari._
 import org.openqa.selenium.phantomjs.PhantomJSDriver
 import org.openqa.selenium.remote.{CapabilityType, DesiredCapabilities, RemoteWebDriver}
 import unusual.pages.SharedPage
@@ -81,9 +82,10 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
 
   val CHROME_HOST   = "chrome"
   val FIREFOX_HOST  = "firefox"
+  val SAFARI_HOST   = "safari"
   val PHANTOMJS_HOST  = "phantom"
 
-  val host:String       = if (SharedPage.isLocalHost) FIREFOX_HOST else SAUCE_LABS_HOST
+  val host:String       = if (SharedPage.isLocalHost) scala.util.Properties.envOrElse("BROWSER", FIREFOX_HOST).toLowerCase else SAUCE_LABS_HOST
   var sessionId: String = ""
 
   /**
@@ -118,6 +120,9 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
       case PHANTOMJS_HOST =>
         println("PhantomJS Driver ----------")
         new PhantomJSDriver
+      case SAFARI_HOST =>
+        println("Safari Driver ----------")
+        new SafariDriver()
     }
   }
 

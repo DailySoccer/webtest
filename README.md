@@ -6,7 +6,15 @@ Don't forget to compile the webclient with "pub build" to make sure you are test
 
 Launch the backend normally. You must be able to access the game through http://localhost:9000.
 
-If you want to use Chrome, install Chrome's webdriver extension. "brew install chromedriver" works like a charm.
+If you want to use **Chrome**, install Chrome's webdriver extension. "brew install chromedriver" works like a charm.
+
+If you want to use **Safari**, should do a little trick finded in: https://code.google.com/p/selenium/issues/detail?id=7933
+    
+    1. Download: http://central.maven.org/maven2/org/seleniumhq/selenium/selenium-safari-driver/2.43.1/selenium-safari-driver-2.43.1.jar
+    2. Unzip it
+    3. Go to "./selenium-safari-driver-2.43.1/org/openqa/selenium"
+    4. Execute "SafariDriver.safariextz"
+    5. Ensure that extension is enabled. Open Safari preferences and extensions. Web driver checkbox should be on.
 
 For Firefox you don't need anything. SBT downloads some libs that enable ScalaTest to connect with Firefox directly.
 

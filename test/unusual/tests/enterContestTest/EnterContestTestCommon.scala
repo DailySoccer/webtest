@@ -80,8 +80,10 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
       //val page = goToEnterContest(enterContestState)
       if (enterContestPage.isOrderedByPos) { // si ya esta ordenado, lo ordenamos inversamente...
         enterContestPage.orderByPosition
+        //Thread.sleep(5000)
       }// ... y lo ordenamos al derecho
       enterContestPage.orderByPosition
+      //Thread.sleep(5000)
 
       assert(new EnterContestPage(status.resolution, enterContestState).isOrderedByPos)
     } else {

@@ -15,7 +15,9 @@ libraryDependencies ++= Seq(
   "org.seleniumhq.selenium" % "selenium-java" % "2.43.1" % "test",
   "org.scalatestplus" % "play_2.10" % "1.0.0" % "test",
   "com.saucelabs" % "sauce_junit" % "2.1.4" % "test",
-  "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0"
+  "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0",
+  "org.seleniumhq.selenium" % "selenium-safari-driver" % "2.43.1",
+  "org.seleniumhq.selenium" % "selenium-chrome-driver" % "2.3.1"
 )
 
 resolvers += "saucelabs-repository" at "http://repository-saucelabs.forge.cloudbees.com/release"
