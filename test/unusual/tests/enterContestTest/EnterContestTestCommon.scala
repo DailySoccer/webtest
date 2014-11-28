@@ -76,69 +76,103 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   }
 
   def orderByPosition:Unit = {
-    if (status.resolution == Resolution.BIG) {
-      //val page = goToEnterContest(enterContestState)
-      if (enterContestPage.isOrderedByPos) { // si ya esta ordenado, lo ordenamos inversamente...
+    eventually {
+      if (status.resolution == Resolution.BIG) {
+        //val page = goToEnterContest(enterContestState)
+        if (enterContestPage.isOrderedByPos) {
+          // si ya esta ordenado, lo ordenamos inversamente...
+          enterContestPage.orderByPosition
+          //Thread.sleep(5000)
+        } // ... y lo ordenamos al derecho
         enterContestPage.orderByPosition
         //Thread.sleep(5000)
-      }// ... y lo ordenamos al derecho
-      enterContestPage.orderByPosition
-      //Thread.sleep(5000)
 
-      assert(new EnterContestPage(status.resolution, enterContestState).isOrderedByPos)
-    } else {
-      featureNotTestableInResolution
+        assert(new EnterContestPage(status.resolution, enterContestState).isOrderedByPos)
+      } else {
+        featureNotTestableInResolution
+      }
     }
   }
   def orderByName:Unit = {
     if (status.resolution != Resolution.SMALL) {
-      assert(enterContestPage.orderByName.isOrderedByName, "Is not ordered by name")
+      eventually { assert(enterContestPage.orderByName.isOrderedByName, "Is not ordered by name") }
     } else {
-      assert(enterContestPage.selectGoalKeeperFromLineup.orderByName.isOrderedByName, "(Goalkeeper) Is not ordered by name")
+      logger.debug("Selecting goalkeeper")
+      enterContestPage.selectGoalKeeperFromLineup
+      logger.debug("Order by name")
+      eventually { assert(enterContestPage.orderByName.isOrderedByName, "(Goalkeeper) Is not ordered by name") }
+      logger.debug("Canceling goalkeeper selection")
       enterContestPage.cancelSoccerPlayerSelection
-      assert(enterContestPage.selectDefenseFromLineup(1).isOrderedByName, "(Defense) Is not ordered by name")
+
+      logger.debug("Select defense")
+      eventually { enterContestPage.selectDefenseFromLineup(1) }
+      logger.debug("Is order by name")
+      eventually { assert(enterContestPage.isOrderedByName, "(Defense) Is not ordered by name") }
+      logger.debug("Cancel selection")
       enterContestPage.cancelSoccerPlayerSelection
-      assert(enterContestPage.selectMiddleFromLineup(1).isOrderedByName, "(Middle) Is not ordered by name")
+
+      eventually { enterContestPage.selectMiddleFromLineup(1) }
+      eventually { assert(enterContestPage.isOrderedByName, "(Middle) Is not ordered by name") }
       enterContestPage.cancelSoccerPlayerSelection
-      assert(enterContestPage.selectForwardFromLineup(1).isOrderedByName, "(Forward) Is not ordered by name")
+
+      eventually { enterContestPage.selectForwardFromLineup(1) }
+      eventually { assert(enterContestPage.isOrderedByName, "(Forward) Is not ordered by name") }
       enterContestPage.cancelSoccerPlayerSelection
     }
   }
   def orderByDFP:Unit = {
+
     if (status.resolution != Resolution.SMALL) {
-      assert(enterContestPage.orderByDFP.isOrderedByDFP)
+      eventually { assert(enterContestPage.orderByDFP.isOrderedByDFP) }
     } else {
-      assert(enterContestPage.selectGoalKeeperFromLineup.orderByDFP.isOrderedByDFP, "(Goalkeeper) Is not ordered by DFP")
+      enterContestPage.selectGoalKeeperFromLineup
+      eventually { assert(enterContestPage.orderByDFP.isOrderedByDFP, "(Goalkeeper) Is not ordered by DFP") }
       enterContestPage.cancelSoccerPlayerSelection
-      assert(enterContestPage.selectDefenseFromLineup(1).isOrderedByDFP, "(Defense) Is not ordered by DFP")
+
+      eventually { enterContestPage.selectDefenseFromLineup(1) }
+      eventually { assert(enterContestPage.isOrderedByDFP, "(Defense) Is not ordered by DFP") }
       enterContestPage.cancelSoccerPlayerSelection
-      assert(enterContestPage.selectMiddleFromLineup(1).isOrderedByDFP, "(Middle) Is not ordered by DFP")
+
+      eventually { enterContestPage.selectMiddleFromLineup(1) }
+      eventually { assert(enterContestPage.isOrderedByDFP, "(Middle) Is not ordered by DFP") }
       enterContestPage.cancelSoccerPlayerSelection
-      assert(enterContestPage.selectForwardFromLineup(1).isOrderedByDFP, "(Forward) Is not ordered by DFP")
+
+      eventually { enterContestPage.selectForwardFromLineup(1) }
+      eventually { assert(enterContestPage.isOrderedByDFP, "(Forward) Is not ordered by DFP") }
       enterContestPage.cancelSoccerPlayerSelection
     }
   }
   def orderByPlayed:Unit = {
-    if (status.resolution == Resolution.BIG) {
-      assert(enterContestPage.orderByPlayed.isOrderedByPlayed)
-    } else {
-      featureNotTestableInResolution
+    eventually {
+      if (status.resolution == Resolution.BIG) {
+        assert(enterContestPage.orderByPlayed.isOrderedByPlayed)
+      } else {
+        featureNotTestableInResolution
+      }
     }
   }
   def orderBySalary:Unit = {
     if (status.resolution != Resolution.SMALL) {
-      assert(enterContestPage.orderBySalary.isOrderedBySalary, "page is not ordered by salary")
+      eventually { assert(enterContestPage.orderBySalary.isOrderedBySalary, "page is not ordered by salary") }
     } else {
-      assert(enterContestPage.selectGoalKeeperFromLineup.orderBySalary.isOrderedBySalary, "(Goalkeeper) Is not ordered by Salary")
+      enterContestPage.selectGoalKeeperFromLineup
+      eventually { assert(enterContestPage.orderBySalary.isOrderedBySalary, "(Goalkeeper) Is not ordered by Salary") }
       enterContestPage.cancelSoccerPlayerSelection
-      assert(enterContestPage.selectDefenseFromLineup(1).isOrderedBySalary, "(Defense) Is not ordered by Salary")
+
+      eventually { enterContestPage.selectDefenseFromLineup(1) }
+      eventually { assert(enterContestPage.isOrderedBySalary, "(Defense) Is not ordered by Salary") }
       enterContestPage.cancelSoccerPlayerSelection
-      assert(enterContestPage.selectMiddleFromLineup(1).isOrderedBySalary, "(Middle) Is not ordered by Salary")
+
+      eventually { enterContestPage.selectMiddleFromLineup(1) }
+      eventually { assert(enterContestPage.isOrderedBySalary, "(Middle) Is not ordered by Salary") }
       enterContestPage.cancelSoccerPlayerSelection
-      assert(enterContestPage.selectForwardFromLineup(1).isOrderedBySalary, "(Forward) Is not ordered by Salary")
+
+      eventually { enterContestPage.selectForwardFromLineup(1) }
+      eventually { assert(enterContestPage.isOrderedBySalary, "(Forward) Is not ordered by Salary") }
       enterContestPage.cancelSoccerPlayerSelection
     }
   }
+
   /*
    * END ORDER BY TESTS
    */
@@ -150,7 +184,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def filterByGoalKeeper:Unit = {
     if (status.resolution != Resolution.SMALL) {
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_GOAL_KEEPER)
-      enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers)
+      eventually { enterContestPage.getNumberOfSoccerPlayers must be(enterContestState.contest.numGoalKeepersPlayers) }
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
     } else {
       featureNotTestableInResolution
@@ -160,7 +194,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def filterByDefense:Unit = {
     if (status.resolution != Resolution.SMALL) {
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_DEFENSE)
-      enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers)
+      eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers) }
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
     } else {
       featureNotTestableInResolution
@@ -170,7 +204,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def filterByMiddle:Unit = {
     if (status.resolution != Resolution.SMALL) {
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_MIDDLE)
-      enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numMiddlePlayers)
+      eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numMiddlePlayers) }
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
     } else {
       featureNotTestableInResolution
@@ -180,7 +214,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def filterByForward:Unit = {
     if (status.resolution != Resolution.SMALL) {
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_FORWARD)
-      enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numForwardPlayers)
+      eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numForwardPlayers) }
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
     } else {
       featureNotTestableInResolution
@@ -190,7 +224,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def filterByAll:Unit = {
     if (status.resolution != Resolution.SMALL) {
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
-                      .getNumberOfSoccerPlayers must be(enterContestState.contest.numAllPlayers)
+      eventually { enterContestPage.getNumberOfSoccerPlayers must be(enterContestState.contest.numAllPlayers) }
     } else {
       featureNotTestableInResolution
     }
@@ -208,7 +242,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
         When("select match by order: " + matchOrder)
         enterContestPage.setSoccerPlayerMatchFilter(matchOrder)
         Then("displayed players should be: " + numPlayers)
-        enterContestPage.getNumberOfSoccerPlayers must be (numPlayers)
+        eventually { enterContestPage.getNumberOfSoccerPlayers must be (numPlayers) }
       }
     } else {
       featureNotTestableInResolution
@@ -229,7 +263,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
           enterContestPage.setSoccerPlayerPositionFilter(positionOrder)
 
           Then("displayed players should be: " + numPlayers)
-          assert(enterContestPage.getNumberOfSoccerPlayers == numPlayers)
+          eventually { assert(enterContestPage.getNumberOfSoccerPlayers == numPlayers) }
         }
       }
       enterContestPage.setSoccerPlayerMatchFilter(1)
@@ -247,26 +281,26 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
    */
   def selectGoalKeeper:Unit = {
     enterContestPage.selectGoalKeeperFromLineup
-        .getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers) }
     enterContestPage.cancelSoccerPlayerSelection
   }
 
   def selectDefense:Unit = {
     val N_DEFENSE_PLAYERS = enterContestState.contest.numDefensePlayers
     enterContestPage.selectDefenseFromLineup(1)
-        .getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
         .selectDefenseFromLineup(2)
-        .getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
         .selectDefenseFromLineup(3)
-        .getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
         .selectDefenseFromLineup(4)
-        .getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
   }
@@ -275,19 +309,19 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     enterContestPage
     val N_MIDDLE_PLAYERS = enterContestState.contest.numMiddlePlayers
     enterContestPage.selectMiddleFromLineup(1)
-        .getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
         .selectMiddleFromLineup(2)
-        .getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
         .selectMiddleFromLineup(3)
-        .getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
         .selectMiddleFromLineup(4)
-        .getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
   }
@@ -297,11 +331,11 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     val N_FORWARD_PLAYERS = enterContestState.contest.numForwardPlayers
 
     enterContestPage.selectForwardFromLineup(1)
-        .getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
         .selectForwardFromLineup(2)
-        .getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
   }
@@ -317,29 +351,37 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     val allFunctions = Map[Int, (EnterContestPage) => EnterContestPage] (
         1 -> ((page) => {
           logger.debug("GoalKeeper Selected")
-          page.selectGoalKeeperFromLineup
-              .getNumberOfSoccerPlayers must be (N_GOAL_KEEPER_PLAYERS)
+          eventually {
+            page.selectGoalKeeperFromLineup
+            enterContestPage.getNumberOfSoccerPlayers must be (N_GOAL_KEEPER_PLAYERS)
+          }
           page
         }),
         2 -> ((page) => {
           val r = scala.util.Random.nextInt(4) + 1
           logger.debug(s"Defense{$r} Selected")
-          page.selectDefenseFromLineup(r)
-              .getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
+          eventually {
+            page.selectDefenseFromLineup(r)
+            enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
+          }
           page
         }),
         3 -> ((page) => {
           val r = scala.util.Random.nextInt(4) + 1
           logger.debug(s"Middle{$r} Selected")
-          page.selectMiddleFromLineup(r)
-              .getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
+          eventually {
+            page.selectMiddleFromLineup(r)
+            enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
+          }
           page
         }),
         4 -> ((page) => {
           val r = scala.util.Random.nextInt(2) + 1
           logger.debug(s"Forward{$r} Selected")
-          page.selectForwardFromLineup(r)
-              .getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS)
+          eventually {
+            page.selectForwardFromLineup(r)
+            enterContestPage.getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS)
+          }
           page
         })
       )
@@ -359,22 +401,22 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     val playerOnList = enterContestPage.getSoccerPlayerFromList(1)
     enterContestPage.addSoccerPlayerFromList(1)
-    assert(playerOnList == enterContestPage.getSoccerPlayerFromLineUp(1))
+    eventually { assert(playerOnList == enterContestPage.getSoccerPlayerFromLineUp(1)) }
 
     if (status.resolution != Resolution.SMALL) {
       assert(playerOnList == enterContestPage.getSoccerPlayerFromList(1))
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
-          .getNumberOfSoccerPlayers must be (enterContestState.contest.numAllPlayers)
+      eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numAllPlayers) }
 
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_GOAL_KEEPER)
-          .getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers)
+      eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers) }
 
       enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
           .setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
-          .getNumberOfSoccerPlayers must be (1)
+      eventually { enterContestPage.getNumberOfSoccerPlayers must be (1) }
     }
 
-    assert(enterContestPage.getLineUpSalary < enterContestState.contest.initialSalary)
+    eventually { assert(enterContestPage.getLineUpSalary < enterContestState.contest.initialSalary) }
     enterContestPage.clearLineupList
   }
 
@@ -386,14 +428,14 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     val playerOnList = enterContestPage.getSoccerPlayerFromList(4)
     enterContestPage.addSoccerPlayerFromList(4)
-    assert(playerOnList == enterContestPage.getSoccerPlayerFromLineUp(2))
+    eventually { assert(playerOnList == enterContestPage.getSoccerPlayerFromLineUp(2)) }
 
     enterContestPage.selectDefenseFromLineup(3)
     assert(playerOnList == enterContestPage.getSoccerPlayerFromList(4))
-    enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers) }
 
-    assert(enterContestPage.setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
-               .getNumberOfSoccerPlayers == 1, "Player should exist.")
+    enterContestPage.setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
+    eventually { assert(enterContestPage.getNumberOfSoccerPlayers == 1, "Player should exist.") }
 
     enterContestPage.cancelSoccerPlayerSelection
     assert(enterContestPage.getLineUpSalary < enterContestState.contest.initialSalary)
@@ -401,13 +443,15 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   }
 
   def pickAndClearWholeLineup:Unit = {
-    enterContestPage.clearLineupList
+    eventually { enterContestPage.getLineUpSalary must be (enterContestState.contest.initialSalary) }
+    logger.debug("salary confirmed")
     val contest = enterContestState.contest
 
     enterContestPage.pickWholeLineup(contest.affordableLineup)
+    logger.debug("lineup picked")
 
-    Thread.sleep(6000)
-    assert(enterContestPage.getLineUpSalary == (contest.initialSalary - contest.affordableLineup.price))
+    eventually { assert(enterContestPage.getLineUpSalary == (contest.initialSalary - contest.affordableLineup.price)) }
+    logger.debug("Lineup salary confirmed")
     enterContestPage.removeSoccerPlayerFromLineUp(1).getLineUpSalary must be > 0
 
     enterContestPage.clearLineupList.getLineUpSalary must be (contest.initialSalary)
@@ -494,7 +538,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     enterContestPage.selectDefenseFromLineup(1)
 
     Then("soccer player should appear alone.")
-    enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers) }
 
     When("add the soccer player")
     enterContestPage.addSoccerPlayerFromList(1)
@@ -503,7 +547,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     enterContestPage.selectDefenseFromLineup(2)
     Then("soccer player should appear alone as inserted (action button as remove).")
     logger.debug(s"Soccer player lines: ${enterContestPage.getNumberOfSoccerPlayers}, should be: ${enterContestState.contest.numDefensePlayers}")
-    enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers) }
 
   }
 
@@ -524,7 +568,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     }
 
     enterContestPage.setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
-    enterContestPage.getNumberOfSoccerPlayers must be (1)
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (1) }
   }
 
   def knownBugSequence_DuplicatedPlayersAtInsert:Unit = {
@@ -546,11 +590,11 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     if (status.resolution != Resolution.SMALL) {
       enterContestPage.selectGoalKeeperFromLineup
-          .setSoccerPlayerPositionFilter(SoccerPlayer.POS_FORWARD)
+      eventually { enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_FORWARD) }
 
       enterContestPage.addSoccerPlayerFromList(1)
-      assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
-      assert(!enterContestPage.getSoccerPlayerFromLineUp(10).isEmpty)
+      eventually { assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty) }
+      eventually { assert(!enterContestPage.getSoccerPlayerFromLineUp(10).isEmpty) }
       enterContestPage.clearLineupList
     }
 
