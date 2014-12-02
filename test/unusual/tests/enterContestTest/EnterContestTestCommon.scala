@@ -100,7 +100,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
       logger.debug("Selecting goalkeeper")
       enterContestPage.selectGoalKeeperFromLineup
       logger.debug("Order by name")
-      eventually { assert(enterContestPage.orderByName.isOrderedByName, "(Goalkeeper) Is not ordered by name") }
+      eventually { enterContestPage.orderByName }
+      eventually { assert(enterContestPage.isOrderedByName, "(Goalkeeper) Is not ordered by name") }
       logger.debug("Canceling goalkeeper selection")
       enterContestPage.cancelSoccerPlayerSelection
 
@@ -126,7 +127,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
       eventually { assert(enterContestPage.orderByDFP.isOrderedByDFP) }
     } else {
       enterContestPage.selectGoalKeeperFromLineup
-      eventually { assert(enterContestPage.orderByDFP.isOrderedByDFP, "(Goalkeeper) Is not ordered by DFP") }
+      eventually { enterContestPage.orderByDFP }
+      eventually { assert(enterContestPage.isOrderedByDFP, "(Goalkeeper) Is not ordered by DFP") }
       enterContestPage.cancelSoccerPlayerSelection
 
       eventually { enterContestPage.selectDefenseFromLineup(1) }
@@ -156,7 +158,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
       eventually { assert(enterContestPage.orderBySalary.isOrderedBySalary, "page is not ordered by salary") }
     } else {
       enterContestPage.selectGoalKeeperFromLineup
-      eventually { assert(enterContestPage.orderBySalary.isOrderedBySalary, "(Goalkeeper) Is not ordered by Salary") }
+      eventually { enterContestPage.orderBySalary }
+      eventually { assert(enterContestPage.isOrderedBySalary, "(Goalkeeper) Is not ordered by Salary") }
       enterContestPage.cancelSoccerPlayerSelection
 
       eventually { enterContestPage.selectDefenseFromLineup(1) }
@@ -353,7 +356,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
           logger.debug("GoalKeeper Selected")
           eventually {
             page.selectGoalKeeperFromLineup
-            enterContestPage.getNumberOfSoccerPlayers must be (N_GOAL_KEEPER_PLAYERS)
+            page.getNumberOfSoccerPlayers must be (N_GOAL_KEEPER_PLAYERS)
+            page.cancelSoccerPlayerSelection
           }
           page
         }),
@@ -362,7 +366,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
           logger.debug(s"Defense{$r} Selected")
           eventually {
             page.selectDefenseFromLineup(r)
-            enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
+            page.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
+            page.cancelSoccerPlayerSelection
           }
           page
         }),
@@ -371,7 +376,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
           logger.debug(s"Middle{$r} Selected")
           eventually {
             page.selectMiddleFromLineup(r)
-            enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
+            page.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
+            page.cancelSoccerPlayerSelection
           }
           page
         }),
@@ -380,14 +386,15 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
           logger.debug(s"Forward{$r} Selected")
           eventually {
             page.selectForwardFromLineup(r)
-            enterContestPage.getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS)
+            page.getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS)
+            page.cancelSoccerPlayerSelection
           }
           page
         })
       )
 
     for(i <- 0 to 20){
-      allFunctions(scala.util.Random.nextInt(4) + 1)(enterContestPage).cancelSoccerPlayerSelection
+      allFunctions(scala.util.Random.nextInt(4) + 1)(enterContestPage)
     }
   }
 
@@ -533,6 +540,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     When("clear lineup")
     enterContestPage.clearLineupList
+    eventually { assert(enterContestPage.getSoccerPlayerFromLineUp(2).isEmpty) }
 
     And("search the soccer player")
     enterContestPage.selectDefenseFromLineup(1)

@@ -296,14 +296,11 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   def getNumberOfSoccerPlayers: Int = {
     var n = 0
-    eventually (timeout(2 seconds)) {
-      n = fastCountByCssSelector(SOCCER_PLAYER_LIST_SLOT)
-    }
+    eventually (timeout(2 seconds)) { n = fastCountByCssSelector(SOCCER_PLAYER_LIST_SLOT) }
     n
   }
 
   def getLineUpSalary: Int = {
-
     var salary = find(cssSelector(LINEUP_SALARY)).get.text
     salary = salary.substring(0, salary.length() -1)
     Integer.parseInt(salary)
@@ -312,8 +309,20 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   def cancelSoccerPlayerSelection = {
     if(resolution == Resolution.SMALL) {
-      eventually { click on find(cssSelector(BUTTON_CANCEL_SOCCER_PLAYER_SELECTION_MOBILE)).get }
+
+      eventually {
+        logger.debug(s"checking ${SOCCER_PLAYER_LINEUP_SLOT(1)} displayed")
+        if ( !find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT(1))).get.isDisplayed ) {
+          logger.debug("is not displayed")
+          click on find(cssSelector(BUTTON_CANCEL_SOCCER_PLAYER_SELECTION_MOBILE)).get
+        }
+        val check = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT(1))).get.isDisplayed
+        logger.debug(s"${SOCCER_PLAYER_LINEUP_SLOT(1)} is displayed", check)
+        assert( check )
+      }
+
     }
+
     this
   }
 

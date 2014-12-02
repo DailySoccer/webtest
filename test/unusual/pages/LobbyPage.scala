@@ -305,7 +305,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
       logger.debug("{" + FILTERS_PANEL + "} is not displayed", isDefault)
     }
 
-/*
+    /*
     if (resolution == Resolution.SMALL) {
       isDefault = isDefault && isElemDisplayed(CONTEST_LIST_MENU_MOBILE)
 
@@ -317,8 +317,9 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
       isDefault = isDefault && filters.areAllClear
       logger.debug("Are all filters clear", isDefault)
 
-      isDefault = isDefault && getNumberOfContests == numberOfContest
-      logger.debug("Number of contests: current(" + getNumberOfContests + "), expected(" + numberOfContest + ")", isDefault)
+      val currNumOfContests = getNumberOfContests
+      isDefault = isDefault && currNumOfContests == numberOfContest
+      logger.debug("Number of contests: current(" + currNumOfContests + "), expected(" + numberOfContest + ")", isDefault)
       isDefault = isDefault && areContestsOrderedByStartTime
       logger.debug("Contests are ordered by start time", isDefault)
     //}
@@ -326,12 +327,9 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     isDefault
   }
 
-  def isNotLoggedIn: Boolean = {
-    new MenuBar(resolution).isLoginBar
-  }
-  def isLoggedIn: Boolean = {
-    new MenuBar(resolution).isLoggedBar
-  }
+  def isNotLoggedIn: Boolean = new MenuBar(resolution).isLoginBar
+
+  def isLoggedIn: Boolean = new MenuBar(resolution).isLoggedBar
 
 
   /**************** NAVIGATION XS METHODS ****************/
@@ -590,10 +588,15 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
     val currPage = paginator.getCurrentPage
     logger.debug(s"currentPage is $currPage")
-    paginator.goToLastPage
-    logger.debug("Goes to last page")
-    val pages = paginator.getNumberOfPages
-    logger.debug(s"Number of pages is $pages")
+
+    var pages = 0
+    eventually {
+      pages = paginator.getNumberOfPages
+      logger.debug(s"Number of pages is $pages")
+      logger.debug("Goes to last page")
+      paginator.goToLastPage
+      assert(paginator.getCurrentPage == pages, "paginator does not go to last page")
+    }
 
     // Esta parece la unica rapida y efectiva
     val lastPageRows = fastCountByCssSelector(CONTEST_ROW_CONTAINER)

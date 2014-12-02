@@ -51,13 +51,13 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun.++"
-    contest.description = "Gratuito: 12 de 100 jugadores - Límite de salario: 65000"
+    contest.description = "Gratuito: 13 de 100 jugadores - Límite de salario: 65000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "Hoy"
     // BRA-HRV MEX-CMR ESP-NLD
     contest.numMatches = 3
-    contest.numContestants = 12
+    contest.numContestants = 13
     contest.numPrizes = 0
 
     contest.nameOrder = 38
@@ -103,13 +103,13 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun.!!"
-    contest.description = "Gratuito: 12 de 200 jugadores - Límite de salario: 60000"
+    contest.description = "Gratuito: 13 de 200 jugadores - Límite de salario: 60000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "14/06"
     // ESP-NLD ENG-ITA
     contest.numMatches = 2
-    contest.numContestants = 12
+    contest.numContestants = 13
     contest.numPrizes = 0
 
     contest.nameOrder = 37
@@ -153,13 +153,13 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun...."
-    contest.description = "Gratuito: 12 de 200 jugadores - Límite de salario: 70000"
+    contest.description = "Gratuito: 13 de 200 jugadores - Límite de salario: 70000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "Hoy"
     // BRA-HRV FRA-HND ARG-IRN KOR-BEL
     contest.numMatches = 4
-    contest.numContestants = 12
+    contest.numContestants = 13
     contest.numPrizes = 0
 
     contest.nameOrder = 39

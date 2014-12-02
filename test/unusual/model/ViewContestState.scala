@@ -12,18 +12,19 @@ class ViewContestState {
 object ViewContestState {
 
   private val completeUserList = Array (
-    new User("Antonio", "", "", "", ""),
-    new User("Belen", "", "", "", ""),
-    new User("Fede", "", "", "", ""),
-    new User("Flaco", "", "", "", ""),
-    new User("Fran", "", "", "", ""),
-    new User("Goyo", "", "", "", ""),
-    new User("Javi", "", "", "", ""),
-    new User("Machus", "", "", "", ""),
-    new User("Neo", "", "", "", ""),
-    new User("Revelo", "", "", "", ""),
-    new User("Zincoontrin", "", "", "", ""),
-    new User("Ximo", "", "", "", ""),
+    new User("AntonioTest", "", "", "", ""),
+    new User("BelenTest", "", "", "", ""),
+    new User("FedeTest", "", "", "", ""),
+    new User("FlacoTest", "", "", "", ""),
+    new User("FranTest", "", "", "", ""),
+    new User("GoyoTest", "", "", "", ""),
+    new User("JaviTest", "", "", "", ""),
+    new User("MachusTest", "", "", "", ""),
+    new User("MariaTest", "", "", "", ""),
+    new User("NeoTest", "", "", "", ""),
+    new User("ReveloTest", "", "", "", ""),
+    new User("ZincoontrinTest", "", "", "", ""),
+    new User("XimoTest", "", "", "", ""),
     new User("Test", "", "", "", "")
   )
 

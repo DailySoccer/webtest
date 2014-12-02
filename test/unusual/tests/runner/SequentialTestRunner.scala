@@ -9,8 +9,8 @@ import unusual.tests.simulatorController.InitializerTest
 
 
 class SequentialTestRunner extends Sequential(
-  /*new InitializerTest(Resolution.ANY)
-  , */SequentialTestRunner.lobbyTests
+  new InitializerTest(Resolution.ANY)
+  , SequentialTestRunner.lobbyTests
   , SequentialTestRunner.contestDescriptionTests
   , SequentialTestRunner.enterContestTests
 )
