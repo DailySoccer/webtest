@@ -12,7 +12,7 @@ class EnterContestSequentialTestRunner extends Sequential(
   , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, EnterContestState.TIME_0_LIST(1))
   , new InitializerTest(Resolution.MEDIUM)
   , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, EnterContestState.TIME_0_LIST(0))
-  , new InitializerTest(Resolution.SMALL)
+  //, new InitializerTest(Resolution.SMALL)
   , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.SMALL, EnterContestState.TIME_0_LIST(1))
 )
 

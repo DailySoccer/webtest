@@ -354,41 +354,140 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     val allFunctions = Map[Int, (EnterContestPage) => EnterContestPage] (
         1 -> ((page) => {
           logger.debug("GoalKeeper Selected")
+
           eventually {
-            page.selectGoalKeeperFromLineup
-            page.getNumberOfSoccerPlayers must be (N_GOAL_KEEPER_PLAYERS)
+            try {
+              page.selectGoalKeeperFromLineup
+              eventually(timeout(1 second)) { page.getNumberOfSoccerPlayers must be(N_GOAL_KEEPER_PLAYERS) }
+            } catch {
+              case e: Exception => {
+                page.cancelSoccerPlayerSelection
+                throw new Exception("Error selecting goalkeeper")
+              }
+            }
             page.cancelSoccerPlayerSelection
+
           }
+          /*
+          eventually {
+            eventually (timeout(2 seconds)) {
+              logger.debug(s"select")
+              page.selectGoalKeeperFromLineup
+              eventually(timeout(1 second)) {
+                logger.debug(s"check num players")
+                page.getNumberOfSoccerPlayers must be(N_GOAL_KEEPER_PLAYERS)
+                logger.debug(s"checked")
+              }
+            }
+            logger.debug(s"canceling")
+            page.cancelSoccerPlayerSelection
+            logger.debug(s"canceled")
+          }*/
+          /*
+          logger.debug(s"select")
+          page.selectGoalKeeperFromLineup
+          logger.debug(s"check num players")
+          eventually { page.getNumberOfSoccerPlayers must be(N_GOAL_KEEPER_PLAYERS) }
+          logger.debug(s"canceling")
+          page.cancelSoccerPlayerSelection
+          */
           page
         }),
         2 -> ((page) => {
           val r = scala.util.Random.nextInt(4) + 1
           logger.debug(s"Defense{$r} Selected")
+
           eventually {
-            page.selectDefenseFromLineup(r)
-            page.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
+            try {
+              page.selectDefenseFromLineup(r)
+              eventually(timeout(1 second)) { page.getNumberOfSoccerPlayers must be(N_DEFENSE_PLAYERS) }
+            } catch {
+              case e: Exception => {
+                page.cancelSoccerPlayerSelection
+                throw new Exception("Error selecting defense")
+              }
+            }
             page.cancelSoccerPlayerSelection
           }
+          /*
+          val r = scala.util.Random.nextInt(4) + 1
+          logger.debug(s"Defense{$r} Selected")
+          eventually {
+            eventually (timeout(2 seconds)) {
+              logger.debug(s"select")
+              page.selectDefenseFromLineup(r)
+              eventually(timeout(1 second)) {
+                logger.debug(s"check num players")
+                page.getNumberOfSoccerPlayers must be(N_DEFENSE_PLAYERS)
+                logger.debug(s"checked")
+              }
+            }
+            logger.debug(s"canceling")
+            page.cancelSoccerPlayerSelection
+            logger.debug(s"canceled")
+          }*/
+          /*
+          logger.debug(s"select")
+          page.selectDefenseFromLineup(r)
+          logger.debug(s"check num players")
+          eventually { page.getNumberOfSoccerPlayers must be(N_DEFENSE_PLAYERS) }
+          logger.debug(s"canceling")
+          page.cancelSoccerPlayerSelection
+          */
           page
         }),
         3 -> ((page) => {
           val r = scala.util.Random.nextInt(4) + 1
           logger.debug(s"Middle{$r} Selected")
+
           eventually {
-            page.selectMiddleFromLineup(r)
-            page.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS)
+            try {
+              page.selectMiddleFromLineup(r)
+
+              eventually(timeout(1 second)) { page.getNumberOfSoccerPlayers must be(N_MIDDLE_PLAYERS) }
+            } catch {
+              case e: Exception => {
+                page.cancelSoccerPlayerSelection
+                throw new Exception("Error selecting middle")
+              }
+            }
             page.cancelSoccerPlayerSelection
           }
+          /*
+          logger.debug(s"select")
+          page.selectMiddleFromLineup(r)
+          logger.debug(s"check num players")
+          eventually { page.getNumberOfSoccerPlayers must be(N_MIDDLE_PLAYERS) }
+          logger.debug(s"canceling")
+          page.cancelSoccerPlayerSelection
+          */
           page
         }),
         4 -> ((page) => {
           val r = scala.util.Random.nextInt(2) + 1
           logger.debug(s"Forward{$r} Selected")
+
           eventually {
-            page.selectForwardFromLineup(r)
-            page.getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS)
+            try {
+              page.selectForwardFromLineup(r)
+
+              eventually(timeout(1 second)) { page.getNumberOfSoccerPlayers must be(N_FORWARD_PLAYERS) }
+            } catch {
+              case e: Exception => {
+                page.cancelSoccerPlayerSelection
+                throw new Exception("Error selecting forward")
+              }
+            }
             page.cancelSoccerPlayerSelection
           }
+          /*
+          logger.debug(s"select")
+          page.selectForwardFromLineup(r)
+          logger.debug(s"check num players")
+          eventually { page.getNumberOfSoccerPlayers must be(N_FORWARD_PLAYERS) }
+          logger.debug(s"canceling")
+          page.cancelSoccerPlayerSelection
+          */
           page
         })
       )

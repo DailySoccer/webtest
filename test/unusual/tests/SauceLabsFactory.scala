@@ -1,6 +1,7 @@
 package unusual.tests
 
 import java.net.URL
+import java.util.concurrent.TimeUnit
 
 import com.saucelabs.common.{SauceOnDemandAuthentication, SauceOnDemandSessionIdProvider}
 import org.openqa.selenium._
@@ -104,26 +105,30 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    * @return an new instance of a Selenium `RemoteDriver` or a `BrowserFactory.UnavailableDriver`
    */
   def createWebDriver : WebDriver = {
+    var webDriver:WebDriver = null
     host match {
       case SAUCE_LABS_HOST =>
         println("RemoteDriver SauceLabs -----------")
-        createSauceLabsDriver
+        webDriver = createSauceLabsDriver
 
       case CHROME_HOST =>
         println("ChromeDriver -----------")
-        new ChromeDriver
+        webDriver = new ChromeDriver
 
       case FIREFOX_HOST =>
         println("FirefoxDriver -----------")
-        new FirefoxDriver
+        webDriver = new FirefoxDriver
 
       case PHANTOMJS_HOST =>
         println("PhantomJS Driver ----------")
-        new PhantomJSDriver
+        webDriver = new PhantomJSDriver
+
       case SAFARI_HOST =>
         println("Safari Driver ----------")
-        new SafariDriver()
+        webDriver = new SafariDriver
     }
+    //webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS)
+    webDriver
   }
 
   /**
