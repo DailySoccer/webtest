@@ -371,6 +371,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
 
   def paginatorMainFunctionality: Unit = {
     goToLobbyPage(lobbyState)
+    reloadPage()
     changeMenuPositioning
     val paginator = new PaginatorControl(status.resolution, lobbyPage.CONTEST_LIST_CONTAINER)
 
@@ -387,9 +388,9 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
     paginator.goToFirstPage.getCurrentPage must be (1)
     logger.debug(s"Go to First page => Current pages is 1")
     paginator.goToNextPage.getCurrentPage must be (2)
-    logger.debug(s"Go to First page => Current pages is 2")
+    logger.debug(s"Go to Next page => Current pages is 2")
     paginator.goToNextPage.getCurrentPage must be (3)
-    logger.debug(s"Go to First page => Current pages is 3")
+    logger.debug(s"Go to Next page => Current pages is 3")
     paginator.goToPreviousPage.getCurrentPage must be (2)
     logger.debug(s"Current page is ${lobbyState.maxPaginatorPage}")
     paginator.goToPreviousPage.getCurrentPage must be (1)
