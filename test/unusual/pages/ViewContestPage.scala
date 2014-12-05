@@ -5,11 +5,12 @@ import unusual.pages.components.{FooterBar, MenuBar}
 
 class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPage(res) {
 
-  val CONTEST_HEADER:String = "#headerContestWidget"
+  val CONTEST_HEADER:String = "contest-header"
 
   val CONTEST_NAME:String = CONTEST_HEADER + " .contest-name"
   val CONTEST_DESCRIPTION:String = CONTEST_HEADER + " .contest-explanation"
-  val CONTEST_ENTRY:String = CONTEST_HEADER + " .contest-name"
+  val CONTEST_ENTRY:String = CONTEST_HEADER + " .contest-price span"
+  val CONTEST_PRIZE:String = CONTEST_HEADER + " .contest-prize span"
   //val CONTEST_NAME:String = CONTEST_HEADER + " .contest-name"
 
   val SOCCER_PLAYER_LINEUP_WRAPPER:String = ".fantasy-team-wrapper"
@@ -47,6 +48,7 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
     _isAt = _isAt && isElemDisplayed(SOCCER_PLAYER_LINEUP_WRAPPER)
     _isAt = _isAt && isElemDisplayed(SOCCER_PLAYER_LINEUP_HEADER)
     _isAt = _isAt && isElemDisplayed(SOCCER_PLAYER_LINEUP_LIST)
+
     if (resolution != Resolution.SMALL) {
       _isAt = _isAt && isElemDisplayed(USER_PLAYER_LIST_WRAPPER)
       _isAt = _isAt && isElemDisplayed(USER_PLAYER_LIST_HEADER)
@@ -89,20 +91,36 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
   def getUserName(idx:Int):String = {
     find(cssSelector(USER_PLAYER_SLOT_NAME(idx))).get.text
   }
-  def getContestName():String = {
+
+  def getContestName:String = {
     find(cssSelector(CONTEST_NAME)).get.text
   }
-  /*
-  def getContestDescription():String = {
-    find(cssSelector(USER_PLAYER_SLOT_NAME(idx))).get.text
+  def getContestDescription:String = {
+    find(cssSelector(CONTEST_DESCRIPTION)).get.text
   }
-  def getContestName():String = {
-    find(cssSelector(USER_PLAYER_SLOT_NAME(idx))).get.text
+  def getContestEntry:String = {
+    find(cssSelector(CONTEST_ENTRY)).get.text
   }
-  def getContestName():String = {
-    find(cssSelector(USER_PLAYER_SLOT_NAME(idx))).get.text
+  def getContestPrize:String = {
+    find(cssSelector(CONTEST_PRIZE)).get.text
   }
-*/
+
+  def getNumMatches:Int = {
+    if (resolution == Resolution.SMALL) {
+      eventually { assert( find(cssSelector("#teamsPanelRoot .collapsing")) == None ) }
+
+      if ( find(cssSelector("#teamsPanelRoot .in")) == None ) { toggleTeams }
+    }
+
+    findAll(cssSelector("#teamsPanelRoot .teams-box")).length
+  }
+
+  def changeToLineUpTab:Unit = click on find(cssSelector("#viewContestEntryTab li:nth-child(1) a")).get
+
+  def changeToUsersTab:Unit = click on find(cssSelector("#viewContestEntryTab li:nth-child(2) a")).get
+
+  def goEditTeam:Unit = click on find(cssSelector("fantasy-team .edit-team button.btn-edit-team")).get
+
   private def getSoccerPlayerPositionFromList(index: Int) = {
     var pos:String = ""
     val posTxt:String = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text
@@ -118,5 +136,7 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
     logger.debug(pos)
     pos
   }
+
+  private def toggleTeams = click on find(cssSelector("#teamsToggler")).get
 
 }

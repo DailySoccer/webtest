@@ -8,17 +8,24 @@ import unusual.tests.enterContestTest.EnterContestTestCommon
 class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends SharedTest(res) {
 
   val viewContestState = state
-  var page:ViewContestPage = null
-
-  def accessToViewContest:Unit = {
-    val page = goToViewContest(viewContestState)
+  var _viewContestPageInstance:ViewContestPage = null
+  def viewContestPage:ViewContestPage = {
+    if(_viewContestPageInstance == null) {
+      _viewContestPageInstance = goToViewContest(viewContestState)
+      changeMenuPositioning
+    }
+    _viewContestPageInstance
   }
-
+/*
+  def accessToViewContest:Unit = {
+    goToViewContest(viewContestState)
+  }
+*/
   def isCorrectLineup:Unit = {
     val playerLineup = state.contest.affordableLineup.soccerPlayerList
 
     for(i <- 0 to 10) {
-      val player = page.getSoccerPlayer(i + 1)
+      val player = viewContestPage.getSoccerPlayer(i + 1)
 
       assert(player == playerLineup(i), s"SoccerPlayer #$i does not match {page = $player, state = ${playerLineup(i)}" )
     }
@@ -27,9 +34,12 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
   def checkPlayersList:Unit = {
     var everyUserExists = true
     var i = 0
+    if (res == Resolution.SMALL) {
+      viewContestPage.changeToUsersTab
+    }
     for(user <- state.userList) {
       i += 1
-      val isUserName = page.getUserName(i) == user.firstName
+      val isUserName = viewContestPage.getUserName(i) == user.firstName
       logger.debug(s"User[$i] should be: ${user.firstName}", isUserName)
       everyUserExists &&= isUserName
     }
@@ -37,24 +47,30 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
     assert(everyUserExists, "Player list does not match")
   }
 
-  def isRightContestName:Unit = {
-
-  }
-
-  def isRightContestDescription:Unit = {
-
+  def isRightContestInfo:Unit = {
+    assert(viewContestState.contest.name == viewContestPage.getContestName)
+    assert(viewContestState.contest.description == viewContestPage.getContestDescription)
+    assert(viewContestState.contest.entryFee == viewContestPage.getContestEntry)
+    assert(viewContestState.contest.prize == viewContestPage.getContestPrize)
   }
 
   def checkMatches:Unit = {
-
+    assert(viewContestState.contest.numMatches == viewContestPage.getNumMatches)
   }
 
-  def checkEntryAndPrize:Unit = {
+  def checkEditButton:Unit = {
+    viewContestPage.goEditTeam
+    val ecState = new EnterContestState
+    ecState.contest = viewContestState.contest
+    val ecPage = (new EnterContestPage(res, ecState))
 
-  }
-
-  def checkButtons:Unit = {
-
+    assert( ecPage.isAt )
+    assert( ecPage.isLineupFull )
+    assert( ecPage.getLineUpSalary == (ecState.contest.initialSalary - ecState.contest.affordableLineup.price ))
+    if (res != Resolution.SMALL) {
+      assert( ecPage.getNumberOfSoccerPlayers == ecState.contest.numAllPlayers )
+    }
+    ecPage.confirmLineup
   }
 
 }

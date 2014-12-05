@@ -47,7 +47,7 @@ object Lineup {
       lineup
     }, {
       val lineup = new Lineup
-    // ESTA ALINEACION NO ESTA CONFIGURADA
+      // ESTA ALINEACION NO ESTA CONFIGURADA
       lineup.soccerPlayerList = Array( new SoccerPlayer ("sergio romero"     , SoccerPlayer.POS_GOAL_KEEPER, 4500)
                                      , new SoccerPlayer ("dante"             , SoccerPlayer.POS_DEFENSE    , 4500)
                                      , new SoccerPlayer ("maxwell"           , SoccerPlayer.POS_DEFENSE    , 4500)
@@ -69,7 +69,7 @@ object Lineup {
     { val lineup = new Lineup
       lineup.soccerPlayerList = Array( new SoccerPlayer ("jefferson"         , SoccerPlayer.POS_GOAL_KEEPER, 4500)
                                      , new SoccerPlayer ("dante"             , SoccerPlayer.POS_DEFENSE    , 2500)
-                                     , new SoccerPlayer ("miguel layun"      , SoccerPlayer.POS_DEFENSE    , 6000)
+                                     , new SoccerPlayer ("miguel layún"      , SoccerPlayer.POS_DEFENSE    , 6000)
                                      , new SoccerPlayer ("nyom"              , SoccerPlayer.POS_DEFENSE    , 2000)
                                      , new SoccerPlayer ("henri bedimo"      , SoccerPlayer.POS_DEFENSE    , 6000)
                                      , new SoccerPlayer ("paulinho"          , SoccerPlayer.POS_MIDDLE     , 4000)
@@ -97,7 +97,7 @@ object Lineup {
       lineup
     }, {
       val lineup = new Lineup
-    // ESTA ALINEACION NO ESTA CONFIGURADA
+      // ESTA ALINEACION NO ESTA CONFIGURADA
       lineup.soccerPlayerList = Array( new SoccerPlayer ("sergio romero"     , SoccerPlayer.POS_GOAL_KEEPER, 13800)
                                      , new SoccerPlayer ("dante"             , SoccerPlayer.POS_DEFENSE    , 6200)
                                      , new SoccerPlayer ("maxwell"           , SoccerPlayer.POS_DEFENSE    , 7800)

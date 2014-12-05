@@ -168,6 +168,14 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     isEmpty
   }
 
+  def isLineupFull: Boolean = {
+    var isFull = true
+    for (i <- 1 to 11){
+      isFull &&= !getSoccerPlayerFromLineUp(i).isEmpty
+    }
+    isFull
+  }
+
   def isOrderedByPos: Boolean = {
 /*
     // 25 segundos de test
