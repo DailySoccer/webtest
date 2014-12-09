@@ -10,8 +10,8 @@ import unusual.tests.viewContestEntryTest.runner.ViewContestSequentialTestRunner
 
 
 class SequentialTestRunner extends Sequential(
-  /*new InitializerTest(Resolution.ANY)
-  , */SequentialTestRunner.lobbyTests
+  new InitializerTest(Resolution.ANY)
+  , SequentialTestRunner.lobbyTests
   , SequentialTestRunner.contestDescriptionTests
   , SequentialTestRunner.enterContestTests
   , SequentialTestRunner.viewContestTests

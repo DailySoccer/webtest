@@ -1,6 +1,6 @@
 package unusual.tests.viewContestEntryTest.runner
 
-import org.scalatest.Sequential
+import org.scalatest.{Suite, Sequential}
 import unusual.model.{LobbyState, Resolution, ViewContestState, Contest}
 import unusual.tests.SharedTest
 import unusual.tests.contestDescriptionTest._
@@ -10,21 +10,23 @@ import unusual.tests.viewContestEntryTest._
 
 
 class ViewContestSequentialTestRunner extends Sequential(
-  new InitializerTest(Resolution.BIG)
+  new InitializerTest(Resolution.ANY)
   , ViewContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, ViewContestState.TIME_0_LIST(0))
   , ViewContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, ViewContestState.TIME_0_LIST(1))
-  , new InitializerTest(Resolution.MEDIUM)
   , ViewContestSequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, ViewContestState.TIME_0_LIST(0))
-  , new InitializerTest(Resolution.SMALL)
   , ViewContestSequentialTestRunner.createBunchOfTests(Resolution.SMALL, ViewContestState.TIME_0_LIST(0))
 )
 
 
 private object ViewContestSequentialTestRunner {
-  def createBunchOfTests(resolution:Resolution, state: ViewContestState) = new Sequential(
-    new ViewContestAuthTest(state, resolution)
-  )
+  def createBunchOfTests(resolution:Resolution, state: ViewContestState):Suite =
+    if (resolution.enabled) {
+      new ViewContestAuthTest(state, resolution)
+    } else {
+      new Sequential
+    }
 }
+
 /*
 class ViewContestSequentialTestRunner extends Sequential(
 

@@ -4,6 +4,7 @@ class Contest () {
 
   var name = ""
   var description = ""
+  var joinedDescription = ""
   var entryFee = ""
   var prize = ""
   var date = ""
@@ -52,6 +53,7 @@ object Contest {
     val contest = new Contest()
     contest.name = "jue., 12 jun.++"
     contest.description = "Gratuito: 13 de 100 jugadores - Límite de salario: 65000"
+    contest.joinedDescription = "Gratuito: 14 de 100 jugadores - Límite de salario: 65000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "Hoy"
@@ -104,6 +106,7 @@ object Contest {
     val contest = new Contest()
     contest.name = "jue., 12 jun.!!"
     contest.description = "Gratuito: 13 de 200 jugadores - Límite de salario: 60000"
+    contest.joinedDescription = "Gratuito: 14 de 200 jugadores - Límite de salario: 60000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "14/06"
@@ -154,6 +157,7 @@ object Contest {
     val contest = new Contest()
     contest.name = "jue., 12 jun...."
     contest.description = "Gratuito: 13 de 200 jugadores - Límite de salario: 70000"
+    contest.joinedDescription = "Gratuito: 14 de 200 jugadores - Límite de salario: 70000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "Hoy"

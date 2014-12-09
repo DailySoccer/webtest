@@ -31,19 +31,16 @@ object ViewContestState {
   val TIME_0_LIST = Array({
     val state = new ViewContestState
     state.contest = Contest.TIME_0_LIST(0)
-    state.contest.description = "Gratuito: 14 de 100 jugadores - Límite de salario: 65000"
     state.userList = completeUserList
     state
   }, {
     val state = new ViewContestState
     state.contest = Contest.TIME_0_LIST(1)
-    state.contest.description = "Gratuito: 14 de 200 jugadores - Límite de salario: 60000"
     state.userList = completeUserList
     state
   }, {
     val state = new ViewContestState
     state.contest = Contest.TIME_0_LIST(2)
-    state.contest.description = "Gratuito: 14 de 200 jugadores - Límite de salario: 70000"
     state.userList = completeUserList
     state
   })

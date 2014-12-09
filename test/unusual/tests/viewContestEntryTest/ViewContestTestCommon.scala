@@ -25,9 +25,10 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
     val playerLineup = state.contest.affordableLineup.soccerPlayerList
 
     for(i <- 0 to 10) {
-      val player = viewContestPage.getSoccerPlayer(i + 1)
-
-      assert(player == playerLineup(i), s"SoccerPlayer #$i does not match {page = $player, state = ${playerLineup(i)}" )
+      eventually {
+        val player = viewContestPage.getSoccerPlayer(i + 1)
+        assert(player == playerLineup(i), s"SoccerPlayer #$i does not match {page = $player, state = ${playerLineup(i)}" )
+      }
     }
   }
 
@@ -49,7 +50,7 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
 
   def isRightContestInfo:Unit = {
     assert(viewContestState.contest.name == viewContestPage.getContestName)
-    assert(viewContestState.contest.description == viewContestPage.getContestDescription)
+    assert(viewContestState.contest.joinedDescription == viewContestPage.getContestDescription)
     assert(viewContestState.contest.entryFee == viewContestPage.getContestEntry)
     assert(viewContestState.contest.prize == viewContestPage.getContestPrize)
   }
@@ -59,18 +60,38 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
   }
 
   def checkEditButton:Unit = {
-    viewContestPage.goEditTeam
+    if (res == Resolution.SMALL) {
+      viewContestPage.changeToLineUpTab
+    }
+    eventually { viewContestPage.goEditTeam }
     val ecState = new EnterContestState
     ecState.contest = viewContestState.contest
-    val ecPage = (new EnterContestPage(res, ecState))
+    val ecPage = new EnterContestPage(res, ecState)
 
-    assert( ecPage.isAt )
-    assert( ecPage.isLineupFull )
-    assert( ecPage.getLineUpSalary == (ecState.contest.initialSalary - ecState.contest.affordableLineup.price ))
+    eventually { assert( ecPage.isAt ) }
+    eventually { assert( ecPage.isLineupFull ) }
+    eventually { assert( ecPage.getLineUpSalary == (ecState.contest.initialSalary - ecState.contest.affordableLineup.price )) }
     if (res != Resolution.SMALL) {
-      assert( ecPage.getNumberOfSoccerPlayers == ecState.contest.numAllPlayers )
+      eventually { assert( ecPage.getNumberOfSoccerPlayers == ecState.contest.numAllPlayers ) }
     }
     ecPage.confirmLineup
+
+    eventually { isRightContestInfo }
   }
 
+  def goOtherContests:Unit = {
+    viewContestPage.changeToLineUpTab.goOtherContests
+    val lobby = new LobbyPage(res, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
+    eventually { assert( lobby.isAt ) }
+    assert(lobby.getNumberOfContests == LobbyState.DEFAULT_LOBBY.numContests_NoFilter - 1)
+    goBack
+  }
+
+  def cancelEntry:Unit = {
+    viewContestPage.changeToLineUpTab.cancelContestEntry
+    val lobby = new LobbyPage(res, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
+    eventually { assert( lobby.isAt ) }
+    assert(lobby.getNumberOfContests == LobbyState.DEFAULT_LOBBY.numContests_NoFilter)
+    goBack
+  }
 }

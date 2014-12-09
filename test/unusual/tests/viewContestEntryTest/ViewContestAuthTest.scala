@@ -22,6 +22,10 @@ class ViewContestAuthTest(state:ViewContestState, res:Resolution) extends ViewCo
 
     "edit lineup" in checkEditButton
 
+    "click on other contests" in goOtherContests
+
+    "cancel contest entry" in cancelEntry
+
   }
 
  }

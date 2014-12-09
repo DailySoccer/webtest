@@ -7,6 +7,10 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
 
   val CONTEST_HEADER:String = "contest-header"
 
+  val TEAMS_TOGGLER:String = "#teamsToggler"
+  val CONTEST_TEAMS_PANEL:String = "#teamsPanelRoot"
+  val CONTEST_TEAMS_PANEL_BOX:String = CONTEST_TEAMS_PANEL + " .teams-box"
+
   val CONTEST_NAME:String = CONTEST_HEADER + " .contest-name"
   val CONTEST_DESCRIPTION:String = CONTEST_HEADER + " .contest-explanation"
   val CONTEST_ENTRY:String = CONTEST_HEADER + " .contest-price span"
@@ -18,10 +22,10 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
   val SOCCER_PLAYER_LINEUP_LIST:String = ".fantasy-team-list"
 
   val SOCCER_PLAYER_LINEUP_SLOT:String = SOCCER_PLAYER_LINEUP_LIST + " .fantasy-team-slot"
-  def SOCCER_PLAYER_LINEUP_SLOT(idx:Int):String            = SOCCER_PLAYER_LINEUP_SLOT + s":nth-child($idx)"
-  def SOCCER_PLAYER_LINEUP_SLOT_NAME(idx:Int):String       = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .soccer-player-name"
-  def SOCCER_PLAYER_LINEUP_SLOT_SALARY(idx:Int):String     = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .column-salary"
-  def SOCCER_PLAYER_LINEUP_SLOT_POSITION(idx:Int):String   = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .column-fieldpos"
+  private def SOCCER_PLAYER_LINEUP_SLOT(idx:Int):String            = SOCCER_PLAYER_LINEUP_SLOT + s":nth-child($idx)"
+  private def SOCCER_PLAYER_LINEUP_SLOT_NAME(idx:Int):String       = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .soccer-player-name"
+  private def SOCCER_PLAYER_LINEUP_SLOT_SALARY(idx:Int):String     = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .column-salary"
+  private def SOCCER_PLAYER_LINEUP_SLOT_POSITION(idx:Int):String   = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .column-fieldpos"
 
   val USER_PLAYER_LIST_WRAPPER:String = "#usersListRoot"
   val USER_PLAYER_LIST_HEADER:String = ".users-header-next"
@@ -29,9 +33,17 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
   val USER_PLAYER_LIST_TABLE_ROWS:String = ".users-table-rows"
 
   val USER_PLAYER_SLOT:String = ".users-table-rows .user-row"
-  def USER_PLAYER_SLOT(idx:Int):String       = USER_PLAYER_SLOT + s":nth-child($idx)"
-  def USER_PLAYER_SLOT_NAME(idx:Int):String  = USER_PLAYER_SLOT(idx) + " .name"
-  def USER_PLAYER_SLOT_SCORE(idx:Int):String = USER_PLAYER_SLOT(idx) + " .score"
+  private def USER_PLAYER_SLOT(idx:Int):String       = USER_PLAYER_SLOT + s":nth-child($idx)"
+  private def USER_PLAYER_SLOT_NAME(idx:Int):String  = USER_PLAYER_SLOT(idx) + " .name"
+  private def USER_PLAYER_SLOT_SCORE(idx:Int):String = USER_PLAYER_SLOT(idx) + " .score"
+
+  val OTHER_CONTESTS_BUTTON:String = "#viewContestEntry .view-contest-entry-actions-wrapper .btn-back-contest"
+  val CANCEL_CONTEST_ENTRY_BUTTON:String = "#viewContestEntry .view-contest-entry-actions-wrapper .btn-cancel-contest"
+  val EDIT_TEAM_BUTTON:String = "fantasy-team .edit-team button.btn-edit-team"
+
+  private def TABS(order:Int):String = s"#viewContestEntryTab li:nth-child($order) a"
+  val LINEUP_TAB:String = TABS(1)
+  val USERS_TAB:String = TABS(2)
 
 
   override def isAt = {
@@ -107,19 +119,39 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
 
   def getNumMatches:Int = {
     if (resolution == Resolution.SMALL) {
-      eventually { assert( find(cssSelector("#teamsPanelRoot .collapsing")) == None ) }
+      eventually { assert( find(cssSelector(CONTEST_TEAMS_PANEL + " .collapsing")) == None ) }
 
-      if ( find(cssSelector("#teamsPanelRoot .in")) == None ) { toggleTeams }
+      if ( find(cssSelector(CONTEST_TEAMS_PANEL + " .in")) == None ) { toggleTeams }
+
+      eventually { assert( find(cssSelector(CONTEST_TEAMS_PANEL + " .collapsing")) == None ) }
     }
 
-    findAll(cssSelector("#teamsPanelRoot .teams-box")).length
+    findAll(cssSelector(CONTEST_TEAMS_PANEL_BOX)).length
   }
 
-  def changeToLineUpTab:Unit = click on find(cssSelector("#viewContestEntryTab li:nth-child(1) a")).get
+  def changeToLineUpTab = {
+    if (resolution == Resolution.SMALL) { click on find(cssSelector(LINEUP_TAB)).get }
+    this
+  }
 
-  def changeToUsersTab:Unit = click on find(cssSelector("#viewContestEntryTab li:nth-child(2) a")).get
+  def changeToUsersTab = {
+    if (resolution == Resolution.SMALL) { click on find(cssSelector(USERS_TAB)).get }
+    this
+  }
 
-  def goEditTeam:Unit = click on find(cssSelector("fantasy-team .edit-team button.btn-edit-team")).get
+  def goEditTeam = {
+    click on find(cssSelector(EDIT_TEAM_BUTTON)).get
+    this
+  }
+
+  def goOtherContests = {
+    click on find(cssSelector(OTHER_CONTESTS_BUTTON)).get
+    this
+  }
+  def cancelContestEntry = {
+    click on find(cssSelector(CANCEL_CONTEST_ENTRY_BUTTON)).get
+    this
+  }
 
   private def getSoccerPlayerPositionFromList(index: Int) = {
     var pos:String = ""
@@ -137,6 +169,9 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
     pos
   }
 
-  private def toggleTeams = click on find(cssSelector("#teamsToggler")).get
+  private def toggleTeams = {
+    click on find(cssSelector(TEAMS_TOGGLER)).get
+    this
+  }
 
 }
