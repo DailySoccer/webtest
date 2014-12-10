@@ -19,6 +19,90 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
   val MAX_DURATION = 3 * HOUR
   val SAUCE_LABS_CONFIG:Map[String, DesiredCapabilities] = Map(
     // FIREFOX
+    "FF_12" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 12")
+                 cap.setCapability(CapabilityType.VERSION, "12")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
+    "FF_13" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 13")
+                 cap.setCapability(CapabilityType.VERSION, "13")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
+    "FF_14" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 14")
+                 cap.setCapability(CapabilityType.VERSION, "14")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
+    "FF_15" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 15")
+                 cap.setCapability(CapabilityType.VERSION, "15")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
+    "FF_16" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 16")
+                 cap.setCapability(CapabilityType.VERSION, "16")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
+    "FF_17" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 17")
+                 cap.setCapability(CapabilityType.VERSION, "17")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
+    "FF_18" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 18")
+                 cap.setCapability(CapabilityType.VERSION, "18")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
+    "FF_19" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 19")
+                 cap.setCapability(CapabilityType.VERSION, "19")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
+    "FF_20" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 20")
+                 cap.setCapability(CapabilityType.VERSION, "20")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
+    "FF_21" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 21")
+                 cap.setCapability(CapabilityType.VERSION, "21")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
+    "FF_22" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 22")
+                 cap.setCapability(CapabilityType.VERSION, "22")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
+    "FF_23" -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 23")
+                 cap.setCapability(CapabilityType.VERSION, "23")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
     "FF_24" -> { val cap = DesiredCapabilities.firefox()
                  cap.setCapability("name", "DFS FF 24")
                  cap.setCapability(CapabilityType.VERSION, "24")
@@ -128,6 +212,52 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
                },
 
     // CHROME
+    "CHROME_26" -> { val cap = DesiredCapabilities.chrome()
+                     cap.setCapability("name", "DFS CHROME 26")
+                     cap.setCapability(CapabilityType.VERSION, "26")
+                     cap.setCapability("max-duration", MAX_DURATION)
+                     cap
+                   },
+    "CHROME_27" -> { val cap = DesiredCapabilities.chrome()
+                     cap.setCapability("name", "DFS CHROME 27")
+                     cap.setCapability(CapabilityType.VERSION, "27")
+                     cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                     cap.setCapability("max-duration", MAX_DURATION)
+                     cap
+                   },
+    "CHROME_28" -> { val cap = DesiredCapabilities.chrome()
+                     cap.setCapability("name", "DFS CHROME 28")
+                     cap.setCapability(CapabilityType.VERSION, "28")
+                     cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                     cap.setCapability("max-duration", MAX_DURATION)
+                     cap
+                   },
+    "CHROME_29" -> { val cap = DesiredCapabilities.chrome()
+                     cap.setCapability("name", "DFS CHROME 29")
+                     cap.setCapability(CapabilityType.VERSION, "29")
+                     cap.setCapability("max-duration", MAX_DURATION)
+                     cap
+                   },
+    "CHROME_30" -> { val cap = DesiredCapabilities.chrome()
+                     cap.setCapability("name", "DFS CHROME 30")
+                     cap.setCapability(CapabilityType.VERSION, "30")
+                     cap.setCapability("max-duration", MAX_DURATION)
+                     cap
+                   },
+    "CHROME_31" -> { val cap = DesiredCapabilities.chrome()
+                     cap.setCapability("name", "DFS CHROME 31")
+                     cap.setCapability(CapabilityType.VERSION, "31")
+                     cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                     cap.setCapability("max-duration", MAX_DURATION)
+                     cap
+                   },
+    "CHROME_32" -> { val cap = DesiredCapabilities.chrome()
+                     cap.setCapability("name", "DFS CHROME 32")
+                     cap.setCapability(CapabilityType.VERSION, "32")
+                     cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                     cap.setCapability("max-duration", MAX_DURATION)
+                     cap
+                   },
     "CHROME_33" -> { val cap = DesiredCapabilities.chrome()
                      cap.setCapability("name", "DFS CHROME 33")
                      cap.setCapability(CapabilityType.VERSION, "33")
