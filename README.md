@@ -25,7 +25,7 @@ Running locally
 To run the tests locally, run in your terminal (RESOLUTION is optional):
 
     $ export RESOLUTION="{smartphone|desktop|tablet|all}"
-    $ export URL="http://localhost:9000"
+    $ export URL="https://backend.epiceleven.localhost:9000"
     $ play test
     
 Or via script:
