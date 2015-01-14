@@ -21,7 +21,7 @@ while [ $count -lt $# ]; do
             echo "ERROR: Parameter error: -l|--localhost and -S|--sauce cannot appear simultaneously"
         fi
         choosenHost=true
-        playArgs="${playArgs}URL=\"http://localhost:9000\" "
+        playArgs="${playArgs}URL=\"https://backend.epiceleven.localhost:9000\" "
 
         let count=count+1
         nextArg=${args[count]}
