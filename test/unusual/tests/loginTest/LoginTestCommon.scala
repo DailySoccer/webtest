@@ -1,6 +1,7 @@
 package unusual.tests.loginTest
 
-import unusual.model.{LobbyState, User, Resolution}
+import unusual.model.pageStates.LobbyState
+import unusual.model.{User, Resolution}
 import unusual.pages.LobbyPage
 import unusual.pages.components.MenuBar
 import unusual.tests._

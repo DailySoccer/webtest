@@ -1,7 +1,8 @@
 package unusual.tests.enterContestTest.runner
 
 import org.scalatest.Sequential
-import unusual.model.{Resolution, LobbyState, EnterContestState}
+import unusual.model.pageStates.EnterContestState
+import unusual.model.Resolution
 import unusual.tests.SharedTest
 import unusual.tests.enterContestTest._
 import unusual.tests.lobbyTest._

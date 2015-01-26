@@ -1,7 +1,7 @@
 package unusual.tests.homeTest.runner
 
 import org.scalatest.Sequential
-import unusual.model.{Resolution, LobbyState}
+import unusual.model.Resolution
 import unusual.tests.SharedTest
 import unusual.tests.homeTest.{HomeVisitorTest, HomeAuthTest}
 import unusual.tests.lobbyTest.{LobbyAuthTest, LobbyVisitorTest}

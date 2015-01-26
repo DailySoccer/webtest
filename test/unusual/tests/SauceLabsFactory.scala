@@ -332,7 +332,22 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
                     cap.setCapability(CapabilityType.VERSION, "8")
                     cap.setCapability("max-duration", MAX_DURATION)
                     cap
-                  }
+                  },
+
+    //OPERA
+    "OPERA_11" -> { val cap = DesiredCapabilities.opera()
+      cap.setCapability("name", "DFS OPERA 11")
+      cap.setCapability(CapabilityType.VERSION, "11")
+      cap.setCapability("max-duration", MAX_DURATION)
+      cap
+    },
+    "OPERA_12" -> { val cap = DesiredCapabilities.opera()
+      cap.setCapability("name", "DFS OPERA 12")
+      cap.setCapability(CapabilityType.VERSION, "12")
+      cap.setCapability("max-duration", MAX_DURATION)
+      cap
+    }
+
   )
 
   val CHROME_HOST   = "chrome"

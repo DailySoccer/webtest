@@ -9,9 +9,10 @@ trait JS_Ops {
 
   def changeMenuPositioning()(implicit driver:WebDriver): Unit = {
     val cssSel = (new MenuBar(Resolution.BIG)).MENU_ROOT
-    //println("$('" + cssSel + "').css('position', 'relative');")
-    //Thread.sleep(10000)
-    WebBrowser.executeScript("$('" + cssSel + "').css('position', 'relative');")
+    val script = s"$$('$cssSel').css('position', 'relative');"
+
+    println(script)
+    WebBrowser.executeScript(script)
   }
 
   def sliderSetVal(min:Int, max:Int, sliderId:String)(implicit driver:WebDriver): Unit = {

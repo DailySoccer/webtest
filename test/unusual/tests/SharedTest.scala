@@ -6,6 +6,7 @@ import play.api.Logger
 import play.api.mvc.RequestHeader
 import unusual.UnusualLogger
 import unusual.model._
+import unusual.model.pageStates.{ViewContestState, LobbyState, EnterContestState}
 import unusual.pages._
 import org.scalatest.time._
 import unusual.pages.util.JS_Ops

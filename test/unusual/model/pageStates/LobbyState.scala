@@ -1,5 +1,6 @@
-package unusual.model
+package unusual.model.pageStates
 
+import unusual.model.Contest
 import unusual.pages.components.PaginatorControl
 
 

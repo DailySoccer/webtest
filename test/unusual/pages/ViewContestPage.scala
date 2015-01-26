@@ -1,6 +1,7 @@
 package unusual.pages
 
 import unusual.model._
+import unusual.model.pageStates.{ViewContestState, EnterContestState}
 import unusual.pages.components.{FooterBar, MenuBar}
 
 class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPage(res) {

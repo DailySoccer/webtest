@@ -1,12 +1,11 @@
-package unusual.tests.viewContestEntryTest
+package unusual.tests.myContestTest
 
 import unusual.model._
 import unusual.model.pageStates.{ViewContestState, LobbyState, EnterContestState}
 import unusual.pages._
 import unusual.tests._
-import unusual.tests.enterContestTest.EnterContestTestCommon
 
-class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends SharedTest(res) {
+class MyContestTestCommon(state: ViewContestState, res:Resolution) extends SharedTest(res) {
 
   val viewContestState = state
   var _viewContestPageInstance:ViewContestPage = null
@@ -50,8 +49,8 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
   }
 
   def isRightContestInfo:Unit = {
-    assert(viewContestState.contest.name.toUpperCase == viewContestPage.getContestName)
-    assert(viewContestState.contest.joinedDescription.toUpperCase == viewContestPage.getContestDescription)
+    assert(viewContestState.contest.name == viewContestPage.getContestName)
+    assert(viewContestState.contest.joinedDescription == viewContestPage.getContestDescription)
     assert(viewContestState.contest.entryFee == viewContestPage.getContestEntry)
     assert(viewContestState.contest.prize == viewContestPage.getContestPrize)
   }
@@ -94,6 +93,5 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
     eventually { assert( lobby.isAt ) }
     assert(lobby.getNumberOfContests == LobbyState.DEFAULT_LOBBY.numContests_NoFilter)
     goBack
-    eventually { assert( lobby.isAt ) }
   }
 }

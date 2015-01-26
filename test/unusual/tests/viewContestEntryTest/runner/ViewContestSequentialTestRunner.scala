@@ -1,7 +1,8 @@
 package unusual.tests.viewContestEntryTest.runner
 
 import org.scalatest.{Suite, Sequential}
-import unusual.model.{LobbyState, Resolution, ViewContestState, Contest}
+import unusual.model.pageStates.ViewContestState
+import unusual.model.{Resolution, Contest}
 import unusual.tests.SharedTest
 import unusual.tests.contestDescriptionTest._
 import unusual.tests.lobbyTest._

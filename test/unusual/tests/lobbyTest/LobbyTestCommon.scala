@@ -4,7 +4,8 @@ import org.openqa.selenium.Keys
 import org.openqa.selenium.interactions.Actions
 import org.scalatest.exceptions.StackDepthException
 import org.scalatest.selenium.WebBrowser
-import unusual.model.{LobbyState, Resolution}
+import unusual.model.Resolution
+import unusual.model.pageStates.LobbyState
 import unusual.pages.components.{ContestDescriptionWindow, PaginatorControl}
 import unusual.testTags.scala._
 import unusual.tests._

@@ -2,7 +2,7 @@ package unusual.tests.contestDescriptionTest.runner
 
 import org.scalatest.Sequential
 import org.scalatest.Suite
-import unusual.model.{LobbyState, Resolution, Contest, EnterContestState}
+import unusual.model.{Resolution, Contest}
 import unusual.tests.SharedTest
 import unusual.tests.contestDescriptionTest._
 import unusual.tests.enterContestTest._

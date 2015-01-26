@@ -1,6 +1,7 @@
 package unusual.tests.contestDescriptionTest
 
 import unusual.model.Resolution
+import unusual.model.pageStates.{LobbyState, EnterContestState}
 import unusual.pages.components.page.EnterContestDescriptionTab
 import unusual.pages.components.{ContestDescriptionWindow}
 import unusual.tests._
@@ -70,7 +71,7 @@ class ContestDescriptionWindowCommon(cont: Contest, res:Resolution) extends Shar
   def contestName: Unit = {
     if (status.resolution == Resolution.BIG) {
 
-      eventually { assert(contestDescriptionWindow.getContestName == contest.name) }
+      eventually { assert(contestDescriptionWindow.getContestName == contest.name.toUpperCase) }
 
     } else {
       featureNotTestableInResolution
@@ -81,7 +82,7 @@ class ContestDescriptionWindowCommon(cont: Contest, res:Resolution) extends Shar
   def contestDescription: Unit = {
     if (status.resolution == Resolution.BIG) {
 
-      eventually { assert(contestDescriptionWindow.getContestDescription == contest.description) }
+      eventually { assert(contestDescriptionWindow.getContestDescription == contest.description.toUpperCase) }
 
     } else {
       featureNotTestableInResolution

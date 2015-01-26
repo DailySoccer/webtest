@@ -1,7 +1,8 @@
 package unusual.tests.lobbyTest.runner
 
 import org.scalatest.Sequential
-import unusual.model.{Resolution, LobbyState}
+import unusual.model.Resolution
+import unusual.model.pageStates.LobbyState
 import unusual.tests.SharedTest
 import unusual.tests.lobbyTest._
 import unusual.tests.simulatorController._
@@ -18,7 +19,7 @@ private object LobbySequentialTestRunner {
     if (resolution.enabled) {
       new Sequential(
         new LobbyAuthTest_All(lobbySt, resolution)
-        , new LobbyVisitorTest(lobbySt, resolution)
+        //, new LobbyVisitorTest(lobbySt, resolution)
       )
     } else {
       new Sequential()

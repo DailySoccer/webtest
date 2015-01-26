@@ -1,6 +1,7 @@
 package unusual.tests.contestDescriptionTest
 
 import unusual.model.Resolution
+import unusual.model.pageStates.EnterContestState
 import unusual.pages.components.page.EnterContestDescriptionTab
 import unusual.pages.components.{ContestDescriptionWindow}
 import unusual.tests._

@@ -1,4 +1,6 @@
-package unusual.model
+package unusual.model.pageStates
+
+import unusual.model.{Contest, User}
 
 /**
  * Created by gregorioiniestaovejero on 29/09/14.

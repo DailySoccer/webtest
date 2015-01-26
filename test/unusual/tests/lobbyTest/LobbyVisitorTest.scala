@@ -1,6 +1,7 @@
 package unusual.tests.lobbyTest
 
-import unusual.model.{LobbyState, Resolution}
+import unusual.model.Resolution
+import unusual.model.pageStates.LobbyState
 import unusual.pages._
 import unusual.testTags.scala._
 import unusual.tests.SharedTest

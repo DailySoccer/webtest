@@ -1,6 +1,6 @@
 package unusual.tests.contestDescriptionTest
 
-import unusual.model.{LobbyState, Contest, Resolution}
+import unusual.model.{Contest, Resolution}
 import unusual.pages._
 import unusual.testTags.scala.WIP
 

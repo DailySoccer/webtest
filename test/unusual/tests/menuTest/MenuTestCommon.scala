@@ -1,5 +1,6 @@
 package unusual.tests.menuTest
 
+import unusual.model.pageStates.LobbyState
 import unusual.pages.components.MenuBar
 import unusual.tests._
 import unusual.model._

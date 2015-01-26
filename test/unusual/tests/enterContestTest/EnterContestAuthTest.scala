@@ -1,6 +1,7 @@
 package unusual.tests.enterContestTest
 
 import unusual.model._
+import unusual.model.pageStates.EnterContestState
 import unusual.testTags.scala.{DoesNotWorkYet, WIP}
 
 

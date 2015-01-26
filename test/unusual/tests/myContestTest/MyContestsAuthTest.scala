@@ -1,17 +1,17 @@
-package unusual.tests.viewContestEntryTest
+package unusual.tests.myContestTest
 
 import unusual.model._
 import unusual.model.pageStates.ViewContestState
 
-class ViewContestAuthTest(state:ViewContestState, res:Resolution) extends ViewContestTestCommon(state, res) {
+class MyContestsAuthTest(state:ViewContestState, res:Resolution) extends MyContestTestCommon(state, res) {
 
   before { status.ensureAuthUser }
 
   def consistIn = afterWord("consist in")
 
-  if(status.resolution.enabled) s"Auth user in contest: ${state.contest.name}" when sizeTesting(ViewContestPageBehavior)
+  if(status.resolution.enabled) s"Auth user in contest: ${state.contest.name}" when sizeTesting(MyContestPageBehavior)
 
-  def ViewContestPageBehavior: Unit = {
+  def MyContestPageBehavior: Unit = {
 
     "check the lineup" in isCorrectLineup
 

@@ -1,4 +1,6 @@
-package unusual.model
+package unusual.model.pageStates
+
+import unusual.model.Contest
 
 class EnterContestState {
 

@@ -1,6 +1,7 @@
 package unusual.tests.lobbyTest
 
-import unusual.model.{LobbyState, Resolution}
+import unusual.model.Resolution
+import unusual.model.pageStates.LobbyState
 import unusual.pages.{HomePage, EnterContestPage, LobbyPage}
 import unusual.testTags.scala._
 import unusual.tests.contestDescriptionTest._
@@ -73,11 +74,11 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, res:Resolution) extends LobbyT
 
     "watch basic information" which consistIn {
 
-      "go to lobby logged in" in goToLobby
+      //"go to lobby logged in" in goToLobby
 
-      "look for default state" in lookForDefaultState
+      //"look for default state" in lookForDefaultState
 
-      "look at contest description" in lookAtContestDescription
+      //"look at contest description" in lookAtContestDescription
 
       "change resolutions" in changeResolutionTests
     }

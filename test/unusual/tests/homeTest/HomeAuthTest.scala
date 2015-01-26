@@ -1,6 +1,7 @@
 package unusual.tests.homeTest
 
-import unusual.model.{LobbyState, Resolution}
+import unusual.model.Resolution
+import unusual.model.pageStates.LobbyState
 import unusual.pages.{EnterContestPage, LobbyPage, HomePage}
 import unusual.testTags.scala.{BigResolution, MediumResolution, SmallResolution, WIP}
 import unusual.tests._
