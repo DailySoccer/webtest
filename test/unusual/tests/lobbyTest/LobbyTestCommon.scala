@@ -450,7 +450,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
     logger.debug("paginator should be displayed")
     assert( paginator.isDisplayed, "Paginator is not displayed.")
     logger.debug("look at current page")
-    paginator.getCurrentPage must be (1)
+    paginator.getCurrentPage must be (3)
     logger.debug("look at number of pages")
     assert(paginator.getNumberOfPages > 1, "Number of pages should be grater (or equals) than 1")
     lobbyPage.filters.clear
