@@ -20,7 +20,7 @@ class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
   val URL_CURRENT_DATE = url + "/test_current_date"
   val URL_INITIAL_SETUP = url + "/test_initial_setup"
   val URL_IMPORT_SALARIES = url + "/import_salaries"
-  def URL_GO_TO_DATE(day:Int, month:Int, year:Int, hour:Int, minute:Int) = url + s"/test_goto/$year/$month/$day/$hour/$minute"
+  def URL_GO_TO_DATE(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int) = url + s"/test_goto/$year/$month/$day/$hour/$minute/$second"
   def URL_SELECT_COMPETITION(seasonId:Int, competitionId:Int) = url + s"/opta_competitions/${seasonId}-${competitionId}/activated/true"
   def URL_CREATE_TEMPLATES(mockIndex:Int) = url + s"/create_contests/$mockIndex"
 
@@ -36,17 +36,17 @@ class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
     //go to URL_IMPORT_SALARIES
 
     When("go to date: 2014/06/10 08:00:49 UTC")
-    timeShift(10,6,2014,0,0, "2014/06/10 08:00:49 UTC")
+    timeShift(10,6,2014,8,0,49, "2014/06/10 08:00:49 UTC")
     Then("perform initial set up")
     go to URL_INITIAL_SETUP
     And("create presonalized contests")
     createTemplateContest(0)
     And("finally go to 2014/06/12 08:00:36 UTC")
-    timeShift(12,6,2014,0,0, "2014/06/12 08:00:36 UTC")
+    timeShift(12,6,2014,8,0,36, "2014/06/12 08:00:36 UTC")
   }
 
-  def timeShift(day:Int, month:Int, year:Int, hour:Int, minute:Int, returnedString:String): Unit ={
-    go to URL_GO_TO_DATE(day, month, year, hour, minute)
+  def timeShift(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int, returnedString:String): Unit ={
+    go to URL_GO_TO_DATE(day, month, year, hour, minute, second)
 
     eventually (timeout(MAX_TIMEOUT_TIME seconds), interval(INTERVAL_TIME seconds)){
       go to URL_CURRENT_DATE
@@ -70,6 +70,6 @@ class InitializerTest(res:Resolution) extends SimulatorController(res) {
   if(status.resolution.enabled) "Simulator" should ("set up initial configuration" taggedAs WIP in initialTestsSetup)
 }
 
-class TimeShiftTest(res:Resolution, day:Int, month:Int, year:Int, hour:Int, minute:Int, returnedString:String) extends SimulatorController(res) {
-  if(status.resolution.enabled) "Simulator" should ("perform a time shift" taggedAs WIP in timeShift(day, month, year, hour, minute, returnedString))
+class TimeShiftTest(res:Resolution, day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int, returnedString:String) extends SimulatorController(res) {
+  if(status.resolution.enabled) "Simulator" should ("perform a time shift" taggedAs WIP in timeShift(day, month, year, hour, minute, second:Int, returnedString))
 }
