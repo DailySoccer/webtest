@@ -38,9 +38,11 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
   private def USER_PLAYER_SLOT_NAME(idx:Int):String  = USER_PLAYER_SLOT(idx) + " .name"
   private def USER_PLAYER_SLOT_SCORE(idx:Int):String = USER_PLAYER_SLOT(idx) + " .score"
 
-  val OTHER_CONTESTS_BUTTON:String = "#viewContestEntry .view-contest-entry-actions-wrapper .btn-back-contest"
-  val CANCEL_CONTEST_ENTRY_BUTTON:String = "#viewContestEntry .view-contest-entry-actions-wrapper .btn-cancel-contest"
+  val OTHER_CONTESTS_BUTTON:String = "#viewContestEntry .view-contest-entry-actions-wrapper .ok-button"
+  val CANCEL_CONTEST_ENTRY_BUTTON:String = "#viewContestEntry .view-contest-entry-actions-wrapper .cancel-button"
   val EDIT_TEAM_BUTTON:String = "fantasy-team .edit-team button.btn-edit-team"
+
+  val OK_BUTTON_ON_MODAL_ALERT:String = "#modalRoot .panel-body .autocentered-buttons-wrapper .ok-button"
 
   private def TABS(order:Int):String = s"#viewContestEntryTab li:nth-child($order) a"
   val LINEUP_TAB:String = TABS(1)
@@ -151,6 +153,8 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
   }
   def cancelContestEntry = {
     click on find(cssSelector(CANCEL_CONTEST_ENTRY_BUTTON)).get
+    //Ahora hay que confirmar que queremos salir
+    click on find(cssSelector(OK_BUTTON_ON_MODAL_ALERT)).get
     this
   }
 
