@@ -684,7 +684,11 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     }
 
     enterContestPage.setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
-    eventually { enterContestPage.getNumberOfSoccerPlayers must be (1) }
+    eventually {
+      enterContestPage.getNumberOfSoccerPlayers must be(1)
+    }
+  }
+  
   def knownBugSequence_DuplicatedPlayersAtInsert:Unit = {
     _enterContestPageInstance = null
     enterContestPage
