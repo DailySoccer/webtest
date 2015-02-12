@@ -668,6 +668,11 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     }
 
     val playerOnList = enterContestPage.getSoccerPlayerFromList(1)
+
+    //Con la feature de guardar siempre la alineación al entrar en la pág. ya tenemos metido al jugador en la lista.
+    //Lo qiutamos:
+    enterContestPage.removeSoccerPlayerFromLineUp(1)
+    //Seguimos como estaba:
     enterContestPage.addSoccerPlayerFromList(1)
     enterContestPage.removeSoccerPlayerFromLineUp(1)
 
