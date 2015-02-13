@@ -665,17 +665,10 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     if (status.resolution == Resolution.SMALL) {
       enterContestPage.selectGoalKeeperFromLineup
-      enterContestPage.selectGoalKeeperFromLineup
     }
 
     val playerOnList = enterContestPage.getSoccerPlayerFromList(1)
 
-    //Con la feature de guardar siempre la alineación al entrar en la pág. ya tenemos metido al jugador en la lista.
-    //Limpiamos la lista:
-    if (status.resolution != Resolution.SMALL) {
-      enterContestPage.removeSoccerPlayerFromLineUp(1)
-    }
-    //Seguimos como estaba:
     enterContestPage.addSoccerPlayerFromList(1)
     enterContestPage.removeSoccerPlayerFromLineUp(1)
 
@@ -684,11 +677,10 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     }
 
     enterContestPage.setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
-    eventually {
-      enterContestPage.getNumberOfSoccerPlayers must be(1)
-    }
+    eventually { enterContestPage.getNumberOfSoccerPlayers must be (1) }
   }
-  
+
+
   def knownBugSequence_DuplicatedPlayersAtInsert:Unit = {
     _enterContestPageInstance = null
     enterContestPage
@@ -699,6 +691,14 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     assert(enterContestPage.getSoccerPlayerFromLineUp(3).isEmpty)
     assert(enterContestPage.getSoccerPlayerFromLineUp(4).isEmpty)
     assert(enterContestPage.getSoccerPlayerFromLineUp(5).isEmpty)
+
+    //Dejamos la lista vacía
+    if (status.resolution == Resolution.SMALL) {
+      enterContestPage.selectGoalKeeperFromLineup
+    }
+    else {
+      enterContestPage.removeSoccerPlayerFromLineUp(1)
+    }
 
   }
 
