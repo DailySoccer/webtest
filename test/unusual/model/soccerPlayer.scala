@@ -15,8 +15,6 @@ class SoccerPlayer(n: String, pos: FieldPos, sal: Int) {
 
   def shortName = name.take(17).toLowerCase
 
-  def !=(other:SoccerPlayer) = !(this == other)
-
   def isEmpty:Boolean = name == "" && salary == 0
 
   override def toString:String = "{Name: " + name + ", Position: " + position + ", Salary: " + salary + "}"
