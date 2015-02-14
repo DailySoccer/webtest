@@ -8,10 +8,12 @@ class SoccerPlayer(n: String, pos: FieldPos, sal: Int) {
   var salary = sal
 
   def ==(other:SoccerPlayer) = {
-    name.take(17).toLowerCase == other.name.take(17).toLowerCase &&
+    shortName == other.shortName &&
     position == other.position &&
     salary == other.salary
   }
+
+  def shortName = name.take(17).toLowerCase
 
   def !=(other:SoccerPlayer) = !(this == other)
 

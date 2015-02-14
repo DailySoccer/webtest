@@ -519,8 +519,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
       enterContestPage.setSoccerPlayerPositionFilter(POS_GOAL_KEEPER)
       eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers) }
 
-      enterContestPage.setSoccerPlayerPositionFilter(POS_ALL)
-          .setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_ALL).setSoccerPlayerNameFilterSearch(playerOnList.shortName)
       eventually { enterContestPage.getNumberOfSoccerPlayers must be (1) }
     }
 
@@ -542,7 +541,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     assert(playerOnList == enterContestPage.getSoccerPlayerFromList(4))
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers) }
 
-    enterContestPage.setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
+    enterContestPage.setSoccerPlayerNameFilterSearch(playerOnList.shortName)
     eventually { assert(enterContestPage.getNumberOfSoccerPlayers == 1, "Player should exist.") }
 
     enterContestPage.cancelSoccerPlayerSelection
@@ -634,7 +633,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     enterContestPage.selectDefenseFromLineup(1)
     logger.debug("Selected defense")
     val playerOnList:SoccerPlayer = enterContestPage.getSoccerPlayerFromList(1)
-    val playerName = (if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase
+    val playerName = playerOnList.shortName
     logger.debug("Soccer info recolected")
     enterContestPage.addSoccerPlayerFromList(1)
     logger.debug("Added a soccer player from list")
@@ -677,7 +676,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
       enterContestPage.selectGoalKeeperFromLineup
     }
 
-    enterContestPage.setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
+    enterContestPage.setSoccerPlayerNameFilterSearch(playerOnList.shortName)
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (1) }
   }
 
