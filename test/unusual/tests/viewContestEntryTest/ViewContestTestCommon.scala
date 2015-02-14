@@ -51,7 +51,7 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
 
   def isRightContestInfo:Unit = {
     assert(viewContestState.contest.name.toUpperCase == viewContestPage.getContestName)
-    assert(viewContestState.contest.joinedDescription.toUpperCase == viewContestPage.getContestDescription)
+    assert(viewContestState.contest.isEqualsJoinedDescription(viewContestPage.getContestDescription))
     assert(viewContestState.contest.entryFee == viewContestPage.getContestEntry)
     assert(viewContestState.contest.prize == viewContestPage.getContestPrize)
   }

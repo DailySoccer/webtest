@@ -50,7 +50,7 @@ class MyContestTestCommon(state: ViewContestState, res:Resolution) extends Share
 
   def isRightContestInfo:Unit = {
     assert(viewContestState.contest.name == viewContestPage.getContestName)
-    assert(viewContestState.contest.joinedDescription == viewContestPage.getContestDescription)
+    assert(viewContestState.contest.isEqualsJoinedDescription(viewContestPage.getContestDescription))
     assert(viewContestState.contest.entryFee == viewContestPage.getContestEntry)
     assert(viewContestState.contest.prize == viewContestPage.getContestPrize)
   }

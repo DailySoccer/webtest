@@ -37,6 +37,13 @@ class Contest () {
     name + "\n" + description + " \n" + entryFee + " - " + prize + " - " + date + "\n"
   }
 
+  def isEqualsJoinedDescription(desc:String): Boolean = {
+    desc.matches(joinedDescription.toUpperCase)
+  }
+
+  def isEqualsDescription(desc:String): Boolean = {
+    desc.matches(description.toUpperCase)
+  }
 }
 
 
@@ -52,8 +59,8 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun.++"
-    contest.description = "Gratuito: 13 de 100 jugadores - Límite de salario: 65000"
-    contest.joinedDescription = "Gratuito: 14 de 100 jugadores - Límite de salario: 65000"
+    contest.description = ".*: 13 .* 100 .* - .*: 65000"
+    contest.joinedDescription = ".*: 14 .* 100 .* - .*: 65000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "Hoy"
@@ -105,8 +112,8 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun.!!"
-    contest.description = "Gratuito: 13 de 200 jugadores - Límite de salario: 60000"
-    contest.joinedDescription = "Gratuito: 14 de 200 jugadores - Límite de salario: 60000"
+    contest.description = ".*: 13 .* 200 .* - .*: 60000"
+    contest.joinedDescription = ".*: 14 .* 200 .* - .*: 60000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "14/06"
@@ -156,8 +163,8 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun...."
-    contest.description = "Gratuito: 13 de 200 jugadores - Límite de salario: 70000"
-    contest.joinedDescription = "Gratuito: 14 de 200 jugadores - Límite de salario: 70000"
+    contest.description = ".*: 13 .* 200 .* - .*: 70000"
+    contest.joinedDescription = ".*: 14 .* 200 .* - .*: 70000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "Hoy"

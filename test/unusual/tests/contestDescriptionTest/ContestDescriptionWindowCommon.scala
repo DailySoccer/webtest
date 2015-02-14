@@ -82,7 +82,7 @@ class ContestDescriptionWindowCommon(cont: Contest, res:Resolution) extends Shar
   def contestDescription: Unit = {
     if (status.resolution == Resolution.BIG) {
 
-      eventually { assert(contestDescriptionWindow.getContestDescription == contest.description.toUpperCase) }
+      eventually { assert(contest.isEqualsDescription(contestDescriptionWindow.getContestDescription)) }
 
     } else {
       featureNotTestableInResolution
