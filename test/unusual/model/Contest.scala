@@ -1,5 +1,7 @@
 package unusual.model
 
+import unusual.model.FieldPos._
+
 class Contest () {
 
   var name = ""
@@ -26,7 +28,7 @@ class Contest () {
 
   var matchPlayers = Map[Int,Int]()
 
-  var matchPositionMixNumPlayers = Map[Int, Map[String, Int] ]()
+  var matchPositionMixNumPlayers = Map[Int, Map[FieldPos, Int] ]()
 
   var initialSalary = 0
 
@@ -89,15 +91,15 @@ object Contest {
 
     contest.matchPositionMixNumPlayers = Map(
       2 -> Map(
-        SoccerPlayer.POS_GOAL_KEEPER -> 6,
-        SoccerPlayer.POS_DEFENSE -> 15
+        POS_GOAL_KEEPER -> 6,
+        POS_DEFENSE -> 15
       ),
       3 -> Map(
-        SoccerPlayer.POS_GOAL_KEEPER -> 6,
-        SoccerPlayer.POS_MIDDLE -> 12
+        POS_GOAL_KEEPER -> 6,
+        POS_MIDDLE -> 12
       ),
       4 -> Map(
-        SoccerPlayer.POS_FORWARD -> 9
+        POS_FORWARD -> 9
       )
     )
 
@@ -142,12 +144,12 @@ object Contest {
 
     contest.matchPositionMixNumPlayers = Map(
       2 -> Map(
-        SoccerPlayer.POS_GOAL_KEEPER -> 6,
-        SoccerPlayer.POS_DEFENSE -> 15
+        POS_GOAL_KEEPER -> 6,
+        POS_DEFENSE -> 15
       ),
       3 -> Map(
-        SoccerPlayer.POS_FORWARD -> 12,
-        SoccerPlayer.POS_MIDDLE -> 12
+        POS_FORWARD -> 12,
+        POS_MIDDLE -> 12
       )
     )
 
@@ -194,19 +196,19 @@ object Contest {
 
     contest.matchPositionMixNumPlayers = Map(
       2 -> Map(
-        SoccerPlayer.POS_GOAL_KEEPER -> 6,
-        SoccerPlayer.POS_DEFENSE -> 15
+        POS_GOAL_KEEPER -> 6,
+        POS_DEFENSE -> 15
       ),
       3 -> Map(
-        SoccerPlayer.POS_FORWARD -> 7,
-        SoccerPlayer.POS_MIDDLE -> 21
+        POS_FORWARD -> 7,
+        POS_MIDDLE -> 21
       ),
       4 -> Map(
-        SoccerPlayer.POS_DEFENSE -> 15
+        POS_DEFENSE -> 15
       ),
       5 -> Map(
-        SoccerPlayer.POS_MIDDLE -> 16,
-        SoccerPlayer.POS_FORWARD -> 8
+        POS_MIDDLE -> 16,
+        POS_FORWARD -> 8
       )
     )
 

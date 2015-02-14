@@ -1,5 +1,6 @@
 package unusual.pages
 
+import unusual.model.FieldPos._
 import unusual.model._
 import unusual.model.pageStates.EnterContestState
 import unusual.pages.components.{FooterBar, MenuBar}
@@ -9,11 +10,11 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   //override val url = SharedPage.baseUrl + "/#/lobby/enter_contest/"
 
   val SOCCER_PLAYER_POSITION_FILTER_TAB = Map(
-    SoccerPlayer.POS_ALL -> 1,
-    SoccerPlayer.POS_GOAL_KEEPER -> 2,
-    SoccerPlayer.POS_DEFENSE -> 3,
-    SoccerPlayer.POS_MIDDLE -> 4,
-    SoccerPlayer.POS_FORWARD -> 5
+    POS_ALL -> 1,
+    POS_GOAL_KEEPER -> 2,
+    POS_DEFENSE -> 3,
+    POS_MIDDLE -> 4,
+    POS_FORWARD -> 5
   )
 
   val ACTIVE_ELEMENT = ".active"
@@ -271,7 +272,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     this
   }
 
-  def setSoccerPlayerPositionFilter(pos: String) = {
+  def setSoccerPlayerPositionFilter(pos: FieldPos) = {
 
     if (resolution == Resolution.SMALL) {
       unavailableFunctionOnResolution("setSoccerPlayerPositionFilter")
@@ -348,7 +349,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   }
 
   def getSoccerPlayerFromList(index: Int): SoccerPlayer= {
-    val player = new SoccerPlayer("", "", 0)
+    val player = new SoccerPlayer("", POS_ALL, 0)
 
     eventually {
       player.name = find(cssSelector(SOCCER_PLAYER_LIST_SLOT_NAME(index))).get.text
@@ -367,7 +368,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
       player = createPlayerFromLineUp(index)
     } else {
       val pos = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text
-      player = SoccerPlayer.EmptyPlayer(pos)
+      player = SoccerPlayer.EmptyPlayer(FieldPos.fromUiText(pos))
     }
 
     player
@@ -491,30 +492,20 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
    * @param index indice del player
    * @return
    */
-  private def getSoccerPlayerPositionFromList(index: Int) = {
-    var pos:String = ""
-    find(cssSelector(SOCCER_PLAYER_LIST_SLOT(index))).get.attribute("class").get.split(" ").map((cssClass:String) => {
-      cssClass match {
-        case "posPOR" => pos = SoccerPlayer.POS_GOAL_KEEPER
-        case "posDEF" => pos = SoccerPlayer.POS_DEFENSE
-        case "posMED" => pos = SoccerPlayer.POS_MIDDLE
-        case "posDEL" => pos = SoccerPlayer.POS_FORWARD
-        case _ =>
-      }
-    })
-
-    pos
+  private def getSoccerPlayerPositionFromList(index: Int) : FieldPos = {
+    FieldPos.fromCss(find(cssSelector(SOCCER_PLAYER_LIST_SLOT(index))).get.attribute("class").get)
   }
 
   private def createPlayerFromLineUp(index: Int): SoccerPlayer = {
-    val player = new SoccerPlayer("", "", 0)
+    val player: SoccerPlayer = new SoccerPlayer("", POS_ALL, 0)
 
     eventually {
       player.name = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_NAME(index))).get.text
-      player.position = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text
+      player.position = FieldPos.fromUiText(find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text)
       val salary = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text
       player.salary = Integer.parseInt(salary.substring(0, salary.length - 1))
     }
+
     player
   }
 

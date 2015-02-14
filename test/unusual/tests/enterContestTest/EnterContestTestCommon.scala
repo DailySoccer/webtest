@@ -1,8 +1,9 @@
 package unusual.tests.enterContestTest
 
-import org.specs2.specification.Given
+import play.Logger
 import unusual.model._
-import unusual.model.pageStates.{ViewContestState, LobbyState, EnterContestState}
+import unusual.model.FieldPos._
+import unusual.model.pageStates.{EnterContestState, LobbyState, ViewContestState}
 import unusual.pages._
 import unusual.tests._
 
@@ -187,9 +188,9 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
    */
   def filterByGoalKeeper:Unit = {
     if (status.resolution != Resolution.SMALL) {
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_GOAL_KEEPER)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_GOAL_KEEPER)
       eventually { enterContestPage.getNumberOfSoccerPlayers must be(enterContestState.contest.numGoalKeepersPlayers) }
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_ALL)
     } else {
       featureNotTestableInResolution
     }
@@ -197,9 +198,9 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
   def filterByDefense:Unit = {
     if (status.resolution != Resolution.SMALL) {
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_DEFENSE)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_DEFENSE)
       eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numDefensePlayers) }
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_ALL)
     } else {
       featureNotTestableInResolution
     }
@@ -207,9 +208,9 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
   def filterByMiddle:Unit = {
     if (status.resolution != Resolution.SMALL) {
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_MIDDLE)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_MIDDLE)
       eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numMiddlePlayers) }
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_ALL)
     } else {
       featureNotTestableInResolution
     }
@@ -217,9 +218,9 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
   def filterByForward:Unit = {
     if (status.resolution != Resolution.SMALL) {
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_FORWARD)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_FORWARD)
       eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numForwardPlayers) }
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_ALL)
     } else {
       featureNotTestableInResolution
     }
@@ -227,7 +228,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
   def filterByAll:Unit = {
     if (status.resolution != Resolution.SMALL) {
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_ALL)
       eventually { enterContestPage.getNumberOfSoccerPlayers must be(enterContestState.contest.numAllPlayers) }
     } else {
       featureNotTestableInResolution
@@ -271,7 +272,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
         }
       }
       enterContestPage.setSoccerPlayerMatchFilter(1)
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_ALL)
     } else {
       featureNotTestableInResolution
     }
@@ -512,13 +513,13 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     if (status.resolution != Resolution.SMALL) {
       assert(playerOnList == enterContestPage.getSoccerPlayerFromList(1))
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_ALL)
       eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numAllPlayers) }
 
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_GOAL_KEEPER)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_GOAL_KEEPER)
       eventually { enterContestPage.getNumberOfSoccerPlayers must be (enterContestState.contest.numGoalKeepersPlayers) }
 
-      enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_ALL)
+      enterContestPage.setSoccerPlayerPositionFilter(POS_ALL)
           .setSoccerPlayerNameFilterSearch((if (playerOnList.name.length > 17) playerOnList.name.substring(0, 17) else playerOnList.name).toLowerCase)
       eventually { enterContestPage.getNumberOfSoccerPlayers must be (1) }
     }
@@ -708,7 +709,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     if (status.resolution != Resolution.SMALL) {
       enterContestPage.selectGoalKeeperFromLineup
-      eventually { enterContestPage.setSoccerPlayerPositionFilter(SoccerPlayer.POS_FORWARD) }
+      eventually { enterContestPage.setSoccerPlayerPositionFilter(POS_FORWARD) }
 
       enterContestPage.addSoccerPlayerFromList(1)
       eventually { assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty) }

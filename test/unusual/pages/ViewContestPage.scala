@@ -1,5 +1,6 @@
 package unusual.pages
 
+import unusual.model.FieldPos._
 import unusual.model._
 import unusual.model.pageStates.{ViewContestState, EnterContestState}
 import unusual.pages.components.{FooterBar, MenuBar}
@@ -85,7 +86,7 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
   }
 
   def getSoccerPlayer(index:Integer) : SoccerPlayer = {
-    val player = new SoccerPlayer("", "", 0)
+    val player = new SoccerPlayer("", POS_ALL, 0)
 
     eventually {
       logger.debug(s"trying to get player name $index ${SOCCER_PLAYER_LINEUP_SLOT_NAME(index)}")
@@ -97,7 +98,7 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
       player.salary = Integer.parseInt(salary.substring(0, salary.length - 1))
     }
 
-    logger.debug(player.position)
+    logger.debug(player.position.toString)
     logger.debug(player.toString)
 
     player
@@ -158,20 +159,11 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
     this
   }
 
-  private def getSoccerPlayerPositionFromList(index: Int) = {
-    var pos:String = ""
-    val posTxt:String = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text
+  private def getSoccerPlayerPositionFromList(index: Int) : FieldPos = {
+    val posTxt = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text
     logger.debug(posTxt)
-    posTxt match {
-        case "POR" => pos = SoccerPlayer.POS_GOAL_KEEPER
-        case "DEF" => pos = SoccerPlayer.POS_DEFENSE
-        case "MED" => pos = SoccerPlayer.POS_MIDDLE
-        case "DEL" => pos = SoccerPlayer.POS_FORWARD
-        case _ =>
-      }
 
-    logger.debug(pos)
-    pos
+    FieldPos.fromUiText(posTxt)
   }
 
   private def toggleTeams = {
