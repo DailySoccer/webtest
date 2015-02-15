@@ -22,7 +22,7 @@ object FieldPos extends Enumeration {
       case c if c.contains("posPOR") => POS_GOAL_KEEPER
       case c if c.contains("posDEF") => POS_DEFENSE
       case c if c.contains("posMED") => POS_MIDDLE
-      case c if c.contains("posPOR") => POS_FORWARD
+      case c if c.contains("posDEL") => POS_FORWARD
       case _ => throw new Exception(s"FieldPos position not found for cssClasses $cssClasses")
     }
   }
