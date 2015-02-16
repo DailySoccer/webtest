@@ -11,7 +11,6 @@ trait JS_Ops {
     val cssSel = (new MenuBar(Resolution.BIG)).MENU_ROOT
     val script = s"$$('$cssSel').css('position', 'relative');"
 
-    println(script)
     WebBrowser.executeScript(script)
   }
 
