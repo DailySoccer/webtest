@@ -86,19 +86,19 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
   }
 
   def getSoccerPlayer(index:Integer) : SoccerPlayer = {
-    val player = new SoccerPlayer("", POS_ALL, 0)
+    var player = new SoccerPlayer("", POS_ALL, 0)
 
     eventually {
       logger.debug(s"trying to get player name $index ${SOCCER_PLAYER_LINEUP_SLOT_NAME(index)}")
-      player.name = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_NAME(index))).get.text
+      val name = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_NAME(index))).get.text
       logger.debug("trying to get player position")
-      player.position = getSoccerPlayerPositionFromList(index)
+      val position = getSoccerPlayerPositionFromList(index)
       logger.debug("trying to get player salary")
-      val salary = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text
-      player.salary = Integer.parseInt(salary.substring(0, salary.length - 1))
+      val salary = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text.dropRight(1).toInt
+
+      player = new SoccerPlayer(name, position, salary)
     }
 
-    logger.debug(player.position.toString)
     logger.debug(player.toString)
 
     player

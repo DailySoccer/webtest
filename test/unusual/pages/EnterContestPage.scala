@@ -349,13 +349,12 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   }
 
   def getSoccerPlayerFromList(index: Int): SoccerPlayer= {
-    val player = new SoccerPlayer("", POS_ALL, 0)
+    var player = new SoccerPlayer("", POS_ALL, 0)
 
     eventually {
-      player.name = find(cssSelector(SOCCER_PLAYER_LIST_SLOT_NAME(index))).get.text
-      player.position = getSoccerPlayerPositionFromList(index)
-      val salary = find(cssSelector(SOCCER_PLAYER_LIST_SLOT_SALARY(index))).get.text
-      player.salary = Integer.parseInt(salary.substring(0, salary.length - 1))
+      player = new SoccerPlayer(find(cssSelector(SOCCER_PLAYER_LIST_SLOT_NAME(index))).get.text,
+                                getSoccerPlayerPositionFromList(index),
+                                find(cssSelector(SOCCER_PLAYER_LIST_SLOT_SALARY(index))).get.text.dropRight(1).toInt)
     }
 
     player
@@ -497,13 +496,12 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   }
 
   private def createPlayerFromLineUp(index: Int): SoccerPlayer = {
-    val player: SoccerPlayer = new SoccerPlayer("", POS_ALL, 0)
+    var player: SoccerPlayer = new SoccerPlayer("", POS_ALL, 0)
 
     eventually {
-      player.name = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_NAME(index))).get.text
-      player.position = FieldPos.fromUiText(find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text)
-      val salary = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text
-      player.salary = Integer.parseInt(salary.substring(0, salary.length - 1))
+      player = new SoccerPlayer(find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_NAME(index))).get.text,
+                                FieldPos.fromUiText(find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text),
+                                find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text.dropRight(1).toInt)
     }
 
     player

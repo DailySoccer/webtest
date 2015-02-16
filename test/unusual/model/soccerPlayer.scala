@@ -2,7 +2,7 @@ package unusual.model
 
 import unusual.model.FieldPos._
 
-class SoccerPlayer(var name: String, var position: FieldPos, var salary: Int) {
+case class SoccerPlayer(name: String, position: FieldPos, salary: Int) {
 
   def this(pos: FieldPos) {
     this("", pos, 0)  // EmptyPlayer
