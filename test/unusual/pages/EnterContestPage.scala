@@ -368,7 +368,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
       player = createPlayerFromLineUp(index)
     } else {
       val pos = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text
-      player = SoccerPlayer.EmptyPlayer(FieldPos.fromUiText(pos))
+      player = new SoccerPlayer(FieldPos.fromUiText(pos))
     }
 
     player
