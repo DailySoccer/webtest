@@ -7,9 +7,7 @@ class Lineup {
   var soccerPlayerList = Array[SoccerPlayer]()
 
   def price: Int = {
-    var money = 0
-    for (soccer <- soccerPlayerList) { money += soccer.salary }
-    money
+    soccerPlayerList.foldLeft(0) { (acc, curr) => acc + curr.salary }
   }
 
 }
