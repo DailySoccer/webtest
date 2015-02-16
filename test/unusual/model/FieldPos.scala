@@ -6,7 +6,7 @@ object FieldPos extends Enumeration {
   val POS_GOAL_KEEPER, POS_DEFENSE, POS_MIDDLE, POS_FORWARD, POS_ALL = Value
 
 
-  def fromUiText(uiText: String) : FieldPos = {
+  implicit def fromUiText(uiText: String): FieldPos = {
     uiText match {
       case "POR" | "GK"    => POS_GOAL_KEEPER
       case "DEF"           => POS_DEFENSE
@@ -17,7 +17,7 @@ object FieldPos extends Enumeration {
     }
   }
 
-  def fromCss(cssClasses: String) : FieldPos = {
+  def fromCss(cssClasses: String): FieldPos = {
     cssClasses match {
       case c if c.contains("posPOR") => POS_GOAL_KEEPER
       case c if c.contains("posDEF") => POS_DEFENSE

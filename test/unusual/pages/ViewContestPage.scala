@@ -159,11 +159,8 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
     this
   }
 
-  private def getSoccerPlayerPositionFromList(index: Int) : FieldPos = {
-    val posTxt = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text
-    logger.debug(posTxt)
-
-    FieldPos.fromUiText(posTxt)
+  private def getSoccerPlayerPositionFromList(index: Int): FieldPos = {
+    find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text
   }
 
   private def toggleTeams = {

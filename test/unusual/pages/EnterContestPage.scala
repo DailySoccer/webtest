@@ -366,8 +366,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     if (find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_EMPTY(index))) == None) {
       player = createPlayerFromLineUp(index)
     } else {
-      val pos = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text
-      player = new SoccerPlayer(FieldPos.fromUiText(pos))
+      player = new SoccerPlayer(find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text)
     }
 
     player
@@ -491,7 +490,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
    * @param index indice del player
    * @return
    */
-  private def getSoccerPlayerPositionFromList(index: Int) : FieldPos = {
+  private def getSoccerPlayerPositionFromList(index: Int): FieldPos = {
     FieldPos.fromCss(find(cssSelector(SOCCER_PLAYER_LIST_SLOT(index))).get.attribute("class").get)
   }
 
@@ -500,7 +499,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
     eventually {
       player = new SoccerPlayer(find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_NAME(index))).get.text,
-                                FieldPos.fromUiText(find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text),
+                                find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text,
                                 find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text.dropRight(1).toInt)
     }
 
