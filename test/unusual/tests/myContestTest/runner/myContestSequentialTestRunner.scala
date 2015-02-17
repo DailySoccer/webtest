@@ -4,11 +4,11 @@ import org.scalatest.{Sequential, Suite}
 import unusual.model.Resolution
 import unusual.model.pageStates.ViewContestState
 import unusual.tests.myContestTest
-import unusual.tests.simulatorController.InitializerTest
+import unusual.tests.simulatorController.InitializerWorldCupTest
 
 
 class MyContestSequentialTestRunner extends Sequential(
-  new InitializerTest(Resolution.ANY)
+  new InitializerWorldCupTest(Resolution.ANY)
   , MyContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, ViewContestState.TIME_0_LIST(0))
   , MyContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, ViewContestState.TIME_0_LIST(1))
   , MyContestSequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, ViewContestState.TIME_0_LIST(0))

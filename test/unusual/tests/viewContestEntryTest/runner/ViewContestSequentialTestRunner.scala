@@ -6,12 +6,12 @@ import unusual.model.{Resolution, Contest}
 import unusual.tests.SharedTest
 import unusual.tests.contestDescriptionTest._
 import unusual.tests.lobbyTest._
-import unusual.tests.simulatorController.InitializerTest
+import unusual.tests.simulatorController.InitializerWorldCupTest
 import unusual.tests.viewContestEntryTest._
 
 
 class ViewContestSequentialTestRunner extends Sequential(
-  new InitializerTest(Resolution.ANY)
+  new InitializerWorldCupTest(Resolution.ANY)
   , ViewContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, ViewContestState.TIME_0_LIST(0))
   , ViewContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, ViewContestState.TIME_0_LIST(1))
   , ViewContestSequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, ViewContestState.TIME_0_LIST(0))

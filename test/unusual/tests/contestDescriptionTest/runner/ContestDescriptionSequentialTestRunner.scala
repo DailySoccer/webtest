@@ -7,7 +7,7 @@ import unusual.tests.SharedTest
 import unusual.tests.contestDescriptionTest._
 import unusual.tests.enterContestTest._
 import unusual.tests.lobbyTest._
-import unusual.tests.simulatorController.InitializerTest
+import unusual.tests.simulatorController.InitializerWorldCupTest
 
 
 class ContestDescriptionSequentialTestRunner extends Sequential(
