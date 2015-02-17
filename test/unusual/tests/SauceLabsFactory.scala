@@ -39,13 +39,27 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
   val DEFAULT_BROWSER   = FIREFOX_BROWSER
 
   val SAUCE_LABS_CONFIG:Map[String, DesiredCapabilities] = Map(
-    DEFAULT_BROWSER -> { val cap = DesiredCapabilities.firefox()
+    DEFAULT_BROWSER -> { val cap = DesiredCapabilities.internetExplorer()
+      cap.setCapability("name", "DFS IE 10")
+      cap.setCapability(CapabilityType.VERSION, "10")
+      cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
+      cap.setCapability("max-duration", MAX_DURATION)
+      cap.setCapability("browser", "IE")
+      cap.setCapability("browser_version", "10")
+      cap.setCapability("os", "Windows")
+      cap.setCapability("browserstack.debug", "true")
+      cap
+    },
+
+      /*
+      { val cap = DesiredCapabilities.firefox()
                  cap.setCapability("name", "DFS FF 32")
                  cap.setCapability(CapabilityType.VERSION, "32")
                  cap.setCapability("max-duration", MAX_DURATION)
                  cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
                  cap
                },
+      */
     // FIREFOX
     "FF_12" -> { val cap = DesiredCapabilities.firefox()
                  cap.setCapability("name", "DFS FF 12")
@@ -222,6 +236,10 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
                  cap.setCapability(CapabilityType.VERSION, "9")
                  cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
                  cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability("browser", "IE")
+                 cap.setCapability("browser_version", "9")
+                 cap.setCapability("os", "Windows")
+                 cap.setCapability("browserstack.debug", "true")
                  cap
                },
     "IE_10" -> { val cap = DesiredCapabilities.internetExplorer()
@@ -383,31 +401,14 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
   val testHost:String   = scala.util.Properties.envOrElse("TEST_HOST", TEST_HOST.LOCAL).toUpperCase
   //val host:String       = if (SharedPage.isLocalHost) scala.util.Properties.envOrElse("BROWSER", FIREFOX_HOST).toLowerCase else SAUCE_LABS_HOST
 
-  val BROWSERSTACK_CONFIG:Map[String, DesiredCapabilities] = Map(
-    DEFAULT_BROWSER -> { val cap = DesiredCapabilities.internetExplorer()
-      cap.setCapability("browser", "IE")
-      cap.setCapability("browser_version", "10")
-      cap.setCapability("os", "Windows")
-      cap.setCapability("browserstack.debug", "true")
-      cap
-    },
-    "BS_IE_9" -> { val cap = DesiredCapabilities.internetExplorer()
-      cap.setCapability("browser", "IE")
-      cap.setCapability("browser_version", "9")
-      cap.setCapability("os", "Windows")
-      cap.setCapability("browserstack.debug", "true")
-      cap
-    }
-  )
-
   var sessionId: String = ""
 
   /**
    * Constructs a {@link SauceOnDemandAuthentication} instance using the supplied user name/access key.  To use the authentication
    * supplied by environment variables or from an external file, use the no-arg {@link SauceOnDemandAuthentication} constructor.
    */
-  val authentication = new SauceOnDemandAuthentication("federicomon1", "FiZ71wsdLvWfq3XVviPo")
-  //val authentication = new SauceOnDemandAuthentication("korgan00", "dd8d5996-55dd-47c9-bd9c-bce939d18232")
+  val authentication = if (testHost.equals(TEST_HOST.BROWSERSTACK)) new SauceOnDemandAuthentication("federicomon1", "FiZ71wsdLvWfq3XVviPo")
+                       else new SauceOnDemandAuthentication("korgan00", "dd8d5996-55dd-47c9-bd9c-bce939d18232")
 
   //val authentication = new SauceOnDemandAuthentication("victormendiluce1", "jQ8keLwu3V2PuXx9BGA4")
   //val authentication = new SauceOnDemandAuthentication("sreveloc", "add73570-deea-44c2-82e2-331d7d0e69eb")
@@ -426,10 +427,10 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
     testHost match {
       case TEST_HOST.SAUCE_LABS =>
         logger.info("SauceLabs -----------")
-        webDriver = createSauceLabsDriver
+        webDriver = createServiceDriver
       case TEST_HOST.BROWSERSTACK =>
         logger.info("BrowserStack -----------")
-        webDriver = createBrowserStackDriver
+        webDriver = createServiceDriver
       case TEST_HOST.LOCAL =>
         logger.info("LocalHost -----------")
         webDriver = createLocalHostDriver
@@ -442,25 +443,16 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    *
    * @return remote web driver
    */
-  private def createSauceLabsDriver = {
-    val driver = new RemoteWebDriver(urlSauceLabs, SAUCE_LABS_CONFIG(browser))
+  private def createServiceDriver = {
+    val driver = new RemoteWebDriver(urlService, SAUCE_LABS_CONFIG(browser))
     sessionId = driver.getSessionId.toString
     driver
   }
 
-  private def createBrowserStackDriver = {
-    val driver = new RemoteWebDriver(urlBrowserStack, BROWSERSTACK_CONFIG(browser))
-    sessionId = driver.getSessionId.toString
-    driver
-  }
-
-  private def urlSauceLabs = {
-    new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey + "@ondemand.saucelabs.com:80/wd/hub")
-    //new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey +  "@hub.browserstack.com/wd/hub")
-  }
-
-  private def urlBrowserStack = {
-    new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey +  "@hub.browserstack.com/wd/hub")
+  private def urlService = {
+    val hostname = if (testHost.equals(TEST_HOST.SAUCE_LABS)) "@ondemand.saucelabs.com:80/wd/hub"
+                   else "@hub.browserstack.com/wd/hub"
+    new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey + hostname)
   }
 
 

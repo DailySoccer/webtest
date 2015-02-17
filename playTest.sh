@@ -66,6 +66,38 @@ while [ $count -lt $# ]; do
         else
             playArgs="${playArgs}BROWSER=\"${nextArg}\" "
         fi
+
+      ;;
+    "-B" | "--browserstack")
+        if "$chosenHost"; then
+            executePlay=false
+            echo "ERROR: Parameter error: -l ,-S and -B are incompatible simultaneously"
+        fi
+        choosenHost=true
+        playArgs="${playArgs}TEST_HOST=\"browserstack\" "
+
+
+        let count=count+1
+        nextArg=${args[count]}
+
+        if [[ "$nextArg" == "-"* ]] || [ $count -ge $# ]; then
+            let count=count-1
+        else
+            playArgs="${playArgs}BROWSER=\"${nextArg}\" "
+        fi
+      ;;
+    "-s" | "--suite")
+        let count=count+1
+        playArgs="${playArgs}TEST_SUITE=\"${args[count]}\" "
+      ;;
+    "--drone") isDrone=true
+      ;;
+    "-v" | "--verbose")
+        let count=count+1
+        playArgs="${playArgs}LOG_LEVEL=\"${args[count]}\" "
+      ;;
+    "-h" | "--help")
+        executePlay=false
       ;;
   esac
   let count=count+1
@@ -98,6 +130,9 @@ else
     echo "          default = FF_32"
     echo "          Chrome 26, 29 and 30 uses default OS (Linux) because is not available on MAC."
     echo "          runs using saucelabs as selenium host"
+    echo "  -B or --browserstack [{selectedExplorer}]"
+    echo "  --drone"
+    echo "          use command for drone.io (sbt instead of play)"
     echo "  -v or --verbose {trace|debug|info|warning|error}"
     echo "          default = error"
     echo "          sets the level of log verbosity"
