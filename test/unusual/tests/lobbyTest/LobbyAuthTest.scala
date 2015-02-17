@@ -74,11 +74,11 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, res:Resolution) extends LobbyT
 
     "watch basic information" which consistIn {
 
-      //"go to lobby logged in" in goToLobby
+      "go to lobby logged in" in goToLobby
 
-      //"look for default state" in lookForDefaultState
+      "look for default state" in lookForDefaultState
 
-      //"look at contest description" in lookAtContestDescription
+      "look at contest description" in lookAtContestDescription
 
       "change resolutions" in changeResolutionTests
     }
