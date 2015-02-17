@@ -18,6 +18,7 @@ trait JS_Ops {
     //val cssSel = (Resolution.BIG)).MENU_ROOT
     //println("$('" + sliderId + "').css('position', 'relative');")
     //Thread.sleep(10000)
+
     WebBrowser.executeScript("$('" + s"$sliderId').val([$min, $max], true); ")
   }
 
@@ -34,7 +35,7 @@ trait JS_Ops {
   def fastClicksByCssSelector(numOfClicks:Int, cssSel:String)(implicit driver:WebDriver) = {
     //implicit val webDriver:WebDriver = driver
     var script = "$('" + cssSel + "')"
-    for( a <- 1 to numOfClicks){
+    for (a <- 1 to numOfClicks) {
       script = script + ".click()"
     }
     WebBrowser.executeScript(script)
@@ -57,12 +58,12 @@ trait JS_Ops {
               oldVal = '',
               isOrdered = true,
               i = 1,
-              jQElemDay = $('.contest-row:nth-child(' + i + ') .column-contest-start-date .column-start-date-day'),
-              jQElemHour = $('.contest-row:nth-child(' + i + ') .column-contest-start-date .column-start-date-hour'),
+              jQElemDay = document.querySelector('.contest-row:nth-child(' + i + ') .column-contest-start-date .column-start-date-day'),
+              jQElemHour = document.querySelector('.contest-row:nth-child(' + i + ') .column-contest-start-date .column-start-date-hour'),
               valueOf = function(strDay, strHour) {
                             var strDayArr = strDay.split('/')
-                                day = (strDayArr[0] == 'Hoy')? 0 : parseInt(strDayArr[0]),
-                                month = (strDayArr[0] == 'Hoy')? 0 : parseInt(strDayArr[1]),
+                                day = (strDayArr[0] == 'Today')? 0 : parseInt(strDayArr[0]),
+                                month = (strDayArr[0] == 'Today')? 0 : parseInt(strDayArr[1]),
                                 hour = parseInt(strHour.split(':')[0]),
                                 minute = parseInt(strHour.split(':')[1].split('h')[0]),
                                 value = ((month * 31 + day) * 24 + hour) * 60 + minute;
@@ -70,15 +71,15 @@ trait JS_Ops {
                             return value;
                           };
 
-          while (jQElemDay.length > 0 && jQElemHour.length > 0 && isOrdered) {
-            val = valueOf(jQElemDay.text(), jQElemHour.text())
+          while (jQElemDay && jQElemHour && isOrdered) {
+            val = valueOf(jQElemDay.innerHTML, jQElemHour.innerHTML);
             isOrdered = val >= oldVal;
-            console.log(oldVal + ' .. ' + val + ' | is ordered:' + isOrdered)
+            console.log(oldVal + ' .. ' + val + ' | is ordered:' + isOrdered);
             oldVal = val;
 
             i++;
-            jQElemDay = $('.contest-row:nth-child(' + i + ') .column-contest-start-date .column-start-date-day');
-            jQElemHour = $('.contest-row:nth-child(' + i + ') .column-contest-start-date .column-start-date-hour');
+            jQElemDay = document.querySelector('.contest-row:nth-child(' + i + ') .column-contest-start-date .column-start-date-day');
+            jQElemHour = document.querySelector('.contest-row:nth-child(' + i + ') .column-contest-start-date .column-start-date-hour');
           }
 
           return isOrdered;
@@ -91,19 +92,20 @@ trait JS_Ops {
     //implicit val webDriver:WebDriver = driver
     val script = """
         return (function () {
-          var val = '',
-              oldVal = '',
+          var val = 0,
+              oldVal = 0,
               isOrdered = true,
               i = 1,
-              jQElem = $('.contest-row:nth-child(' + i + ') .column-contest-price .column-contest-price-content span');
+              jQElem = document.querySelector('.contest-row:nth-child(' + i + ') .column-contest-price .column-contest-price-content');
 
-          while (jQElem.length > 0 && isOrdered) {
-            val = parseInt(jQElem.text().split('€')[0]);
+          while (jQElem && isOrdered) {
+            val = parseInt(jQElem.innerHTML.split('€')[0]);
             isOrdered = val >= oldVal;
+            console.log(oldVal + ' .. ' + val + ' | is ordered:' + isOrdered);
             oldVal = val;
 
             i++;
-            jQElem = $('.contest-row:nth-child(' + i + ') .column-contest-price .column-contest-price-content span');
+            jQElem = document.querySelector('.contest-row:nth-child(' + i + ') .column-contest-price .column-contest-price-content');
           }
 
           return isOrdered;
@@ -121,7 +123,7 @@ trait JS_Ops {
               oldVal = '',
               isOrdered = true,
               i = 1,
-              jQElem = $('.contest-row:nth-child(' + i + ') .column-contest-name .column-name'),
+              jQElem = document.querySelector('.contest-row:nth-child(' + i + ') .column-contest-name .column-name'),
               normalize = (function() {
                              var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
                                  to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
@@ -141,14 +143,14 @@ trait JS_Ops {
 
                            })();
 
-          while (jQElem.length > 0 && isOrdered) {
-            val = normalize(jQElem.text()).toLowerCase();
+          while (jQElem && isOrdered) {
+            val = normalize(jQElem.innerHTML).toLowerCase();
             isOrdered = val >= oldVal;
-            console.log(oldVal + ' .. ' + val + ' | is ordered:' + isOrdered)
+            console.log(oldVal + ' .. ' + val + ' | is ordered:' + isOrdered);
             oldVal = val;
 
             i++;
-            jQElem = $('.contest-row:nth-child(' + i + ') .column-contest-name .column-name');
+            jQElem = document.querySelector('.contest-row:nth-child(' + i + ') .column-contest-name .column-name');
           }
 
           return isOrdered;

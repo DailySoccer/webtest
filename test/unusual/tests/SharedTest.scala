@@ -30,13 +30,13 @@ class SharedTest(resolution:Resolution) extends PlaySpec
 
 
   override def beforeAll {
-    println("========= BEFORE ALL!")  // start up your web server or whatever
+    logger.debug("========= BEFORE ALL!")  // start up your web server or whatever
     SharedPage.driver = webDriver
     status.setDefault
   }
 
   override def afterAll {
-    println("========= AFTER ALL!") // shut down the web server
+    logger.debug("========= AFTER ALL!") // shut down the web server
     webDriver.quit
   }
 

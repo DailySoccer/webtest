@@ -4,7 +4,7 @@ count=0
 
 args=("$@")
 executePlay=true
-choosenHost=false
+chosenHost=false
 isDrone=false
 playArgs=""
 
@@ -15,13 +15,30 @@ while [ $count -lt $# ]; do
         let count=count+1
         playArgs="${playArgs}RESOLUTION=\"${args[count]}\" "
       ;;
+    "-s" | "--suite")
+        let count=count+1
+        playArgs="${playArgs}TEST_SUITE=\"${args[count]}\" "
+      ;;
+    "--drone") isDrone=true
+      ;;
+    "-u" | "--url")
+        let count=count+1
+        playArgs="${playArgs}URL=\"${args[count]}\" "
+      ;;
+    "-v" | "--verbose")
+        let count=count+1
+        playArgs="${playArgs}LOG_LEVEL=\"${args[count]}\" "
+      ;;
+    "-h" | "--help")
+        executePlay=false
+      ;;
     "-l" | "--localhost")
-        if "$choosenHost"; then
+        if "$chosenHost"; then
             executePlay=false
             echo "ERROR: Parameter error: -l|--localhost and -S|--sauce cannot appear simultaneously"
         fi
-        choosenHost=true
-        playArgs="${playArgs}URL=\"http://localhost:9000\" "
+        chosenHost=true
+        playArgs="${playArgs}TEST_HOST=\"local\" "
 
         let count=count+1
         nextArg=${args[count]}
@@ -34,11 +51,12 @@ while [ $count -lt $# ]; do
 
       ;;
     "-S" | "--sauce")
-        if "$choosenHost"; then
+        if "$chosenHost"; then
             executePlay=false
             echo "ERROR: Parameter error: -l|--localhost and -S|--sauce cannot appear simultaneously"
         fi
-        choosenHost=true
+        chosenHost=true
+        playArgs="${playArgs}TEST_HOST=\"saucelabs\" "
 
         let count=count+1
         nextArg=${args[count]}
@@ -48,20 +66,6 @@ while [ $count -lt $# ]; do
         else
             playArgs="${playArgs}BROWSER=\"${nextArg}\" "
         fi
-
-      ;;
-    "-s" | "--suite")
-        let count=count+1
-        playArgs="${playArgs}TEST_SUITE=\"${args[count]}\" "
-      ;;
-    "--drone") isDrone=true
-      ;;
-    "-v" | "--verbose")
-        let count=count+1
-        playArgs="${playArgs}LOG_LEVEL=\"${args[count]}\" "
-      ;;
-    "-h" | "--help")
-        executePlay=false
       ;;
   esac
   let count=count+1
@@ -80,6 +84,8 @@ else
     echo "  -s or --suite \"selectedSuite1[ selectedSuite 2 ...]\""
     echo "          selectedSuite = {lobby|contest_description|enter_contest}"
     echo "          if not defined, all test will run."
+    echo "  -u or --url {local|staging}"
+    echo "          ."
     echo "  -l or --localhost [{firefox|chrome|safari}]"
     echo "          default = firefox"
     echo "          runs using localhost as selenium host"
@@ -92,11 +98,11 @@ else
     echo "          default = FF_32"
     echo "          Chrome 26, 29 and 30 uses default OS (Linux) because is not available on MAC."
     echo "          runs using saucelabs as selenium host"
-    echo "  --drone"
-    echo "          use command for drone.io (sbt instead of play)"
     echo "  -v or --verbose {trace|debug|info|warning|error}"
     echo "          default = error"
     echo "          sets the level of log verbosity"
     echo "  -h or --help"
     echo "          shows this help."
+    echo "  --drone"
+    echo "          use command for drone.io (sbt instead of play)"
 fi

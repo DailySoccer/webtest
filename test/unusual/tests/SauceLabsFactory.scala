@@ -10,14 +10,41 @@ import org.openqa.selenium.firefox._
 import org.openqa.selenium.safari._
 import org.openqa.selenium.phantomjs.PhantomJSDriver
 import org.openqa.selenium.remote.{CapabilityType, DesiredCapabilities, RemoteWebDriver}
+import play.api.Logger
+import unusual.UnusualLogger
 import unusual.pages.SharedPage
 
 trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
 
-  val SAUCE_LABS_HOST   = "sauce labs"
+  object TEST_HOST {
+    val SAUCE_LABS   = "SAUCELABS"
+    val LOCAL        = "LOCAL"
+    //val BROWSERSTACK = "browser stack"
+  }
+
+  private val logger:UnusualLogger = {
+    val l = new UnusualLogger
+    l.logger  = Logger(this.getClass)
+    l
+  }
+
   val HOUR = 3600
   val MAX_DURATION = 3 * HOUR
+
+  val CHROME_BROWSER    = "CHROME"
+  val FIREFOX_BROWSER   = "FIREFOX"
+  val SAFARI_BROWSER    = "SAFARI"
+  val PHANTOMJS_BROWSER = "PHANTOMJS"
+  val DEFAULT_BROWSER   = FIREFOX_BROWSER
+
   val SAUCE_LABS_CONFIG:Map[String, DesiredCapabilities] = Map(
+    DEFAULT_BROWSER -> { val cap = DesiredCapabilities.firefox()
+                 cap.setCapability("name", "DFS FF 32")
+                 cap.setCapability(CapabilityType.VERSION, "32")
+                 cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability(CapabilityType.PLATFORM, Platform.MAC)
+                 cap
+               },
     // FIREFOX
     "FF_12" -> { val cap = DesiredCapabilities.firefox()
                  cap.setCapability("name", "DFS FF 12")
@@ -350,12 +377,10 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
 
   )
 
-  val CHROME_HOST   = "chrome"
-  val FIREFOX_HOST  = "firefox"
-  val SAFARI_HOST   = "safari"
-  val PHANTOMJS_HOST  = "phantom"
-
-  val host:String       = if (SharedPage.isLocalHost) scala.util.Properties.envOrElse("BROWSER", FIREFOX_HOST).toLowerCase else SAUCE_LABS_HOST
+  //Test host: {local o sauce} , Page host: {local, stagging}, browser
+  val browser:String    = scala.util.Properties.envOrElse("BROWSER", DEFAULT_BROWSER).toUpperCase
+  val testHost:String   = scala.util.Properties.envOrElse("TEST_HOST", TEST_HOST.LOCAL).toUpperCase
+  //val host:String       = if (SharedPage.isLocalHost) scala.util.Properties.envOrElse("BROWSER", FIREFOX_HOST).toLowerCase else SAUCE_LABS_HOST
   var sessionId: String = ""
 
   /**
@@ -375,28 +400,18 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    */
   def createWebDriver : WebDriver = {
     var webDriver:WebDriver = null
-    host match {
-      case SAUCE_LABS_HOST =>
-        println("RemoteDriver SauceLabs -----------")
+    logger.debug(" - HOST: " + testHost)
+    logger.debug(" - BROWSER: " + browser)
+
+    testHost match {
+      case TEST_HOST.SAUCE_LABS =>
+        logger.info("SauceLabs -----------")
         webDriver = createSauceLabsDriver
-
-      case CHROME_HOST =>
-        println("ChromeDriver -----------")
-        webDriver = new ChromeDriver
-
-      case FIREFOX_HOST =>
-        println("FirefoxDriver -----------")
-        webDriver = new FirefoxDriver
-
-      case PHANTOMJS_HOST =>
-        println("PhantomJS Driver ----------")
-        webDriver = new PhantomJSDriver
-
-      case SAFARI_HOST =>
-        println("Safari Driver ----------")
-        webDriver = new SafariDriver
+      case TEST_HOST.LOCAL =>
+        logger.info("LocalHost -----------")
+        webDriver = createLocalHostDriver
     }
-    //webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS)
+
     webDriver
   }
 
@@ -405,14 +420,42 @@ trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
    * @return remote web driver
    */
   private def createSauceLabsDriver = {
-    val driver = new RemoteWebDriver(urlSauceLabs, SAUCE_LABS_CONFIG(scala.util.Properties.envOrElse("BROWSER", "FF_32").toUpperCase))
+    val driver = new RemoteWebDriver(urlSauceLabs, SAUCE_LABS_CONFIG(browser))
     sessionId = driver.getSessionId.toString
     driver
   }
-
   private def urlSauceLabs = {
     new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey + "@ondemand.saucelabs.com:80/wd/hub")
     //new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey +  "@hub.browserstack.com/wd/hub")
+  }
+
+  /**
+   *
+   * @return remote web driver
+   */
+  private def createLocalHostDriver = {
+    var webDriver:WebDriver = null
+    browser match {
+
+      case CHROME_BROWSER =>
+        logger.info("ChromeDriver -----------")
+        webDriver = new ChromeDriver
+
+      case FIREFOX_BROWSER =>
+        logger.info("FirefoxDriver -----------")
+        webDriver = new FirefoxDriver
+
+      case PHANTOMJS_BROWSER =>
+        logger.info("PhantomJS Driver ----------")
+        webDriver = new PhantomJSDriver
+
+      case SAFARI_BROWSER =>
+        logger.info("Safari Driver ----------")
+        webDriver = new SafariDriver
+
+    }
+
+    webDriver
   }
 
   /**
