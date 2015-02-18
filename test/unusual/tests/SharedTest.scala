@@ -14,7 +14,7 @@ import unusual.testTags.scala.WIP
 
 class SharedTest(resolution:Resolution) extends PlaySpec
     with OneServerPerSuite with OneBrowserPerSuite
-    with SauceLabsFactory with BeforeAndAfter with BeforeAndAfterAll
+    with WebDriverFactory with BeforeAndAfter with BeforeAndAfterAll
     with BeforeAndAfterEach with SpanSugar with GivenWhenThen with JS_Ops/*with Distributor*/{
 
   var status:TestStatus = new TestStatus

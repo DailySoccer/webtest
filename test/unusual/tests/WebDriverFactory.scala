@@ -14,7 +14,7 @@ import play.api.Logger
 import unusual.UnusualLogger
 import unusual.pages.SharedPage
 
-trait SauceLabsFactory extends SauceOnDemandSessionIdProvider {
+trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
 
   object TEST_HOST {
     val SAUCE_LABS   = "SAUCELABS"
