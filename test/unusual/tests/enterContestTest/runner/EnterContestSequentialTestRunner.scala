@@ -6,14 +6,14 @@ import unusual.model.Resolution
 import unusual.tests.SharedTest
 import unusual.tests.enterContestTest._
 import unusual.tests.lobbyTest._
-import unusual.tests.simulatorController.InitializerTest
+import unusual.tests.simulatorController.InitializerWorldCupTest
 
 class EnterContestSequentialTestRunner extends Sequential(
   EnterContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, EnterContestState.TIME_0_LIST(0))
   , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, EnterContestState.TIME_0_LIST(1))
-  , new InitializerTest(Resolution.MEDIUM)
+  , new InitializerWorldCupTest(Resolution.MEDIUM)
   , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, EnterContestState.TIME_0_LIST(0))
-  , new InitializerTest(Resolution.SMALL)
+  , new InitializerWorldCupTest(Resolution.SMALL)
   , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.SMALL, EnterContestState.TIME_0_LIST(1))
 )
 

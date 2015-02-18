@@ -114,7 +114,7 @@ else
     echo "  -r or --resolution {smartphone|desktop|tablet|all}"
     echo "          select a resolution for testing"
     echo "  -s or --suite \"selectedSuite1[ selectedSuite 2 ...]\""
-    echo "          selectedSuite = {lobby|contest_description|enter_contest}"
+    echo "          selectedSuite = {lobby|contest_description|enter_contest|view_contest|integrity}"
     echo "          if not defined, all test will run."
     echo "  -u or --url {local|staging}"
     echo "          ."

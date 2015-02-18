@@ -5,16 +5,19 @@ import unusual.model.Resolution
 import unusual.tests.contestDescriptionTest.runner.ContestDescriptionSequentialTestRunner
 import unusual.tests.enterContestTest.runner.EnterContestSequentialTestRunner
 import unusual.tests.lobbyTest.runner._
-import unusual.tests.simulatorController.InitializerTest
+import unusual.tests.integrityTest.runner.IntegritySequentialTestRunner
+import unusual.tests.simulatorController.{TimeShiftTest, InitializerLeaguesTest, InitializerWorldCupTest}
 import unusual.tests.viewContestEntryTest.runner.ViewContestSequentialTestRunner
 
 
 class SequentialTestRunner extends Sequential(
-  new InitializerTest(Resolution.ANY)
+  new InitializerWorldCupTest(Resolution.ANY)
   , SequentialTestRunner.lobbyTests
   , SequentialTestRunner.contestDescriptionTests
   , SequentialTestRunner.enterContestTests
   , SequentialTestRunner.viewContestTests
+
+  , SequentialTestRunner.integrityTests
 )
 
 
@@ -53,6 +56,13 @@ object SequentialTestRunner {
                                 } else {
                                   new Sequential
                                 }
+
+  def integrityTests: Suite = if(enabledTestList.contains("INTEGRITY")){
+                                  new IntegritySequentialTestRunner
+                                } else {
+                                  new Sequential
+                                }
+
 /*
   def lobbyTests: Suite = if(enabledTestList.isEmpty || enabledTestList.contains("LOBBY")){
     new LobbySequentialTestRunner
