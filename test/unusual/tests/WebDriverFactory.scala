@@ -1,7 +1,6 @@
 package unusual.tests
 
 import java.net.URL
-import java.util.concurrent.TimeUnit
 
 import com.saucelabs.common.{SauceOnDemandAuthentication, SauceOnDemandSessionIdProvider}
 import org.openqa.selenium._
@@ -10,9 +9,7 @@ import org.openqa.selenium.firefox._
 import org.openqa.selenium.safari._
 import org.openqa.selenium.phantomjs.PhantomJSDriver
 import org.openqa.selenium.remote.{CapabilityType, DesiredCapabilities, RemoteWebDriver}
-import play.api.Logger
 import unusual.UnusualLogger
-import unusual.pages.SharedPage
 
 trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
 
@@ -22,12 +19,7 @@ trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
     val BROWSERSTACK = "BROWSERSTACK"
   }
 
-  private val logger:UnusualLogger = {
-    val l = new UnusualLogger
-    l.logger  = Logger(this.getClass)
-    l
-  }
-
+  private val logger:UnusualLogger = new UnusualLogger("WebDriverFactory")
 
   val HOUR = 3600
   val MAX_DURATION = 3 * HOUR
@@ -38,7 +30,7 @@ trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
   val PHANTOMJS_BROWSER = "PHANTOMJS"
   val DEFAULT_BROWSER   = FIREFOX_BROWSER
 
-  val SAUCE_LABS_CONFIG:Map[String, DesiredCapabilities] = Map(
+  val REMOTE_CONFIG:Map[String, DesiredCapabilities] = Map(
     DEFAULT_BROWSER -> { val cap = DesiredCapabilities.internetExplorer()
       cap.setCapability("name", "DFS IE 10")
       cap.setCapability(CapabilityType.VERSION, "10")
@@ -218,30 +210,30 @@ trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
 
     // INTERNET EXPLORER
     "IE_7" -> { val cap = DesiredCapabilities.internetExplorer()
-                 cap.setCapability("name", "DFS IE 7")
-                 cap.setCapability(CapabilityType.VERSION, "7")
-                 cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
-                 cap.setCapability("max-duration", MAX_DURATION)
-                 cap
-               },
+                cap.setCapability("name", "DFS IE 7")
+                cap.setCapability(CapabilityType.VERSION, "7")
+                cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
+                cap.setCapability("max-duration", MAX_DURATION)
+                cap
+              },
     "IE_8" -> { val cap = DesiredCapabilities.internetExplorer()
-                 cap.setCapability("name", "DFS IE 8")
-                 cap.setCapability(CapabilityType.VERSION, "8")
-                 cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
-                 cap.setCapability("max-duration", MAX_DURATION)
-                 cap
-               },
+                cap.setCapability("name", "DFS IE 8")
+                cap.setCapability(CapabilityType.VERSION, "8")
+                cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
+                cap.setCapability("max-duration", MAX_DURATION)
+                cap
+              },
     "IE_9" -> { val cap = DesiredCapabilities.internetExplorer()
-                 cap.setCapability("name", "DFS IE 9")
-                 cap.setCapability(CapabilityType.VERSION, "9")
-                 cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
-                 cap.setCapability("max-duration", MAX_DURATION)
-                 cap.setCapability("browser", "IE")
-                 cap.setCapability("browser_version", "9")
-                 cap.setCapability("os", "Windows")
-                 cap.setCapability("browserstack.debug", "true")
-                 cap
-               },
+                cap.setCapability("name", "DFS IE 9")
+                cap.setCapability(CapabilityType.VERSION, "9")
+                cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
+                cap.setCapability("max-duration", MAX_DURATION)
+                cap.setCapability("browser", "IE")
+                cap.setCapability("browser_version", "9")
+                cap.setCapability("os", "Windows")
+                cap.setCapability("browserstack.debug", "true")
+                cap
+              },
     "IE_10" -> { val cap = DesiredCapabilities.internetExplorer()
                  cap.setCapability("name", "DFS IE 10")
                  cap.setCapability(CapabilityType.VERSION, "10")
@@ -382,19 +374,20 @@ trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
 
     //OPERA
     "OPERA_11" -> { val cap = DesiredCapabilities.opera()
-      cap.setCapability("name", "DFS OPERA 11")
-      cap.setCapability(CapabilityType.VERSION, "11")
-      cap.setCapability("max-duration", MAX_DURATION)
-      cap
-    },
+                    cap.setCapability("name", "DFS OPERA 11")
+                    cap.setCapability(CapabilityType.VERSION, "11")
+                    cap.setCapability("max-duration", MAX_DURATION)
+                    cap
+                  },
     "OPERA_12" -> { val cap = DesiredCapabilities.opera()
-      cap.setCapability("name", "DFS OPERA 12")
-      cap.setCapability(CapabilityType.VERSION, "12")
-      cap.setCapability("max-duration", MAX_DURATION)
-      cap
-    }
+                    cap.setCapability("name", "DFS OPERA 12")
+                    cap.setCapability(CapabilityType.VERSION, "12")
+                    cap.setCapability("max-duration", MAX_DURATION)
+                    cap
+                  }
 
   )
+
 
   //Test host: {local o sauce} , Page host: {local, stagging}, browser
   val browser:String    = scala.util.Properties.envOrElse("BROWSER", DEFAULT_BROWSER).toUpperCase
@@ -414,25 +407,27 @@ trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
   //val authentication = new SauceOnDemandAuthentication("sreveloc", "add73570-deea-44c2-82e2-331d7d0e69eb")
   //val authentication = new SauceOnDemandAuthentication("Ximo", "3b338dac-feba-4b1a-828f-dcc4e46af910")
 
+  def isSafari: Boolean = browser == SAFARI_BROWSER || browser.matches(SAFARI_BROWSER + "*")
+
   /**
    * Creates a new instance of a Selenium 'Remote Driver'
    *
    * @return an new instance of a Selenium `RemoteDriver` or a `BrowserFactory.UnavailableDriver`
    */
-  def createWebDriver : WebDriver = {
+  def createWebDriver: WebDriver = {
     var webDriver:WebDriver = null
-    logger.debug(" - HOST: " + testHost)
-    logger.debug(" - BROWSER: " + browser)
+    logger.debug("    HOST:    " + testHost)
+    logger.debug("    BROWSER: " + browser)
 
     testHost match {
       case TEST_HOST.SAUCE_LABS =>
-        logger.info("SauceLabs -----------")
+        logger.info("SauceLabs")
         webDriver = createServiceDriver
       case TEST_HOST.BROWSERSTACK =>
-        logger.info("BrowserStack -----------")
+        logger.info("BrowserStack")
         webDriver = createServiceDriver
       case TEST_HOST.LOCAL =>
-        logger.info("LocalHost -----------")
+        logger.info("LocalHost")
         webDriver = createLocalHostDriver
     }
 
@@ -443,13 +438,13 @@ trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
    *
    * @return remote web driver
    */
-  private def createServiceDriver = {
-    val driver = new RemoteWebDriver(urlService, SAUCE_LABS_CONFIG(browser))
+  private def createServiceDriver: WebDriver = {
+    val driver = new RemoteWebDriver(urlService, REMOTE_CONFIG(browser))
     sessionId = driver.getSessionId.toString
     driver
   }
 
-  private def urlService = {
+  private def urlService: URL = {
     val hostname = if (testHost.equals(TEST_HOST.SAUCE_LABS)) "@ondemand.saucelabs.com:80/wd/hub"
                    else "@hub.browserstack.com/wd/hub"
     new URL("http://" + authentication.getUsername + ":" + authentication.getAccessKey + hostname)
@@ -460,7 +455,7 @@ trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
    *
    * @return remote web driver
    */
-  private def createLocalHostDriver = {
+  private def createLocalHostDriver: WebDriver = {
     var webDriver:WebDriver = null
     browser match {
 

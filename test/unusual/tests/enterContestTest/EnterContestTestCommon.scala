@@ -32,48 +32,52 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     val lobby = new LobbyPage(status.resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
     Then("page should be at and default state")
     assert(enterContestPage.isAt && enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
-    When("go navigate back and forward")
-    goBack()
-    goForward()
-    Then("page should be at and default state")
-    assert(enterContestPage.isAt)
-    assert(enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
-    When("go navigate back and click on play button")
-    goBack()
+    if(!isSafari) {
+      When("go navigate back and forward")
+      goBack()
+      goForward()
+      Then("page should be at and default state")
+      assert(enterContestPage.isAt)
+      assert(enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
+      When("go navigate back and click on play button")
+      goBack()
 
-    if (status.resolution == Resolution.SMALL) {
-      lobby.playContestNumber(state.contest.startDateOrder)
+      if (status.resolution == Resolution.SMALL) {
+        lobby.playContestNumber(state.contest.startDateOrder)
+      } else {
+        lobby.filters.search(state.contest.name)
+        lobby.playContestNumber(1)
+      }
+
+      Then("page should be at and default state")
+      assert(enterContestPage.isAt, "is not at")
+      assert(enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY), "is not default")
+      When("click on close button and navigate back")
+      enterContestPage.clickOnCloseButton
+      goBack()
+      Then("page should be at and default state")
+      assert(enterContestPage.isAt && enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
+      When("click on close button and click on play button")
+      enterContestPage.clickOnCloseButton
+      lobby.filters.clear
+
+      if (status.resolution == Resolution.SMALL) {
+        lobby.playContestNumber(state.contest.startDateOrder)
+      } else {
+        lobby.filters.search(state.contest.name)
+        lobby.playContestNumber(1)
+      }
+
+      Then("page should be at and default state")
+      assert(enterContestPage.isAt && enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
+      /*
+      reloadPage()
+      assert(page.isAt.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
+      */
     } else {
-      lobby.filters.search(state.contest.name)
-      lobby.playContestNumber(1)
+      Then("the rest of test skipped. Is Safari browser")
+      testSkippedBecauseIsSafari
     }
-
-    Then("page should be at and default state")
-    assert(enterContestPage.isAt, "is not at")
-    assert(enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY), "is not default")
-    When("click on close button and navigate back")
-    enterContestPage.clickOnCloseButton
-    goBack()
-    Then("page should be at and default state")
-    assert(enterContestPage.isAt && enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
-    When("click on close button and click on play button")
-    enterContestPage.clickOnCloseButton
-    lobby.filters.clear
-
-    if (status.resolution == Resolution.SMALL) {
-      lobby.playContestNumber(state.contest.startDateOrder)
-    } else {
-      lobby.filters.search(state.contest.name)
-      lobby.playContestNumber(1)
-    }
-
-    Then("page should be at and default state")
-    assert(enterContestPage.isAt && enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
-    /*
-    reloadPage()
-    assert(page.isAt.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
-    */
-
     changeMenuPositioning
   }
 

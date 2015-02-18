@@ -2,35 +2,37 @@ package unusual
 
 import play.api.Logger
 
-class UnusualLogger {
+class UnusualLogger(className: String = "Unusual") {
 
-  var logger = Logger("Unusual")
+  def this(clas: Class[_]) = this(clas.getSimpleName)
 
-  def error(msg: String): Unit = if(UnusualLogger.isErrorEnabled) { logger.error(msg) }
+  //var logger = Logger("Unusual")
 
-  def error(msg: String, t:Throwable): Unit = if(UnusualLogger.isErrorEnabled) { logger.error(msg, t) }
+  def error(msg: String): Unit = if(UnusualLogger.isErrorEnabled) { println("\u001B[31m[u-error] " + s"$className - " + msg + "\u001B[0m") }
 
-  def info(msg: String): Unit = if(UnusualLogger.isInfoEnabled) { logger.info(msg) }
+  def error(msg: String, t:Throwable): Unit = if(UnusualLogger.isErrorEnabled) { println("\u001B[31m[u-error] " + s"$className - " + msg + "\u001B[0m", t) }
 
-  def info(msg: String, t:Throwable): Unit = if(UnusualLogger.isInfoEnabled) { logger.info(msg, t) }
+  def info(msg: String): Unit = if(UnusualLogger.isInfoEnabled) { println("[u-info]  \u001B[32m" + s"$className - " + msg + "\u001B[0m") }
 
-  def trace(msg: String): Unit = if(UnusualLogger.isTraceEnabled) { logger.trace(msg) }
+  def info(msg: String, t:Throwable): Unit = if(UnusualLogger.isInfoEnabled) { println("[u-info]  \u001B[32m" + s"$className - " + msg + "\u001B[0m", t) }
 
-  def trace(msg: String, t:Throwable): Unit = if(UnusualLogger.isTraceEnabled) { logger.trace(msg, t) }
+  def trace(msg: String): Unit = if(UnusualLogger.isTraceEnabled) { println("[u-trace] " + s"$className - " + msg) }
 
-  def warn(msg: String): Unit = if(UnusualLogger.isWarnEnabled) { logger.warn(msg) }
+  def trace(msg: String, t:Throwable): Unit = if(UnusualLogger.isTraceEnabled) { println("[u-trace] " + s"$className - " + msg, t) }
 
-  def warn(msg: String, t:Throwable): Unit = if(UnusualLogger.isWarnEnabled) { logger.warn(msg, t) }
+  def warn(msg: String): Unit = if(UnusualLogger.isWarnEnabled) { println("\u001B[33m[u-warn]  " + s"$className - " + msg + "\u001B[0m") }
 
-  def debug(msg: String): Unit = if(UnusualLogger.isDebugEnabled) { logger.debug(msg) }
+  def warn(msg: String, t:Throwable): Unit = if(UnusualLogger.isWarnEnabled) { println("\u001B[33m[u-warn]  " + s"$className - " + msg + "\u001B[0m", t) }
+
+  def debug(msg: String): Unit = if(UnusualLogger.isDebugEnabled) { println("\u001B[36m[u-debug]\u001B[0m " + s"$className - " + msg) }
 
   def debug(msg: String, result:Boolean): Unit = {
     if(UnusualLogger.isDebugEnabled) {
-      logger.debug(String.format("%-75s", msg) + (": " + result).toUpperCase)
+      println("\u001B[36m[u-debug]\u001B[0m " + s"$className - " + String.format("%-75s", msg) + (": " + result).toUpperCase)
     }
   }
 
-  def debug(msg: String, t:Throwable): Unit = if(UnusualLogger.isDebugEnabled) { logger.debug(msg, t) }
+  def debug(msg: String, t:Throwable): Unit = if(UnusualLogger.isDebugEnabled) { println("\u001B[36m[u-debug]\u001B[0m " + s"$className - " + msg, t) }
 
 }
 

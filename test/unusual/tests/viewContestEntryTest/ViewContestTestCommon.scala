@@ -81,19 +81,28 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
   }
 
   def goOtherContests:Unit = {
-    viewContestPage.changeToLineUpTab.goOtherContests
-    val lobby = new LobbyPage(res, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
-    eventually { assert( lobby.isAt ) }
-    assert(lobby.getNumberOfContests == LobbyState.DEFAULT_LOBBY.numContests_NoFilter - 1)
-    goBack
+    if (!isSafari) {
+      viewContestPage.changeToLineUpTab.goOtherContests
+      val lobby = new LobbyPage(res, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
+      eventually { assert( lobby.isAt ) }
+      assert(lobby.getNumberOfContests == LobbyState.DEFAULT_LOBBY.numContests_NoFilter - 1)
+      goBack
+    } else {
+      testSkippedBecauseIsSafari
+    }
   }
 
   def cancelEntry:Unit = {
     viewContestPage.changeToLineUpTab.cancelContestEntry
     val lobby = new LobbyPage(res, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
-    eventually { assert( lobby.isAt ) }
+    eventually { assert(lobby.isAt) }
     assert(lobby.getNumberOfContests == LobbyState.DEFAULT_LOBBY.numContests_NoFilter)
-    goBack
-    eventually { assert( lobby.isAt ) }
+
+    if (!isSafari) {
+      goBack
+      eventually { assert(lobby.isAt) }
+    } else {
+      testSkippedBecauseIsSafari
+    }
   }
 }

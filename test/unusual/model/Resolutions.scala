@@ -8,7 +8,7 @@ class Resolution(w: Int, h: Int, alias: String, able: Boolean) {
   val enabled: Boolean = able
   private val _alias: String = alias
 
-  new UnusualLogger().info(s"$this: $enabled")
+  new UnusualLogger(this.getClass).debug(s"$this: ", enabled)
 
   override def toString = _alias
 }

@@ -19,11 +19,8 @@ class SharedTest(resolution:Resolution) extends PlaySpec
 
   var status:TestStatus = new TestStatus
   status.setBaseResolution(resolution)
-  var logger:UnusualLogger = {
-    val l = new UnusualLogger()
-    l.logger = Logger(this.getClass)
-    l
-  }
+  var logger:UnusualLogger = new UnusualLogger(this.getClass)
+
   // TODO: INTERESANTE
   // override val port = 5646
   // app.global.onError
@@ -99,6 +96,11 @@ class SharedTest(resolution:Resolution) extends PlaySpec
 
   def featureNotTestableInResolution = {
     logger.info("This test is not runnable in current resolution")
+    this
+  }
+
+  def testSkippedBecauseIsSafari = {
+    logger.info("This test skipped because it uses navigation in history with Safari")
     this
   }
 

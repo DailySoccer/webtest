@@ -20,11 +20,7 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
   val resolution: Resolution = res
   val url = SharedPage.baseUrl
 
-  protected var logger:UnusualLogger = {
-    val l = new UnusualLogger
-    l.logger  = Logger(this.getClass)
-    l
-  }
+  protected var logger:UnusualLogger = new UnusualLogger(this.getClass)
 
   def isAt:Boolean = { true }
 
@@ -92,11 +88,7 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
 
 object SharedPage {
 
-  protected var logger:UnusualLogger = {
-    val l = new UnusualLogger
-    l.logger  = Logger(this.getClass)
-    l
-  }
+  protected var logger:UnusualLogger = new UnusualLogger(this.getClass)
 
   val PAGE_HOST:Map[String, String] = Map(
     "STAGING"   -> "http://dailysoccer-staging.herokuapp.com",
@@ -106,7 +98,10 @@ object SharedPage {
   var driver  : WebDriver = null
   var baseUrl : String = {
     val testHost:String   = scala.util.Properties.envOrElse("TEST_HOST", "LOCAL").toUpperCase
-    val url: String = PAGE_HOST(scala.util.Properties.envOrElse("URL", if(testHost == "LOCAL") "LOCAL" else "STAGING").toUpperCase)
+    var url: String = scala.util.Properties.envOrElse("URL", if(testHost == "LOCAL") "LOCAL" else "STAGING")
+    if (PAGE_HOST.contains(url.toUpperCase)) {
+      url = PAGE_HOST(url.toUpperCase)
+    }
     logger.info(s"URL: {$url}")
     url
   }
