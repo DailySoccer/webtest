@@ -17,7 +17,6 @@ class SequentialTestRunner extends Sequential(
   , SequentialTestRunner.enterContestTests
   , SequentialTestRunner.viewContestTests
 
-  , new InitializerLeaguesTest(Resolution.ANY)
   , SequentialTestRunner.integrityTests
 )
 
@@ -58,7 +57,7 @@ object SequentialTestRunner {
                                   new Sequential
                                 }
 
-  def integrityTests: Suite = if(enabledTestList.isEmpty || enabledTestList.contains("INTEGRITY")){
+  def integrityTests: Suite = if(enabledTestList.contains("INTEGRITY")){
                                   new IntegritySequentialTestRunner
                                 } else {
                                   new Sequential

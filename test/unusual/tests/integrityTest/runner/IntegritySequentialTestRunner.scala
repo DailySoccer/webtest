@@ -3,10 +3,12 @@ package unusual.tests.integrityTest.runner
 import org.scalatest.Sequential
 import unusual.model.Resolution
 import unusual.tests.integrityTest.IntegrityTest
-import unusual.tests.simulatorController.TimeShiftTest
+import unusual.tests.simulatorController.{InitializerLeaguesTest, TimeShiftTest}
 
 class IntegritySequentialTestRunner extends Sequential (
-  new TimeShiftTest(Resolution.ANY, 25, 8, 2014, 0, 0, 0, "2014/08/25 00:00:00 UTC", description = "go to Jornada 1")
+  new InitializerLeaguesTest(Resolution.ANY)
+
+  , new TimeShiftTest(Resolution.ANY, 25, 8, 2014, 0, 0, 0, "2014/08/25 00:00:00 UTC", description = "go to Jornada 1")
   , new IntegrityTest
   , new TimeShiftTest(Resolution.ANY, 1, 9, 2014, 0, 0, 0, "2014/09/01 00:00:00 UTC", description = "go to Jornada 2")
   , new IntegrityTest
