@@ -39,6 +39,7 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
     }
     logger.debug("change menu positioning")
     changeMenuPositioning
+    logger.debug("changed")
     this
   }
 
@@ -90,11 +91,25 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
 }
 
 object SharedPage {
+
+  protected var logger:UnusualLogger = {
+    val l = new UnusualLogger
+    l.logger  = Logger(this.getClass)
+    l
+  }
+
+  val PAGE_HOST:Map[String, String] = Map(
+    "STAGING"   -> "http://dailysoccer-staging.herokuapp.com",
+    "LOCAL"     -> "http://localhost:9000"
+  )
+
   var driver  : WebDriver = null
   var baseUrl : String = {
-    val url: String = scala.util.Properties.envOrElse("URL", "http://dailysoccer-staging.herokuapp.com")
-    play.Logger.info("URL: {}", url)
+    val testHost:String   = scala.util.Properties.envOrElse("TEST_HOST", "LOCAL").toUpperCase
+    val url: String = PAGE_HOST(scala.util.Properties.envOrElse("URL", if(testHost == "LOCAL") "LOCAL" else "STAGING").toUpperCase)
+    logger.info(s"URL: {$url}")
     url
   }
-  var isLocalHost = scala.util.Properties.envOrNone("URL").isDefined
+
+  //var isLocalHost = scala.util.Properties.envOrNone("URL").isDefined
 }

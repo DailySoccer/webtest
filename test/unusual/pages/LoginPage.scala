@@ -18,7 +18,7 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
   override def isAt = {
     eventually {
       pageTitle should be (TITLE)
-      //find(tagName("legend")).get.text should be (LEGEND)
+
       find(id(FORM_EMAIL))    should be ('defined)
       find(id(FORM_PASSWORD)) should be ('defined)
       find(id(FORM_SUBMIT))   should be ('defined)
@@ -35,7 +35,9 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
    * @return
    */
   def doLogin(usr: User) = {
+    logger.debug("Filling form")
     fillAndSubmitForm(usr)
+    logger.debug("Form filled")
     this
   }
 
