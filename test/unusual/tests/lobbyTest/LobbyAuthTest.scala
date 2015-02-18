@@ -1,29 +1,28 @@
 package unusual.tests.lobbyTest
 
-import unusual.model.Resolution
+import unusual.model.{Contest, Resolution}
 import unusual.model.pageStates.LobbyState
 import unusual.pages.{HomePage, EnterContestPage, LobbyPage}
-import unusual.testTags.scala._
 import unusual.tests.contestDescriptionTest._
 
 
-class LobbyAuthTest_BasicInfo(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTest(lobbySt, res){
+class LobbyAuthTest_BasicInfo(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
   "(Basic Info) Auth user" when sizeTesting(lobbyPageBehaviorBasicInfo)
 }
 
-class LobbyAuthTest_Filters(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTest(lobbySt, res){
+class LobbyAuthTest_Filters(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
   "(Filters) Auth user" when sizeTesting(lobbyPageBehaviorFilters)
 }
 
-class LobbyAuthTest_OrderBy(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTest(lobbySt, res){
+class LobbyAuthTest_OrderBy(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
   "(Order By) Auth user" when sizeTesting(lobbyPageBehaviorOrderBy)
 }
 
-class LobbyAuthTest_Others(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTest(lobbySt, res){
+class LobbyAuthTest_Others(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
   "(Others) Auth user" when sizeTesting(lobbyPageBehaviorOthers)
 }
 
-class LobbyAuthTest_Bug(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTest(lobbySt, res){
+class LobbyAuthTest_Bug(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
   "(BUG) Auth user" when sizeTesting(lobbyPageBehaviorBUG)
 }
 
@@ -31,7 +30,7 @@ class LobbyAuthTest_Bug(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTe
 /**
  * No lo vamos a usar a priori
  */
-class LobbyAuthTest_All(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTest(lobbySt, res){
+class LobbyAuthTest_All(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
   "Auth user" when {
     sizeTesting({
       lobbyPageBehaviorBasicInfo
@@ -39,6 +38,7 @@ class LobbyAuthTest_All(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTe
       lobbyPageBehaviorOrderBy
       lobbyPageBehaviorOthers
       lobbyPageBehaviorBUG
+      lobbyPageBehaviorContestDescription
     })
 /*
     sizeTesting(lobbyPageBehaviorFilters)
@@ -59,7 +59,9 @@ class LobbyAuthTest_All(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTe
   "(BUG)Auth user" when sizeTesting(lobbyPageBehaviorBUG)*/
 }
 
-abstract class LobbyAuthTest(lobbySt: LobbyState, res:Resolution) extends LobbyTestCommon(lobbySt, res) {
+abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyTestCommon(lobbySt, cont, res) {
+
+  //val contestDescription: ContestDescriptionWindowCommon = new ContestDescriptionWindowCommon(cont, res)
 
   def orderBy = afterWord("ORDER BY")
   def filterBy = afterWord("FILTER BY")
@@ -81,6 +83,48 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, res:Resolution) extends LobbyT
       "look at contest description" in lookAtContestDescription
 
       "change resolutions" in changeResolutionTests
+    }
+  }
+
+  def lobbyPageBehaviorContestDescription: Unit = {
+    if(status.resolution == Resolution.BIG) {
+
+      "contest description: click on tabs" in changeTabs
+
+      "contest description: look at contest header" which consistIn {
+
+        "name" in contestName
+
+        "description" in contestDescription
+
+        "entry fee" in contestEntryFee
+
+        "prize" in contestPrize
+      }
+
+      "contest description: look at contest sections" which consistIn {
+
+        "involved matches" in numberOfMatches
+
+        "involved contestants" in numberOfContestants
+
+        "prizes" in numberOfPrizes
+      }
+
+      "contest description: perform known BUG SEQUENCE" which causes {
+
+        "Elements disappear when enter contest through button at information" in knownBugSequence_ScrollBarDisappeared
+      }
+
+    }
+
+    "go to EnterContestDescription and look at contest sections" which consistIn {
+
+      "involved matches" in enterContest.numberOfMatches
+
+      "involved contestants" in enterContest.numberOfContestants
+
+      "prizes" in enterContest.numberOfPrizes
     }
   }
 

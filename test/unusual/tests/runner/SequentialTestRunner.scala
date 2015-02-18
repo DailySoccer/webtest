@@ -13,7 +13,7 @@ import unusual.tests.viewContestEntryTest.runner.ViewContestSequentialTestRunner
 class SequentialTestRunner extends Sequential(
   new InitializerWorldCupTest(Resolution.ANY)
   , SequentialTestRunner.lobbyTests
-  , SequentialTestRunner.contestDescriptionTests
+  //, SequentialTestRunner.contestDescriptionTests
   , SequentialTestRunner.enterContestTests
   , SequentialTestRunner.viewContestTests
 
@@ -38,13 +38,13 @@ object SequentialTestRunner {
                           } else {
                             new Sequential
                           }
-
+/*
   def contestDescriptionTests: Suite = if(enabledTestList.isEmpty || enabledTestList.contains("CONTEST_DESCRIPTION")){
                                          new ContestDescriptionSequentialTestRunner
                                        } else {
                                          new Sequential
                                        }
-
+*/
   def enterContestTests: Suite = if(enabledTestList.isEmpty || enabledTestList.contains("ENTER_CONTEST")){
                                    new EnterContestSequentialTestRunner
                                  } else {

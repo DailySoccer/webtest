@@ -6,7 +6,7 @@ import unusual.pages._
 import unusual.testTags.scala._
 import unusual.tests.SharedTest
 
-class LobbyVisitorTest(lobbySt:LobbyState, res:Resolution) extends LobbyTestCommon(lobbySt, res) {
+class LobbyVisitorTest(lobbySt:LobbyState, res:Resolution) extends LobbyTestCommon(lobbySt, null, res) {
 
   before {
     status.ensureVisitor
