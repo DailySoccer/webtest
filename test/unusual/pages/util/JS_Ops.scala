@@ -99,7 +99,7 @@ trait JS_Ops {
               jQElem = document.querySelector('.contest-row:nth-child(' + i + ') .column-contest-price .column-contest-price-content');
 
           while (jQElem && isOrdered) {
-            val = parseInt(jQElem.innerHTML.split('€')[0]);
+            val = parseInt(jQElem.innerHTML.split('$')[1]);
             isOrdered = val >= oldVal;
             console.log(oldVal + ' .. ' + val + ' | is ordered:' + isOrdered);
             oldVal = val;
@@ -291,6 +291,7 @@ trait JS_Ops {
 
   def fastEnterContest_PlayerAreOrderedBySalary()(implicit driver:WebDriver):Boolean = {
     //implicit val webDriver:WebDriver = driver
+    // Ignoramos el símbolo del money ($amount)
     val script = """
         return (function () {
           var val = 0,
@@ -301,10 +302,10 @@ trait JS_Ops {
               jQElem = $('.soccer-players-list .soccer-players-list-slot:nth-child(' + i + ') .column-salary');
 
 
-          oldVal = parseInt(jQElem.text().trim().substring(0, jQElem.text().length - 1));
+          oldVal = parseInt(jQElem.text().trim().substring(1, jQElem.text().length));
           while (jQElem.length > 0 && isOrdered) {
             salaryText = jQElem.text();
-            val = parseInt(salaryText.trim().substring(0, salaryText.length - 1));
+            val = parseInt(salaryText.trim().substring(1, salaryText.length));
             isOrdered = val <= oldVal;
             console.log(oldVal + ' .. ' + val + ' | is ordered:' + isOrdered)
             oldVal = val;
