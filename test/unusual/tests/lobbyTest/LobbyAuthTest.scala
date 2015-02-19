@@ -31,12 +31,15 @@ class LobbyAuthTest_Bug(lobbySt: LobbyState, cont: Contest, res:Resolution) exte
 class LobbyAuthTest_All(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
   "Auth user" when {
     sizeTesting({
-      lobbyPageBehaviorBasicInfo
-      lobbyPageBehaviorFilters
-      lobbyPageBehaviorOrderBy
-      lobbyPageBehaviorOthers
-      lobbyPageBehaviorBUG
-      lobbyPageBehaviorContestDescription
+      if (SequentialTestRunner.shouldExecuteLobby) {
+        lobbyPageBehaviorBasicInfo
+        lobbyPageBehaviorFilters
+        lobbyPageBehaviorOrderBy
+        lobbyPageBehaviorOthers
+        lobbyPageBehaviorBUG
+      }
+
+      if (SequentialTestRunner.shouldExecuteContestDescription) lobbyPageBehaviorContestDescription
     })
   }
 }
@@ -69,45 +72,43 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution)
   }
 
   def lobbyPageBehaviorContestDescription: Unit = {
-    if (SequentialTestRunner.shouldExecuteContestDescription) {
-      if (status.resolution == Resolution.BIG) {
+    if (status.resolution == Resolution.BIG) {
 
-        "go to contest description and click on tabs" in contestDescription.changeTabs
+      "go to contest description and click on tabs" in contestDescription.changeTabs
 
-        "go to contest description and look at contest header" which consistIn {
+      "go to contest description and look at contest header" which consistIn {
 
-          "name" in contestDescription.contestName
+        "name" in contestDescription.contestName
 
-          "description" in contestDescription.contestDescription
+        "description" in contestDescription.contestDescription
 
-          "entry fee" in contestDescription.contestEntryFee
+        "entry fee" in contestDescription.contestEntryFee
 
-          "prize" in contestDescription.contestPrize
-        }
-
-        "go to contest description and look at contest sections" which consistIn {
-
-          "involved matches" in contestDescription.numberOfMatches
-
-          "involved contestants" in contestDescription.numberOfContestants
-
-          "prizes" in contestDescription.numberOfPrizes
-        }
-
-        "go to contest description and perform known BUG SEQUENCE" which causes {
-
-          "Elements disappear when enter contest through button at information" in contestDescription.knownBugSequence_ScrollBarDisappeared
-        }
+        "prize" in contestDescription.contestPrize
       }
 
-      "go to EnterContestDescription and look at contest sections" which consistIn {
+      "go to contest description and look at contest sections" which consistIn {
 
-        "involved matches" in contestDescription.enterContest.numberOfMatches
+        "involved matches" in contestDescription.numberOfMatches
 
-        "involved contestants" in contestDescription.enterContest.numberOfContestants
+        "involved contestants" in contestDescription.numberOfContestants
 
-        "prizes" in contestDescription.enterContest.numberOfPrizes
+        "prizes" in contestDescription.numberOfPrizes
       }
+
+      "go to contest description and perform known BUG SEQUENCE" which causes {
+
+        "Elements disappear when enter contest through button at information" in contestDescription.knownBugSequence_ScrollBarDisappeared
+      }
+    }
+
+    "go to EnterContestDescription and look at contest sections" which consistIn {
+
+      "involved matches" in contestDescription.enterContest.numberOfMatches
+
+      "involved contestants" in contestDescription.enterContest.numberOfContestants
+
+      "prizes" in contestDescription.enterContest.numberOfPrizes
     }
   }
 

@@ -40,7 +40,7 @@ object SequentialTestRunner {
   val shouldExecuteIntegrity = enabledTestList.contains("INTEGRITY")
 
 
-  def lobbyTests: Suite = if(shouldExecuteLobby){
+  def lobbyTests: Suite = if(shouldExecuteLobby || shouldExecuteContestDescription){
                             new LobbySequentialTestRunner()
                           } else {
                             new Sequential
