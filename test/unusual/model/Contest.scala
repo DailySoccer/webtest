@@ -61,8 +61,8 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun.++"
-    contest.description = ".*: 13 .* 100 .* - .*: 65000"
-    contest.joinedDescription = ".*: 14 .* 100 .* - .*: 65000"
+    contest.description = ".*: 13 .* 100 .* - .*: 65,000"
+    contest.joinedDescription = ".*: 14 .* 100 .* - .*: 65,000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "Hoy"
@@ -114,8 +114,8 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun.!!"
-    contest.description = ".*: 13 .* 200 .* - .*: 60000"
-    contest.joinedDescription = ".*: 14 .* 200 .* - .*: 60000"
+    contest.description = ".*: 13 .* 200 .* - .*: 60,000"
+    contest.joinedDescription = ".*: 14 .* 200 .* - .*: 60,000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "14/06"
@@ -165,8 +165,8 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun...."
-    contest.description = ".*: 13 .* 200 .* - .*: 70000"
-    contest.joinedDescription = ".*: 14 .* 200 .* - .*: 70000"
+    contest.description = ".*: 13 .* 200 .* - .*: 70,000"
+    contest.joinedDescription = ".*: 14 .* 200 .* - .*: 70,000"
     contest.entryFee = "0€"
     contest.prize = "0€"
     contest.date = "Hoy"

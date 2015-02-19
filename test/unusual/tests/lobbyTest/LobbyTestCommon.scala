@@ -16,9 +16,10 @@ import unusual.tests.contestDescriptionTest.ContestDescriptionWindowCommon
 abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolution) extends SharedTest(res) {
 
   var lobbyState = lobbySt
-  var _lobbyPageInstance:LobbyPage = null
-  def lobbyPage:LobbyPage = {
-    if(_lobbyPageInstance == null) {
+  var _lobbyPageInstance: LobbyPage = null
+
+  def lobbyPage: LobbyPage = {
+    if (_lobbyPageInstance == null) {
       _lobbyPageInstance = goToLobbyPage(lobbyState)
       changeMenuPositioning
     }
@@ -38,34 +39,44 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
   }
 
   def lookForDefaultState: Unit = {
-    eventually { assert(lobbyPage.isDefaultState(lobbyState.numContests_NoFilter), "Lobby is not at default state") }
+    eventually {
+      assert(lobbyPage.isDefaultState(lobbyState.numContests_NoFilter), "Lobby is not at default state")
+    }
   }
 
   def lookAtContestDescription: Unit = {
-    if (status.resolution == Resolution.BIG){
+    if (status.resolution == Resolution.BIG) {
       logger.debug("Looking at contest description")
       lobbyPage.openContestDescription(1)
       logger.debug("Contest description should be opened(1)")
       val description = new ContestDescriptionWindow(status.resolution)
 
-      eventually { assert(description.isAt, "Description should be visible") }
+      eventually {
+        assert(description.isAt, "Description should be visible")
+      }
       logger.debug("Description is visible")
       description.close
       logger.debug("Description should be closed")
-      eventually { assert(!description.isAt, "Description should NOT be visible") }
+      eventually {
+        assert(!description.isAt, "Description should NOT be visible")
+      }
       logger.debug("Description is closed")
 
       lobbyPage.openContestDescription(lobbyState.numContests_NoFilter)
       logger.debug("Last contest description should be opened(2)")
-      eventually { assert(description.isAt, "Description should be visible") }
+      eventually {
+        assert(description.isAt, "Description should be visible")
+      }
       logger.debug("Last description is visible")
       description.close
       logger.debug("Last description should be closed")
-      eventually { assert(!description.isAt, "Description should NOT be visible") }
+      eventually {
+        assert(!description.isAt, "Description should NOT be visible")
+      }
       logger.debug("Last description is closed")
 
       lobbyPage.goToFirstMatchesPage
-      
+
     } else {
       featureNotTestableInResolution
     }
@@ -79,49 +90,73 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
     if (status.resolution == Resolution.BIG) {
       goToLobbyPage(lobbyState)
 
-      eventually { assert(isDefaultBig(), "Big is not default state") }
+      eventually {
+        assert(isDefaultBig(), "Big is not default state")
+      }
 
       reloadPage
       changeMenuPositioning
-      eventually { assert(lobbyPage.isAt) }
+      eventually {
+        assert(lobbyPage.isAt)
+      }
       changeBrowserResolution(Resolution.MEDIUM)
-      eventually { assert(isDefaultMedium(), "From big to medium") }
+      eventually {
+        assert(isDefaultMedium(), "From big to medium")
+      }
 
 
       changeBrowserResolution(Resolution.BIG)
       reloadPage
       changeMenuPositioning
-      eventually { assert(lobbyPage.isAt) }
+      eventually {
+        assert(lobbyPage.isAt)
+      }
       changeBrowserResolution(Resolution.MEDIUM)
       changeBrowserResolution(Resolution.SMALL)
-      eventually { assert(isDefaultSmall(), "From big to medium to small") }
+      eventually {
+        assert(isDefaultSmall(), "From big to medium to small")
+      }
 
 
       changeBrowserResolution(Resolution.BIG)
       reloadPage
       changeMenuPositioning
-      eventually { assert(lobbyPage.isAt) }
+      eventually {
+        assert(lobbyPage.isAt)
+      }
       changeBrowserResolution(Resolution.SMALL)
-      eventually { assert(isDefaultSmall(), "From big to small") }
+      eventually {
+        assert(isDefaultSmall(), "From big to small")
+      }
 
     } else if (status.resolution == Resolution.MEDIUM) {
 
       goToLobbyPage(lobbyState)
-      eventually { assert(isDefaultMedium(), "Medium is not default state") }
+      eventually {
+        assert(isDefaultMedium(), "Medium is not default state")
+      }
 
       reloadPage
       changeMenuPositioning
-      eventually { assert(lobbyPage.isAt) }
+      eventually {
+        assert(lobbyPage.isAt)
+      }
       changeBrowserResolution(Resolution.BIG)
-      eventually { assert(isDefaultMedium(), "From medium to big") }
+      eventually {
+        assert(isDefaultMedium(), "From medium to big")
+      }
 
 
       changeBrowserResolution(Resolution.MEDIUM)
       reloadPage
       changeMenuPositioning
-      eventually { assert(lobbyPage.isAt) }
+      eventually {
+        assert(lobbyPage.isAt)
+      }
       changeBrowserResolution(Resolution.SMALL)
-      eventually { assert(isDefaultSmall(), "From medium to small") }
+      eventually {
+        assert(isDefaultSmall(), "From medium to small")
+      }
 
     } else {
 
@@ -130,30 +165,43 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
 
       reloadPage
       changeMenuPositioning
-      eventually { assert(lobbyPage.isAt) }
+      eventually {
+        assert(lobbyPage.isAt)
+      }
       changeBrowserResolution(Resolution.MEDIUM)
-      eventually { assert(isDefaultMedium(), "From small to medium") }
+      eventually {
+        assert(isDefaultMedium(), "From small to medium")
+      }
 
 
       changeBrowserResolution(Resolution.SMALL)
       reloadPage
       changeMenuPositioning
-      eventually { assert(lobbyPage.isAt) }
+      eventually {
+        assert(lobbyPage.isAt)
+      }
       changeBrowserResolution(Resolution.MEDIUM)
       changeBrowserResolution(Resolution.BIG)
-      eventually { assert(isDefaultBig(), "From small to medium to big") }
+      eventually {
+        assert(isDefaultBig(), "From small to medium to big")
+      }
 
 
       changeBrowserResolution(Resolution.SMALL)
       reloadPage
       changeMenuPositioning
-      eventually { assert(lobbyPage.isAt) }
+      eventually {
+        assert(lobbyPage.isAt)
+      }
       changeBrowserResolution(Resolution.BIG)
-      eventually { assert(isDefaultBig(), "From small to big") }
-      
+      eventually {
+        assert(isDefaultBig(), "From small to big")
+      }
+
     }
     changeMenuPositioning
   }
+
   /*
    * END BASIC INFO TESTS
    */
@@ -178,7 +226,9 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
     logger.debug("filter by fifty fifty")
     tournaments.headToHead.doClick
     logger.debug("filter by head to head")
-    eventually (timeout(3 seconds)){ assert(lobbyPage.getNumberOfContests == 0, "Number of contests is greater than 0") }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.getNumberOfContests == 0, "Number of contests is greater than 0")
+    }
     And("clear filters")
     lobbyPage.filters.clear
     Then("filters should be clear again")
@@ -217,7 +267,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
 
   def filterByEntryFee: Unit = {
     lobbyPage.filters.entryFee.set(lobbyState.minEntryFeeFilter, lobbyPage.MAX_ENTRY_MONEY)
-    eventually (timeout(3 seconds)) {
+    eventually(timeout(3 seconds)) {
       val numContests = lobbyPage.getNumberOfContests
       assert(numContests == lobbyState.numContests_MinEntryFee, s"Num of contests: $numContests, expected: ${lobbyState.numContests_MinEntryFee}")
     }
@@ -249,44 +299,84 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
     val MAX = lobbyPage.MAX_ENTRY_MONEY
     val MIN = 0
 
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
+    }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX)
+    }
 
     lobbyPage.filters.entryFee.set(1, MAX)
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1) }
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1)
+    }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX)
+    }
 
     lobbyPage.filters.clear
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX) }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
+    }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX)
+    }
 
     lobbyPage.filters.entryFee.set(MIN, 4)
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior == 4, "Superior filter should be: " + 4) }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
+    }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getSuperior == 4, "Superior filter should be: " + 4)
+    }
 
     lobbyPage.filters.clear
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX) }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
+    }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX)
+    }
 
     lobbyPage.filters.entryFee.set(1, 4)
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1) }
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == 4, "Superior filter should be: " + 4) }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getInferior == 1, "Inferior filter should be: " + 1)
+    }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getSuperior == 4, "Superior filter should be: " + 4)
+    }
 
     lobbyPage.filters.entryFee.set(2, 3)
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == 2, "Inferior filter should be: " + 2) }
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getInferior == 2, "Inferior filter should be: " + 2)
+    }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getSuperior == 3, "Superior filter should be: " + 3)
+    }
 
     lobbyPage.filters.entryFee.set(4, 3)
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3) }
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3)
+    }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getSuperior == 3, "Superior filter should be: " + 3)
+    }
 
     lobbyPage.filters.entryFee.set(3, 2)
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3) }
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == 3, "Superior filter should be: " + 3) }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getInferior == 3, "Inferior filter should be: " + 3)
+    }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getSuperior == 3, "Superior filter should be: " + 3)
+    }
 
     lobbyPage.filters.clear
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN) }
-    eventually (timeout(3 seconds)) { assert(lobbyPage.filters.entryFee.getSuperior  == MAX, "Superior filter should be: " + MAX) }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getInferior == MIN, "Inferior filter should be: " + MIN)
+    }
+    eventually(timeout(3 seconds)) {
+      assert(lobbyPage.filters.entryFee.getSuperior == MAX, "Superior filter should be: " + MAX)
+    }
 
   }
 
@@ -297,14 +387,16 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
     lobbyPage.filters.tournaments.free.doClick
 
     logger.debug("comparing contests")
-    eventually (timeout(3 seconds)) { lobbyPage.getNumberOfContests must be(0) }
+    eventually(timeout(3 seconds)) {
+      lobbyPage.getNumberOfContests must be(0)
+    }
     logger.debug("clear filters")
     lobbyPage.filters.clear
   }
 
   def searchContests: Unit = {
     if (status.resolution != Resolution.SMALL) {
-      for ((key,value) <- lobbyState.filterPanel_SearchResults) {
+      for ((key, value) <- lobbyState.filterPanel_SearchResults) {
         logger.debug("Search key: " + key + " || contest should be: " + value)
         lobbyPage.filters.search(key)
         assert(lobbyPage.getNumberOfContests == value, "search does not match")
@@ -324,6 +416,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
       featureNotTestableInResolution
     }
   }
+
   /*
    * END FILTERS TESTS
    */
@@ -362,6 +455,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
     assert(lobbyPage.areContestsOrderedByStartTime, "Contest are not sorted by start time")
     logger.debug("Contest are still sorted by name")
   }
+
   /*
    * END ORDER BY TESTS
    */
@@ -377,59 +471,66 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
     changeMenuPositioning
     val paginator = new PaginatorControl(status.resolution, lobbyPage.CONTEST_LIST_CONTAINER)
 
-    assert( paginator.isAt, "Paginator is not at the page.")
-    assert( paginator.isDisplayed, "Paginator is not displayed.")
+    assert(paginator.isAt, "Paginator is not at the page.")
+    assert(paginator.isDisplayed, "Paginator is not displayed.")
     logger.debug("Paginator is displayed correctly")
 
-    paginator.getNumberOfPages must be (lobbyState.maxPaginatorPage)
+    paginator.getNumberOfPages must be(lobbyState.maxPaginatorPage)
     logger.debug(s"Paginator pages is ${lobbyState.maxPaginatorPage}")
-    paginator.getCurrentPage must be (1)
+    paginator.getCurrentPage must be(1)
     logger.debug(s"Current page is 1")
-    paginator.goToLastPage.getCurrentPage must be (lobbyState.maxPaginatorPage)
+    paginator.goToLastPage.getCurrentPage must be(lobbyState.maxPaginatorPage)
     logger.debug(s"Go to Last page => Current page is ${lobbyState.maxPaginatorPage}")
-    paginator.goToFirstPage.getCurrentPage must be (1)
+    paginator.goToFirstPage.getCurrentPage must be(1)
     logger.debug(s"Go to First page => Current pages is 1")
-    paginator.goToNextPage.getCurrentPage must be (2)
+    paginator.goToNextPage.getCurrentPage must be(2)
     logger.debug(s"Go to Next page => Current pages is 2")
-    paginator.goToNextPage.getCurrentPage must be (3)
+    paginator.goToNextPage.getCurrentPage must be(3)
     logger.debug(s"Go to Next page => Current pages is 3")
-    paginator.goToPreviousPage.getCurrentPage must be (2)
+    paginator.goToPreviousPage.getCurrentPage must be(2)
     logger.debug(s"Current page is ${lobbyState.maxPaginatorPage}")
-    paginator.goToPreviousPage.getCurrentPage must be (1)
+    paginator.goToPreviousPage.getCurrentPage must be(1)
     logger.debug(s"Paginator pages is ${lobbyState.maxPaginatorPage}")
-    paginator.goToPage(4).getCurrentPage must be (4)
+    paginator.goToPage(4).getCurrentPage must be(4)
     logger.debug(s"Paginator pages is ${lobbyState.maxPaginatorPage}")
 
-    paginator.goToPage(lobbyState.maxPaginatorPage).getCurrentPage must be (lobbyState.maxPaginatorPage)
-    paginator.goToNextPage.getCurrentPage must be (lobbyState.maxPaginatorPage)
-    paginator.goToNextPage.getCurrentPage must be (lobbyState.maxPaginatorPage)
-    paginator.goToLastPage.getCurrentPage must be (lobbyState.maxPaginatorPage)
+    paginator.goToPage(lobbyState.maxPaginatorPage).getCurrentPage must be(lobbyState.maxPaginatorPage)
+    paginator.goToNextPage.getCurrentPage must be(lobbyState.maxPaginatorPage)
+    paginator.goToNextPage.getCurrentPage must be(lobbyState.maxPaginatorPage)
+    paginator.goToLastPage.getCurrentPage must be(lobbyState.maxPaginatorPage)
 
-    paginator.goToPage(1).getCurrentPage must be (1)
-    paginator.goToPreviousPage.getCurrentPage must be (1)
-    paginator.goToPreviousPage.getCurrentPage must be (1)
-    paginator.goToFirstPage.getCurrentPage must be (1)
+    paginator.goToPage(1).getCurrentPage must be(1)
+    paginator.goToPreviousPage.getCurrentPage must be(1)
+    paginator.goToPreviousPage.getCurrentPage must be(1)
+    paginator.goToFirstPage.getCurrentPage must be(1)
 
-    intercept [Exception] { paginator.goToPage(0) }
-    intercept [Exception] { paginator.goToPage(-1) }
-    intercept [Exception] { paginator.goToPage(lobbyState.maxPaginatorPage + 1) }
+    intercept[Exception] {
+      paginator.goToPage(0)
+    }
+    intercept[Exception] {
+      paginator.goToPage(-1)
+    }
+    intercept[Exception] {
+      paginator.goToPage(lobbyState.maxPaginatorPage + 1)
+    }
   }
 
   def paginatorIsDisplayedWhenNecessary: Unit = {
     lobbyPage
     val paginator = new PaginatorControl(status.resolution, lobbyPage.CONTEST_LIST_CONTAINER)
-    assert( paginator.isAt, "Paginator is not at the page.")
-    assert( paginator.isDisplayed, "Paginator is not displayed.")
-    paginator.getNumberOfPages must be (lobbyState.maxPaginatorPage)
+    assert(paginator.isAt, "Paginator is not at the page.")
+    assert(paginator.isDisplayed, "Paginator is not displayed.")
+    paginator.getNumberOfPages must be(lobbyState.maxPaginatorPage)
 
     lobbyPage.filters.search(FILTERS_PANEL_SEARCH_TEXT).entryFee.set(1, 1)
 
     lobbyPage.filters.tournaments.free.doClick
 
     assert(!paginator.isDisplayed, "Paginator is displayed.")
-    paginator.getNumberOfPages must be (1)
+    paginator.getNumberOfPages must be(1)
     lobbyPage.filters.clear
   }
+
   /*
    * END OTHERS TESTS
    */
@@ -449,9 +550,9 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
     logger.debug("filter by league contest")
     lobbyPage.filters.tournaments.league.doClick
     logger.debug("paginator should be displayed")
-    assert( paginator.isDisplayed, "Paginator is not displayed.")
+    assert(paginator.isDisplayed, "Paginator is not displayed.")
     logger.debug("look at current page")
-    paginator.getCurrentPage must be (3)
+    paginator.getCurrentPage must be(3)
     logger.debug("look at number of pages")
     assert(paginator.getNumberOfPages > 1, "Number of pages should be grater (or equals) than 1")
     lobbyPage.filters.clear
@@ -463,8 +564,10 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
     paginator.goToNextPage.goToNextPage.goToNextPage.goToNextPage
 
     withClue("Paginator should not reset page at lobby contest-list refresh") {
-      intercept [StackDepthException] {
-        eventually (timeout(12 seconds)) { assert(paginator.getCurrentPage == 1) }
+      intercept[StackDepthException] {
+        eventually(timeout(12 seconds)) {
+          assert(paginator.getCurrentPage == 1)
+        }
       }
     }
     lobbyPage.filters.clear
@@ -473,196 +576,199 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
      */
   }
 
-  //////////////////////////////////////////////////
-  //////////////////////////////////////////////////
-  //////////////////////////////////////////////////
-  //////////////////////////////////////////////////
-  //////////////////////////////////////////////////
-  //////////////////////////////////////////////////
-  //////////////////////////////////////////////////
+  object contestDescription {
 
-  var contest = cont
-  var _contestDescriptionWindowInstance:ContestDescriptionWindow = null
-  def contestDescriptionWindow:ContestDescriptionWindow = {
-    if(_contestDescriptionWindowInstance == null) {
-      _contestDescriptionWindowInstance = goToLobbyContestDescription
-      changeMenuPositioning
-    }
-    _contestDescriptionWindowInstance
-  }
+    var contest = cont
+    var _contestDescriptionWindowInstance: ContestDescriptionWindow = null
 
-  def changeTabs: Unit = {
-    if (status.resolution == Resolution.BIG) {
-      eventually {
-        contestDescriptionWindow.changeToTab(ContestDescriptionWindow.INFO_TAB)
-        assert(contestDescriptionWindow.activeTab == ContestDescriptionWindow.INFO_TAB)
-      }
-      contestDescriptionWindow.changeToTab(ContestDescriptionWindow.CONTESTANTS_TAB)
-      assert(contestDescriptionWindow.activeTab == ContestDescriptionWindow.CONTESTANTS_TAB)
-      contestDescriptionWindow.changeToTab(ContestDescriptionWindow.PRIZES_TAB)
-      assert(contestDescriptionWindow.activeTab == ContestDescriptionWindow.PRIZES_TAB)
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-
-  def numberOfMatches: Unit = {
-    if (status.resolution == Resolution.BIG) {
-
-      eventually { contestDescriptionWindow.changeToTab(ContestDescriptionWindow.INFO_TAB) }
-      eventually { assert(contestDescriptionWindow.countMatches == contest.numMatches) }
-
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-
-  def numberOfContestants: Unit = {
-    if (status.resolution == Resolution.BIG) {
-
-      eventually { contestDescriptionWindow.changeToTab(ContestDescriptionWindow.CONTESTANTS_TAB) }
-      assert(contestDescriptionWindow.countContestants == contest.numContestants)
-
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-
-  def numberOfPrizes: Unit = {
-    if (status.resolution == Resolution.BIG) {
-
-      eventually { contestDescriptionWindow.changeToTab(ContestDescriptionWindow.PRIZES_TAB) }
-      eventually { assert(contestDescriptionWindow.countPrizes == contest.numPrizes) }
-
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-
-  def contestName: Unit = {
-    if (status.resolution == Resolution.BIG) {
-
-      eventually { assert(contestDescriptionWindow.getContestName == contest.name.toUpperCase) }
-
-    } else {
-      featureNotTestableInResolution
-    }
-
-  }
-
-  def contestDescription: Unit = {
-    if (status.resolution == Resolution.BIG) {
-
-      eventually { assert(contest.isEqualsDescription(contestDescriptionWindow.getContestDescription)) }
-
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-
-  def contestEntryFee: Unit = {
-    if (status.resolution == Resolution.BIG) {
-
-      eventually { assert(contestDescriptionWindow.getContestEntryFee == contest.entryFee) }
-
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-
-  def contestPrize: Unit = {
-    if (status.resolution == Resolution.BIG) {
-
-      eventually { assert(contestDescriptionWindow.getContestPrize == contest.prize) }
-
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-
-  def knownBugSequence_ScrollBarDisappeared: Unit = {
-    if (status.resolution == Resolution.BIG){
-
-      logger.debug("Prepare model")
-      val enterContestState = new EnterContestState
-      enterContestState.contest = contest
-      val enterContPage:EnterContestPage = new EnterContestPage(status.resolution, enterContestState)
-
-      logger.debug("Open contest description")
-      logger.debug("Click on enter contest")
-      eventually { contestDescriptionWindow.enterContest }
-      logger.debug("Enter contest page should be at")
-      eventually { assert(enterContPage.isAt) }
-
-    } else {
-      featureNotTestableInResolution
-    }
-  }
-
-  private def goToLobbyContestDescription:ContestDescriptionWindow = {
-    var lobby: LobbyPage = null
-    if (status.resolution == Resolution.BIG) {
-      lobby = goToLobbyPage(LobbyState.DEFAULT_LOBBY)
-      lobby.filters.clear
-      lobby.filters.search(contest.name)
-      lobby.openContestDescription(1)
-    } else {
-      featureNotTestableInResolution
-    }
-    new ContestDescriptionWindow(status.resolution)
-  }
-
-
-  object enterContest {
-
-    var _descriptionTabInstance:EnterContestDescriptionTab = null
-    def descriptionTab:EnterContestDescriptionTab = {
-      if(_descriptionTabInstance == null) {
-        _descriptionTabInstance = goToEnterContestDescriptionTab
+    def contestDescriptionWindow: ContestDescriptionWindow = {
+      if (_contestDescriptionWindowInstance == null) {
+        _contestDescriptionWindowInstance = goToLobbyContestDescription
         changeMenuPositioning
       }
-      _descriptionTabInstance
+      _contestDescriptionWindowInstance
     }
 
-    def numberOfMatches: Unit = assert(descriptionTab.countMatches == contest.numMatches)
+    def changeTabs: Unit = {
+      if (status.resolution == Resolution.BIG) {
+        eventually {
+          contestDescriptionWindow.changeToTab(ContestDescriptionWindow.INFO_TAB)
+          assert(contestDescriptionWindow.activeTab == ContestDescriptionWindow.INFO_TAB)
+        }
+        contestDescriptionWindow.changeToTab(ContestDescriptionWindow.CONTESTANTS_TAB)
+        assert(contestDescriptionWindow.activeTab == ContestDescriptionWindow.CONTESTANTS_TAB)
+        contestDescriptionWindow.changeToTab(ContestDescriptionWindow.PRIZES_TAB)
+        assert(contestDescriptionWindow.activeTab == ContestDescriptionWindow.PRIZES_TAB)
+      } else {
+        featureNotTestableInResolution
+      }
+    }
 
-    def numberOfContestants: Unit = assert(descriptionTab.countContestants == contest.numContestants)
+    def numberOfMatches: Unit = {
+      if (status.resolution == Resolution.BIG) {
 
-    def numberOfPrizes: Unit = assert(descriptionTab.countPrizes == contest.numPrizes)
+        eventually {
+          contestDescriptionWindow.changeToTab(ContestDescriptionWindow.INFO_TAB)
+        }
+        eventually {
+          assert(contestDescriptionWindow.countMatches == contest.numMatches)
+        }
 
+      } else {
+        featureNotTestableInResolution
+      }
+    }
 
-    private def goToEnterContestDescriptionTab:EnterContestDescriptionTab = {
-      val state = new EnterContestState
-      state.contest = contest
-      logger.debug("go to enter contest")
-      val enterContestPage = new EnterContestPage(status.resolution, state)
-      val desc = new EnterContestDescriptionTab(status.resolution)
+    def numberOfContestants: Unit = {
+      if (status.resolution == Resolution.BIG) {
 
-      logger.debug("change to info tab")
-      eventually {
-        enterContestPage.changeToInfoTab
-        assert(desc.isAt)
+        eventually {
+          contestDescriptionWindow.changeToTab(ContestDescriptionWindow.CONTESTANTS_TAB)
+        }
+        assert(contestDescriptionWindow.countContestants == contest.numContestants)
+
+      } else {
+        featureNotTestableInResolution
+      }
+    }
+
+    def numberOfPrizes: Unit = {
+      if (status.resolution == Resolution.BIG) {
+
+        eventually {
+          contestDescriptionWindow.changeToTab(ContestDescriptionWindow.PRIZES_TAB)
+        }
+        eventually {
+          assert(contestDescriptionWindow.countPrizes == contest.numPrizes)
+        }
+
+      } else {
+        featureNotTestableInResolution
+      }
+    }
+
+    def contestName: Unit = {
+      if (status.resolution == Resolution.BIG) {
+
+        eventually {
+          assert(contestDescriptionWindow.getContestName == contest.name.toUpperCase)
+        }
+
+      } else {
+        featureNotTestableInResolution
       }
 
-      desc
     }
-  }
 
-/*
-  private def goToLobbyContest:LobbyPage = {
-    goToLobbyPage(lobbyState).filters.clear
-  }
-*/
+    def contestDescription: Unit = {
+      if (status.resolution == Resolution.BIG) {
 
-/*
-  def searchContest(): Unit = {
-    val page = goToLobbyPage.filters.clear
-      .searchContestByName(FILTERS_PANEL_SEARCH_TEXT_1)
-    if (resolution != Resolution.SMALL){
-      page.checkNumberOfContests(N_CONTESTS_SEARCH_1)
+        eventually {
+          assert(contest.isEqualsDescription(contestDescriptionWindow.getContestDescription))
+        }
+
+      } else {
+        featureNotTestableInResolution
+      }
     }
+
+    def contestEntryFee: Unit = {
+      if (status.resolution == Resolution.BIG) {
+
+        eventually {
+          assert(contestDescriptionWindow.getContestEntryFee == contest.entryFee)
+        }
+
+      } else {
+        featureNotTestableInResolution
+      }
+    }
+
+    def contestPrize: Unit = {
+      if (status.resolution == Resolution.BIG) {
+
+        eventually {
+          assert(contestDescriptionWindow.getContestPrize == contest.prize)
+        }
+
+      } else {
+        featureNotTestableInResolution
+      }
+    }
+
+    def knownBugSequence_ScrollBarDisappeared: Unit = {
+      if (status.resolution == Resolution.BIG) {
+
+        logger.debug("Prepare model")
+        val enterContestState = new EnterContestState
+        enterContestState.contest = contest
+        val enterContPage: EnterContestPage = new EnterContestPage(status.resolution, enterContestState)
+
+        logger.debug("Open contest description")
+        logger.debug("Click on enter contest")
+        eventually {
+          contestDescriptionWindow.enterContest
+        }
+        logger.debug("Enter contest page should be at")
+        eventually {
+          assert(enterContPage.isAt)
+        }
+
+      } else {
+        featureNotTestableInResolution
+      }
+    }
+
+    private def goToLobbyContestDescription: ContestDescriptionWindow = {
+      var lobby: LobbyPage = null
+      if (status.resolution == Resolution.BIG) {
+        lobby = goToLobbyPage(LobbyState.DEFAULT_LOBBY)
+        lobby.filters.clear
+        lobby.filters.search(contest.name)
+        lobby.openContestDescription(1)
+      } else {
+        featureNotTestableInResolution
+      }
+      new ContestDescriptionWindow(status.resolution)
+    }
+
+    object enterContest {
+
+      var _descriptionTabInstance: EnterContestDescriptionTab = null
+
+      def descriptionTab: EnterContestDescriptionTab = {
+        if (_descriptionTabInstance == null) {
+          _descriptionTabInstance = goToEnterContestDescriptionTab
+          changeMenuPositioning
+        }
+        _descriptionTabInstance
+      }
+
+      def numberOfMatches: Unit = assert(descriptionTab.countMatches == contest.numMatches)
+
+      def numberOfContestants: Unit = assert(descriptionTab.countContestants == contest.numContestants)
+
+      def numberOfPrizes: Unit = assert(descriptionTab.countPrizes == contest.numPrizes)
+
+
+      private def goToEnterContestDescriptionTab: EnterContestDescriptionTab = {
+        val state = new EnterContestState
+        state.contest = contest
+        logger.debug("go to enter contest")
+        val enterContestPage = goToEnterContest(state)
+        val desc = new EnterContestDescriptionTab(status.resolution)
+
+        logger.debug("change to info tab")
+        eventually {
+          enterContestPage.changeToInfoTab
+          assert(desc.isAt)
+        }
+
+        desc
+      }
+    }
+
   }
-*/
 
 
 }

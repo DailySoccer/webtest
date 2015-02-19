@@ -321,7 +321,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   def getLineUpSalary: Int = {
     var salary = find(cssSelector(LINEUP_SALARY)).get.text
-    salary = salary.substring(0, salary.length() -1)
+    salary = salary.substring(0, salary.length() -1).replace(",", "")
     Integer.parseInt(salary)
 
   }
@@ -354,7 +354,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     eventually {
       player = new SoccerPlayer(find(cssSelector(SOCCER_PLAYER_LIST_SLOT_NAME(index))).get.text,
                                 getSoccerPlayerPositionFromList(index),
-                                find(cssSelector(SOCCER_PLAYER_LIST_SLOT_SALARY(index))).get.text.dropRight(1).toInt)
+                                find(cssSelector(SOCCER_PLAYER_LIST_SLOT_SALARY(index))).get.text.replace(",", "").dropRight(1).toInt)
     }
 
     player
@@ -364,8 +364,10 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     var player:SoccerPlayer = null
 
     if (find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_EMPTY(index))) == None) {
+      logger.debug(s"There is a player at $index")
       player = createPlayerFromLineUp(index)
     } else {
+      logger.debug(s"Slot is empty at $index")
       player = new SoccerPlayer(find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text)
     }
 
@@ -500,7 +502,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     eventually {
       player = new SoccerPlayer(find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_NAME(index))).get.text,
                                 find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text,
-                                find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text.dropRight(1).toInt)
+                                find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text.trim.replace(",", "").dropRight(1).toInt)
     }
 
     player

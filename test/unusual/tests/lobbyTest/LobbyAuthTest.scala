@@ -4,6 +4,7 @@ import unusual.model.{Contest, Resolution}
 import unusual.model.pageStates.LobbyState
 import unusual.pages.{HomePage, EnterContestPage, LobbyPage}
 import unusual.tests.contestDescriptionTest._
+import unusual.tests.runner.SequentialTestRunner
 
 
 class LobbyAuthTest_BasicInfo(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
@@ -27,9 +28,6 @@ class LobbyAuthTest_Bug(lobbySt: LobbyState, cont: Contest, res:Resolution) exte
 }
 
 
-/**
- * No lo vamos a usar a priori
- */
 class LobbyAuthTest_All(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
   "Auth user" when {
     sizeTesting({
@@ -40,23 +38,7 @@ class LobbyAuthTest_All(lobbySt: LobbyState, cont: Contest, res:Resolution) exte
       lobbyPageBehaviorBUG
       lobbyPageBehaviorContestDescription
     })
-/*
-    sizeTesting(lobbyPageBehaviorFilters)
-
-    sizeTesting(lobbyPageBehaviorOrderBy)
-
-    sizeTesting(lobbyPageBehaviorOthers)
-
-    sizeTesting(lobbyPageBehaviorBUG)*/
   }
-/*
-  "(Filters)Auth user" when sizeTesting(lobbyPageBehaviorFilters)
-
-  "(Order By)Auth user" when sizeTesting(lobbyPageBehaviorOrderBy)
-
-  "(Others)Auth user" when sizeTesting(lobbyPageBehaviorOthers)
-
-  "(BUG)Auth user" when sizeTesting(lobbyPageBehaviorBUG)*/
 }
 
 abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyTestCommon(lobbySt, cont, res) {
@@ -87,44 +69,45 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution)
   }
 
   def lobbyPageBehaviorContestDescription: Unit = {
-    if(status.resolution == Resolution.BIG) {
+    if (SequentialTestRunner.shouldExecuteContestDescription) {
+      if (status.resolution == Resolution.BIG) {
 
-      "contest description: click on tabs" in changeTabs
+        "go to contest description and click on tabs" in contestDescription.changeTabs
 
-      "contest description: look at contest header" which consistIn {
+        "go to contest description and look at contest header" which consistIn {
 
-        "name" in contestName
+          "name" in contestDescription.contestName
 
-        "description" in contestDescription
+          "description" in contestDescription.contestDescription
 
-        "entry fee" in contestEntryFee
+          "entry fee" in contestDescription.contestEntryFee
 
-        "prize" in contestPrize
+          "prize" in contestDescription.contestPrize
+        }
+
+        "go to contest description and look at contest sections" which consistIn {
+
+          "involved matches" in contestDescription.numberOfMatches
+
+          "involved contestants" in contestDescription.numberOfContestants
+
+          "prizes" in contestDescription.numberOfPrizes
+        }
+
+        "go to contest description and perform known BUG SEQUENCE" which causes {
+
+          "Elements disappear when enter contest through button at information" in contestDescription.knownBugSequence_ScrollBarDisappeared
+        }
       }
 
-      "contest description: look at contest sections" which consistIn {
+      "go to EnterContestDescription and look at contest sections" which consistIn {
 
-        "involved matches" in numberOfMatches
+        "involved matches" in contestDescription.enterContest.numberOfMatches
 
-        "involved contestants" in numberOfContestants
+        "involved contestants" in contestDescription.enterContest.numberOfContestants
 
-        "prizes" in numberOfPrizes
+        "prizes" in contestDescription.enterContest.numberOfPrizes
       }
-
-      "contest description: perform known BUG SEQUENCE" which causes {
-
-        "Elements disappear when enter contest through button at information" in knownBugSequence_ScrollBarDisappeared
-      }
-
-    }
-
-    "go to EnterContestDescription and look at contest sections" which consistIn {
-
-      "involved matches" in enterContest.numberOfMatches
-
-      "involved contestants" in enterContest.numberOfContestants
-
-      "prizes" in enterContest.numberOfPrizes
     }
   }
 

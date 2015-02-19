@@ -33,31 +33,38 @@ object SequentialTestRunner {
     }
   }
 
-  def lobbyTests: Suite = if(enabledTestList.isEmpty || enabledTestList.contains("LOBBY")){
-                            new LobbySequentialTestRunner
+  val shouldExecuteLobby = enabledTestList.isEmpty || enabledTestList.contains("LOBBY")
+  val shouldExecuteContestDescription = enabledTestList.isEmpty || enabledTestList.contains("CONTEST_DESCRIPTION")
+  val shouldExecuteEnterContest = enabledTestList.isEmpty || enabledTestList.contains("ENTER_CONTEST")
+  val shouldExecuteViewContest = enabledTestList.isEmpty || enabledTestList.contains("VIEW_CONTEST")
+  val shouldExecuteIntegrity = enabledTestList.contains("INTEGRITY")
+
+
+  def lobbyTests: Suite = if(shouldExecuteLobby){
+                            new LobbySequentialTestRunner()
                           } else {
                             new Sequential
                           }
 /*
-  def contestDescriptionTests: Suite = if(enabledTestList.isEmpty || enabledTestList.contains("CONTEST_DESCRIPTION")){
+  def contestDescriptionTests: Suite = if(shouldExecuteContestDescription){
                                          new ContestDescriptionSequentialTestRunner
                                        } else {
                                          new Sequential
                                        }
 */
-  def enterContestTests: Suite = if(enabledTestList.isEmpty || enabledTestList.contains("ENTER_CONTEST")){
+  def enterContestTests: Suite = if(shouldExecuteEnterContest){
                                    new EnterContestSequentialTestRunner
                                  } else {
                                    new Sequential
                                  }
 
-  def viewContestTests: Suite = if(enabledTestList.isEmpty || enabledTestList.contains("VIEW_CONTEST")){
+  def viewContestTests: Suite = if(shouldExecuteViewContest){
                                   new ViewContestSequentialTestRunner
                                 } else {
                                   new Sequential
                                 }
 
-  def integrityTests: Suite = if(enabledTestList.contains("INTEGRITY")){
+  def integrityTests: Suite = if(shouldExecuteIntegrity){
                                   new IntegritySequentialTestRunner
                                 } else {
                                   new Sequential
