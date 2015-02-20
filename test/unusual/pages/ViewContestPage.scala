@@ -94,7 +94,8 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
       logger.debug("trying to get player position")
       val position = getSoccerPlayerPositionFromList(index)
       logger.debug("trying to get player salary")
-      val salary = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text.dropRight(1).toInt
+      // Ignoramos el símbolo del money ($amount)
+      val salary = find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text.substring(1).toInt
 
       player = new SoccerPlayer(name, position, salary)
     }

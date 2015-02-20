@@ -246,7 +246,9 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
         var n:Integer = 0
 
         eventually { text = inferiorTextNode.text }
-        n = Integer.parseInt( text.substring(5, text.length - 1).replace(",", "") )
+
+        // Ignoramos el comienzo de la cadena "MIN: "
+        n = Integer.parseInt( text.substring(6, text.length).replace(",", "") )
 
         n
       }
@@ -254,7 +256,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
         val superiorTextNode = find(cssSelector(SLIDER_RANGE_TEXT_SUPERIOR)).get
         var n:Integer = 0
 
-        eventually { n = Integer.parseInt( superiorTextNode.text.substring(5, superiorTextNode.text.length - 1).replace(",", "") ) }
+        // Ignoramos el comienzo de la cadena "MAX: "
+        eventually { n = Integer.parseInt( superiorTextNode.text.substring(6, superiorTextNode.text.length).replace(",", "") ) }
 
         n
       }

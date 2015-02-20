@@ -321,7 +321,8 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   def getLineUpSalary: Int = {
     var salary = find(cssSelector(LINEUP_SALARY)).get.text
-    salary = salary.substring(0, salary.length() -1).replace(",", "")
+    // Ignoramos el símbolo del money ($amount)
+    salary = salary.substring(1, salary.length()).replace(",", "")
     Integer.parseInt(salary)
 
   }
@@ -351,10 +352,11 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   def getSoccerPlayerFromList(index: Int): SoccerPlayer= {
     var player = new SoccerPlayer("", POS_ALL, 0)
 
+    // Ignoramos el símbolo del money ($amount)
     eventually {
       player = new SoccerPlayer(find(cssSelector(SOCCER_PLAYER_LIST_SLOT_NAME(index))).get.text,
                                 getSoccerPlayerPositionFromList(index),
-                                find(cssSelector(SOCCER_PLAYER_LIST_SLOT_SALARY(index))).get.text.replace(",", "").dropRight(1).toInt)
+                                find(cssSelector(SOCCER_PLAYER_LIST_SLOT_SALARY(index))).get.text.replace(",", "").substring(1).toInt)
     }
 
     player
@@ -499,10 +501,11 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   private def createPlayerFromLineUp(index: Int): SoccerPlayer = {
     var player: SoccerPlayer = new SoccerPlayer("", POS_ALL, 0)
 
+    // Ignoramos el símbolo del money ($amount)
     eventually {
       player = new SoccerPlayer(find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_NAME(index))).get.text,
                                 find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_POSITION(index))).get.text,
-                                find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text.trim.replace(",", "").dropRight(1).toInt)
+                                find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_SALARY(index))).get.text.trim.replace(",", "").substring(1).toInt)
     }
 
     player

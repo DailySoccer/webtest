@@ -63,8 +63,8 @@ object Contest {
     contest.name = "jue., 12 jun.++"
     contest.description = ".*: 13 .* 100 .* - .*: 65,000"
     contest.joinedDescription = ".*: 14 .* 100 .* - .*: 65,000"
-    contest.entryFee = "0€"
-    contest.prize = "0€"
+    contest.entryFee = "$0"
+    contest.prize = "$0"
     contest.date = "Hoy"
     // BRA-HRV MEX-CMR ESP-NLD
     contest.numMatches = 3
@@ -116,8 +116,8 @@ object Contest {
     contest.name = "jue., 12 jun.!!"
     contest.description = ".*: 13 .* 200 .* - .*: 60,000"
     contest.joinedDescription = ".*: 14 .* 200 .* - .*: 60,000"
-    contest.entryFee = "0€"
-    contest.prize = "0€"
+    contest.entryFee = "$0"
+    contest.prize = "$0"
     contest.date = "14/06"
     // ESP-NLD ENG-ITA
     contest.numMatches = 2
@@ -167,8 +167,8 @@ object Contest {
     contest.name = "jue., 12 jun...."
     contest.description = ".*: 13 .* 200 .* - .*: 70,000"
     contest.joinedDescription = ".*: 14 .* 200 .* - .*: 70,000"
-    contest.entryFee = "0€"
-    contest.prize = "0€"
+    contest.entryFee = "$0"
+    contest.prize = "$0"
     contest.date = "Hoy"
     // BRA-HRV FRA-HND ARG-IRN KOR-BEL
     contest.numMatches = 4
