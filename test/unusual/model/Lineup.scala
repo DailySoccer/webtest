@@ -77,7 +77,7 @@ object Lineup {
                                      , new SoccerPlayer ("leroy fer"         , POS_MIDDLE     , 4500)
                                      , new SoccerPlayer ("xavi"              , POS_MIDDLE     , 2000)
                                      , new SoccerPlayer ("hulk"              , POS_FORWARD    , 2000)
-                                     , new SoccerPlayer ("fred"              , POS_FORWARD    , 2000)
+                                     , new SoccerPlayer ("pedro"             , POS_FORWARD    , 2500)
       )
       lineup
     }, {
