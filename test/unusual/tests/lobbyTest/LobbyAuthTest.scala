@@ -32,11 +32,11 @@ class LobbyAuthTest_All(lobbySt: LobbyState, cont: Contest, res:Resolution) exte
   "Auth user" when {
     sizeTesting({
       if (SequentialTestRunner.shouldExecuteLobby) {
-        //lobbyPageBehaviorBasicInfo
-        //lobbyPageBehaviorFilters
-        //lobbyPageBehaviorOrderBy
+        lobbyPageBehaviorBasicInfo
+        lobbyPageBehaviorFilters
+        lobbyPageBehaviorOrderBy
         lobbyPageBehaviorOthers
-        //lobbyPageBehaviorBUG
+        lobbyPageBehaviorBUG
       }
 
       if (SequentialTestRunner.shouldExecuteContestDescription) lobbyPageBehaviorContestDescription

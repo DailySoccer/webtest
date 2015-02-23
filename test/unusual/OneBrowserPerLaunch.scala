@@ -72,15 +72,15 @@ object OneBrowserPerLaunch {
   var closeDriver: Boolean = false
 
   val cleanup: Boolean => Unit = { _ =>
-    if(OneBrowserPerLaunch.closeDriver) {
+    if(closeDriver) {
       commonWebDriver match {
         case _: UnavailableDriver => // do nothing for UnavailableDriver
         case safariDriver: SafariDriver => safariDriver.quit()
         case chromeDriver: ChromeDriver => chromeDriver.quit()
         case _ => commonWebDriver.close()
       }
-      OneBrowserPerLaunch.commonWebDriver = null
-      OneBrowserPerLaunch.closeDriver = false
+      commonWebDriver = null
+      closeDriver = false
     }
   }
 

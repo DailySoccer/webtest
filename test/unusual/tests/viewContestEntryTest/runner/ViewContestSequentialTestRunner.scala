@@ -13,7 +13,7 @@ import unusual.tests.viewContestEntryTest._
 class ViewContestSequentialTestRunner extends Sequential(
   new InitializerWorldCupTest(Resolution.ANY)
   , ViewContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, ViewContestState.TIME_0_LIST(0))
-  , ViewContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, ViewContestState.TIME_0_LIST(1))
+  //, ViewContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, ViewContestState.TIME_0_LIST(1))
   , ViewContestSequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, ViewContestState.TIME_0_LIST(0))
   , ViewContestSequentialTestRunner.createBunchOfTests(Resolution.SMALL, ViewContestState.TIME_0_LIST(0))
 )
