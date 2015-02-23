@@ -79,13 +79,14 @@ class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
   }
 
   def createTemplateContest(mockIndex:Int): Unit = {
-      go to URL_CREATE_TEMPLATES(mockIndex)
+    go to URL_CREATE_TEMPLATES(mockIndex)
   }
 
   def prepareInitialBrowserState: Unit = {
     go to SharedPage.baseUrl
     delete all cookies
     fastCleanLocalStorage
+    status.setLoggedIn(false)
   }
 
 }

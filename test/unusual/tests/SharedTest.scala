@@ -1,10 +1,16 @@
 package unusual.tests
 
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.safari.SafariDriver
 import org.scalatest._
+import org.scalatest.concurrent.{IntegrationPatience, Eventually}
+import org.scalatest.selenium.WebBrowser
+import org.scalatestplus.play.BrowserFactory.UnavailableDriver
 import org.scalatestplus.play._
 import play.api.Logger
 import play.api.mvc.RequestHeader
-import unusual.UnusualLogger
+import unusual._
 import unusual.model._
 import unusual.model.pageStates.{ViewContestState, LobbyState, EnterContestState}
 import unusual.pages._
@@ -12,8 +18,9 @@ import org.scalatest.time._
 import unusual.pages.util.JS_Ops
 import unusual.testTags.scala.WIP
 
+
 class SharedTest(resolution:Resolution) extends PlaySpec
-    with OneServerPerSuite with OneBrowserPerSuite
+    with OneServerPerLaunch with OneBrowserPerLaunch
     with WebDriverFactory with BeforeAndAfter with BeforeAndAfterAll
     with BeforeAndAfterEach with SpanSugar with GivenWhenThen with JS_Ops/*with Distributor*/{
 
@@ -34,7 +41,7 @@ class SharedTest(resolution:Resolution) extends PlaySpec
 
   override def afterAll {
     logger.debug("========= AFTER ALL!") // shut down the web server
-    webDriver.quit
+    //webDriver.quit
   }
 
   def goToHomePage : HomePage = {

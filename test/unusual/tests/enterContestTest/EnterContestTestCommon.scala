@@ -374,29 +374,6 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
             page.cancelSoccerPlayerSelection
 
           }
-          /*
-          eventually {
-            eventually (timeout(2 seconds)) {
-              logger.debug(s"select")
-              page.selectGoalKeeperFromLineup
-              eventually(timeout(1 second)) {
-                logger.debug(s"check num players")
-                page.getNumberOfSoccerPlayers must be(N_GOAL_KEEPER_PLAYERS)
-                logger.debug(s"checked")
-              }
-            }
-            logger.debug(s"canceling")
-            page.cancelSoccerPlayerSelection
-            logger.debug(s"canceled")
-          }*/
-          /*
-          logger.debug(s"select")
-          page.selectGoalKeeperFromLineup
-          logger.debug(s"check num players")
-          eventually { page.getNumberOfSoccerPlayers must be(N_GOAL_KEEPER_PLAYERS) }
-          logger.debug(s"canceling")
-          page.cancelSoccerPlayerSelection
-          */
           page
         }),
         2 -> ((page) => {
@@ -415,31 +392,6 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
             }
             page.cancelSoccerPlayerSelection
           }
-          /*
-          val r = scala.util.Random.nextInt(4) + 1
-          logger.debug(s"Defense{$r} Selected")
-          eventually {
-            eventually (timeout(2 seconds)) {
-              logger.debug(s"select")
-              page.selectDefenseFromLineup(r)
-              eventually(timeout(1 second)) {
-                logger.debug(s"check num players")
-                page.getNumberOfSoccerPlayers must be(N_DEFENSE_PLAYERS)
-                logger.debug(s"checked")
-              }
-            }
-            logger.debug(s"canceling")
-            page.cancelSoccerPlayerSelection
-            logger.debug(s"canceled")
-          }*/
-          /*
-          logger.debug(s"select")
-          page.selectDefenseFromLineup(r)
-          logger.debug(s"check num players")
-          eventually { page.getNumberOfSoccerPlayers must be(N_DEFENSE_PLAYERS) }
-          logger.debug(s"canceling")
-          page.cancelSoccerPlayerSelection
-          */
           page
         }),
         3 -> ((page) => {
@@ -459,14 +411,6 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
             }
             page.cancelSoccerPlayerSelection
           }
-          /*
-          logger.debug(s"select")
-          page.selectMiddleFromLineup(r)
-          logger.debug(s"check num players")
-          eventually { page.getNumberOfSoccerPlayers must be(N_MIDDLE_PLAYERS) }
-          logger.debug(s"canceling")
-          page.cancelSoccerPlayerSelection
-          */
           page
         }),
         4 -> ((page) => {
@@ -486,14 +430,6 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
             }
             page.cancelSoccerPlayerSelection
           }
-          /*
-          logger.debug(s"select")
-          page.selectForwardFromLineup(r)
-          logger.debug(s"check num players")
-          eventually { page.getNumberOfSoccerPlayers must be(N_FORWARD_PLAYERS) }
-          logger.debug(s"canceling")
-          page.cancelSoccerPlayerSelection
-          */
           page
         })
       )
@@ -577,8 +513,6 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     enterContestPage.getLineUpSalary must be < 0
 
     assert( enterContestPage.confirmLineup.isOverSalaryErrorShown )
-
-    //enterContestPage.clearLineupList.getLineUpSalary must be (enterContestState.contest.initialSalary)
   }
 
   def CorrectFailLineup:Unit = {
@@ -610,20 +544,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     val viewContestState = new ViewContestState
     viewContestState.contest = state.contest
     new ViewContestPage(status.resolution, viewContestState).isAt
-    //new LobbyPage(status.resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney).isAt
   }
 
-/*
-  def tryToConfirmMultipleTimes:Unit = {
-    val page = goToEnterContest("540d4d1430045601813966ff")
-
-    pickWholeLineup_Cheap(status.resolution)
-
-    page.manyClicksOnConfirm
-
-    Thread.sleep(15000)
-  }
-*/
 
   def knownBugSequence_DuplicatedPlayersAtDeleteAll:Unit = {
     _enterContestPageInstance = null

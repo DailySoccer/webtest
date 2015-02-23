@@ -8,25 +8,25 @@ import unusual.pages.components.MenuBar
 class TestStatus {
 
   private var defaultResolution = Resolution.BIG
-  private var _loggedIn : Boolean = false
+  //private var _loggedIn : Boolean = false
 
   val RESOLUTIONS = Resolution.ALL
   var resolution = defaultResolution
   var user:User = User.DEFAULT
 
   def setDefault : TestStatus = {
-    ensureVisitor
+    //ensureVisitor
     resolution = defaultResolution
     this
   }
 
   def setLoggedIn(log: Boolean) = {
-    _loggedIn = log
+    TestStatus.loggedIn = log
     this
   }
 
   def ensureAuthUser : TestStatus = {
-    if (!_loggedIn) { doLogin }
+    if (!TestStatus.loggedIn) { doLogin }
     this
   }
 
@@ -36,7 +36,7 @@ class TestStatus {
   }
 
   def ensureVisitor : TestStatus = {
-    if (_loggedIn) { doLogout }
+    if (TestStatus.loggedIn) { doLogout }
     this
   }
 
@@ -48,7 +48,7 @@ class TestStatus {
 
     login.ensureDoLogin(user)
 
-    _loggedIn = true
+    TestStatus.loggedIn = true
     this
   }
 
@@ -56,8 +56,12 @@ class TestStatus {
     val menu = new MenuBar(resolution)
     assert(menu.isAt)
     menu.clickOnLogout
-    _loggedIn = false
+    TestStatus.loggedIn = false
     this
   }
 
+}
+
+object TestStatus {
+  var loggedIn : Boolean = false
 }

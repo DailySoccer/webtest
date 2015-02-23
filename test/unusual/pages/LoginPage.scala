@@ -19,10 +19,10 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
     eventually {
       pageTitle should be (TITLE)
 
-      find(id(FORM_EMAIL))    should be ('defined)
-      find(id(FORM_PASSWORD)) should be ('defined)
-      find(id(FORM_SUBMIT))   should be ('defined)
-      find(id(FORM_CANCEL))   should be ('defined)
+      find(id(FORM_EMAIL))    should be('defined)
+      find(id(FORM_PASSWORD)) should be('defined)
+      find(id(FORM_SUBMIT))   should be('defined)
+      find(id(FORM_CANCEL))   should be('defined)
     }
     new FooterBar(resolution).isAt
 

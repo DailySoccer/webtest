@@ -18,6 +18,7 @@ class SequentialTestRunner extends Sequential(
   , SequentialTestRunner.viewContestTests
 
   , SequentialTestRunner.integrityTests
+  , new CloseTestServer(Resolution.ANY)
 )
 
 

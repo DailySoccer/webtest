@@ -4,6 +4,7 @@ import org.openqa.selenium.Keys
 import org.openqa.selenium.interactions.Actions
 import org.scalatest.exceptions.StackDepthException
 import org.scalatest.selenium.WebBrowser
+import unusual.OneServerPerLaunch
 import unusual.model.{Contest, Resolution}
 import unusual.model.pageStates.{EnterContestState, LobbyState}
 import unusual.pages.components.page.EnterContestDescriptionTab
@@ -571,6 +572,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
       }
     }
     lobbyPage.filters.clear
+
     /*
      * END BUG TESTS
      */
