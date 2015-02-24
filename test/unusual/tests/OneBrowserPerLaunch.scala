@@ -1,4 +1,4 @@
-package unusual
+package unusual.tests
 
 import org.openqa.selenium._
 import org.openqa.selenium.chrome._

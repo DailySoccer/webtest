@@ -1,4 +1,4 @@
-package unusual.tests.homeTest
+package unusual.tests._homeTest
 
 import unusual.model.Resolution
 import unusual.model.pageStates.LobbyState

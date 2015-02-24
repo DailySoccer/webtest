@@ -1,14 +1,8 @@
-package unusual
+package unusual.tests
 
-import org.openqa.selenium._
-import org.openqa.selenium.chrome._
-import org.openqa.selenium.safari._
-import org.scalatest.concurrent._
-import org.scalatestplus.play.BrowserFactory._
-import play.api.test._
 import org.scalatest._
 import org.scalatestplus.play._
-import selenium.WebBrowser
+import play.api.test._
 
 trait OneServerPerLaunch extends SuiteMixin with ServerProvider { this: Suite =>
 

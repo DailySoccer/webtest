@@ -11,9 +11,7 @@ import unusual.tests.simulatorController.InitializerWorldCupTest
 class EnterContestSequentialTestRunner extends Sequential(
   EnterContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, EnterContestState.TIME_0_LIST(0))
   , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.MEDIUM, EnterContestState.TIME_0_LIST(0))
-  //, new InitializerWorldCupTest(Resolution.SMALL)
   , EnterContestSequentialTestRunner.createBunchOfTests(Resolution.SMALL, EnterContestState.TIME_0_LIST(0))
-  //, new InitializerWorldCupTest(Resolution.ANY)
 )
 
 private object EnterContestSequentialTestRunner {

@@ -1,4 +1,4 @@
-package unusual.tests.myContestTest
+package unusual.tests._myContestTest
 
 import unusual.model._
 import unusual.model.pageStates.{ViewContestState, LobbyState, EnterContestState}

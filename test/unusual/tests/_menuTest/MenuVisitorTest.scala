@@ -1,4 +1,4 @@
-package unusual.tests.menuTest
+package unusual.tests._menuTest
 
 import unusual.testTags.scala._
 import unusual.tests._

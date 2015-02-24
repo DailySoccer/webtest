@@ -1,9 +1,9 @@
-package unusual.tests.myContestTest.runner
+package unusual.tests._myContestTest.runner
 
 import org.scalatest.{Sequential, Suite}
 import unusual.model.Resolution
 import unusual.model.pageStates.ViewContestState
-import unusual.tests.myContestTest
+import unusual.tests._myContestTest
 import unusual.tests.simulatorController.InitializerWorldCupTest
 
 
@@ -19,7 +19,7 @@ class MyContestSequentialTestRunner extends Sequential(
 private object MyContestSequentialTestRunner {
   def createBunchOfTests(resolution:Resolution, state: ViewContestState):Suite =
     if (resolution.enabled) {
-      new myContestTest.MyContestsAuthTest(state, resolution)
+      new _myContestTest.MyContestsAuthTest(state, resolution)
     } else {
       new Sequential
     }

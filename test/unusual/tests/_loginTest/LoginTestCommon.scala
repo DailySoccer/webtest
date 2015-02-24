@@ -1,4 +1,4 @@
-package unusual.tests.loginTest
+package unusual.tests._loginTest
 
 import unusual.model.pageStates.LobbyState
 import unusual.model.{User, Resolution}

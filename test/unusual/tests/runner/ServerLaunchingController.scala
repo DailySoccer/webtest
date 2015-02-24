@@ -1,11 +1,11 @@
 package unusual.tests.runner
 
-import unusual.{OneServerPerLaunch, OneBrowserPerLaunch}
+import unusual.OneServerPerLaunch
 import unusual.model.Resolution
 import unusual.pages.SharedPage
 import unusual.pages.util.JS_Ops
 import unusual.testTags.scala.WIP
-import unusual.tests.SharedTest
+import unusual.tests.{OneServerPerLaunch, OneBrowserPerLaunch, SharedTest}
 
 class ServerLaunchingController(res:Resolution) extends SharedTest(res) with JS_Ops{
 
@@ -21,7 +21,6 @@ class ServerLaunchingController(res:Resolution) extends SharedTest(res) with JS_
     OneServerPerLaunch.close
 
     status.setLoggedIn(false)
-    //status.setLoggedIn(false)
   }
 
 }
