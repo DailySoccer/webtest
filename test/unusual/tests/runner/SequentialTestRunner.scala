@@ -13,7 +13,7 @@ import unusual.tests.viewContestEntryTest.runner.ViewContestSequentialTestRunner
 class SequentialTestRunner extends Sequential(
   new InitializerWorldCupTest(Resolution.ANY)
   , SequentialTestRunner.lobbyTests
-  //, SequentialTestRunner.contestDescriptionTests
+  , SequentialTestRunner.contestDescriptionTests
   , SequentialTestRunner.enterContestTests
   , SequentialTestRunner.viewContestTests
 
@@ -41,18 +41,18 @@ object SequentialTestRunner {
   val shouldExecuteIntegrity = enabledTestList.contains("INTEGRITY")
 
 
-  def lobbyTests: Suite = if(shouldExecuteLobby || shouldExecuteContestDescription){
+  def lobbyTests: Suite = if(shouldExecuteLobby){
                             new LobbySequentialTestRunner()
                           } else {
                             new Sequential
                           }
-/*
+
   def contestDescriptionTests: Suite = if(shouldExecuteContestDescription){
                                          new ContestDescriptionSequentialTestRunner
                                        } else {
                                          new Sequential
                                        }
-*/
+
   def enterContestTests: Suite = if(shouldExecuteEnterContest){
                                    new EnterContestSequentialTestRunner
                                  } else {

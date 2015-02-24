@@ -577,7 +577,7 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
      * END BUG TESTS
      */
   }
-
+/*
   object contestDescription {
 
     var contest = cont
@@ -772,5 +772,5 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, cont: Contest, res:Resolutio
 
   }
 
-
+*/
 }

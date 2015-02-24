@@ -395,6 +395,14 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
     this
   }
+  def clearLineupListManually = {
+
+    for (i <- 1 to 11){
+      removeSoccerPlayerFromLineUp(i)
+    }
+
+    this
+  }
 
   def removeSoccerPlayerFromLineUp(index: Int) = {
     click on find(cssSelector(SOCCER_PLAYER_LINEUP_SLOT_REMOVE(index))).get

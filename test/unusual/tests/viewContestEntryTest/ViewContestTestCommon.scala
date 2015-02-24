@@ -61,22 +61,48 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
   }
 
   def checkEditButton:Unit = {
+    Given("a lineup in view contest")
     if (res == Resolution.SMALL) {
       viewContestPage.changeToLineUpTab
     }
+    When("press edit team")
     eventually { viewContestPage.goEditTeam }
     val ecState = new EnterContestState
     ecState.contest = viewContestState.contest
     val ecPage = new EnterContestPage(res, ecState)
 
+    Then("Enter contest page should be at")
     eventually { assert( ecPage.isAt ) }
+    And("lineup should be full")
     eventually { assert( ecPage.isLineupFull ) }
+    And("salary should be consistent with lineup")
     eventually { assert( ecPage.getLineUpSalary == (ecState.contest.initialSalary - ecState.contest.affordableLineup.price )) }
     if (res != Resolution.SMALL) {
+      And("number of players should be coherent")
       eventually { assert( ecPage.getNumberOfSoccerPlayers == ecState.contest.numAllPlayers ) }
     }
+    Then("confirm lineup")
     ecPage.confirmLineup
 
+    // ADDED BECAUSE OF A KNOWN BUG
+    When("Reload view contest page")
+    reloadPage()
+    And("go edit team again")
+    eventually { viewContestPage.goEditTeam }
+    Then("Enter contest page should be at")
+    eventually { assert( ecPage.isAt ) }
+    And("lineup should be full")
+    eventually { assert( ecPage.isLineupFull ) }
+    And("salary should be consistent with lineup")
+    eventually { assert( ecPage.getLineUpSalary == (ecState.contest.initialSalary - ecState.contest.affordableLineup.price )) }
+    if (res != Resolution.SMALL) {
+      And("number of players should be coherent")
+      eventually { assert( ecPage.getNumberOfSoccerPlayers == ecState.contest.numAllPlayers ) }
+    }
+    When("confirm lineup")
+    ecPage.confirmLineup
+
+    Then("contest info should be ok")
     eventually { isRightContestInfo }
   }
 

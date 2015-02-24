@@ -164,7 +164,7 @@ class ContestDescriptionWindowCommon(cont: Contest, res:Resolution) extends Shar
       val state = new EnterContestState
       state.contest = contest
       logger.debug("go to enter contest")
-      val enterContestPage = new EnterContestPage(status.resolution, state)
+      val enterContestPage = goToEnterContest(state)
       val desc = new EnterContestDescriptionTab(status.resolution)
 
       logger.debug("change to info tab")

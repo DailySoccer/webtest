@@ -31,15 +31,11 @@ class LobbyAuthTest_Bug(lobbySt: LobbyState, cont: Contest, res:Resolution) exte
 class LobbyAuthTest_All(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
   "Auth user" when {
     sizeTesting({
-      if (SequentialTestRunner.shouldExecuteLobby) {
-        lobbyPageBehaviorBasicInfo
-        lobbyPageBehaviorFilters
-        lobbyPageBehaviorOrderBy
-        lobbyPageBehaviorOthers
-        lobbyPageBehaviorBUG
-      }
-
-      if (SequentialTestRunner.shouldExecuteContestDescription) lobbyPageBehaviorContestDescription
+      lobbyPageBehaviorBasicInfo
+      lobbyPageBehaviorFilters
+      lobbyPageBehaviorOrderBy
+      lobbyPageBehaviorOthers
+      lobbyPageBehaviorBUG
     })
   }
 }
@@ -70,48 +66,6 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution)
       "change resolutions" in changeResolutionTests
     }
   }
-
-  def lobbyPageBehaviorContestDescription: Unit = {
-    if (status.resolution == Resolution.BIG) {
-
-      "go to contest description and click on tabs" in contestDescription.changeTabs
-
-      "go to contest description and look at contest header" which consistIn {
-
-        "name" in contestDescription.contestName
-
-        "description" in contestDescription.contestDescription
-
-        "entry fee" in contestDescription.contestEntryFee
-
-        "prize" in contestDescription.contestPrize
-      }
-
-      "go to contest description and look at contest sections" which consistIn {
-
-        "involved matches" in contestDescription.numberOfMatches
-
-        "involved contestants" in contestDescription.numberOfContestants
-
-        "prizes" in contestDescription.numberOfPrizes
-      }
-
-      "go to contest description and perform known BUG SEQUENCE" which causes {
-
-        "Elements disappear when enter contest through button at information" in contestDescription.knownBugSequence_ScrollBarDisappeared
-      }
-    }
-
-    "go to EnterContestDescription and look at contest sections" which consistIn {
-
-      "involved matches" in contestDescription.enterContest.numberOfMatches
-
-      "involved contestants" in contestDescription.enterContest.numberOfContestants
-
-      "prizes" in contestDescription.enterContest.numberOfPrizes
-    }
-  }
-
 
   def lobbyPageBehaviorFilters: Unit = {
 
@@ -180,76 +134,5 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution)
       "Paginator goes to first page after refresh ordered list of contest." in knownBugSequence_PaginatorOrderedRefresh
     }
   }
-
-
-  /**
-   * Borrar si finalmente se lanzan individualmente
-   * @deprecated
-   */
-  /*def lobbyPageBehavior: Unit = {
-    implicit val resolution: Resolution = res
-
-    "watch basic information" which consistIn {
-
-      "to be logged in" in goToLobby
-
-      "change resolutions" in changeResolutionTests
-
-      "look for default contests" in lookForDefaultContests
-
-      "look at contest description" taggedAs WIP in lookAtContestDescription
-    }
-
-    "use filters" which filterBy {
-
-      "clear filters control" in checkClearFiltersButton
-
-      "free contests" in filterByFreeContests
-
-      "league contests" in filterByLeagueContests
-
-      "fifty fifty contests" in filterByFiftyFiftyContests
-
-      "head to head contests" in filterByHeadToHeadContests
-
-      "free contests with min filter applied" in filterByFreeContestsWithMinFilter
-
-      "entry fee (check filter is applied)" in filterByEntryFee
-
-      "entry fee (check control funtionallity)" in checkEntryFeeFilterCtrl
-
-      "(search) contest name" in searchContests
-
-      "(search) non existent contest name" in searchNonExistentContest
-    }
-
-    "use order buttons" which orderBy {
-
-      "order by name" in orderByName
-
-      "order by entry fee" in orderByEntryFee
-
-      "order by start time" in orderByStartTime
-
-      "Reorder by start time" in ReorderByStartTime
-    }
-
-    "press play button of first contest to select team" in playFirstContest
-
-    "look at paginator" which {
-
-      "check paginator main functionality" in paginatorMainFunctionality
-
-      "see paginator displayed when necessary" in paginatorIsDisplayedWhenNecessary
-    }
-
-    "perform known BUG SEQUENCE" which causes {
-
-      "Disappeared paginator on contests filter" in knownBugSequence_DisappearedPaginatorOnFilter
-
-      "Paginator goes to first page after refresh ordered list of contest." in knownBugSequence_PaginatorOrderedRefresh
-    }
-
-  }*/
 
 }

@@ -540,10 +540,16 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     assert(enterContestPage.getLineUpSalary == (enterContestState.contest.initialSalary - enterContestState.contest.affordableLineup.price))
 
+    assert(!enterContestPage.isOverSalaryErrorShown)
+
+    Thread.sleep(5000)
+    enterContestPage.clearLineupListManually
+    /*
     enterContestPage.confirmLineup
     val viewContestState = new ViewContestState
     viewContestState.contest = state.contest
     new ViewContestPage(status.resolution, viewContestState).isAt
+    */
   }
 
 
@@ -558,8 +564,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     And("select a soccer player")
     enterContestPage.selectDefenseFromLineup(1)
     logger.debug("Selected defense")
-    val playerOnList:SoccerPlayer = enterContestPage.getSoccerPlayerFromList(1)
-    val playerName = playerOnList.shortName
+    //val playerOnList:SoccerPlayer = enterContestPage.getSoccerPlayerFromList(1)
+    //val playerName = playerOnList.shortName
     logger.debug("Soccer info recolected")
     enterContestPage.addSoccerPlayerFromList(1)
     logger.debug("Added a soccer player from list")
