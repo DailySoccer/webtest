@@ -37,7 +37,8 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   val BUTTON_CLOSE_CONTEST = ".close-contest button"
 
   val LINEUP_SELECTOR = "lineup-selector"
-  val LINEUP_SELECTOR_ALERT = "lineup-selector .alert"
+  val LINEUP_OVER_SALARY_ALERT = "lineup-selector .alert.alert-red-numbers"
+  val LINEUP_SAME_TEAM_ALERT = "lineup-selector .alert.alert-max-players-same-team"
 
   val ENTER_CONTEST_TABS = ".enter-contest-tabs"
   def ENTER_CONTEST_TAB(idx:Int) = ENTER_CONTEST_TABS + s" li:nth-of-type($idx)"
@@ -410,7 +411,15 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   }
 
   def isOverSalaryErrorShown: Boolean = {
-    find(cssSelector(LINEUP_SELECTOR_ALERT)).get.isDisplayed
+    val b = find(cssSelector(LINEUP_OVER_SALARY_ALERT)).get.isDisplayed
+    logger.debug(s"{$LINEUP_OVER_SALARY_ALERT} is displayed:", b)
+    b
+  }
+
+  def isSameTeamErrorShown: Boolean = {
+    val b = find(cssSelector(LINEUP_SAME_TEAM_ALERT)).get.isDisplayed
+    logger.debug(s"{$LINEUP_SAME_TEAM_ALERT} is displayed:", b)
+    b
   }
 
   def confirmLineup = {

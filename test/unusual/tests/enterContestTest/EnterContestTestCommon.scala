@@ -490,9 +490,9 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   }
 
   def pickAndClearWholeLineup:Unit = {
-    eventually { enterContestPage.getLineUpSalary must be (enterContestState.contest.initialSalary) }
-    logger.debug("salary confirmed")
     val contest = enterContestState.contest
+    eventually { enterContestPage.getLineUpSalary must be (contest.initialSalary) }
+    logger.debug("salary confirmed")
 
     enterContestPage.pickWholeLineup(contest.affordableLineup)
     logger.debug("lineup picked")
@@ -504,9 +504,20 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     enterContestPage.clearLineupList.getLineUpSalary must be (contest.initialSalary)
   }
 
-  def pickTooExpensiveLineUp:Unit = {
-    enterContestPage
+  def pickPlayersOfSameTeam: Unit = {
+    val contest = enterContestState.contest
+    eventually { enterContestPage.getLineUpSalary must be (contest.initialSalary) }
+    logger.debug("salary confirmed")
 
+    enterContestPage.pickWholeLineup(contest.sameTeamLineup)
+    logger.debug("lineup picked")
+
+    assert( enterContestPage.isSameTeamErrorShown )
+
+    enterContestPage.clearLineupList
+  }
+
+  def pickTooExpensiveLineUp:Unit = {
     enterContestPage.getLineUpSalary must be (enterContestState.contest.initialSalary)
 
     enterContestPage.pickWholeLineup(enterContestState.contest.expensiveLineup)

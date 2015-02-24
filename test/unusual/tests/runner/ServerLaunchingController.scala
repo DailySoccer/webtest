@@ -1,8 +1,6 @@
 package unusual.tests.runner
 
-import unusual.OneServerPerLaunch
 import unusual.model.Resolution
-import unusual.pages.SharedPage
 import unusual.pages.util.JS_Ops
 import unusual.testTags.scala.WIP
 import unusual.tests.{OneServerPerLaunch, OneBrowserPerLaunch, SharedTest}

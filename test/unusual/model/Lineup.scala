@@ -64,6 +64,55 @@ object Lineup {
     }
   )
 
+  // This list should be affordable
+  val TIME_0_SAME_TEAM_LIST = Array(
+    { val lineup = new Lineup
+      lineup.soccerPlayerList = Array( new SoccerPlayer ("jefferson"         , POS_GOAL_KEEPER, 4500)
+                                     , new SoccerPlayer ("dante"             , POS_DEFENSE    , 2500)
+                                     , new SoccerPlayer ("miguel layún"      , POS_DEFENSE    , 6000)
+                                     , new SoccerPlayer ("maicon"            , POS_DEFENSE    , 3000)
+                                     , new SoccerPlayer ("marcelo"           , POS_DEFENSE    , 3500)
+                                     , new SoccerPlayer ("paulinho"          , POS_MIDDLE     , 4000)
+                                     , new SoccerPlayer ("koke"              , POS_MIDDLE     , 2000)
+                                     , new SoccerPlayer ("leroy fer"         , POS_MIDDLE     , 4500)
+                                     , new SoccerPlayer ("xavi"              , POS_MIDDLE     , 2000)
+                                     , new SoccerPlayer ("hulk"              , POS_FORWARD    , 2000)
+                                     , new SoccerPlayer ("pedro"             , POS_FORWARD    , 2500)
+      )
+      lineup
+    },
+    { val lineup = new Lineup
+      lineup.soccerPlayerList = Array( new SoccerPlayer ("loic feudjou"      , POS_GOAL_KEEPER, 6000)
+                                     , new SoccerPlayer ("nyom"              , POS_DEFENSE    , 2000)
+                                     , new SoccerPlayer ("vladimir granat"   , POS_DEFENSE    , 7500)
+                                     , new SoccerPlayer ("paul aguilar"      , POS_DEFENSE    , 6000)
+                                     , new SoccerPlayer ("kwak tae-hwi"      , POS_DEFENSE    , 6000)
+                                     , new SoccerPlayer ("jean makoun"       , POS_MIDDLE     , 5500)
+                                     , new SoccerPlayer ("carlos peña"       , POS_MIDDLE     , 5500)
+                                     , new SoccerPlayer ("eyong enoh"        , POS_MIDDLE     , 5000)
+                                     , new SoccerPlayer ("ha dae-sung"       , POS_MIDDLE     , 5500)
+                                     , new SoccerPlayer ("fabrice"           , POS_FORWARD    , 3500)
+                                     , new SoccerPlayer ("alan pulido"       , POS_FORWARD    , 5500)
+      )
+      lineup
+    }, {
+      val lineup = new Lineup
+      // ESTA ALINEACION NO ESTA CONFIGURADA
+      lineup.soccerPlayerList = Array( new SoccerPlayer ("sergio romero"     , POS_GOAL_KEEPER, 4500)
+                                     , new SoccerPlayer ("dante"             , POS_DEFENSE    , 4500)
+                                     , new SoccerPlayer ("maxwell"           , POS_DEFENSE    , 4500)
+                                     , new SoccerPlayer ("marcos rojo"       , POS_DEFENSE    , 4500)
+                                     , new SoccerPlayer ("maicon"            , POS_DEFENSE    , 4500)
+                                     , new SoccerPlayer ("koo ja-cheol"      , POS_MIDDLE     , 4500)
+                                     , new SoccerPlayer ("luka modric"       , POS_MIDDLE     , 4500)
+                                     , new SoccerPlayer ("javad nekounam"    , POS_MIDDLE     , 4500)
+                                     , new SoccerPlayer ("han kook-young"    , POS_MIDDLE     , 4500)
+                                     , new SoccerPlayer ("lionel messi"      , POS_FORWARD    , 4500)
+                                     , new SoccerPlayer ("kevin mirallas"    , POS_FORWARD    , 4500)
+      )
+      lineup
+    }
+  )
 
   val TIME_0_AFFORDABLE_LIST = Array(
     { val lineup = new Lineup

@@ -126,6 +126,8 @@ abstract class EnterContestAuthTest(state:EnterContestState, res:Resolution) ext
 
       "fill whole lineup, then clear it" in pickAndClearWholeLineup
 
+      "fill whole lineup with four players of the same team" in pickPlayersOfSameTeam
+
       "fill with priceless lineup" in pickTooExpensiveLineUp
 
       "Then correct it" in CorrectFailLineup
