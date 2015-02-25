@@ -62,8 +62,8 @@ object Contest {
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun.++"
-    contest.description = ".*: 13 .* 100 .* - .*: 65,000"
-    contest.joinedDescription = ".*: 14 .* 100 .* - .*: 65,000"
+    contest.description = ".*: 13 .* 100 .* - .*: 70,000"
+    contest.joinedDescription = ".*: 14 .* 100 .* - .*: 70,000"
     contest.entryFee = "$0"
     contest.prize = "$0"
     contest.date = "Hoy"
@@ -110,15 +110,15 @@ object Contest {
 
     contest.affordableLineup = Lineup.TIME_0_AFFORDABLE_LIST(0)
 
-    contest.initialSalary = 65000
+    contest.initialSalary = 70000
 
     contest
   },
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun.!!"
-    contest.description = ".*: 13 .* 200 .* - .*: 60,000"
-    contest.joinedDescription = ".*: 14 .* 200 .* - .*: 60,000"
+    contest.description = ".*: 13 .* 200 .* - .*: 65,000"
+    contest.joinedDescription = ".*: 14 .* 200 .* - .*: 65,000"
     contest.entryFee = "$0"
     contest.prize = "$0"
     contest.date = "14/06"
@@ -163,15 +163,15 @@ object Contest {
 
     contest.affordableLineup = Lineup.TIME_0_AFFORDABLE_LIST(1)
 
-    contest.initialSalary = 60000
+    contest.initialSalary = 65000
 
     contest
   },
   {
     val contest = new Contest()
     contest.name = "jue., 12 jun...."
-    contest.description = ".*: 13 .* 200 .* - .*: 70,000"
-    contest.joinedDescription = ".*: 14 .* 200 .* - .*: 70,000"
+    contest.description = ".*: 13 .* 200 .* - .*: 75,000"
+    contest.joinedDescription = ".*: 14 .* 200 .* - .*: 75,000"
     contest.entryFee = "$0"
     contest.prize = "$0"
     contest.date = "Hoy"
@@ -224,7 +224,7 @@ object Contest {
 
     contest.affordableLineup = Lineup.TIME_0_AFFORDABLE_LIST(2)
 
-    contest.initialSalary = 70000
+    contest.initialSalary = 75000
 
     contest
   }
