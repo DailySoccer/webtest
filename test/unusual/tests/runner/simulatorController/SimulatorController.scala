@@ -1,4 +1,4 @@
-package unusual.tests.simulatorController
+package unusual.tests.runner.simulatorController
 
 import unusual.model.Resolution
 import unusual.pages.SharedPage

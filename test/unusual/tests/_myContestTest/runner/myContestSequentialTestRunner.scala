@@ -4,7 +4,7 @@ import org.scalatest.{Sequential, Suite}
 import unusual.model.Resolution
 import unusual.model.pageStates.ViewContestState
 import unusual.tests._myContestTest
-import unusual.tests.simulatorController.InitializerWorldCupTest
+import unusual.tests.runner.simulatorController.InitializerWorldCupTest
 
 
 class MyContestSequentialTestRunner extends Sequential(

@@ -5,7 +5,7 @@ import unusual.model.Resolution
 import unusual.tests.SharedTest
 import unusual.tests._homeTest.{HomeVisitorTest, HomeAuthTest}
 import unusual.tests.lobbyTest.{LobbyAuthTest, LobbyVisitorTest}
-import unusual.tests.simulatorController._
+import unusual.tests.runner.simulatorController._
 
 
 class HomeSequentialTestRunner extends Sequential(

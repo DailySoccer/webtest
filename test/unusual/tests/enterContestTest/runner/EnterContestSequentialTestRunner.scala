@@ -6,7 +6,7 @@ import unusual.model.Resolution
 import unusual.tests.SharedTest
 import unusual.tests.enterContestTest._
 import unusual.tests.lobbyTest._
-import unusual.tests.simulatorController.InitializerWorldCupTest
+import unusual.tests.runner.simulatorController.InitializerWorldCupTest
 
 class EnterContestSequentialTestRunner extends Sequential(
   EnterContestSequentialTestRunner.createBunchOfTests(Resolution.BIG, EnterContestState.TIME_0_LIST(0))

@@ -3,7 +3,7 @@ package unusual.tests.integrityTest.runner
 import org.scalatest.Sequential
 import unusual.model.Resolution
 import unusual.tests.integrityTest.IntegrityTest
-import unusual.tests.simulatorController.{InitializerLeaguesTest, TimeShiftTest}
+import unusual.tests.runner.simulatorController.{InitializerLeaguesTest, TimeShiftTest}
 
 class IntegritySequentialTestRunner extends Sequential (
   new InitializerLeaguesTest(Resolution.ANY)

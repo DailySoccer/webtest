@@ -6,7 +6,7 @@ import unusual.tests.contestDescriptionTest.runner.ContestDescriptionSequentialT
 import unusual.tests.enterContestTest.runner.EnterContestSequentialTestRunner
 import unusual.tests.lobbyTest.runner._
 import unusual.tests.integrityTest.runner.IntegritySequentialTestRunner
-import unusual.tests.simulatorController.{TimeShiftTest, InitializerLeaguesTest, InitializerWorldCupTest}
+import unusual.tests.runner.simulatorController.{TimeShiftTest, InitializerLeaguesTest, InitializerWorldCupTest}
 import unusual.tests.viewContestEntryTest.runner.ViewContestSequentialTestRunner
 
 

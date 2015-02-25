@@ -6,7 +6,7 @@ import unusual.model.pageStates.LobbyState
 import unusual.tests.SharedTest
 import unusual.tests.lobbyTest._
 import unusual.tests.runner._
-import unusual.tests.simulatorController._
+import unusual.tests.runner.simulatorController._
 
 
 class LobbySequentialTestRunner extends Sequential(
