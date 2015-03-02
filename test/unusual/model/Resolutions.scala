@@ -30,6 +30,6 @@ object Resolution {
   //SPECIAL RESOLUTIONS FOR INITIALICE_TESTS
   val ANY:Resolution = new Resolution(850, 720, "ANY", true)
   val MEDIUM_SMALL:Resolution = new Resolution(850, 720, "TABLET_SMARTPHONE", MEDIUM.enabled || SMALL.enabled)
-  val BIG_MEDIUM:Resolution = new Resolution(850, 720, "TABLET_SMARTPHONE", MEDIUM.enabled || BIG.enabled)
+  val BIG_MEDIUM:Resolution = new Resolution(850, 720, "TABLET_DESKTOP", MEDIUM.enabled || BIG.enabled)
 
 }

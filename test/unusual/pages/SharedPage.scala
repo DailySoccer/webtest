@@ -34,7 +34,7 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
       go to url
     }
     logger.debug("change menu positioning")
-    changeMenuPositioning
+    eventually { changeMenuPositioning }
     logger.debug("changed")
     this
   }

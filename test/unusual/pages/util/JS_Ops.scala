@@ -9,7 +9,7 @@ trait JS_Ops {
 
   def changeMenuPositioning()(implicit driver:WebDriver): Unit = {
     val cssSel = (new MenuBar(Resolution.BIG)).MENU_ROOT
-    val script = s"$$('$cssSel').css('position', 'relative');"
+    val script = s"document.querySelector('$cssSel').style.position = 'relative';"
 
     WebBrowser.executeScript(script)
   }

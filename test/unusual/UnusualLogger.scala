@@ -37,6 +37,9 @@ class UnusualLogger(className: String = "Unusual") {
 }
 
 object  UnusualLogger {
+
+  val log = new UnusualLogger()
+
   private val logLevel = scala.util.Properties.envOrElse("LOG_LEVEL", "ERROR").toUpperCase match {
     case "ERROR" => 1
     case "WARNING" => 2
