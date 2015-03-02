@@ -84,9 +84,14 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
     Then("confirm lineup")
     ecPage.confirmLineup
 
+    eventually { assert(viewContestPage.isAt, "view contest page is not loaded") }
+
     // ADDED BECAUSE OF A KNOWN BUG
     When("Reload view contest page")
     reloadPage()
+
+    eventually { assert(viewContestPage.isAt, "view contest page is not loaded") }
+
     And("go edit team again")
     eventually { viewContestPage.goEditTeam }
     Then("Enter contest page should be at")
