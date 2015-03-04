@@ -14,7 +14,7 @@ class ContestDescriptionWindow(res:Resolution) extends SharedPage(res) {
   val CONTEST_DESCRIPTION = HEADER + " .contest-explanation"
 
   val CONTEST_ENTRY_FEE = HEADER + " .contest-price .contest-coins-content span"
-  val CONTEST_PRIZE = HEADER + " .contest-prize .contest-coins-content.prize-icon-big span"
+  val CONTEST_PRIZE = HEADER + " .contest-prize .contest-coins-content span"
 
   val CLOSE_BUTTON = HEADER + " button.close"
 
