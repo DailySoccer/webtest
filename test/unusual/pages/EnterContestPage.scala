@@ -18,6 +18,10 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   )
 
   val ACTIVE_ELEMENT = ".active"
+  val HELP_MODAL_WINDOW = ".modal .modal-content .main-box"
+  val HELP_MODAL_WINDOW_ACCEPT_BUTTON = ".modal .modal-content .main-box .button-box button"
+  val SIGNUP_MODAL_WINDOW = ".modal .modal-content #joinRoot"
+  val SIGNUP_MODAL_WINDOW_CLOSE_BUTTON = ".modal .modal-content #joinRoot .panel-heading button.close"
 
   def FILTER_MATCH_DESKTOP(idx:Int) = s"#matchesFilterButtons .button-filter-wrapper:nth-child($idx) button"
   val FILTER_MATCH_MOBILE = "#match-filter"
@@ -105,7 +109,6 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     this
   }
 
-
   def isDefaultState(totalPlayers:Int, initialSalary: Int): Boolean = {
     var versionCheck = true
 
@@ -126,7 +129,6 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
       //logger.debug("EnterContest tab should be ''Your Lineup'' ", versionCheck)
     }
 
-
     versionCheck = versionCheck && isLineupEmpty
     logger.debug("Line up should be empty", versionCheck)
     versionCheck = versionCheck && isCleanLineupDisabled
@@ -137,7 +139,25 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     versionCheck = versionCheck && salary == initialSalary
     logger.debug(s"Line up salary is $salary should be $initialSalary", versionCheck)
 
+
     versionCheck
+  }
+
+  def isHelpModalShown: Boolean = {
+    isElemDisplayed(HELP_MODAL_WINDOW)
+  }
+
+  def closeHelpModal = {
+    click on find(cssSelector(HELP_MODAL_WINDOW_ACCEPT_BUTTON)).get
+    this
+  }
+  def isSignUpModalShown: Boolean = {
+    isElemDisplayed(SIGNUP_MODAL_WINDOW)
+  }
+
+  def closeSignUpModal = {
+    click on find(cssSelector(SIGNUP_MODAL_WINDOW_CLOSE_BUTTON)).get
+    this
   }
 
   def clickOnCloseButton = {

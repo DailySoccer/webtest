@@ -27,159 +27,180 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     val N_ALL_PLAYERS = enterContestState.contest.numAllPlayers
     val INITIAL_SALARY = enterContestState.contest.initialSalary
 
+    def checkState(page:EnterContestPage, N_ALL_PLAYERS: Int, INITIAL_SALARY: Int) = {
+      Then("page should be at and default state")
+      if (!status.isLoggedIn) {
+        def checkCloseModal = {
+          var isClosed = true
+          if (!status.isLoggedIn) {
+            page.closeHelpModal
+            isClosed = !page.isHelpModalShown
+            logger.debug(s"Help modal should be closed", isClosed)
+          }
+          isClosed
+        }
+
+        assert(page.isHelpModalShown, "Help modal is not shown being logged out")
+        assert(checkCloseModal, "Trying to close help modal.")
+      }
+
+      assert(page.isAt, "enterContestPage is not at")
+      assert(page.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY), "enterContestPage has not default state")
+    }
+
+    def back(): Unit = {
+      goBack()
+      if (!status.isLoggedIn) goBack()
+    }
+
     Given("Enter Contest page")
-    eventually { enterContestPage }
+    var page:EnterContestPage = null
+    eventually { page = enterContestPage }
     val lobby = new LobbyPage(status.resolution, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
-    Then("page should be at and default state")
-    assert(enterContestPage.isAt && enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
-    if(!isSafari) {
-      When("go navigate back and forward")
-      goBack()
-      goForward()
-      Then("page should be at and default state")
-      assert(enterContestPage.isAt)
-      assert(enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
-      When("go navigate back and click on play button")
-      goBack()
+    checkState(page, N_ALL_PLAYERS, INITIAL_SALARY)
 
-      if (status.resolution == Resolution.SMALL) {
-        lobby.playContestNumber(state.contest.startDateOrder)
-      } else {
-        lobby.filters.search(state.contest.name)
-        lobby.playContestNumber(1)
-      }
-
-      Then("page should be at and default state")
-      assert(enterContestPage.isAt, "is not at")
-      assert(enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY), "is not default")
-      When("click on close button and navigate back")
-      enterContestPage.clickOnCloseButton
-      goBack()
-      Then("page should be at and default state")
-      assert(enterContestPage.isAt && enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
-      When("click on close button and click on play button")
-      enterContestPage.clickOnCloseButton
-      lobby.filters.clear
-
-      if (status.resolution == Resolution.SMALL) {
-        lobby.playContestNumber(state.contest.startDateOrder)
-      } else {
-        lobby.filters.search(state.contest.name)
-        lobby.playContestNumber(1)
-      }
-
-      Then("page should be at and default state")
-      assert(enterContestPage.isAt && enterContestPage.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
-      /*
-      reloadPage()
-      assert(page.isAt.isDefaultState(N_ALL_PLAYERS, INITIAL_SALARY))
-      */
-    } else {
+    // End tests in case of Safari
+    if(isSafari) {
       Then("the rest of test skipped. Is Safari browser")
       testSkippedBecauseIsSafari
+      changeMenuPositioning
+      return
     }
+
+    When("go navigate back and forward")
+    back()
+    goForward()
+    checkState(page, N_ALL_PLAYERS, INITIAL_SALARY)
+
+
+    When("go navigate back and click on play button")
+    back()
+    selectContestOnLobby(lobby)
+    checkState(page, N_ALL_PLAYERS, INITIAL_SALARY)
+
+
+    When("click on close button and navigate back")
+    enterContestPage.clickOnCloseButton
+    back()
+    checkState(page, N_ALL_PLAYERS, INITIAL_SALARY)
+
+
+    When("click on close button and click on play button")
+    enterContestPage.clickOnCloseButton
+    assert(lobby.isAt, "should be at lobby")
+    lobby.filters.clear
+    selectContestOnLobby(lobby)
+    checkState(page, N_ALL_PLAYERS, INITIAL_SALARY)
+
+
     changeMenuPositioning
   }
 
-  def orderByPosition:Unit = {
-    eventually {
-      if (status.resolution == Resolution.BIG) {
-        //val page = goToEnterContest(enterContestState)
-        if (enterContestPage.isOrderedByPos) {
-          // si ya esta ordenado, lo ordenamos inversamente...
-          enterContestPage.orderByPosition
-          //Thread.sleep(5000)
-        } // ... y lo ordenamos al derecho
-        enterContestPage.orderByPosition
-        //Thread.sleep(5000)
 
-        assert(new EnterContestPage(status.resolution, enterContestState).isOrderedByPos)
-      } else {
-        featureNotTestableInResolution
-      }
+  def orderByPosition:Unit = {
+    if (status.resolution != Resolution.BIG) {
+      featureNotTestableInResolution
+      return
     }
+
+    eventually {
+      if (enterContestPage.isOrderedByPos) {
+        // si ya esta ordenado, lo ordenamos inversamente...
+        enterContestPage.orderByPosition
+      } // ... y lo ordenamos al derecho
+      enterContestPage.orderByPosition
+
+      assert(new EnterContestPage(status.resolution, enterContestState).isOrderedByPos)
+    }
+
   }
   def orderByName:Unit = {
     if (status.resolution != Resolution.SMALL) {
       eventually { assert(enterContestPage.orderByName.isOrderedByName, "Is not ordered by name") }
-    } else {
-      logger.debug("Selecting goalkeeper")
-      enterContestPage.selectGoalKeeperFromLineup
-      logger.debug("Order by name")
-      eventually { enterContestPage.orderByName }
-      eventually { assert(enterContestPage.isOrderedByName, "(Goalkeeper) Is not ordered by name") }
-      logger.debug("Canceling goalkeeper selection")
-      enterContestPage.cancelSoccerPlayerSelection
-
-      logger.debug("Select defense")
-      eventually { enterContestPage.selectDefenseFromLineup(1) }
-      logger.debug("Is order by name")
-      eventually { assert(enterContestPage.isOrderedByName, "(Defense) Is not ordered by name") }
-      logger.debug("Cancel selection")
-      enterContestPage.cancelSoccerPlayerSelection
-
-      eventually { enterContestPage.selectMiddleFromLineup(1) }
-      eventually { assert(enterContestPage.isOrderedByName, "(Middle) Is not ordered by name") }
-      enterContestPage.cancelSoccerPlayerSelection
-
-      eventually { enterContestPage.selectForwardFromLineup(1) }
-      eventually { assert(enterContestPage.isOrderedByName, "(Forward) Is not ordered by name") }
-      enterContestPage.cancelSoccerPlayerSelection
+      return
     }
+
+    logger.debug("Selecting goalkeeper")
+    enterContestPage.selectGoalKeeperFromLineup
+    logger.debug("Order by name")
+    eventually { enterContestPage.orderByName }
+    eventually { assert(enterContestPage.isOrderedByName, "(Goalkeeper) Is not ordered by name") }
+    logger.debug("Canceling goalkeeper selection")
+    enterContestPage.cancelSoccerPlayerSelection
+
+    logger.debug("Select defense")
+    eventually { enterContestPage.selectDefenseFromLineup(1) }
+    logger.debug("Is order by name")
+    eventually { assert(enterContestPage.isOrderedByName, "(Defense) Is not ordered by name") }
+    logger.debug("Cancel selection")
+    enterContestPage.cancelSoccerPlayerSelection
+
+    eventually { enterContestPage.selectMiddleFromLineup(1) }
+    eventually { assert(enterContestPage.isOrderedByName, "(Middle) Is not ordered by name") }
+    enterContestPage.cancelSoccerPlayerSelection
+
+    eventually { enterContestPage.selectForwardFromLineup(1) }
+    eventually { assert(enterContestPage.isOrderedByName, "(Forward) Is not ordered by name") }
+    enterContestPage.cancelSoccerPlayerSelection
+
   }
   def orderByDFP:Unit = {
 
     if (status.resolution != Resolution.SMALL) {
       eventually { assert(enterContestPage.orderByDFP.isOrderedByDFP) }
-    } else {
-      enterContestPage.selectGoalKeeperFromLineup
-      eventually { enterContestPage.orderByDFP }
-      eventually { assert(enterContestPage.isOrderedByDFP, "(Goalkeeper) Is not ordered by DFP") }
-      enterContestPage.cancelSoccerPlayerSelection
-
-      eventually { enterContestPage.selectDefenseFromLineup(1) }
-      eventually { assert(enterContestPage.isOrderedByDFP, "(Defense) Is not ordered by DFP") }
-      enterContestPage.cancelSoccerPlayerSelection
-
-      eventually { enterContestPage.selectMiddleFromLineup(1) }
-      eventually { assert(enterContestPage.isOrderedByDFP, "(Middle) Is not ordered by DFP") }
-      enterContestPage.cancelSoccerPlayerSelection
-
-      eventually { enterContestPage.selectForwardFromLineup(1) }
-      eventually { assert(enterContestPage.isOrderedByDFP, "(Forward) Is not ordered by DFP") }
-      enterContestPage.cancelSoccerPlayerSelection
+      return
     }
+
+    enterContestPage.selectGoalKeeperFromLineup
+    eventually { enterContestPage.orderByDFP }
+    eventually { assert(enterContestPage.isOrderedByDFP, "(Goalkeeper) Is not ordered by DFP") }
+    enterContestPage.cancelSoccerPlayerSelection
+
+    eventually { enterContestPage.selectDefenseFromLineup(1) }
+    eventually { assert(enterContestPage.isOrderedByDFP, "(Defense) Is not ordered by DFP") }
+    enterContestPage.cancelSoccerPlayerSelection
+
+    eventually { enterContestPage.selectMiddleFromLineup(1) }
+    eventually { assert(enterContestPage.isOrderedByDFP, "(Middle) Is not ordered by DFP") }
+    enterContestPage.cancelSoccerPlayerSelection
+
+    eventually { enterContestPage.selectForwardFromLineup(1) }
+    eventually { assert(enterContestPage.isOrderedByDFP, "(Forward) Is not ordered by DFP") }
+    enterContestPage.cancelSoccerPlayerSelection
+
   }
+
   def orderByPlayed:Unit = {
-    eventually {
-      if (status.resolution == Resolution.BIG) {
-        assert(enterContestPage.orderByPlayed.isOrderedByPlayed)
-      } else {
-        featureNotTestableInResolution
-      }
+    if (status.resolution == Resolution.BIG) {
+      eventually { assert(enterContestPage.orderByPlayed.isOrderedByPlayed) }
+    } else {
+      featureNotTestableInResolution
     }
   }
+
   def orderBySalary:Unit = {
     if (status.resolution != Resolution.SMALL) {
       eventually { assert(enterContestPage.orderBySalary.isOrderedBySalary, "page is not ordered by salary") }
-    } else {
-      enterContestPage.selectGoalKeeperFromLineup
-      eventually { enterContestPage.orderBySalary }
-      eventually { assert(enterContestPage.isOrderedBySalary, "(Goalkeeper) Is not ordered by Salary") }
-      enterContestPage.cancelSoccerPlayerSelection
-
-      eventually { enterContestPage.selectDefenseFromLineup(1) }
-      eventually { assert(enterContestPage.isOrderedBySalary, "(Defense) Is not ordered by Salary") }
-      enterContestPage.cancelSoccerPlayerSelection
-
-      eventually { enterContestPage.selectMiddleFromLineup(1) }
-      eventually { assert(enterContestPage.isOrderedBySalary, "(Middle) Is not ordered by Salary") }
-      enterContestPage.cancelSoccerPlayerSelection
-
-      eventually { enterContestPage.selectForwardFromLineup(1) }
-      eventually { assert(enterContestPage.isOrderedBySalary, "(Forward) Is not ordered by Salary") }
-      enterContestPage.cancelSoccerPlayerSelection
+      return
     }
+
+    enterContestPage.selectGoalKeeperFromLineup
+    eventually { enterContestPage.orderBySalary }
+    eventually { assert(enterContestPage.isOrderedBySalary, "(Goalkeeper) Is not ordered by Salary") }
+    enterContestPage.cancelSoccerPlayerSelection
+
+    eventually { enterContestPage.selectDefenseFromLineup(1) }
+    eventually { assert(enterContestPage.isOrderedBySalary, "(Defense) Is not ordered by Salary") }
+    enterContestPage.cancelSoccerPlayerSelection
+
+    eventually { enterContestPage.selectMiddleFromLineup(1) }
+    eventually { assert(enterContestPage.isOrderedBySalary, "(Middle) Is not ordered by Salary") }
+    enterContestPage.cancelSoccerPlayerSelection
+
+    eventually { enterContestPage.selectForwardFromLineup(1) }
+    eventually { assert(enterContestPage.isOrderedBySalary, "(Forward) Is not ordered by Salary") }
+    enterContestPage.cancelSoccerPlayerSelection
+
   }
 
   /*
@@ -299,16 +320,13 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     enterContestPage.selectDefenseFromLineup(1)
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
 
-    enterContestPage.cancelSoccerPlayerSelection
-        .selectDefenseFromLineup(2)
+    enterContestPage.cancelSoccerPlayerSelection.selectDefenseFromLineup(2)
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
 
-    enterContestPage.cancelSoccerPlayerSelection
-        .selectDefenseFromLineup(3)
+    enterContestPage.cancelSoccerPlayerSelection.selectDefenseFromLineup(3)
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
 
-    enterContestPage.cancelSoccerPlayerSelection
-        .selectDefenseFromLineup(4)
+    enterContestPage.cancelSoccerPlayerSelection.selectDefenseFromLineup(4)
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
@@ -320,16 +338,13 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     enterContestPage.selectMiddleFromLineup(1)
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
 
-    enterContestPage.cancelSoccerPlayerSelection
-        .selectMiddleFromLineup(2)
+    enterContestPage.cancelSoccerPlayerSelection.selectMiddleFromLineup(2)
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
 
-    enterContestPage.cancelSoccerPlayerSelection
-        .selectMiddleFromLineup(3)
+    enterContestPage.cancelSoccerPlayerSelection.selectMiddleFromLineup(3)
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
 
-    enterContestPage.cancelSoccerPlayerSelection
-        .selectMiddleFromLineup(4)
+    enterContestPage.cancelSoccerPlayerSelection.selectMiddleFromLineup(4)
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
@@ -342,8 +357,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     enterContestPage.selectForwardFromLineup(1)
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS) }
 
-    enterContestPage.cancelSoccerPlayerSelection
-        .selectForwardFromLineup(2)
+    enterContestPage.cancelSoccerPlayerSelection.selectForwardFromLineup(2)
     eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS) }
 
     enterContestPage.cancelSoccerPlayerSelection
@@ -544,8 +558,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
           enterContestPage.selectForwardFromLineup(i - 8)
         }
 
-        enterContestPage.setSoccerPlayerNameFilterSearch(expendAllMoneyLineup(i).name)
-            .addSoccerPlayerFromList(1)
+        enterContestPage.setSoccerPlayerNameFilterSearch(expendAllMoneyLineup(i).name).addSoccerPlayerFromList(1)
       }
     }
 
@@ -553,23 +566,26 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     assert(!enterContestPage.isOverSalaryErrorShown)
 
-    Thread.sleep(5000)
+
+    if (!status.isLoggedIn) {
+      enterContestPage.confirmLineup
+      eventually { assert(enterContestPage.isSignUpModalShown, "Sign up modal should be shown") }
+      enterContestPage.closeSignUpModal
+      eventually { assert(!enterContestPage.isSignUpModalShown, "Sign up modal should be closed") }
+    }
+
     enterContestPage.clearLineupListManually
-    /*
-    enterContestPage.confirmLineup
-    val viewContestState = new ViewContestState
-    viewContestState.contest = state.contest
-    new ViewContestPage(status.resolution, viewContestState).isAt
-    */
   }
 
 
   def knownBugSequence_DuplicatedPlayersAtDeleteAll:Unit = {
     _enterContestPageInstance = null
-    enterContestPage
+    //enterContestPage
+
 
     Given("EnterContest page")
     enterContestPage
+    if (!status.isLoggedIn) enterContestPage.closeHelpModal
     //var playerOnList:SoccerPlayer = null
 
     And("select a soccer player")
@@ -605,6 +621,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def knownBugSequence_DisappearedPlayers:Unit = {
     _enterContestPageInstance = null
     enterContestPage
+    if (!status.isLoggedIn) enterContestPage.closeHelpModal
 
     if (status.resolution == Resolution.SMALL) {
       enterContestPage.selectGoalKeeperFromLineup
@@ -627,6 +644,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def knownBugSequence_DuplicatedPlayersAtInsert:Unit = {
     _enterContestPageInstance = null
     enterContestPage
+    if (!status.isLoggedIn) enterContestPage.closeHelpModal
 
     enterContestPage.selectDefenseFromLineup(1)
 
@@ -648,6 +666,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def knownBugSequence_AddForwardAsGoalKeeper:Unit = {
     _enterContestPageInstance = null
     enterContestPage
+    if (!status.isLoggedIn) enterContestPage.closeHelpModal
 
     if (status.resolution != Resolution.SMALL) {
       enterContestPage.selectGoalKeeperFromLineup
@@ -659,6 +678,15 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
       enterContestPage.clearLineupList
     }
 
+  }
+
+  private def selectContestOnLobby(lobby: LobbyPage) = {
+    if (status.resolution == Resolution.SMALL) {
+      lobby.playContestNumber(state.contest.startDateOrder)
+    } else {
+      lobby.filters.search(state.contest.name)
+      lobby.playContestNumber(1)
+    }
   }
 
 }

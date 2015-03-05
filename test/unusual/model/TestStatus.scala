@@ -21,6 +21,8 @@ class TestStatus {
     this
   }
 
+  def isLoggedIn: Boolean = TestStatus.loggedIn
+
   def setLoggedIn(log: Boolean) = {
     TestStatus.loggedIn = log
     this

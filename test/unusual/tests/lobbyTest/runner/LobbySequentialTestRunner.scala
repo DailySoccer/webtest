@@ -20,7 +20,7 @@ private object LobbySequentialTestRunner {
     if (resolution.enabled) {
       new Sequential(
         new LobbyAuthTest_All(lobbySt, cont, resolution)
-        //, new LobbyVisitorTest(lobbySt, resolution)
+        , new LobbyVisitorTest(lobbySt, resolution)
       )
     } else {
       new Sequential()

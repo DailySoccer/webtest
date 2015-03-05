@@ -29,15 +29,14 @@ class LobbyAuthTest_Bug(lobbySt: LobbyState, cont: Contest, res:Resolution) exte
 
 
 class LobbyAuthTest_All(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
-  "Auth user" when {
-    sizeTesting({
+  "Auth user" when sizeTesting({
       lobbyPageBehaviorBasicInfo
       lobbyPageBehaviorFilters
       lobbyPageBehaviorOrderBy
       lobbyPageBehaviorOthers
       lobbyPageBehaviorBUG
     })
-  }
+
 }
 
 abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyTestCommon(lobbySt, cont, res) {

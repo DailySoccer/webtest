@@ -83,7 +83,7 @@ class SharedTest(resolution:Resolution) extends PlaySpec
   def goToEnterContest(state:EnterContestState) : EnterContestPage = {
     val enterContest:EnterContestPage = new EnterContestPage(status.resolution, state)
     enterContest.open
-    eventually { assert(enterContest.isAt, "trying to access to enterContest") }
+    //eventually { assert(enterContest.isAt, "trying to access to enterContest") }
     enterContest
   }
 

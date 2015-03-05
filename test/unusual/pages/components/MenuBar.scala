@@ -174,16 +174,12 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
   }
 
   private def clickOnToggleMenu = {
-    eventually {
-      click on id(MENU_TOGGLE)
-    }
+    eventually { click on cssSelector(MENU_TOGGLE) }
     this
   }
 
   private def clickOnToggleUserMenuDropDown = {
-    eventually {
-      click on cssSelector(USER_MENU_TOGGLE)
-    }
+    eventually { click on cssSelector(USER_MENU_TOGGLE) }
     this
   }
 
@@ -192,8 +188,9 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
       if (!isElemDisplayed(MENU_OFFCANVAS)){
         logger.debug(s"offCanvasMenu is not displayed, click on it")
         clickOnToggleMenu
+        logger.debug(s"clicked")
       }
-      eventually { assert(isElemDisplayed(MENU_OFFCANVAS)) }
+      eventually { assert(isElemDisplayed(MENU_OFFCANVAS), "Off-canvas is still not displayed.") }
     }
 
     eventually {

@@ -17,7 +17,10 @@ class EnterContestSequentialTestRunner extends Sequential(
 private object EnterContestSequentialTestRunner {
   def createBunchOfTests(resolution:Resolution, state: EnterContestState) =
     if (resolution.enabled) {
-      new EnterContestAuthTest_All(state, resolution)
+      new Sequential(
+        new EnterContestAuthTest_All(state, resolution)
+        , new EnterContestVisitorTest(state, resolution)
+      )
     } else {
       new Sequential
     }
