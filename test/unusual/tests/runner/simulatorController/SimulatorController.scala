@@ -6,33 +6,38 @@ import unusual.pages.SharedPage
 import unusual.pages.util.JS_Ops
 import unusual.testTags.scala.WIP
 import unusual.tests.SharedTest
+import org.scalatest._
+import org.scalatestplus.play._
+import play.api.test._
 
 import scala.concurrent.{Await, Future}
 
-class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
+trait SimulatorController { this: SharedTest =>
 
-  val MAX_TIMEOUT_TIME = 3000
-  val INTERVAL_TIME = 1
-  val WORLD_CUP = 4
-  val CHAMPIONS_LEAGUE = 5
-  val PREMIER_LEAGUE = 8
-  val SPANISH_LA_LIGA = 23
+  private lazy val res: Resolution = status.resolution
 
-  val url = SharedPage.baseUrl + "/admin"
+  private val MAX_TIMEOUT_TIME = 3000
+  private val INTERVAL_TIME = 1
+  private val WORLD_CUP = 4
+  private val CHAMPIONS_LEAGUE = 5
+  private val PREMIER_LEAGUE = 8
+  private val SPANISH_LA_LIGA = 23
 
-  val URL_START = url + "/test_start"
-  val URL_CURRENT_DATE = url + "/test_current_date"
-  val URL_INITIAL_SETUP = url + "/test_initial_setup"
-  val URL_IMPORT_SALARIES = url + "/import_salaries"
-  def URL_GO_TO_DATE(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int) = url + s"/test_goto/$year/$month/$day/$hour/$minute/$second"
-  def URL_SELECT_COMPETITION(seasonId:Int, competitionId:Int) = url + s"/opta_competitions/${seasonId}-${competitionId}/activated/true"
-  def URL_CREATE_TEMPLATES(mockIndex:Int) = url + s"/create_contests/$mockIndex"
-  def URL_CREATE_PROMOS(mockIndex:Int) = url + s"/create_promos/$mockIndex"
-  def URL_START_BOTS = url + s"/start_bot_actors"
-  def URL_STOP_BOTS = url + s"/stop_bot_actors"
-  def URL_CREATING_TEMPLATE_CONTESTS_ENABLED = url + s"/template_contest/enable_creating/true"
-  def URL_ADD_MONEY_TO_BOTS(amount:Int) = url + s"/add_money_to_bots/${amount}"
-  def URL_BERSERKER_BOTS = url + s"/berserker_bot_actors"
+  private val url = SharedPage.baseUrl + "/admin"
+
+  private val URL_START = url + "/test_start"
+  private val URL_CURRENT_DATE = url + "/test_current_date"
+  private val URL_INITIAL_SETUP = url + "/test_initial_setup"
+  private val URL_IMPORT_SALARIES = url + "/import_salaries"
+  private def URL_GO_TO_DATE(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int) = url + s"/test_goto/$year/$month/$day/$hour/$minute/$second"
+  private def URL_SELECT_COMPETITION(seasonId:Int, competitionId:Int) = url + s"/opta_competitions/${seasonId}-${competitionId}/activated/true"
+  private def URL_CREATE_TEMPLATES(mockIndex:Int) = url + s"/create_contests/$mockIndex"
+  private def URL_CREATE_PROMOS(mockIndex:Int) = url + s"/create_promos/$mockIndex"
+  private def URL_START_BOTS = url + s"/start_bot_actors"
+  private def URL_STOP_BOTS = url + s"/stop_bot_actors"
+  private def URL_CREATING_TEMPLATE_CONTESTS_ENABLED = url + s"/template_contest/enable_creating/true"
+  private def URL_ADD_MONEY_TO_BOTS(amount:Int) = url + s"/add_money_to_bots/${amount}"
+  private def URL_BERSERKER_BOTS = url + s"/berserker_bot_actors"
 
   def initialWorldCupTestsSetup: Unit = {
     Given("a clean browser")
@@ -77,13 +82,13 @@ class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
 
   def timeShift(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int, returnedString:String): Unit = {
     val response:String = goToHeadlessURL(URL_GO_TO_DATE(day, month, year, hour, minute, second))
-    logger.debug(s"Requested to go to: '$returnedString' ---- Response: '$response'")
+    logger.info(s"Requested to go to: '$returnedString' ---- Response: '$response'")
     assert(response == "OK", s"Go to date '$returnedString' does not respond OK")
 
     var dateInfo:String = ""
     eventually (timeout(MAX_TIMEOUT_TIME seconds), interval(INTERVAL_TIME seconds)) {
       dateInfo = goToHeadlessURL(URL_CURRENT_DATE)
-      logger.debug(s"Current date: '$dateInfo' waiting for '$returnedString'")
+      logger.info(s"Current date: '$dateInfo' waiting for '$returnedString'")
       dateInfo must be (returnedString)
     }
   }
@@ -108,14 +113,15 @@ class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
   }
 }
 
-class InitializerWorldCupTest(res:Resolution) extends SimulatorController(res) {
+class InitializerWorldCupTest(res:Resolution) extends SharedTest(res) {
   if(status.resolution.enabled) "Simulator" should ("set up initial WoldCup configuration" taggedAs WIP in initialWorldCupTestsSetup)
 }
 
-class InitializerLeaguesTest(res:Resolution) extends SimulatorController(res) {
+class InitializerLeaguesTest(res:Resolution) extends SharedTest(res) {
   if(status.resolution.enabled) "Simulator" should ("set up initial Leagues configuration" taggedAs WIP in initialLeaguesTestsSetup)
 }
 
-class TimeShiftTest(res:Resolution, day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int, returnedString:String, description:String = "perform a time shift") extends SimulatorController(res) {
+class TimeShiftTest(res:Resolution, day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int,
+                    returnedString:String, description:String = "perform a time shift") extends SharedTest(res) {
   if(status.resolution.enabled) "Simulator" should (description taggedAs WIP in timeShift(day, month, year, hour, minute, second:Int, returnedString))
 }

@@ -17,12 +17,14 @@ import unusual.pages._
 import org.scalatest.time._
 import unusual.pages.util.JS_Ops
 import unusual.testTags.scala.WIP
+import unusual.tests.runner.simulatorController.SimulatorController
 
 
 class SharedTest(resolution:Resolution) extends PlaySpec
     with OneServerPerLaunch with OneBrowserPerLaunch
     with WebDriverFactory with BeforeAndAfter with BeforeAndAfterAll
-    with BeforeAndAfterEach with SpanSugar with GivenWhenThen with JS_Ops/*with Distributor*/{
+    with BeforeAndAfterEach with SpanSugar with GivenWhenThen with JS_Ops
+    with SimulatorController {
 
   var status:TestStatus = new TestStatus
   status.setBaseResolution(resolution)
