@@ -24,6 +24,7 @@ class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
   def URL_GO_TO_DATE(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int) = url + s"/test_goto/$year/$month/$day/$hour/$minute/$second"
   def URL_SELECT_COMPETITION(seasonId:Int, competitionId:Int) = url + s"/opta_competitions/${seasonId}-${competitionId}/activated/true"
   def URL_CREATE_TEMPLATES(mockIndex:Int) = url + s"/create_contests/$mockIndex"
+  def URL_CREATE_PROMOS(mockIndex:Int) = url + s"/create_promos/$mockIndex"
   def URL_START_BOTS = url + s"/start_bot_actors"
   def URL_STOP_BOTS = url + s"/stop_bot_actors"
   def URL_CREATING_TEMPLATE_CONTESTS_ENABLED = url + s"/template_contest/enable_creating/true"
@@ -46,6 +47,8 @@ class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
     go to URL_INITIAL_SETUP
     And("create personalized contests")
     createTemplateContest(0)
+    And("create some promo")
+    createPromo(0)
     And("finally go to 2014/06/12 08:00:36 UTC")
     timeShift(12,6,2014,8,0,36, "2014/06/12 08:00:36 UTC")
   }
@@ -80,6 +83,10 @@ class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
 
   def createTemplateContest(mockIndex:Int): Unit = {
     go to URL_CREATE_TEMPLATES(mockIndex)
+  }
+
+  def createPromo(mockIndex:Int): Unit = {
+    go to URL_CREATE_PROMOS(mockIndex)
   }
 
   def prepareInitialBrowserState: Unit = {
