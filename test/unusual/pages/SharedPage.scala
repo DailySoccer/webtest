@@ -82,7 +82,12 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
 
     exists
   }
-
+/*
+  protected def isButtonDisabled(cssSel: String):Boolean = {
+    val elem = find(cssSelector(cssSel))
+    elem  'disabled
+  }
+*/
 
 }
 

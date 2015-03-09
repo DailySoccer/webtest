@@ -23,10 +23,10 @@ class EnterContestAuthTest_Pick(state:EnterContestState, res:Resolution) extends
 class EnterContestAuthTest_All(state:EnterContestState, res:Resolution) extends EnterContestAuthTest(state, res) {
   s"Auth user in contest: ${enterContestState.contest.name}" when {
     sizeTesting({
-      enterContestPageBehavior_OrderBy
-      enterContestPageBehavior_FilterBy
-      enterContestPageBehavior_SelectPos
-      enterContestPageBehavior_Bug
+      //enterContestPageBehavior_OrderBy
+      //enterContestPageBehavior_FilterBy
+      //enterContestPageBehavior_SelectPos
+      //enterContestPageBehavior_Bug
       enterContestPageBehavior_Pick
     })
   }
@@ -120,11 +120,11 @@ abstract class EnterContestAuthTest(state:EnterContestState, res:Resolution) ext
 
     "pick soccer players from list" which {
 
-      "add first goal keeper" in addFirstGoalKeeperFromList
+      //"add first goal keeper" in addFirstGoalKeeperFromList
 
-      "add fourth defense" in addFourthDefenseFromList
+      //"add fourth defense" in addFourthDefenseFromList
 
-      "fill whole lineup, then clear it" in pickAndClearWholeLineup
+      //"fill whole lineup, then clear it" in pickAndClearWholeLineup
 
       "fill whole lineup with five players of the same team" in pickPlayersOfSameTeam
 

@@ -364,7 +364,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
         logger.debug(s"${SOCCER_PLAYER_LINEUP_SLOT(1)} is displayed", check)
         //assert( check )
       }
-*/}
+  */}
     //}
 
     this
@@ -398,11 +398,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   }
 
   def addSoccerPlayerFromList(index: Int) = {
-
-    eventually {
-      click on find(cssSelector(SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(index))).get
-    }
-
+    eventually { click on cssSelector(SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(index)) }
     this
   }
 
@@ -417,11 +413,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     this
   }
   def clearLineupListManually = {
-
-    for (i <- 1 to 11){
-      removeSoccerPlayerFromLineUp(i)
-    }
-
+    for (i <- 1 to 11){ removeSoccerPlayerFromLineUp(i) }
     this
   }
 

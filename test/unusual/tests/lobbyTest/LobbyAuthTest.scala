@@ -59,10 +59,6 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution)
       "go to lobby logged in" in goToLobby
 
       "look for default state" in lookForDefaultState
-
-      "look at contest description" in lookAtContestDescription
-
-      "change resolutions" in changeResolutionTests
     }
   }
 
@@ -70,11 +66,11 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution)
 
     "use filters" which filterBy {
 
-      "clear filters control" in checkClearFiltersButton
+      //"clear filters control" in checkClearFiltersButton
 
       "free contests" in filterByFreeContests
 
-      "league contests" in filterByLeagueContests
+      /*"league contests" in filterByLeagueContests
 
       "fifty fifty contests" in filterByFiftyFiftyContests
 
@@ -88,13 +84,14 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution)
 
       "free contests with min filter applied" in filterByFreeContestsWithMinFilter
 
-      "entry fee (check filter is applied)" in filterByEntryFee
+      //"entry fee (check filter is applied)" in filterByEntryFee
 
-      "entry fee (check control functionality)" in checkEntryFeeFilterCtrl
+      //"entry fee (check control functionality)" in checkEntryFeeFilterCtrl
 
-      "(search) contest name" in searchContests
+      //"(search) contest name" in searchContests
 
-      "(search) non existent contest name" in searchNonExistentContest
+      //"(search) non existent contest name" in searchNonExistentContest
+      */
     }
   }
 
@@ -102,36 +99,37 @@ abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution)
   def lobbyPageBehaviorOrderBy: Unit = {
 
     "use order buttons" which orderBy {
-
+      /*
       "order by name" in orderByName
 
       "order by entry fee" in orderByEntryFee
 
       "order by start time" in orderByStartTime
-
+      */
       "Reorder by start time" in ReorderByStartTime
     }
   }
 
 
   def lobbyPageBehaviorOthers: Unit = {
-    "look at paginator" which {
+    /*"look at paginator" which {
 
-      "check paginator main functionality" in paginatorMainFunctionality
+      //"check paginator main functionality" in paginatorMainFunctionality
 
-      "see paginator displayed when necessary" in paginatorIsDisplayedWhenNecessary
-    }
+      //"see paginator displayed when necessary" in paginatorIsDisplayedWhenNecessary
+    }*/
   }
 
 
   def lobbyPageBehaviorBUG: Unit = {
-
+    /*
     "perform known BUG SEQUENCE" which causes {
 
       "Disappeared paginator on contests filter" in knownBugSequence_DisappearedPaginatorOnFilter
 
       "Paginator goes to first page after refresh ordered list of contest." in knownBugSequence_PaginatorOrderedRefresh
     }
+    */
   }
 
 }

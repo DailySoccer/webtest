@@ -18,7 +18,6 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     }
     _enterContestPageInstance
   }
-
   /*
    * ORDER BY TESTS
    */
@@ -30,18 +29,8 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     def checkState(page:EnterContestPage, N_ALL_PLAYERS: Int, INITIAL_SALARY: Int) = {
       Then("page should be at and default state")
       if (!status.isLoggedIn) {
-        def checkCloseModal = {
-          var isClosed = true
-          if (!status.isLoggedIn) {
-            page.closeHelpModal
-            isClosed = !page.isHelpModalShown
-            logger.debug(s"Help modal should be closed", isClosed)
-          }
-          isClosed
-        }
-
-        assert(page.isHelpModalShown, "Help modal is not shown being logged out")
-        assert(checkCloseModal, "Trying to close help modal.")
+        eventually { assert(page.isHelpModalShown, "Help modal is not shown being logged out") }
+        checkCloseModal
       }
 
       assert(page.isAt, "enterContestPage is not at")
@@ -526,7 +515,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     enterContestPage.pickWholeLineup(contest.sameTeamLineup)
     logger.debug("lineup picked")
 
-    assert( enterContestPage.isSameTeamErrorShown )
+    assert( enterContestPage.isSameTeamErrorShown, "Same team players error should be shown")
 
     enterContestPage.clearLineupList
   }
@@ -537,7 +526,9 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     enterContestPage.pickWholeLineup(enterContestState.contest.expensiveLineup)
     enterContestPage.getLineUpSalary must be < 0
 
-    assert( enterContestPage.confirmLineup.isOverSalaryErrorShown )
+    assert( enterContestPage.isConfirmLineupDisabled, "Confirm lineup should be disabled")
+
+    assert( enterContestPage.isOverSalaryErrorShown, "Salary error should be shown")
   }
 
   def CorrectFailLineup:Unit = {
@@ -558,7 +549,10 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
           enterContestPage.selectForwardFromLineup(i - 8)
         }
 
-        enterContestPage.setSoccerPlayerNameFilterSearch(expendAllMoneyLineup(i).name).addSoccerPlayerFromList(1)
+        enterContestPage.setSoccerPlayerNameFilterSearch(expendAllMoneyLineup(i).name)
+        Thread.sleep(200)
+        enterContestPage.addSoccerPlayerFromList(1)
+        Thread.sleep(200)
       }
     }
 
@@ -570,8 +564,10 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     if (!status.isLoggedIn) {
       enterContestPage.confirmLineup
       eventually { assert(enterContestPage.isSignUpModalShown, "Sign up modal should be shown") }
-      enterContestPage.closeSignUpModal
-      eventually { assert(!enterContestPage.isSignUpModalShown, "Sign up modal should be closed") }
+      eventually {
+        if (enterContestPage.isSignUpModalShown) enterContestPage.closeSignUpModal
+        assert(!enterContestPage.isSignUpModalShown, "Sign up modal should be closed")
+      }
     }
 
     enterContestPage.clearLineupListManually
@@ -585,7 +581,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
     Given("EnterContest page")
     enterContestPage
-    if (!status.isLoggedIn) enterContestPage.closeHelpModal
+    checkCloseModal
     //var playerOnList:SoccerPlayer = null
 
     And("select a soccer player")
@@ -621,7 +617,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def knownBugSequence_DisappearedPlayers:Unit = {
     _enterContestPageInstance = null
     enterContestPage
-    if (!status.isLoggedIn) enterContestPage.closeHelpModal
+    checkCloseModal
 
     if (status.resolution == Resolution.SMALL) {
       enterContestPage.selectGoalKeeperFromLineup
@@ -644,7 +640,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def knownBugSequence_DuplicatedPlayersAtInsert:Unit = {
     _enterContestPageInstance = null
     enterContestPage
-    if (!status.isLoggedIn) enterContestPage.closeHelpModal
+    checkCloseModal
 
     enterContestPage.selectDefenseFromLineup(1)
 
@@ -666,7 +662,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def knownBugSequence_AddForwardAsGoalKeeper:Unit = {
     _enterContestPageInstance = null
     enterContestPage
-    if (!status.isLoggedIn) enterContestPage.closeHelpModal
+    checkCloseModal
 
     if (status.resolution != Resolution.SMALL) {
       enterContestPage.selectGoalKeeperFromLineup
@@ -686,6 +682,15 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     } else {
       lobby.filters.search(state.contest.name)
       lobby.playContestNumber(1)
+    }
+  }
+
+  private def checkCloseModal = {
+    if (!status.isLoggedIn) {
+      eventually {
+        if (enterContestPage.isHelpModalShown) enterContestPage.closeHelpModal
+        assert(!enterContestPage.isHelpModalShown, "Help modal should be closed")
+      }
     }
   }
 

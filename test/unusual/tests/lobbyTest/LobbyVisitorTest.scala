@@ -33,8 +33,6 @@ class LobbyVisitorTest(lobbySt:LobbyState, res:Resolution) extends LobbyTestComm
 
       "look for default state" in lookForDefaultState
 
-      "look at contest description" in lookAtContestDescription
-
       "change resolutions" in changeResolutionTests
     }
   }
