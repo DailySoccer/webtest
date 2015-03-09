@@ -11,8 +11,8 @@ import unusual.tests.viewContestEntryTest.runner.ViewContestSequentialTestRunner
 
 
 class SequentialTestRunner extends Sequential(
-  /*new InitializerWorldCupTest(Resolution.ANY)
-  , */SequentialTestRunner.lobbyTests
+  new InitializerWorldCupTest(Resolution.ANY)
+  , SequentialTestRunner.lobbyTests
   , SequentialTestRunner.contestDescriptionTests
   , SequentialTestRunner.enterContestTests
   , SequentialTestRunner.viewContestTests

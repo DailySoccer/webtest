@@ -1,10 +1,13 @@
 package unusual.tests.runner.simulatorController
 
+import play.api.libs.ws.{Response, WS}
 import unusual.model.Resolution
 import unusual.pages.SharedPage
 import unusual.pages.util.JS_Ops
 import unusual.testTags.scala.WIP
 import unusual.tests.SharedTest
+
+import scala.concurrent.{Await, Future}
 
 class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
 
@@ -72,12 +75,16 @@ class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
     go to URL_BERSERKER_BOTS
   }
 
-  def timeShift(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int, returnedString:String): Unit ={
-    go to URL_GO_TO_DATE(day, month, year, hour, minute, second)
+  def timeShift(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int, returnedString:String): Unit = {
+    val response:String = goToHeadlessURL(URL_GO_TO_DATE(day, month, year, hour, minute, second))
+    logger.debug(s"Requested to go to: '$returnedString' ---- Response: '$response'")
+    assert(response == "OK", s"Go to date '$returnedString' does not respond OK")
 
-    eventually (timeout(MAX_TIMEOUT_TIME seconds), interval(INTERVAL_TIME seconds)){
-      go to URL_CURRENT_DATE
-      find(cssSelector("pre")).get.text must be(returnedString)
+    var dateInfo:String = ""
+    eventually (timeout(MAX_TIMEOUT_TIME seconds), interval(INTERVAL_TIME seconds)) {
+      dateInfo = goToHeadlessURL(URL_CURRENT_DATE)
+      logger.debug(s"Current date: '$dateInfo' waiting for '$returnedString'")
+      dateInfo must be (returnedString)
     }
   }
 
@@ -96,6 +103,9 @@ class SimulatorController(res:Resolution) extends SharedTest(res) with JS_Ops{
     status.setLoggedIn(false)
   }
 
+  private def goToHeadlessURL(url:String): String = {
+    Await.result[Response]( WS.url(url).get(), 15 seconds).body
+  }
 }
 
 class InitializerWorldCupTest(res:Resolution) extends SimulatorController(res) {
