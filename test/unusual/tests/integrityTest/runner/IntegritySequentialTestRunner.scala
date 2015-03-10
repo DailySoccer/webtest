@@ -3,7 +3,7 @@ package unusual.tests.integrityTest.runner
 import org.scalatest.Sequential
 import unusual.model.Resolution
 import unusual.tests.integrityTest.IntegrityTest
-import unusual.tests.runner.simulatorController.{InitializerLeaguesTest, TimeShiftTest}
+import unusual.tests.runner.simulatorController.{InitializerLeaguesTest, FinisherLeaguesTest, TimeShiftTest}
 
 class IntegritySequentialTestRunner extends Sequential (
   new InitializerLeaguesTest(Resolution.ANY)
@@ -20,6 +20,7 @@ class IntegritySequentialTestRunner extends Sequential (
   , new IntegrityTest
   , new TimeShiftTest(Resolution.ANY, 29, 9, 2014, 0, 0, 0, "2014/09/29 00:00:00 UTC", description = "go to Jornada 6")
   , new IntegrityTest
+  /*
   , new TimeShiftTest(Resolution.ANY, 6, 10, 2014, 0, 0, 0, "2014/10/06 00:00:00 UTC", description = "go to Jornada 7")
   , new IntegrityTest
   , new TimeShiftTest(Resolution.ANY, 20, 10, 2014, 0, 0, 0, "2014/10/20 00:00:00 UTC", description = "go to Jornada 8")
@@ -54,7 +55,6 @@ class IntegritySequentialTestRunner extends Sequential (
   , new IntegrityTest
   , new TimeShiftTest(Resolution.ANY, 16, 2, 2015, 0, 0, 0, "2015/02/16 00:00:00 UTC", description = "go to Jornada 23")
   , new IntegrityTest
-/*
   , new TimeShiftTest(Resolution.ANY, 23, 2, 2015, 0, 0, 0, "2015/02/23 00:00:00 UTC", description = "go to Jornada 24")
   , new IntegrityTest
   , new TimeShiftTest(Resolution.ANY, 2, 3, 2015, 0, 0, 0, "2015/03/02 00:00:00 UTC", description = "go to Jornada 25")
@@ -86,4 +86,6 @@ class IntegritySequentialTestRunner extends Sequential (
   , new TimeShiftTest(Resolution.ANY, 25, 5, 2015, 0, 0, 0, "2015/05/25 00:00:00 UTC", description = "go to Jornada 38")
   , new IntegrityTest
  */
+
+  , new FinisherLeaguesTest(Resolution.ANY)
 )

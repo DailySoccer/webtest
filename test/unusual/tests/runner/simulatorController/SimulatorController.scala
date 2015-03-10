@@ -76,8 +76,13 @@ trait SimulatorController { this: SharedTest =>
     timeShift(1,8,2014,8,0,36, "2014/08/01 08:00:36 UTC")
     And("give funds to bots")
     go to URL_ADD_MONEY_TO_BOTS(1000)
-    And("finally berseker bots!!!")
+    And("finally berserker bots!!!")
     go to URL_BERSERKER_BOTS
+  }
+
+  def finalLeaguesTests: Unit = {
+    When("stop bot actors")
+    go to URL_STOP_BOTS
   }
 
   def timeShift(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int, returnedString:String): Unit = {
@@ -85,7 +90,7 @@ trait SimulatorController { this: SharedTest =>
     logger.info(s"Requested to go to: '$returnedString' ---- Response: '$response'")
     assert(response == "OK", s"Go to date '$returnedString' does not respond OK")
 
-    var dateInfo:String = ""
+  var dateInfo:String = ""
     eventually (timeout(MAX_TIMEOUT_TIME seconds), interval(INTERVAL_TIME seconds)) {
       dateInfo = goToHeadlessURL(URL_CURRENT_DATE)
       logger.info(s"Current date: '$dateInfo' waiting for '$returnedString'")
@@ -124,4 +129,8 @@ class InitializerLeaguesTest(res:Resolution) extends SharedTest(res) {
 class TimeShiftTest(res:Resolution, day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int,
                     returnedString:String, description:String = "perform a time shift") extends SharedTest(res) {
   if(status.resolution.enabled) "Simulator" should (description taggedAs WIP in timeShift(day, month, year, hour, minute, second:Int, returnedString))
+}
+
+class FinisherLeaguesTest(res:Resolution) extends SharedTest(res) {
+  if(status.resolution.enabled) "Simulator" should ("finisher Leagues" taggedAs WIP in finalLeaguesTests)
 }
