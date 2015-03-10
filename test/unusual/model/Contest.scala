@@ -232,6 +232,7 @@ object Contest {
 
   val TIME_1_LIST = {
     val list = TIME_0_LIST
+    list
   }
 
 }

@@ -476,6 +476,13 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   /**************** CONTESTS METHODS ****************/
 
+  def getContestName(ordinal: Int): String = {
+    val subOrdinal = ((ordinal - 1) % PaginatorControl.ELEMENTS_PER_PAGE) + 1
+    val page = Math.floor((ordinal - 1) / PaginatorControl.ELEMENTS_PER_PAGE).toInt + 1
+    val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
+    paginator.goToPage(page)
+    find(cssSelector(CONTEST_ROW_NAME(subOrdinal))).get.text
+  }
 
   def playContestNumber(ordinal: Int) = {
     val subOrdinal = ((ordinal - 1) % PaginatorControl.ELEMENTS_PER_PAGE) + 1

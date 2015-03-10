@@ -28,7 +28,7 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
 
     if(currentUrl == url) {
       logger.debug("reload")
-      reloadPage
+      //reloadPage
     } else {
       logger.debug("go to")
       go to url

@@ -7,6 +7,7 @@ import unusual.pages.components.PaginatorControl
 class LobbyState {
 
   var contests = new Array[Contest](0)
+  var contestNames = Map(0 -> "")
 
   var numContests_NoFilter = 0
   var numContests_Free = 0
@@ -23,8 +24,7 @@ class LobbyState {
   var maxEntryMoney = 0
 
   var filterPanel_SearchResults = Map(
-    "vie., 13" -> 0,
-    "jun" -> 0
+    "" -> 0
   )
 
   def maxPaginatorPage:Int = (numContests_NoFilter - 1) / PaginatorControl.ELEMENTS_PER_PAGE + 1
@@ -54,35 +54,48 @@ object LobbyState {
     state.maxEntryMoney = 6
 
     state.filterPanel_SearchResults = Map(
-      "sáb., 14" -> 0,
+      "sat, 14" -> 0,
       "jun" -> 39,
       "!!" -> 1
     )
-
-/*
-    state.numContests_NoFilter = 321
-    state.numContests_Free = 15
-    state.numContests_League = 216
-    state.numContests_FiftyFifty = 72
-    state.numContests_HeadToHead = 18
-    state.numContests_Beginner = 319
-    state.numContests_Standard = 1
-    state.numContests_Expert = 1
-
-    state.minEntryFeeFilter = 2
-    state.numContests_MinEntryFee = 255
-
-    state.maxEntryMoney = 6
-
-    state.filterPanel_SearchResults = Map(
-      "sáb., 14" -> 0,
-      "jun" -> 321,
-      "!!" -> 1
+    state.contestNames = Map(
+      //1 -> "jue., 12 jun.!!",
+      //2 -> "sat, 14 jun - 1"
     )
-*/
+
     state.contests = Contest.TIME_0_LIST
 
     state
   }
+  var TIME_1_LOBBY = {
+    val state = new LobbyState
 
+    state.numContests_NoFilter = 37
+    state.numContests_Free = 7
+    state.numContests_League = 21
+    state.numContests_FiftyFifty = 6
+    state.numContests_HeadToHead = 3
+    state.numContests_Beginner = 12
+    state.numContests_Standard = 15
+    state.numContests_Expert = 10
+
+    state.minEntryFeeFilter = 2
+    state.numContests_MinEntryFee = 24
+
+    state.maxEntryMoney = 6
+
+    state.filterPanel_SearchResults = Map(
+      "sat, 14" -> 36,
+      "jun" -> 37,
+      "!!" -> 1
+    )
+    state.contestNames = Map(
+      1 -> "jue., 12 jun.!!",
+      2 -> "sat, 14 jun - 1"
+    )
+
+    state.contests = Contest.TIME_1_LIST
+
+    state
+  }
 }

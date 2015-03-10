@@ -7,6 +7,7 @@ import unusual.tests.enterContestTest.runner.EnterContestSequentialTestRunner
 import unusual.tests.lobbyTest.runner._
 import unusual.tests.integrityTest.runner.IntegritySequentialTestRunner
 import unusual.tests.runner.simulatorController.{TimeShiftTest, InitializerLeaguesTest, InitializerWorldCupTest}
+import unusual.tests.timeShiftTests.runner.TimeShiftSequentialTestRunner
 import unusual.tests.viewContestEntryTest.runner.ViewContestSequentialTestRunner
 
 
@@ -16,7 +17,7 @@ class SequentialTestRunner extends Sequential(
   , SequentialTestRunner.contestDescriptionTests
   , SequentialTestRunner.enterContestTests
   , SequentialTestRunner.viewContestTests
-
+  , SequentialTestRunner.timeShiftContestTests
   , SequentialTestRunner.integrityTests
   , new CloseTestServer(Resolution.ANY)
 )
@@ -38,6 +39,7 @@ object SequentialTestRunner {
   val shouldExecuteContestDescription = enabledTestList.isEmpty || enabledTestList.contains("CONTEST_DESCRIPTION")
   val shouldExecuteEnterContest = enabledTestList.isEmpty || enabledTestList.contains("ENTER_CONTEST")
   val shouldExecuteViewContest = enabledTestList.isEmpty || enabledTestList.contains("VIEW_CONTEST")
+  val shouldExecuteTimeShift = enabledTestList.isEmpty || enabledTestList.contains("TIME_SHIFT") || shouldExecuteLobby
   val shouldExecuteIntegrity = enabledTestList.contains("INTEGRITY")
 
 
@@ -65,11 +67,18 @@ object SequentialTestRunner {
                                   new Sequential
                                 }
 
+
+  def timeShiftContestTests: Suite = if(shouldExecuteTimeShift){
+                                      new TimeShiftSequentialTestRunner
+                                    } else {
+                                      new Sequential
+                                    }
+
   def integrityTests: Suite = if(shouldExecuteIntegrity){
-                                  new IntegritySequentialTestRunner
-                                } else {
-                                  new Sequential
-                                }
+                                new IntegritySequentialTestRunner
+                              } else {
+                                new Sequential
+                              }
 
 /*
   def lobbyTests: Suite = if(enabledTestList.isEmpty || enabledTestList.contains("LOBBY")){

@@ -7,28 +7,7 @@ import unusual.tests.contestDescriptionTest._
 import unusual.tests.runner.SequentialTestRunner
 
 
-class LobbyAuthTest_BasicInfo(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
-  "(Basic Info) Auth user" when sizeTesting(lobbyPageBehaviorBasicInfo)
-}
-
-class LobbyAuthTest_Filters(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
-  "(Filters) Auth user" when sizeTesting(lobbyPageBehaviorFilters)
-}
-
-class LobbyAuthTest_OrderBy(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
-  "(Order By) Auth user" when sizeTesting(lobbyPageBehaviorOrderBy)
-}
-
-class LobbyAuthTest_Others(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
-  "(Others) Auth user" when sizeTesting(lobbyPageBehaviorOthers)
-}
-
-class LobbyAuthTest_Bug(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
-  "(BUG) Auth user" when sizeTesting(lobbyPageBehaviorBUG)
-}
-
-
-class LobbyAuthTest_All(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyAuthTest(lobbySt, cont, res){
+class LobbyAuthTest_All(lobbySt: LobbyState, res:Resolution) extends LobbyAuthTest(lobbySt, res){
   "Auth user" when sizeTesting({
       lobbyPageBehaviorBasicInfo
       lobbyPageBehaviorFilters
@@ -39,7 +18,7 @@ class LobbyAuthTest_All(lobbySt: LobbyState, cont: Contest, res:Resolution) exte
 
 }
 
-abstract class LobbyAuthTest(lobbySt: LobbyState, cont: Contest, res:Resolution) extends LobbyTestCommon(lobbySt, cont, res) {
+abstract class LobbyAuthTest(lobbySt: LobbyState, res:Resolution) extends LobbyTestCommon(lobbySt, res) {
 
   //val contestDescription: ContestDescriptionWindowCommon = new ContestDescriptionWindowCommon(cont, res)
 
