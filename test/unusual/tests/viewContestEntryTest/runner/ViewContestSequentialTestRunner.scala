@@ -20,7 +20,10 @@ class ViewContestSequentialTestRunner extends Sequential(
 private object ViewContestSequentialTestRunner {
   def createBunchOfTests(resolution:Resolution, state: ViewContestState):Suite =
     if (resolution.enabled) {
-      new ViewContestAuthTest(state, resolution)
+      new Sequential(
+        new ViewContestAuthTest(state, resolution)
+        , new ViewContestVisitorTest(state, resolution)
+      )
     } else {
       new Sequential
     }

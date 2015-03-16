@@ -6,18 +6,12 @@ import unusual.model.User
 class SignUpPage(res:Resolution) extends SharedPage(res) {
   override val url = SharedPage.baseUrl + "/#/join"
 
-  val FORM_NAME     = "#nickName"
-  val FORM_EMAIL    = "#email"
-  val FORM_PASSWORD = "#password"
-  val FORM_SUBMIT   = "#joinNow"
+  val FORM_NAME             = "nickName"
+  val FORM_EMAIL            = "email"
+  val FORM_PASSWORD         = "password"
+  val FORM_REPEAT_PASSWORD  = "rePassword"
+  val FORM_SUBMIT           = "joinNow"
 
-  val TEST_SINGUP_FORM_MAP = Map(
-    "firstName" -> "First",
-    "lastName" -> "Last",
-    "email" -> "test@test.com",
-    "nick" -> "nick",
-    "password" -> "private"
-  )
 
   override def isAt:Boolean = {
 
@@ -39,14 +33,15 @@ class SignUpPage(res:Resolution) extends SharedPage(res) {
   }
 
   def doSignUp(usr:User) = {
-    fillAndSubmitForm(TEST_SINGUP_FORM_MAP)
+    fillAndSubmitForm(usr)
     this
   }
 
-  def fillAndSubmitForm(params: Map[String,String]) = {
-    textField(FORM_NAME).value = params("firstName")
-    emailField(FORM_EMAIL).value = params("email")
-    pwdField(FORM_PASSWORD).value = params("password")
+  private def fillAndSubmitForm(user:User) = {
+    textField(FORM_NAME).value = user.firstName
+    emailField(FORM_EMAIL).value = user.email
+    pwdField(FORM_PASSWORD).value = user.password
+    pwdField(FORM_REPEAT_PASSWORD).value = user.password
     submit
     this
   }

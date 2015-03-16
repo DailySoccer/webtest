@@ -19,11 +19,7 @@ class ViewContestAuthTest(state:ViewContestState, res:Resolution) extends ViewCo
 
     "look at the constest header" in isRightContestInfo
 
-    "look at matches" in checkMatches
-
-    "edit lineup" in checkEditButton
-
-    "click on other contests" in goOtherContests
+    "edit lineup" in simpleCheckEditButton
 
     "cancel contest entry" in cancelEntry
 

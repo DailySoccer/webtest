@@ -49,6 +49,8 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
   val LINEUP_TAB:String = TABS(1)
   val USERS_TAB:String = TABS(2)
 
+  val HELP_MODAL_WINDOW = ".modal .modal-content .main-box"
+  val HELP_MODAL_WINDOW_ACCEPT_BUTTON = ".modal .modal-content .main-box .button-box button"
 
   override def isAt = {
     var _isAt = true
@@ -166,6 +168,15 @@ class ViewContestPage(res: Resolution, state: ViewContestState) extends SharedPa
 
   private def toggleTeams = {
     click on find(cssSelector(TEAMS_TOGGLER)).get
+    this
+  }
+
+  def isHelpModalShown: Boolean = {
+    isElemDisplayed(HELP_MODAL_WINDOW)
+  }
+
+  def closeHelpModal = {
+    click on find(cssSelector(HELP_MODAL_WINDOW_ACCEPT_BUTTON)).get
     this
   }
 

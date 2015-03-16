@@ -41,8 +41,12 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
     }
     for(user <- state.userList) {
       i += 1
-      val isUserName = viewContestPage.getUserName(i) == user.firstName
-      logger.debug(s"User[$i] should be: ${user.firstName}", isUserName)
+      val userName = viewContestPage.getUserName(i)
+      val isUserName = userName == user.firstName
+
+      if(isUserName) logger.debug(s"User[$i] should be: '${user.firstName}'")
+      else logger.error(s"User[$i] should be: '${user.firstName}' and currently is: '$userName'")
+
       everyUserExists &&= isUserName
     }
 
@@ -58,6 +62,27 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
 
   def checkMatches:Unit = {
     assert(viewContestState.contest.numMatches == viewContestPage.getNumMatches)
+  }
+
+  def simpleCheckEditButton:Unit = {
+
+    Given("a lineup in view contest")
+    if (res == Resolution.SMALL) {
+      viewContestPage.changeToLineUpTab
+    }
+    When("press edit team")
+    eventually { viewContestPage.goEditTeam }
+    val ecState = new EnterContestState
+    ecState.contest = viewContestState.contest
+    val ecPage = new EnterContestPage(res, ecState)
+
+    And("lineup should be full")
+    eventually { assert( ecPage.isLineupFull ) }
+    And("salary should be consistent with lineup")
+    eventually { assert( ecPage.getLineUpSalary == (ecState.contest.initialSalary - ecState.contest.affordableLineup.price )) }
+
+    Then("confirm lineup")
+    ecPage.confirmLineup
   }
 
   def checkEditButton:Unit = {
@@ -136,4 +161,44 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
       testSkippedBecauseIsSafari
     }
   }
+
+  def goToViewContestLoggedOut:Unit = {
+    Given("a enter contest page")
+    val enterContestState = new EnterContestState
+    enterContestState.contest = viewContestState.contest
+    val enterContest = goToEnterContest(enterContestState)
+    When("enter, help modal should be shown")
+    eventually { assert(enterContest.isHelpModalShown, "Enter contest help modal is not shown") }
+    Then("close it")
+    enterContest.closeHelpModal
+    enterContest.clearLineupList
+    And("pick whole lineup")
+    enterContest.pickWholeLineup(enterContestState.contest.affordableLineup)
+    Then("confirm it")
+    enterContest.confirmLineup
+    And("a sign up modal should be shown")
+    eventually { assert(enterContest.isSignUpModalShown, "Enter contest sign up modal is not shown") }
+
+    /* Register */
+    When("it is displayed")
+    val signUpPage = new SignUpPage(status.resolution)
+    Then("sign up")
+    eventually { signUpPage.doSignUp(User.NEW) }
+    And("the modal should hide")
+    eventually { assert(!enterContest.isSignUpModalShown, "Enter contest sign up modal is shown") }
+    Then("confirm again")
+    enterContest.confirmLineup
+
+    /* Should show help modal */
+    When("it navigates to view contest page")
+    _viewContestPageInstance = new ViewContestPage(status.resolution, state)
+    And("a help modal should be shown")
+    eventually { assert(_viewContestPageInstance.isHelpModalShown, "View contest help modal is not shown") }
+
+    Then("click to close modal")
+    _viewContestPageInstance.closeHelpModal
+    And("it should be closed")
+    eventually { assert(!_viewContestPageInstance.isHelpModalShown, "View contest help modal is not shown") }
+  }
+
 }

@@ -13,6 +13,8 @@ class User (fName: String, lName: String, mail: String, nick: String, pass: Stri
 
 object User {
 
+  private var factoryNumber:Int = 0
+
   // Signed up user
   val DEFAULT:User = new User("Test", "Test", "test@test.com", "Test", "private")
 
@@ -24,7 +26,10 @@ object User {
   val SIGNED_UP_WRONG_PASS:User = new User("First", "Last", "new@test.com", "The newbie", "asd")
 
   // Not signed up users
-  val NEW:User = new User("New", "User", "newUser@test.com", "newbie", "private")
+  def NEW:User = {
+    factoryNumber += 1
+    new User(s"NewTestUser$factoryNumber", s"User$factoryNumber", s"newUser$factoryNumber@test.com", s"newbie$factoryNumber", s"privatePass$factoryNumber")
+  }
   val NOT_SINGED_UP:User = new User("notSignedUp", "notSignedUp", "notSignedUp@test.com", "notSignedUp", "notSignedUp")
 
   val WRONG_MAIL_1:User = new User("Test", "Test", "wrong@testcom", "asd", "private")
