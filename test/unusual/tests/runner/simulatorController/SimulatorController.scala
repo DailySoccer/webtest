@@ -90,8 +90,9 @@ trait SimulatorController { this: SharedTest =>
     logger.info(s"Requested to go to: '$returnedString' ---- Response: '$response'")
     assert(response == "OK", s"Go to date '$returnedString' does not respond OK")
 
-  var dateInfo:String = ""
+    var dateInfo:String = ""
     eventually (timeout(MAX_TIMEOUT_TIME seconds), interval(INTERVAL_TIME seconds)) {
+      find("body")
       dateInfo = goToHeadlessURL(URL_CURRENT_DATE)
       logger.info(s"Current date: '$dateInfo' waiting for '$returnedString'")
       dateInfo must be (returnedString)
