@@ -22,7 +22,7 @@ private object ViewContestSequentialTestRunner {
     if (resolution.enabled) {
       new Sequential(
         new ViewContestAuthTest(state, resolution)
-        , new ViewContestVisitorTest(state, resolution)
+        //, new ViewContestVisitorTest(state, resolution)
       )
     } else {
       new Sequential
