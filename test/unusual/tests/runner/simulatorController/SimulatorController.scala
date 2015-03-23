@@ -92,7 +92,7 @@ trait SimulatorController { this: SharedTest =>
 
     var dateInfo:String = ""
     eventually (timeout(MAX_TIMEOUT_TIME seconds), interval(INTERVAL_TIME seconds)) {
-      find("body")
+      find(cssSelector("body"))
       dateInfo = goToHeadlessURL(URL_CURRENT_DATE)
       logger.info(s"Current date: '$dateInfo' waiting for '$returnedString'")
       dateInfo must be (returnedString)
