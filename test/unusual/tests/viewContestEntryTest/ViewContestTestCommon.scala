@@ -183,9 +183,11 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
     When("it is displayed")
     val signUpPage = new SignUpPage(status.resolution)
     Then("sign up")
-    eventually { signUpPage.doSignUp(User.NEW) }
     And("the modal should hide")
-    eventually { assert(!enterContest.isSignUpModalShown, "Enter contest sign up modal is shown") }
+    eventually {
+      signUpPage.doSignUp(User.NEW)
+      assert(!enterContest.isSignUpModalShown, "Enter contest sign up modal is shown")
+    }
     Then("confirm again")
     enterContest.confirmLineup
 
