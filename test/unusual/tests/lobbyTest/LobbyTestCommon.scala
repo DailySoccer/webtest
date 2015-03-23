@@ -46,8 +46,15 @@ abstract class LobbyTestCommon(lobbySt: LobbyState, res:Resolution) extends Shar
   }
 
   def lookAtContestsName: Unit = {
-    eventually { assert(lobbyPage.getContestName(1).equalsIgnoreCase(lobbySt.contestNames(1)), "Contest names do not match") }
-    eventually { assert(lobbyPage.getContestName(2).equalsIgnoreCase(lobbySt.contestNames(2)), "Contest names do not match") }
+    logger.debug(s"looking at contest names")
+    eventually {
+      val name = lobbyPage.getContestName(1).toLowerCase
+      assert(name.startsWith(lobbySt.contestNames(1).toLowerCase), s"Contest names do not match(1): current($name) expected(${lobbySt.contestNames(1)})")
+    }
+    eventually {
+      val name = lobbyPage.getContestName(2).toLowerCase
+      assert(name.startsWith(lobbySt.contestNames(2).toLowerCase), s"Contest names do not match(1): current($name) expected(${lobbySt.contestNames(2)})")
+    }
   }
 
   def lookAtContestDescription: Unit = {

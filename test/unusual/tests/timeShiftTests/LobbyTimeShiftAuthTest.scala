@@ -13,9 +13,7 @@ class LobbyTimeShiftAuthTest(lobbySt: LobbyState, res:Resolution, day:Int, month
   def causes = afterWord("causes:")
   def consistIn = afterWord("consist in")
 
-  before {
-    status.ensureAuthUser
-  }
+  before { status.ensureAuthUser }
 
   "Auth user" when sizeTesting({
     lobbyTestsBehavior
@@ -32,7 +30,7 @@ class LobbyTimeShiftAuthTest(lobbySt: LobbyState, res:Resolution, day:Int, month
         logger.debug("time shift done!")
       }
 
-      "look at contests names" in eventually { lookAtContestsName }
+      "look at contests names" in lookAtContestsName
 
       "check number of contest" in lookForDefaultState
 

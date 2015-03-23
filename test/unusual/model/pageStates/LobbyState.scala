@@ -91,7 +91,7 @@ object LobbyState {
     )
     state.contestNames = Map(
       1 -> "jue., 12 jun.!!",
-      2 -> "sat, 14 jun - 1"
+      2 -> "sat, 14 jun"
     )
 
     state.contests = Contest.TIME_1_LIST
