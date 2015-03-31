@@ -27,7 +27,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   val PROMOS_COMPONENT = "#promosComponent"
   val CONTEST_LIST_CONTAINER = ".contests-list-root"
   val CONTEST_ROW_CONTAINER = ".contest-row"
-  def CONTEST_ROW_CONTAINER(ordinal:Int):String = CONTEST_ROW_CONTAINER + ":nth-child(" + ordinal + ")"
+  def CONTEST_ROW_CONTAINER(ordinal:Int):String = CONTEST_ROW_CONTAINER + s":nth-child($ordinal)"
 
   //val CONTEST_COLUMN_NAME = ".column-contest-name"
   //val CONTEST_NAME = ".column-name"
@@ -569,31 +569,6 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   }
 
   def getNumberOfContests:Int = {
-    /*// Es estable pero me parece cutre.
-    var maxRow = 1
-    var found = true
-    while (found) {
-      try {
-        eventually (timeout(2 seconds)){
-          find(cssSelector(CONTEST_ROW_CONTAINER_CLASS + ":nth-child(" + maxRow + ")")) should be ('defined)
-          maxRow += 1
-          found = true
-        }
-      } catch {
-        case _: Exception => {
-          found = false
-          maxRow -= 1
-        }
-      }
-    }
-    maxRow should be (n)
-    */
-    /* Esta forma parece mas bonita pero casca por el refresh
-    eventually (timeout(50 seconds)){
-      var rows = findAll(cssSelector(CONTEST_ROW_CONTAINER_CLASS))
-      assert(rows.length == n)
-    }
-    */
 
     val paginator = new PaginatorControl(resolution, CONTEST_LIST_CONTAINER)
     val currPage = paginator.getCurrentPage

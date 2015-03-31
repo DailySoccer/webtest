@@ -6,6 +6,7 @@ import unusual.tests.contestDescriptionTest.runner.ContestDescriptionSequentialT
 import unusual.tests.enterContestTest.runner.EnterContestSequentialTestRunner
 import unusual.tests.lobbyTest.runner._
 import unusual.tests.integrityTest.runner.IntegritySequentialTestRunner
+import unusual.tests.myContestTest.runner.MyContestsSequentialTestRunner
 import unusual.tests.runner.simulatorController.{TimeShiftTest, InitializerLeaguesTest, InitializerWorldCupTest}
 import unusual.tests.timeShiftTests.runner.TimeShiftSequentialTestRunner
 import unusual.tests.viewContestEntryTest.runner.ViewContestSequentialTestRunner
@@ -17,6 +18,7 @@ class SequentialTestRunner extends Sequential(
   , SequentialTestRunner.contestDescriptionTests
   , SequentialTestRunner.enterContestTests
   , SequentialTestRunner.viewContestTests
+  , SequentialTestRunner.myContestsTests
   , SequentialTestRunner.timeShiftContestTests
   , SequentialTestRunner.integrityTests
   , new CloseTestServer(Resolution.ANY)
@@ -38,6 +40,7 @@ object SequentialTestRunner {
   val shouldExecuteLobby = enabledTestList.isEmpty || enabledTestList.contains("LOBBY")
   val shouldExecuteContestDescription = enabledTestList.isEmpty || enabledTestList.contains("CONTEST_DESCRIPTION")
   val shouldExecuteEnterContest = enabledTestList.isEmpty || enabledTestList.contains("ENTER_CONTEST")
+  val shouldExecuteMyContest = enabledTestList.isEmpty || enabledTestList.contains("MY_CONTESTS")
   val shouldExecuteViewContest = enabledTestList.isEmpty || enabledTestList.contains("VIEW_CONTEST")
   val shouldExecuteTimeShift = enabledTestList.isEmpty || enabledTestList.contains("TIME_SHIFT") || shouldExecuteLobby
   val shouldExecuteIntegrity = enabledTestList.contains("INTEGRITY")
@@ -60,6 +63,12 @@ object SequentialTestRunner {
                                  } else {
                                    new Sequential
                                  }
+
+  def myContestsTests: Suite = if(shouldExecuteMyContest){
+                                new MyContestsSequentialTestRunner
+                              } else {
+                                new Sequential
+                              }
 
   def viewContestTests: Suite = if(shouldExecuteViewContest){
                                   new ViewContestSequentialTestRunner

@@ -26,7 +26,7 @@ class LobbyTimeShiftAuthTest(lobbySt: LobbyState, res:Resolution, day:Int, month
       "go to lobby and do a time shift" in {
         goToLobby
         logger.debug("doing a time shift...")
-        timeShift(day, month, year, hour, minute, second:Int, returnedString)
+        timeShift(day, month, year, hour, minute, second, returnedString)
         logger.debug("time shift done!")
       }
 

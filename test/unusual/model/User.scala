@@ -17,6 +17,7 @@ object User {
 
   // Signed up user
   val DEFAULT:User = new User("Test", "Test", "test@test.com", "Test", "private")
+  val WITH_CONTEST:User = new User("Goyo", "Iniesta", "goyo@test.com", "Goyo", "private")
 
   val DEFAULT_DESKTOP:User = new User("TestD", "Test", "testD@testtest.com", "Test", "private")
   val DEFAULT_TABLET:User = new User("TestT", "Test", "testT@testtest.com", "Test", "private")
@@ -28,9 +29,9 @@ object User {
   // Not signed up users
   def NEW:User = {
     factoryNumber += 1
-    new User(s"NewTestUser$factoryNumber", s"User$factoryNumber", s"newUser$factoryNumber@test.com", s"newbie$factoryNumber", s"privatePass$factoryNumber")
+    new User(s"NewUserTest$factoryNumber", s"NewUser$factoryNumber", s"${factoryNumber}newuser@mailinator.com", s"NewUser$factoryNumber", s"privatePass$factoryNumber")
   }
-  val NOT_SINGED_UP:User = new User("notSignedUp", "notSignedUp", "notSignedUp@test.com", "notSignedUp", "notSignedUp")
+  val NOT_SINGED_UP:User = new User("notSignedUp", "notSignedUp", "notSignedUp@mailinator.com", "notSignedUp", "notSignedUp")
 
   val WRONG_MAIL_1:User = new User("Test", "Test", "wrong@testcom", "asd", "private")
   val WRONG_MAIL_2:User = new User("Test", "Test", "wrongtest.com", "asd", "private")

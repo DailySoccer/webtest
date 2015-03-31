@@ -30,7 +30,7 @@ class ViewContestVisitorTest (state:ViewContestState, res:Resolution) extends Vi
 
     "cancel contest entry" in cancelEntry
 
-    "log out with the new user" in { status.doLogout }
+    "log out with the new user" in status.doLogout
   }
 
 }
