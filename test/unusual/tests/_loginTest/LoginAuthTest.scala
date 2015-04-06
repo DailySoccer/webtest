@@ -29,7 +29,7 @@ class LoginAuthTest(res:Resolution) extends LoginTestCommon(res) {
 
     "sign up" taggedAs(WIP, DoesNotWorkYet) in featureNotImplemented
 
-    "right login" taggedAs(WIP) in doLogin
+    "right login" taggedAs WIP in doLogin
 
   }
 

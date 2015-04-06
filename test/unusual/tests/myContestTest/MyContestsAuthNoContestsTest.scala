@@ -1,7 +1,7 @@
 package unusual.tests.myContestTest
 
 import unusual.model._
-import unusual.model.pageStates.{MyContestsState}
+import unusual.model.pageStates.MyContestsState
 
 class MyContestsAuthNoContestsTest(states:Map[User, MyContestsState], res:Resolution) extends MyContestsTestCommon(states, res) {
 

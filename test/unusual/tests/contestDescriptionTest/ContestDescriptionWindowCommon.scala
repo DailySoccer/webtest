@@ -3,7 +3,7 @@ package unusual.tests.contestDescriptionTest
 import unusual.model.Resolution
 import unusual.model.pageStates.{LobbyState, EnterContestState}
 import unusual.pages.components.page.EnterContestDescriptionTab
-import unusual.pages.components.{ContestDescriptionWindow}
+import unusual.pages.components.ContestDescriptionWindow
 import unusual.tests._
 import unusual.pages._
 import unusual.model._

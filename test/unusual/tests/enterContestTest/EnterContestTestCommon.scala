@@ -369,10 +369,9 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
               page.selectGoalKeeperFromLineup
               eventually(timeout(1 second)) { page.getNumberOfSoccerPlayers must be(N_GOAL_KEEPER_PLAYERS) }
             } catch {
-              case e: Exception => {
+              case e: Exception =>
                 page.cancelSoccerPlayerSelection
                 throw new Exception("Error selecting goalkeeper")
-              }
             }
             page.cancelSoccerPlayerSelection
 
@@ -388,10 +387,9 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
               page.selectDefenseFromLineup(r)
               eventually(timeout(1 second)) { page.getNumberOfSoccerPlayers must be(N_DEFENSE_PLAYERS) }
             } catch {
-              case e: Exception => {
+              case e: Exception =>
                 page.cancelSoccerPlayerSelection
                 throw new Exception("Error selecting defense")
-              }
             }
             page.cancelSoccerPlayerSelection
           }
@@ -407,10 +405,9 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
               eventually(timeout(1 second)) { page.getNumberOfSoccerPlayers must be(N_MIDDLE_PLAYERS) }
             } catch {
-              case e: Exception => {
+              case e: Exception =>
                 page.cancelSoccerPlayerSelection
                 throw new Exception("Error selecting middle")
-              }
             }
             page.cancelSoccerPlayerSelection
           }
@@ -426,10 +423,9 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
               eventually(timeout(1 second)) { page.getNumberOfSoccerPlayers must be(N_FORWARD_PLAYERS) }
             } catch {
-              case e: Exception => {
+              case e: Exception =>
                 page.cancelSoccerPlayerSelection
                 throw new Exception("Error selecting forward")
-              }
             }
             page.cancelSoccerPlayerSelection
           }

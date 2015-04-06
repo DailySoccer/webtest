@@ -93,10 +93,9 @@ class MyContestsTestCommon(states:Map[User, MyContestsState], res:Resolution) ex
         When("there are few contests, use action button")
         eventually { pageTab.clickOnRowActionButton(1) }
 
-        Then("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO")
-        featureNotImplemented
-        //val viewContest = new ViewContestPage(res, null)
-        //eventually { assert(viewContest.isAt, "Should be at view contest page") }
+        Then("Live contest page should be displayed")
+        val liveContest = new LiveContestPage(res)
+        eventually { assert(liveContest.isAt, "Should be at view contest page") }
         pageIsLeft
       } else {
         When("there is no contest. do nothing")
@@ -114,10 +113,9 @@ class MyContestsTestCommon(states:Map[User, MyContestsState], res:Resolution) ex
         When("there are few contests, use action button")
         eventually { pageTab.clickOnRowActionButton(1) }
 
-        Then("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO")
-        featureNotImplemented
-        //val viewContest = new ViewContestPage(res, null)
-        //eventually { assert(viewContest.isAt, "Should be at view contest page") }
+        Then("historic contest page should be displayed")
+        val historicContest = new HistoricContestPage(res)
+        eventually { assert(historicContest.isAt, "Should be at view contest page") }
         pageIsLeft
       } else {
         When("there is no contest. do nothing")

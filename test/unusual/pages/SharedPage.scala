@@ -7,7 +7,7 @@ import unusual.pages.util.JS_Ops
 import org.scalatest.{GivenWhenThen, OptionValues, MustMatchers, Matchers}
 import org.scalatest.selenium.WebBrowser
 import org.scalatest.concurrent.{Eventually, IntegrationPatience}
-import org.scalatest.time.{SpanSugar}
+import org.scalatest.time.SpanSugar
 import org.openqa.selenium.WebDriver
 import play.api.Logger
 

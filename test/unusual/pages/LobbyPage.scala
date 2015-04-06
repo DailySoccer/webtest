@@ -161,7 +161,7 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
     class BooleanFilter(cssSelString:String) {
       def check = checkbox(cssSelString)
-      def label = find(cssSelector(s"label[for='${cssSelString}']")).get
+      def label = find(cssSelector(s"label[for='$cssSelString']")).get
 
       def isSelected: Boolean = check.isSelected
       def isEnabled: Boolean = {
