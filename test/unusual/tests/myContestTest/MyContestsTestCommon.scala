@@ -91,7 +91,7 @@ class MyContestsTestCommon(states:Map[User, MyContestsState], res:Resolution) ex
       Given("upcoming tab, look at number of contest")
       if (tabInfo.numberOfContests > 0) {
         When("there are few contests, use action button")
-        pageTab.clickOnRowActionButton(1)
+        eventually { pageTab.clickOnRowActionButton(1) }
 
         Then("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO")
         featureNotImplemented
@@ -112,7 +112,7 @@ class MyContestsTestCommon(states:Map[User, MyContestsState], res:Resolution) ex
       Given("upcoming tab, look at number of contest")
       if (tabInfo.numberOfContests > 0) {
         When("there are few contests, use action button")
-        pageTab.clickOnRowActionButton(1)
+        eventually { pageTab.clickOnRowActionButton(1) }
 
         Then("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO")
         featureNotImplemented
