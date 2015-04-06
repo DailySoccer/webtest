@@ -88,7 +88,7 @@ class MyContestsTestCommon(states:Map[User, MyContestsState], res:Resolution) ex
     def tabInfo:MyContestsState.GeneralInfo = { myContestState.liveTab }
 
     def checkRowActionButton:Unit = {
-      Given("upcoming tab, look at number of contest")
+      Given("live tab, look at number of contest")
       if (tabInfo.numberOfContests > 0) {
         When("there are few contests, use action button")
         eventually { pageTab.clickOnRowActionButton(1) }
@@ -109,7 +109,7 @@ class MyContestsTestCommon(states:Map[User, MyContestsState], res:Resolution) ex
     def tabInfo:MyContestsState.GeneralInfo = { myContestState.historyTab }
 
     def checkRowActionButton:Unit = {
-      Given("upcoming tab, look at number of contest")
+      Given("history tab, look at number of contest")
       if (tabInfo.numberOfContests > 0) {
         When("there are few contests, use action button")
         eventually { pageTab.clickOnRowActionButton(1) }
