@@ -71,11 +71,16 @@ class MyContestsTestCommon(states:Map[User, MyContestsState], res:Resolution) ex
       Given("upcoming tab, look at number of contest")
       if (tabInfo.numberOfContests > 0) {
         When("there are few contests, use action button")
-        eventually { pageTab.clickOnRowActionButton(1) }
-
-        Then("View contest page should be displayed")
         val viewContest = new ViewContestPage(res, null)
-        eventually { assert(viewContest.isAt, "Should be at view contest page") }
+        eventually(timeout(30 seconds)) {
+          eventually(timeout(3 seconds)) {
+            pageTab.clickOnRowActionButton(1)
+          }
+          eventually(timeout(5 seconds)) {
+            assert(viewContest.isAt, "Should be at view contest page")
+          }
+        }
+        Then("View contest page is displayed")
         pageIsLeft
       } else {
         When("there is no contest. do nothing")
@@ -91,11 +96,16 @@ class MyContestsTestCommon(states:Map[User, MyContestsState], res:Resolution) ex
       Given("live tab, look at number of contest")
       if (tabInfo.numberOfContests > 0) {
         When("there are few contests, use action button")
-        eventually { pageTab.clickOnRowActionButton(1) }
-
-        Then("Live contest page should be displayed")
         val liveContest = new LiveContestPage(res)
-        eventually { assert(liveContest.isAt, "Should be at view contest page") }
+        eventually(timeout(30 seconds)) {
+          eventually(timeout(3 seconds)) {
+            pageTab.clickOnRowActionButton(1)
+          }
+          eventually(timeout(5 seconds)) {
+            assert(liveContest.isAt, "Should be at live contest page")
+          }
+        }
+        Then("Live contest page is displayed")
         pageIsLeft
       } else {
         When("there is no contest. do nothing")
@@ -111,11 +121,16 @@ class MyContestsTestCommon(states:Map[User, MyContestsState], res:Resolution) ex
       Given("history tab, look at number of contest")
       if (tabInfo.numberOfContests > 0) {
         When("there are few contests, use action button")
-        eventually { pageTab.clickOnRowActionButton(1) }
-
-        Then("historic contest page should be displayed")
         val historicContest = new HistoricContestPage(res)
-        eventually { assert(historicContest.isAt, "Should be at view contest page") }
+        eventually(timeout(30 seconds)) {
+          eventually(timeout(3 seconds)) {
+            pageTab.clickOnRowActionButton(1)
+          }
+          eventually(timeout(5 seconds)) {
+            assert(historicContest.isAt, "Should be at historic contest page")
+          }
+        }
+        Then("historic contest page is displayed")
         pageIsLeft
       } else {
         When("there is no contest. do nothing")
