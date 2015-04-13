@@ -31,7 +31,12 @@ class NavigationCommon(res:Resolution) extends SharedTest(res){
   // LOGGED
 
   def playLogged:Unit = {
-    goHomeUnLogged.goLogin.doLogin.playAContest
+    var theLogin:NavLogin = null
+    eventually { theLogin = goHomeUnLogged.goLogin }
+
+    var theLobby:NavLobby = null
+    eventually { theLobby = theLogin.doLogin }
+    eventually { theLobby.playAContest }
   }
 
   def goMyContestsLogged:Unit = {
@@ -43,7 +48,7 @@ class NavigationCommon(res:Resolution) extends SharedTest(res){
   }
 
   def useMenuMultiplesTimes:Unit = {
-    var p:NavPage[LobbyPage] = goLobbyLogged
+    val p:NavPage[LobbyPage] = goLobbyLogged
     eventually { p.menu.goLobby }
     eventually { p.menu.goMyContests }
     eventually { p.menu.goHowItWorks }
@@ -94,9 +99,11 @@ class NavigationCommon(res:Resolution) extends SharedTest(res){
 
     def doLogin = {
       logger.debug("go login")
-      page.doLogin(User.DEFAULT)
-      status.setLoggedIn(true)
-      new NavLobby
+      eventually {
+        page.doLogin(User.DEFAULT)
+        status.setLoggedIn(true)
+        new NavLobby
+      }
     }
 
     def goSignUp = {
