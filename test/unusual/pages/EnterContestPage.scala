@@ -66,7 +66,8 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   override def isAt = {
     var _isAt = true
-    logger.debug(s"Contest id: ${state.contest.nameOrder}. ${state.contest.name}")
+    if (state != null) logger.debug(s"Contest id: ${state.contest.nameOrder}. ${state.contest.name}")
+    else logger.debug(s"No contest provided: Generic Testing")
     _isAt = _isAt && pageTitle == TITLE
 
     _isAt = _isAt && new MenuBar(resolution).isAt

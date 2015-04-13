@@ -3,16 +3,18 @@ package unusual.pages
 import unusual.model.Resolution
 import unusual.model.User
 
-class SignUpPage(res:Resolution) extends SharedPage(res) {
-  override val url = SharedPage.baseUrl + "/#/join"
+class RecoverPassPage(res:Resolution) extends SharedPage(res) {
+  override val url = SharedPage.baseUrl + "/#/remember_password"
 
-  val SIGN_UP               = "#signupForm"
+  val RECOVER_PASS_FORM     = "#rememberPasswordRoot"
   val FORM_NAME             = "nickName"
   val FORM_EMAIL            = "email"
   val FORM_PASSWORD         = "password"
   val FORM_REPEAT_PASSWORD  = "rePassword"
   val FORM_SUBMIT           = "joinNow"
-  val GO_LOGIN              = SIGN_UP + " #gotoLoginLink"
+  val GO_REGISTER           = RECOVER_PASS_FORM + " #gotoRegisterLink"
+  val CLOSE_BUTTON          = RECOVER_PASS_FORM + " button.close"
+
 
   override def isAt:Boolean = {
 
@@ -33,11 +35,17 @@ class SignUpPage(res:Resolution) extends SharedPage(res) {
     true
   }
 
-  def clickLogin = {
-    click on find(cssSelector(GO_LOGIN)).get
+  def goRegister = {
+    click on find(cssSelector(GO_REGISTER)).get
     this
   }
 
+  def clickClose = {
+    click on find(cssSelector(CLOSE_BUTTON)).get
+    this
+  }
+
+/*
   def doSignUp(usr:User) = {
     fillAndSubmitForm(usr)
     this
@@ -51,5 +59,5 @@ class SignUpPage(res:Resolution) extends SharedPage(res) {
     submit
     this
   }
-
+*/
 }

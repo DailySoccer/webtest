@@ -5,7 +5,7 @@ import unusual.pages.{LoginPage, SignUpPage}
 import unusual.tests._
 
 class HomeTestCommon(res:Resolution) extends SharedTest(res) {
-
+/*
   def goToHomeAndSignUp: Unit = {
     goToHomePage.clickOnSignUp
     assert(new SignUpPage(status.resolution).isAt, "is not sign up page")
@@ -53,4 +53,5 @@ class HomeTestCommon(res:Resolution) extends SharedTest(res) {
       assert(new SignUpPage(status.resolution).isAt, "is not sign up page")
     }
   }
+  */
 }

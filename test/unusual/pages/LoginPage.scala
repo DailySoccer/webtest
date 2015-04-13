@@ -8,10 +8,14 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
   override val url = SharedPage.baseUrl + "/#/login"
 
   //val LEGEND        = "Login"
+  val LOGIN_FORM    = "#loginForm"
   val FORM_EMAIL    = "login-mail"
   val FORM_PASSWORD = "login-password"
   val FORM_SUBMIT   = "btnSubmit"
   val FORM_CANCEL   = "btnCancelLogin"
+  val GO_REGISTER   = LOGIN_FORM + " #gotoRegisterLink"
+  val GO_RECOVER_PASS = LOGIN_FORM + " #rememberPasswordLink"
+  val CLOSE_BUTTON  = LOGIN_FORM + " button.close"
 
   //val DEFAULT_USER : User = new User("Test", "Test", "test@test.com", "Test", "private")
 
@@ -28,6 +32,22 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
 
     true
   }
+
+  def clickRegister = {
+    click on find(cssSelector(GO_REGISTER)).get
+    this
+  }
+
+  def clickRecoverPass = {
+    click on find(cssSelector(GO_RECOVER_PASS)).get
+    this
+  }
+
+  def clickClose = {
+    click on find(cssSelector(CLOSE_BUTTON)).get
+    this
+  }
+
 
   /**
    * Try to do a login
@@ -70,6 +90,9 @@ class LoginPage(res:Resolution) extends SharedPage(res) {
     submit
     this
   }
+
+
+
 
   //Eventually example with timeout
 /*

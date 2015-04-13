@@ -26,16 +26,13 @@ class SharedPage(res:Resolution) extends WebBrowser.Page
 
   def open = {
 
-    if(currentUrl == url) {
-      logger.debug("reload")
-      //reloadPage
-    } else {
+    if(currentUrl != url) {
       logger.debug("go to")
       go to url
+      logger.debug("change menu positioning")
+      eventually { changeMenuPositioning }
+      logger.debug("changed")
     }
-    logger.debug("change menu positioning")
-    eventually { changeMenuPositioning }
-    logger.debug("changed")
     this
   }
 

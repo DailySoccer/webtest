@@ -38,8 +38,9 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
 
   // GAME MENU IDs
   val GAME_MENU = "gameMenuCollapse"
-  val TOURNAMENTS = "gameMenuTournaments"
-  val MY_TOURNAMENTS = "gameMenuMyTournaments"
+  val TOURNAMENTS = "menuLobby"
+  val MY_TOURNAMENTS = "menuMyContests"
+  val HOW_IT_WORKS = "menuHowItWorks"
   val GAME_PROMOS = "gameMenuPromos"
 
 
@@ -143,6 +144,10 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
     clickOnGameMenuOption(MY_TOURNAMENTS)
   }
 
+  def clickOnHowItWorks = {
+    clickOnGameMenuOption(HOW_IT_WORKS)
+  }
+
   def clickOnGamePromos = {
     placeholder
     //clickOnGameMenuOption(GAME_PROMOS, new LobbyPage)
@@ -158,18 +163,14 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
     displayUserMenuOption(cssSel)
 
     logger.debug(s"click on ($cssSel) clickOnUserMenuOption")
-    eventually {
-      click on find(cssSelector(cssSel)).get
-    }
+    eventually { click on find(cssSelector(cssSel)).get }
     this
   }
 
   private def clickOnGameMenuOption(eleId: String) = {
     if ( !find(id(eleId)).get.isDisplayed ) clickOnToggleMenu
 
-    eventually {
-      click on id(eleId)
-    }
+    eventually { click on id(eleId) }
     this
   }
 

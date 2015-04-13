@@ -6,31 +6,19 @@ import unusual.pages.components.{FooterBar, MenuBar}
 class HomePage(res:Resolution) extends SharedPage(res) {
 
   val LOGIN_BUTTON  = "#loginButton"
-  val SIGNUP_BUTTON = "#joinButton"
 
   val PLAY_BUTTON_MOBILE = "#playButtonMobile"
   val PLAY_BUTTON_1 = "#playButton1"
-  val PLAY_BUTTON_2 = "#playButton2"
-  val PLAY_BUTTON_3 = "#playButton3"
-  val PLAY_BUTTON_4 = "#playButton4"
-
-  val SCREEN_1 = "#screen1"
-  val SCREEN_SEPARATOR_1 = SCREEN_1 + " + a"
-
-  val SCREEN_2 = "#screen2"
-  val SCREEN_2_URL = SharedPage.baseUrl + "/" + SCREEN_2
-  val SCREEN_SEPARATOR_2 = SCREEN_2 + " + a"
-
-  val SCREEN_3 = "#screen3"
-  val SCREEN_3_URL = SharedPage.baseUrl + "/" + SCREEN_3
-  val SCREEN_SEPARATOR_3 = SCREEN_3 + " + a"
-
-  val SCREEN_4 = "#screen4"
-  val SCREEN_4_URL = SharedPage.baseUrl + "/" + SCREEN_4
 
 
   override def isAt = {
     var _isAt = true
+
+    _isAt = _isAt && isElemDisplayed(LOGIN_BUTTON)
+    logger.debug("Login button ", _isAt)
+    _isAt = _isAt && (isElemDisplayed(PLAY_BUTTON_MOBILE) || res != Resolution.SMALL) &&
+                     (isElemDisplayed(PLAY_BUTTON_1)      || res == Resolution.SMALL)
+    logger.debug("Play button ", _isAt)
     /*
     _isAt = _isAt && pageTitle == TITLE
     logger.debug("page title is " + pageTitle + "should be " + TITLE, _isAt)
@@ -52,6 +40,14 @@ class HomePage(res:Resolution) extends SharedPage(res) {
     }
   }
 
+
+  def clickOnPlayButton = {
+    val strCss = if (resolution == Resolution.SMALL) PLAY_BUTTON_MOBILE else PLAY_BUTTON_1
+    click on find(cssSelector(strCss)).get
+    this
+  }
+
+/*
   def clickOnSignUp = {
     val button = find(cssSelector(SIGNUP_BUTTON))
     if (button != None) {
@@ -105,9 +101,9 @@ class HomePage(res:Resolution) extends SharedPage(res) {
     }
     this
   }
-
+*/
   /**************** Internal Navigation ****************/
-
+/*
   def clickOnScreenSeparator1 = {
     if (resolution != Resolution.SMALL) {
       val button = find(cssSelector(SCREEN_SEPARATOR_1))
@@ -144,4 +140,5 @@ class HomePage(res:Resolution) extends SharedPage(res) {
     }
     this
   }
+  */
 }

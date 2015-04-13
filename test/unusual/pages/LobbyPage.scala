@@ -1,14 +1,7 @@
 package unusual.pages
 
-import org.openqa.selenium.WebElement
-import org.openqa.selenium.By.ByCssSelector
-import org.openqa.selenium.interactions.Actions
-import org.openqa.selenium.interactions.Action
-import org.scalatest.selenium.WebBrowser
 import unusual.model._
-import unusual.pages.components.{ContestDescriptionWindow, FooterBar, PaginatorControl, MenuBar}
-
-import scala.util.control.Exception
+import unusual.pages.components.{FooterBar, PaginatorControl, MenuBar}
 
 
 class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
@@ -83,6 +76,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
   val SLIDER_RANGE_TEXT_INFERIOR = FILTERS_PANEL + " .filter-column-entry-fee .entry-fee-value-min"
   val SLIDER_RANGE_TEXT_SUPERIOR = FILTERS_PANEL + " .filter-column-entry-fee .entry-fee-value-max"
 
+  val HELP_MODAL_WINDOW = ".modal .modal-content .main-box"
+  val HELP_MODAL_WINDOW_ACCEPT_BUTTON = ".modal .modal-content .main-box .button-box button"
 
   object filters {
 
@@ -277,7 +272,8 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
     _isAt = _isAt && new FooterBar(resolution).isAt
     logger.debug("Footer bar: ", _isAt)
 
-    _isAt = _isAt && (currentUrl == url || currentUrl == SharedPage.baseUrl || currentUrl == SharedPage.baseUrl + "/")
+    _isAt = _isAt && (currentUrl == url || currentUrl == SharedPage.baseUrl ||
+                      currentUrl == SharedPage.baseUrl + "/" || currentUrl == url + "/welcome")
     logger.debug("URL is " + currentUrl + ", should be " + url, _isAt)
     _isAt = _isAt && pageTitle == TITLE
     logger.debug("Title is " + pageTitle + ", should be " + TITLE, _isAt)
@@ -334,6 +330,14 @@ class LobbyPage(res:Resolution, maxEntryMoney: Int)  extends SharedPage(res) {
 
   def isLoggedIn: Boolean = new MenuBar(resolution).isLoggedBar
 
+  def isHelpModalShown: Boolean = {
+    isElemDisplayed(HELP_MODAL_WINDOW)
+  }
+
+  def closeHelpModal = {
+    click on find(cssSelector(HELP_MODAL_WINDOW_ACCEPT_BUTTON)).get
+    this
+  }
 
   /**************** NAVIGATION XS METHODS ****************/
 /*

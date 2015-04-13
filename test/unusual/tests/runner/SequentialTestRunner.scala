@@ -7,6 +7,7 @@ import unusual.tests.enterContestTest.runner.EnterContestSequentialTestRunner
 import unusual.tests.lobbyTest.runner._
 import unusual.tests.integrityTest.runner.IntegritySequentialTestRunner
 import unusual.tests.myContestTest.runner.MyContestsSequentialTestRunner
+import unusual.tests.navigationTest.runner.NavigationSequentialTestRunner
 import unusual.tests.runner.simulatorController.{TimeShiftTest, InitializerLeaguesTest, InitializerWorldCupTest}
 import unusual.tests.timeShiftTests.runner.TimeShiftSequentialTestRunner
 import unusual.tests.viewContestEntryTest.runner.ViewContestSequentialTestRunner
@@ -14,6 +15,7 @@ import unusual.tests.viewContestEntryTest.runner.ViewContestSequentialTestRunner
 
 class SequentialTestRunner extends Sequential(
   new InitializerWorldCupTest(Resolution.ANY)
+  , SequentialTestRunner.navigationTests
   , SequentialTestRunner.lobbyTests
   , SequentialTestRunner.contestDescriptionTests
   , SequentialTestRunner.enterContestTests
@@ -37,17 +39,24 @@ object SequentialTestRunner {
     }
   }
 
-  val shouldExecuteLobby = enabledTestList.isEmpty || enabledTestList.contains("LOBBY")
+  val shouldExecuteNavigation         = enabledTestList.isEmpty || enabledTestList.contains("NAVIGATION")
+  val shouldExecuteLobby              = enabledTestList.isEmpty || enabledTestList.contains("LOBBY")
   val shouldExecuteContestDescription = enabledTestList.isEmpty || enabledTestList.contains("CONTEST_DESCRIPTION")
-  val shouldExecuteEnterContest = enabledTestList.isEmpty || enabledTestList.contains("ENTER_CONTEST")
-  val shouldExecuteMyContest = enabledTestList.isEmpty || enabledTestList.contains("MY_CONTESTS")
-  val shouldExecuteViewContest = enabledTestList.isEmpty || enabledTestList.contains("VIEW_CONTEST")
-  val shouldExecuteTimeShift = enabledTestList.isEmpty || enabledTestList.contains("TIME_SHIFT") || shouldExecuteLobby
-  val shouldExecuteIntegrity = enabledTestList.contains("INTEGRITY")
+  val shouldExecuteEnterContest       = enabledTestList.isEmpty || enabledTestList.contains("ENTER_CONTEST")
+  val shouldExecuteMyContest          = enabledTestList.isEmpty || enabledTestList.contains("MY_CONTESTS")
+  val shouldExecuteViewContest        = enabledTestList.isEmpty || enabledTestList.contains("VIEW_CONTEST")
+  val shouldExecuteTimeShift          = enabledTestList.isEmpty || enabledTestList.contains("TIME_SHIFT")
+  val shouldExecuteIntegrity          = enabledTestList.contains("INTEGRITY")
 
+
+  def navigationTests: Suite = if(shouldExecuteNavigation){
+                            new NavigationSequentialTestRunner
+                          } else {
+                            new Sequential
+                          }
 
   def lobbyTests: Suite = if(shouldExecuteLobby){
-                            new LobbySequentialTestRunner()
+                            new LobbySequentialTestRunner
                           } else {
                             new Sequential
                           }

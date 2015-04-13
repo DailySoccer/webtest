@@ -15,7 +15,7 @@ class HomeVisitorTest(res:Resolution) extends HomeTestCommon(res) {
   def homeBehavior: Unit = {
 
     "go to home" in goToHomePage
-
+/*
     "go to sign up" in goToHomeAndSignUp
 
     "go to login" in goToHomeAndLogin
@@ -31,8 +31,9 @@ class HomeVisitorTest(res:Resolution) extends HomeTestCommon(res) {
       "is #2" in clickOnPlayButton2
 
       "is #3" in clickOnPlayButton3
-    }
 
+    }
+*/
   }
 
 

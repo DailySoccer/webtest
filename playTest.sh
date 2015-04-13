@@ -35,7 +35,7 @@ while [ $count -lt $# ]; do
     "-l" | "--localhost")
         if "$chosenHost"; then
             executePlay=false
-            echo "ERROR: Parameter error: -l|--localhost and -S|--sauce cannot appear simultaneously"
+            echo "ERROR: Parameter error: -l ,-S and -B are incompatible simultaneously"
         fi
         chosenHost=true
         playArgs="${playArgs}TEST_HOST=\"local\" "
@@ -53,7 +53,7 @@ while [ $count -lt $# ]; do
     "-S" | "--sauce")
         if "$chosenHost"; then
             executePlay=false
-            echo "ERROR: Parameter error: -l|--localhost and -S|--sauce cannot appear simultaneously"
+            echo "ERROR: Parameter error: -l ,-S and -B are incompatible simultaneously"
         fi
         chosenHost=true
         playArgs="${playArgs}TEST_HOST=\"saucelabs\" "
@@ -114,26 +114,13 @@ else
     echo "  -r or --resolution {smartphone|desktop|tablet|all}"
     echo "          select a resolution for testing"
     echo "  -s or --suite \"selectedSuite1[ selectedSuite 2 ...]\""
-    echo "          selectedSuite = {lobby|contest_description|enter_contest|view_contest|my_contests|time_shift|integrity}"
+    echo "          selectedSuite = {navigation|lobby|contest_description|enter_contest|view_contest|my_contests|time_shift|integrity}"
     echo "          if not defined, all test will run."
     echo "  -u or --url {local|staging|*}"
     echo "          launches test against selected url:"
     echo "              local: \"http://localhost:9000\""
     echo "              staging: \"http://dailysoccer-staging.herokuapp.com\""
     echo "              *: any other url"
-    echo "  -l or --localhost [{firefox|chrome|safari}]"
-    echo "          default = firefox"
-    echo "          runs using localhost as selenium host"
-    echo "  -S or --sauce [{selectedExplorer}]"
-    echo "          selectedExplorer could be one of this:"
-    echo "              Firefox keys: FF_12, FF_13, FF_14 [...] FF_32 and FF_33"
-    echo "              Internet Explorer keys: IE_7, IE_8, IE_9, IE_10 and IE_11"
-    echo "              Google Chrome keys: CHROME_26, CHROME_27, [...] CHROME_38 and CHROME_39"
-    echo "              Safari keys: SAFARI_5, SAFARI_6, SAFARI_7 and SAFARI_8"
-    echo "          default = FF_32"
-    echo "          Chrome 26, 29 and 30 uses default OS (Linux) because is not available on MAC."
-    echo "          runs using saucelabs as selenium host"
-    echo "  -B or --browserstack [{selectedExplorer}]"
     echo "  -v or --verbose {trace|debug|info|warning|error}"
     echo "          default = error"
     echo "          sets the level of log verbosity"
@@ -141,4 +128,22 @@ else
     echo "          shows this help."
     echo "  --drone"
     echo "          use command for drone.io (sbt instead of play)"
+    echo ""
+    echo ""
+    echo "TEST HOST ARGUMENTS (use only one; default: -l):"
+    echo "  -l or --localhost [{firefox|chrome|safari}]"
+    echo "          default = firefox"
+    echo "          runs using localhost as selenium host"
+    echo "  -S or --sauce [{selectedExplorer}]"
+    echo "          default = FF_32"
+    echo "          runs using SauceLabs as selenium host"
+    echo "  -B or --browserstack [{selectedExplorer}]"
+    echo "          default = FF_32"
+    echo "          runs using BrowserStack as selenium host"
+    echo ""
+    echo "     selectedExplorer could be one of this:"
+    echo "        Firefox keys: FF_12, FF_13, FF_14 [...] FF_32 and FF_33"
+    echo "        Internet Explorer keys: IE_7, IE_8, IE_9, IE_10 and IE_11"
+    echo "        Google Chrome keys: CHROME_26, CHROME_27, [...] CHROME_38 and CHROME_39"
+    echo "        Safari keys: SAFARI_5, SAFARI_6, SAFARI_7 and SAFARI_8"
 fi
