@@ -36,7 +36,7 @@ class NavigationCommon(res:Resolution) extends SharedTest(res){
 
     var theLobby:NavLobby = null
     eventually { theLobby = theLogin.doLogin }
-    eventually { theLobby.playAContest }
+    theLobby.playAContest
   }
 
   def goMyContestsLogged:Unit = {
@@ -194,6 +194,7 @@ class NavigationCommon(res:Resolution) extends SharedTest(res){
 
     logger.debug(s"Verifying to be at ${page.getClass.getSimpleName}")
     eventually (timeout(7 seconds)){ assert(page.isAt, s"${page.getClass.getSimpleName} is not at") }
+    changeMenuPositioning
     logger.debug(s"Verifyed")
 
     object menu {

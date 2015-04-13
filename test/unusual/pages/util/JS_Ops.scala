@@ -7,7 +7,7 @@ import unusual.pages.components.MenuBar
 
 trait JS_Ops {
 
-  def changeMenuPositioning()(implicit driver:WebDriver): Unit = {
+  def changeMenuPositioning(implicit driver:WebDriver): Unit = {
     val cssSel = new MenuBar(Resolution.BIG).MENU_ROOT
     val script = s"document.querySelector('$cssSel').style.position = 'relative';"
 
