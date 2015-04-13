@@ -159,9 +159,11 @@ class NavigationCommon(res:Resolution) extends SharedTest(res){
 
     def playAContest = {
       logger.debug("playing a contest")
-      eventually { page.playContestNumber(1) }
-      if (!status.isLoggedIn) new EnterContestPage(res, null).closeHelpModal
-      new NavEnterContests
+      eventually {
+        page.playContestNumber(1)
+        if (!status.isLoggedIn) new EnterContestPage(res, null).closeHelpModal
+        new NavEnterContests
+      }
     }
 
   }
