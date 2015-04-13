@@ -193,7 +193,7 @@ class NavigationCommon(res:Resolution) extends SharedTest(res){
     val footer:FooterBar = new FooterBar(res)
 
     logger.debug(s"Verifying to be at ${page.getClass.getSimpleName}")
-    eventually (timeout(3 seconds)){ assert(page.isAt, s"${page.getClass.getSimpleName} is not at") }
+    eventually (timeout(7 seconds)){ assert(page.isAt, s"${page.getClass.getSimpleName} is not at") }
     logger.debug(s"Verifyed")
 
     object menu {
