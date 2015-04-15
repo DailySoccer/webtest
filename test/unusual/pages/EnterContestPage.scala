@@ -342,6 +342,8 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   }
 
   def getLineUpSalary: Int = {
+    eventually { assert(isElemDisplayed(LINEUP_SALARY)) }
+
     var salary = find(cssSelector(LINEUP_SALARY)).get.text
     // Ignoramos el símbolo del money ($amount)
     salary = salary.substring(1, salary.length()).replace(",", "")
@@ -400,11 +402,13 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   def addSoccerPlayerFromList(index: Int) = {
     eventually { click on cssSelector(SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(index)) }
+    Thread sleep(300)
     this
   }
 
   def setSoccerPlayerNameFilterSearch(name:String) = {
     textField(cssSelector(FILTER_SOCCER_PLAYER_NAME)).value = name
+    Thread sleep(300)
     this
   }
 
@@ -447,6 +451,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
   private def selectSoccerPlayerFromLineup(index: Int) = {
     click on cssSelector(SOCCER_PLAYER_LINEUP_SLOT(index))
+    Thread sleep(300)
     this
   }
 

@@ -306,50 +306,146 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
 
   def selectDefense:Unit = {
     val N_DEFENSE_PLAYERS = enterContestState.contest.numDefensePlayers
-    enterContestPage.selectDefenseFromLineup(1)
-    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
+    eventually {
+      enterContestPage.selectDefenseFromLineup(1)
+      eventually (timeout(7 seconds)) {
+        enterContestPage.getNumberOfSoccerPlayers must be(N_DEFENSE_PLAYERS)
+      }
+    }
 
-    enterContestPage.cancelSoccerPlayerSelection.selectDefenseFromLineup(2)
-    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
+    eventually {
+      enterContestPage.cancelSoccerPlayerSelection
+      eventually (timeout(7 seconds)) {
+        assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
+      }
+    }
+    eventually {
+      enterContestPage.selectDefenseFromLineup(2)
+      eventually (timeout(7 seconds)) {
+        enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS)
+      }
+    }
+    eventually {
+      enterContestPage.cancelSoccerPlayerSelection
+      eventually (timeout(7 seconds)) {
+        assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
+      }
+    }
+    eventually {
+      enterContestPage.selectDefenseFromLineup(3)
+      eventually (timeout(7 seconds)) {
+        enterContestPage.getNumberOfSoccerPlayers must be(N_DEFENSE_PLAYERS)
+      }
+    }
+    eventually {
+      enterContestPage.cancelSoccerPlayerSelection
+      eventually (timeout(7 seconds)) {
+        assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
+      }
+    }
+    eventually {
+      enterContestPage.selectDefenseFromLineup(4)
+      eventually (timeout(7 seconds)) {
+        enterContestPage.getNumberOfSoccerPlayers must be(N_DEFENSE_PLAYERS)
+      }
+    }
 
-    enterContestPage.cancelSoccerPlayerSelection.selectDefenseFromLineup(3)
-    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
-
-    enterContestPage.cancelSoccerPlayerSelection.selectDefenseFromLineup(4)
-    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_DEFENSE_PLAYERS) }
-
-    enterContestPage.cancelSoccerPlayerSelection
+    eventually {
+      enterContestPage.cancelSoccerPlayerSelection
+      eventually (timeout(7 seconds)) {
+        assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
+      }
+    }
   }
 
   def selectMiddle:Unit = {
     enterContestPage
     val N_MIDDLE_PLAYERS = enterContestState.contest.numMiddlePlayers
-    enterContestPage.selectMiddleFromLineup(1)
-    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
+    eventually {
+      enterContestPage.selectMiddleFromLineup(1)
+      eventually (timeout(7 seconds)) {
+        enterContestPage.getNumberOfSoccerPlayers must be(N_MIDDLE_PLAYERS)
+      }
+    }
 
-    enterContestPage.cancelSoccerPlayerSelection.selectMiddleFromLineup(2)
-    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
+    eventually {
+      enterContestPage.cancelSoccerPlayerSelection
+      eventually (timeout(7 seconds)) {
+        assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
+      }
+    }
+    eventually {
+      enterContestPage.selectMiddleFromLineup(2)
+      eventually (timeout(7 seconds)) {
+        enterContestPage.getNumberOfSoccerPlayers must be(N_MIDDLE_PLAYERS)
+      }
+    }
 
-    enterContestPage.cancelSoccerPlayerSelection.selectMiddleFromLineup(3)
-    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
+    eventually {
+      enterContestPage.cancelSoccerPlayerSelection
+      eventually (timeout(7 seconds)) {
+        assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
+      }
+    }
+    eventually {
+      enterContestPage.selectMiddleFromLineup(3)
+      eventually (timeout(7 seconds)) {
+        enterContestPage.getNumberOfSoccerPlayers must be(N_MIDDLE_PLAYERS)
+      }
+    }
 
-    enterContestPage.cancelSoccerPlayerSelection.selectMiddleFromLineup(4)
-    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_MIDDLE_PLAYERS) }
+    eventually {
+      enterContestPage.cancelSoccerPlayerSelection
+      eventually (timeout(7 seconds)) {
+        assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
+      }
+    }
+    eventually {
+      enterContestPage.selectMiddleFromLineup(4)
+      eventually (timeout(7 seconds)) {
+        enterContestPage.getNumberOfSoccerPlayers must be(N_MIDDLE_PLAYERS)
+      }
+    }
 
-    enterContestPage.cancelSoccerPlayerSelection
+    eventually {
+      enterContestPage.cancelSoccerPlayerSelection
+      eventually (timeout(7 seconds)) {
+        assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
+      }
+    }
   }
 
   def selectForward:Unit = {
     enterContestPage
     val N_FORWARD_PLAYERS = enterContestState.contest.numForwardPlayers
+    val N_ALL_PLAYERS = enterContestState.contest.numAllPlayers
 
-    enterContestPage.selectForwardFromLineup(1)
-    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS) }
+    eventually {
+      enterContestPage.selectForwardFromLineup(1)
+      eventually (timeout(7 seconds)) {
+        enterContestPage.getNumberOfSoccerPlayers must be(N_FORWARD_PLAYERS)
+      }
+    }
 
-    enterContestPage.cancelSoccerPlayerSelection.selectForwardFromLineup(2)
-    eventually { enterContestPage.getNumberOfSoccerPlayers must be (N_FORWARD_PLAYERS) }
+    eventually {
+      enterContestPage.cancelSoccerPlayerSelection
+      eventually (timeout(7 seconds)) {
+        assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
+      }
+    }
+    eventually {
+      enterContestPage.selectForwardFromLineup(2)
+      eventually (timeout(7 seconds)) {
+        enterContestPage.getNumberOfSoccerPlayers must be(N_FORWARD_PLAYERS)
+      }
+    }
 
-    enterContestPage.cancelSoccerPlayerSelection
+    eventually {
+      enterContestPage.cancelSoccerPlayerSelection
+      eventually (timeout(7 seconds)) {
+        assert(enterContestPage.getSoccerPlayerFromLineUp(1).isEmpty)
+      }
+    }
   }
 
 

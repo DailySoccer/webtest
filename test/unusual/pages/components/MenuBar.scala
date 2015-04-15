@@ -168,9 +168,11 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
   }
 
   private def clickOnGameMenuOption(eleId: String) = {
-    if ( !find(id(eleId)).get.isDisplayed ) clickOnToggleMenu
+    if ( !find(id(eleId)).get.isDisplayed ) {
+      clickOnToggleMenu
+    }
 
-    eventually { click on id(eleId) }
+    eventually (timeout(3 seconds)){ click on id(eleId) }
     this
   }
 

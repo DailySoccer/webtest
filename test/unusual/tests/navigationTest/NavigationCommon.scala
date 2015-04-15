@@ -49,15 +49,24 @@ class NavigationCommon(res:Resolution) extends SharedTest(res){
 
   def useMenuMultiplesTimes:Unit = {
     val p:NavPage[LobbyPage] = goLobbyLogged
-    eventually { p.menu.goLobby }
-    eventually { p.menu.goMyContests }
-    eventually { p.menu.goHowItWorks }
-    eventually { p.menu.goHowItWorks }
-    eventually { p.menu.goMyContests }
-    eventually { p.menu.goHowItWorks }
-    eventually { p.menu.goLobby }
-    eventually { p.menu.goMyContests }
-    eventually { p.menu.goLobby }
+    logger.debug("go lobby")
+    eventually (timeout(30 seconds)){ p.menu.goLobby }
+    logger.debug("go my constests")
+    eventually (timeout(30 seconds)){ p.menu.goMyContests }
+    logger.debug("go how it works")
+    eventually (timeout(30 seconds)){ p.menu.goHowItWorks }
+    logger.debug("go how it works")
+    eventually (timeout(30 seconds)){ p.menu.goHowItWorks }
+    logger.debug("go my contests")
+    eventually (timeout(30 seconds)){ p.menu.goMyContests }
+    logger.debug("go how it works")
+    eventually (timeout(30 seconds)){ p.menu.goHowItWorks }
+    logger.debug("go lobby")
+    eventually (timeout(30 seconds)){ p.menu.goLobby }
+    logger.debug("go my contests")
+    eventually (timeout(30 seconds)){ p.menu.goMyContests }
+    logger.debug("go lobby")
+    eventually (timeout(30 seconds)){ p.menu.goLobby }
   }
 
   /******************* PRIVATE METHODS *******************/
