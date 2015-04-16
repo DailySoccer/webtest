@@ -39,6 +39,7 @@ trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
       cap.setCapability("browser", "IE")
       cap.setCapability("browser_version", "10")
       cap.setCapability("os", "Windows")
+      cap.setCapability("os_version", "7")
       cap.setCapability("browserstack.debug", "true")
       cap
     },
@@ -239,6 +240,8 @@ trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
                  cap.setCapability(CapabilityType.VERSION, "10")
                  cap.setCapability(CapabilityType.PLATFORM, Platform.ANY)
                  cap.setCapability("max-duration", MAX_DURATION)
+                 cap.setCapability("os", "Windows")
+                 cap.setCapability("os_version", "7")
                  cap
                },
     "IE_11" -> { val cap = DesiredCapabilities.internetExplorer()
