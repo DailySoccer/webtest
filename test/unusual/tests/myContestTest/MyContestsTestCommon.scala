@@ -48,7 +48,7 @@ class MyContestsTestCommon(states:Map[User, MyContestsState], res:Resolution) ex
     def goToTab:Unit = pageTab
 
     def checkNumberOfContest:Unit = {
-      assert(pageTab.countContests == tabInfo.numberOfContests)
+      eventually {assert(pageTab.countContests == tabInfo.numberOfContests) }
     }
     def check_ToTheContests_Button:Unit = {
       pageTab
