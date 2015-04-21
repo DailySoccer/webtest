@@ -7,8 +7,8 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
 
   /********** CONSTANTS *************/
 
-  val LOGIN_ID  = "loginButton"
-  val SIGN_UP_ID = "joinButton"
+  val LOGIN_ID  = "#loginButton"
+  val SIGN_UP_ID = "#joinButton"
 
   val MENU_ROOT = "#mainMenu"
   val BRAND_LINK = MENU_ROOT + " .navbar-brand"
@@ -21,27 +21,22 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
   // USER MENU IDs
   //val USER_MENU = "userMenuCollapse"
   val USER_MENU_TOGGLE = "#menuUser"
-  val USER_MENU_TOGGLE_DROPDOWN = ".dropdown-menu"
-  val MY_ACCOUNT = "userMenuMyAccount"
-  val USER_MENU_ADD_MONEY = "userMenuAddFunds"
-  val TRANSACTION_HISTORIC = "userMenuTransactionHistoric"
-  val REFERENCES_CENTER = "userMenuReferencesCenter"
-  val CLASSIFICATION = "userMenuClassification"
-  val USER_PROMOS = "userMenuPromos"
+  val USER_MENU_TOGGLE_DROPDOWN = ".username-dropdown-toggle .dropdown-menu"
+  val MY_ACCOUNT = "#menuUserMyAccount"
+  val USER_MENU_ADD_MONEY_XS = "#menuUserAddFunds-xs"
+  val USER_MENU_ADD_MONEY_SM = "#menuUserAddFunds-sm"
+  val TRANSACTION_HISTORIC = "#menuUserHistory"
+  //val REFERENCES_CENTER = "userMenuReferencesCenter"
+  //val CLASSIFICATION = "userMenuClassification"
+  //val USER_PROMOS = "userMenuPromos"
   val LOGOUT = "#menuUserLogOut"
-
-  // HELP MENU IDs
-  val SUPPORT = "userMenuSupport"
-  val HOW_TO = "userMenuHowTo"
-  val RULES_RATING = "userMenuRulesAndRating"
 
 
   // GAME MENU IDs
-  val GAME_MENU = "gameMenuCollapse"
-  val TOURNAMENTS = "menuLobby"
-  val MY_TOURNAMENTS = "menuMyContests"
-  val HOW_IT_WORKS = "menuHowItWorks"
-  val GAME_PROMOS = "gameMenuPromos"
+  val TOURNAMENTS = "#menuLobby"
+  val MY_TOURNAMENTS = "#menuMyContests"
+  val HOW_IT_WORKS = "#menuHowItWorks"
+  val GAME_PROMOS = "#gameMenuPromos"
 
 
   /**************** GENERAL METHODS ****************/
@@ -59,13 +54,12 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
   def isLoginBar: Boolean = {
     var is = true
     eventually {
-      val login = find(id(LOGIN_ID))
+      val login = find(cssSelector(LOGIN_ID))
       is = is && login.isDefined && login.get.isDisplayed
-      val signUp = find(id(SIGN_UP_ID))
+      val signUp = find(cssSelector(SIGN_UP_ID))
       is = is && signUp.isDefined && signUp.get.isDisplayed
 
 
-      is = is && !find(id(GAME_MENU)).isDefined
       //is = is && !find(id(USER_MENU)).isDefined
       //is = is && !find(id(ADD_MONEY_BUTTON)).isDefined
     }
@@ -75,13 +69,15 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
   def isLoggedBar: Boolean = {
     var is = true
     eventually {
-      val login = find(id(LOGIN_ID))
+      val login = find(cssSelector(LOGIN_ID))
       is = is && !login.isDefined
-      val signUp = find(id(SIGN_UP_ID))
+      logger.debug("Login is not defined", is)
+      val signUp = find(cssSelector(SIGN_UP_ID))
       is = is && !signUp.isDefined
+      logger.debug("sign up is not defined", is)
 
 
-      is = is && hasUserMenu && hasHelpMenu && hasGameMenu
+      is = is && hasUserMenu && hasGameMenu
       //is = is && find(id(ADD_MONEY_BUTTON)).isDefined
     }
     is
@@ -90,7 +86,7 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
   /**************** USER MENU METHODS ****************/
 
   def getUserName(): String = {
-    val elem = find(id(USER_MENU_TOGGLE_DROPDOWN)).get
+    val elem = find(cssSelector(USER_MENU_TOGGLE)).get
 
     if (resolution == Resolution.SMALL && !elem.isDisplayed) {
       clickOnToggleMenu
@@ -168,11 +164,11 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
   }
 
   private def clickOnGameMenuOption(eleId: String) = {
-    if ( !find(id(eleId)).get.isDisplayed ) {
+    if ( !find(cssSelector(eleId)).get.isDisplayed ) {
       clickOnToggleMenu
     }
 
-    eventually (timeout(3 seconds)){ click on id(eleId) }
+    eventually (timeout(3 seconds)){ click on cssSelector(eleId) }
     this
   }
 
@@ -204,34 +200,48 @@ class MenuBar(res:Resolution) extends SharedPage(res) {
     }
     this
   }
-
+/*
   private def hasHelpMenu:Boolean = {
     var is = true
     is = is && find(id(SUPPORT)).isDefined
+    logger.debug(s"$SUPPORT is defined", is)
     is = is && find(id(HOW_TO)).isDefined
+    logger.debug(s"$HOW_TO is defined", is)
     is = is && find(id(RULES_RATING)).isDefined
+    logger.debug(s"$RULES_RATING is defined", is)
     is
   }
-
+*/
   private def hasUserMenu:Boolean = {
     var is = true
     //is = is && find(id(USER_MENU)).isDefined
-    is = is && find(id(MY_ACCOUNT)).isDefined
-    is = is && find(id(USER_MENU_ADD_MONEY)).isDefined
-    is = is && find(id(TRANSACTION_HISTORIC)).isDefined
-    is = is && find(id(REFERENCES_CENTER)).isDefined
+    is = is && find(cssSelector(MY_ACCOUNT)).isDefined
+    logger.debug(s"$MY_ACCOUNT is defined", is)
+    is = is && find(cssSelector(USER_MENU_ADD_MONEY_XS)).isDefined
+    logger.debug(s"$USER_MENU_ADD_MONEY_XS is defined", is)
+    is = is && find(cssSelector(USER_MENU_ADD_MONEY_SM)).isDefined
+    logger.debug(s"$USER_MENU_ADD_MONEY_SM is defined", is)
+    is = is && find(cssSelector(TRANSACTION_HISTORIC)).isDefined
+    logger.debug(s"$TRANSACTION_HISTORIC is defined", is)
+    /*is = is && find(id(REFERENCES_CENTER)).isDefined
+    logger.debug(s"$REFERENCES_CENTER is defined", is)
     is = is && find(id(CLASSIFICATION)).isDefined
+    logger.debug(s"$CLASSIFICATION is defined", is)
     is = is && find(id(USER_PROMOS)).isDefined
-    is = is && find(id(LOGOUT)).isDefined
+    logger.debug(s"$USER_PROMOS is defined", is)*/
+    is = is && find(cssSelector(LOGOUT)).isDefined
+    logger.debug(s"$LOGOUT is defined", is)
     is
   }
 
   private def hasGameMenu:Boolean = {
     var is = true
-    is = is && find(id(GAME_MENU)).isDefined
-    is = is && find(id(TOURNAMENTS)).isDefined
-    is = is && find(id(MY_TOURNAMENTS)).isDefined
-    is = is && find(id(GAME_PROMOS)).isDefined
+    is = is && find(cssSelector(TOURNAMENTS)).isDefined
+    logger.debug(s"$TOURNAMENTS is defined", is)
+    is = is && find(cssSelector(MY_TOURNAMENTS)).isDefined
+    logger.debug(s"$MY_TOURNAMENTS is defined", is)
+    is = is && find(cssSelector(HOW_IT_WORKS)).isDefined
+    logger.debug(s"$HOW_IT_WORKS is defined", is)
     is
   }
 

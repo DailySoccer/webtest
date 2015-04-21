@@ -1,4 +1,4 @@
-package unusual.tests._loginTest
+package unusual.tests.loginTest
 
 import unusual.model.Resolution
 import unusual.pages.{HomePage, EnterContestPage}

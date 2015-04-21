@@ -2,6 +2,7 @@ package unusual.tests.runner
 
 import org.scalatest._
 import unusual.model.Resolution
+import unusual.tests.loginTest.runner.LoginSignUpSequentialTestRunner
 import unusual.tests.contestDescriptionTest.runner.ContestDescriptionSequentialTestRunner
 import unusual.tests.enterContestTest.runner.EnterContestSequentialTestRunner
 import unusual.tests.lobbyTest.runner._
@@ -16,6 +17,7 @@ import unusual.tests.viewContestEntryTest.runner.ViewContestSequentialTestRunner
 class SequentialTestRunner extends Sequential(
   new InitializerWorldCupTest(Resolution.ANY)
   , SequentialTestRunner.navigationTests
+  , SequentialTestRunner.loginTests
   , SequentialTestRunner.lobbyTests
   , SequentialTestRunner.contestDescriptionTests
   , SequentialTestRunner.enterContestTests
@@ -40,6 +42,8 @@ object SequentialTestRunner {
   }
 
   val shouldExecuteNavigation         = enabledTestList.isEmpty || enabledTestList.contains("NAVIGATION")
+  val shouldExecuteLogin              = enabledTestList.isEmpty || enabledTestList.contains("LOGIN_SIGNUP") ||
+                                        enabledTestList.contains("LOGIN") || enabledTestList.contains("SIGNUP")
   val shouldExecuteLobby              = enabledTestList.isEmpty || enabledTestList.contains("LOBBY")
   val shouldExecuteContestDescription = enabledTestList.isEmpty || enabledTestList.contains("CONTEST_DESCRIPTION")
   val shouldExecuteEnterContest       = enabledTestList.isEmpty || enabledTestList.contains("ENTER_CONTEST")
@@ -51,6 +55,12 @@ object SequentialTestRunner {
 
   def navigationTests: Suite = if(shouldExecuteNavigation){
                             new NavigationSequentialTestRunner
+                          } else {
+                            new Sequential
+                          }
+
+  def loginTests: Suite = if(shouldExecuteLogin){
+                            new LoginSignUpSequentialTestRunner
                           } else {
                             new Sequential
                           }

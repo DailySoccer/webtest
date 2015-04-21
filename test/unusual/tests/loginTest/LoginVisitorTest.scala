@@ -1,4 +1,4 @@
-package unusual.tests._loginTest
+package unusual.tests.loginTest
 
 import unusual.model.Resolution
 import unusual.pages._
@@ -30,13 +30,13 @@ class LoginVisitorTest(res:Resolution) extends LoginTestCommon(res) {
 
   def loginBehavior: Unit = {
 
-    "sign up" taggedAs(WIP, DoesNotWorkYet) in {
-      featureNotImplemented
-    }
+    "Try to fail on sign ups" in doFailSignUp
 
-    "right login" taggedAs(WIP) in {
-      doLogin
-    }
+    //"sign up" in doRightSignUp
+
+    "Try to fail on login" in doFailLogin
+
+    "right login" in doLogin
 
   }
 
