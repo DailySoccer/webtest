@@ -77,6 +77,8 @@ class EnterContestVisitorTest(state:EnterContestState, res:Resolution) extends E
       "Random" in multipleRandomSelection
     }
 
+    "look at soccer player states window" in openPlayerStatsWindow
+
   }
 
   def enterContestPageBehavior_Bug: Unit = {

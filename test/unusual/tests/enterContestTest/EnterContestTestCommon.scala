@@ -295,6 +295,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
    * END FILTER BY TESTS
    */
 
+
   /*
    * SELECT POS TESTS
    */
@@ -418,7 +419,7 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
   def selectForward:Unit = {
     enterContestPage
     val N_FORWARD_PLAYERS = enterContestState.contest.numForwardPlayers
-    val N_ALL_PLAYERS = enterContestState.contest.numAllPlayers
+    //val N_ALL_PLAYERS = enterContestState.contest.numAllPlayers
 
     eventually {
       enterContestPage.selectForwardFromLineup(1)
@@ -448,6 +449,19 @@ abstract class EnterContestTestCommon(state: EnterContestState, res:Resolution) 
     }
   }
 
+  def openPlayerStatsWindow:Unit = {
+    enterContestPage.selectGoalKeeperFromLineup
+    logger.debug("open soccer player stats")
+    enterContestPage.openSoccerPlayerStats(1)
+
+    logger.debug("check it is open")
+    eventually { assert(enterContestPage.isSoccerPlayerStatsOpen) }
+    logger.debug("close it")
+    enterContestPage.closeSoccerPlayerStatsWindow
+
+    logger.debug("cancel selection")
+    enterContestPage.cancelSoccerPlayerSelection
+  }
 
   def multipleRandomSelection:Unit = {
     enterContestPage

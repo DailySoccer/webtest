@@ -63,6 +63,8 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
   def SOCCER_PLAYER_LINEUP_SLOT_SALARY(idx:Int):String   = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .column-salary"
   def SOCCER_PLAYER_LINEUP_SLOT_REMOVE(idx:Int):String   = SOCCER_PLAYER_LINEUP_SLOT(idx) + " .column-action a"
 
+  val SOCCER_PLAYER_STATS_WINDOW:String = "soccer-player-stats modal#modalSoccerPlayerStats #modalRoot .modal-content"
+  val SOCCER_PLAYER_STATS_CLOSE_WINDOW_BUTTON:String = SOCCER_PLAYER_STATS_WINDOW + (if (resolution == Resolution.SMALL) " .actions-header-xs button.button-cancel" else " .actions-header-sm button.close")
 
   override def isAt = {
     var _isAt = true
@@ -404,6 +406,20 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     eventually { click on cssSelector(SOCCER_PLAYER_LIST_SLOT_ADD_BUTTON(index)) }
     Thread sleep(300)
     this
+  }
+
+  def openSoccerPlayerStats(index: Int):EnterContestPage = {
+    click on cssSelector(SOCCER_PLAYER_LIST_SLOT_NAME(index))
+    this
+  }
+
+  def closeSoccerPlayerStatsWindow:EnterContestPage = {
+    click on cssSelector(SOCCER_PLAYER_STATS_CLOSE_WINDOW_BUTTON)
+    this
+  }
+
+  def isSoccerPlayerStatsOpen:Boolean = {
+    isElemDisplayed(SOCCER_PLAYER_STATS_WINDOW)
   }
 
   def setSoccerPlayerNameFilterSearch(name:String) = {
