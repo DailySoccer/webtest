@@ -35,17 +35,26 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
 
   def checkPlayersList:Unit = {
     var everyUserExists = true
-    var i = 0
     if (res == Resolution.SMALL) {
       viewContestPage.changeToUsersTab
     }
-    for(user <- state.userList) {
-      i += 1
-      val userName = viewContestPage.getUserName(i)
-      val isUserName = userName == user.firstName
 
-      if(isUserName) logger.debug(s"User[$i] should be: '${user.firstName}'")
-      else logger.error(s"User[$i] should be: '${user.firstName}' and currently is: '$userName'")
+    val userListLen = state.userList.length
+    for(i <- 1 to userListLen) {
+      val userName = viewContestPage.getUserName(i)
+      var j = 0
+
+      logger.debug(s"'$userName' check:")
+      var isUserName = false
+      isUserName = userName == state.userList(i - 1).firstName
+      while(!isUserName && j < userListLen) {
+        isUserName = userName == state.userList(j).firstName
+        logger.debug(s"  - '${state.userList(j).firstName}'", isUserName)
+        j+=1
+      }
+
+      if(isUserName) logger.debug(s"User[$i] '$userName' found")
+      else logger.error(s"User[$i]: $userName not found in players list")
 
       everyUserExists &&= isUserName
     }
