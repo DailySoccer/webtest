@@ -158,7 +158,7 @@ class ViewContestTestCommon(state: ViewContestState, res:Resolution) extends Sha
   }
 
   def cancelEntry:Unit = {
-    viewContestPage.changeToLineUpTab
+    eventually { viewContestPage.changeToLineUpTab }
     eventually { viewContestPage.cancelContestEntry }
     val lobby = new LobbyPage(res, LobbyState.DEFAULT_LOBBY.maxEntryMoney)
     eventually { assert(lobby.isAt) }
