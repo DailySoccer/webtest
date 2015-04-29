@@ -479,7 +479,7 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     fastClicksByCssSelector(4, BUTTON_CONFIRM_LINEUP)
   }
 
-  def pickWholeLineup(lineup:Lineup):Unit = {
+  def pickWholeLineup(lineup:Lineup) = {
     val list = lineup.soccerPlayerList
 
     logger.debug("pick middle")
@@ -536,6 +536,8 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
     selectDefenseFromLineup(4) // DEFENSE
     setSoccerPlayerNameFilterSearch(list(4).name)
     addSoccerPlayerFromList(1)
+
+    this
   }
 
   /**
@@ -561,7 +563,6 @@ class EnterContestPage(res: Resolution, state: EnterContestState) extends Shared
 
     player
   }
-
 
 }
 

@@ -30,14 +30,16 @@ trait SimulatorController { this: SharedTest =>
   private val URL_INITIAL_SETUP = url + "/test_initial_setup"
   private val URL_IMPORT_SALARIES = url + "/import_salaries"
   private def URL_GO_TO_DATE(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int) = url + s"/test_goto/$year/$month/$day/$hour/$minute/$second"
+  private def URL_GO_TO_DATE_SPEED(speed:Int) = url + s"/simulator_speed/$speed"
+
   private def URL_SELECT_COMPETITION(seasonId:Int, competitionId:Int) = url + s"/opta_competitions/$seasonId-$competitionId/activated/true"
   private def URL_CREATE_TEMPLATES(mockIndex:Int) = url + s"/create_contests/$mockIndex"
   private def URL_CREATE_PROMOS(mockIndex:Int) = url + s"/create_promos/$mockIndex"
-  private def URL_START_BOTS = url + s"/start_bot_actors"
-  private def URL_STOP_BOTS = url + s"/stop_bot_actors"
-  private def URL_CREATING_TEMPLATE_CONTESTS_ENABLED = url + s"/template_contest/enable_creating/true"
+  private val URL_START_BOTS = url + s"/start_bot_actors"
+  private val URL_STOP_BOTS = url + s"/stop_bot_actors"
+  private val URL_CREATING_TEMPLATE_CONTESTS_ENABLED = url + s"/template_contest/enable_creating/true"
   private def URL_ADD_MONEY_TO_BOTS(amount:Int) = url + s"/add_money_to_bots/$amount"
-  private def URL_BERSERKER_BOTS = url + s"/berserker_bot_actors"
+  private val URL_BERSERKER_BOTS = url + s"/berserker_bot_actors"
 
   def initialWorldCupTestsSetup: Unit = {
     Given("a clean browser")
@@ -85,7 +87,9 @@ trait SimulatorController { this: SharedTest =>
     go to URL_STOP_BOTS
   }
 
-  def timeShift(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int, returnedString:String): Unit = {
+  def timeShift(day:Int, month:Int, year:Int, hour:Int, minute:Int, second:Int, returnedString:String, speed:Int = -1): Unit = {
+    goToHeadlessURL(URL_GO_TO_DATE_SPEED(speed))
+
     val response:String = goToHeadlessURL(URL_GO_TO_DATE(day, month, year, hour, minute, second))
     logger.info(s"Requested to go to: '$returnedString' ---- Response: '$response'")
     assert(response == "OK", s"Go to date '$returnedString' does not respond OK")
@@ -97,6 +101,9 @@ trait SimulatorController { this: SharedTest =>
       logger.info(s"Current date: '$dateInfo' waiting for '$returnedString'")
       dateInfo must be (returnedString)
     }
+
+    goToHeadlessURL(URL_GO_TO_DATE_SPEED(-1))
+
   }
 
   def createTemplateContest(mockIndex:Int): Unit = {
