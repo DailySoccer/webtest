@@ -107,7 +107,7 @@ if "$executePlay" && [ "$#" != "0" ]; then
     if "$isDrone"; then
         eval "${playArgs}sbt test"
     else
-        eval "${playArgs}play test"
+        eval "${playArgs}activator test"
     fi
 else
     echo "ARGUMENTS:"
