@@ -443,7 +443,7 @@ trait WebDriverFactory extends SauceOnDemandSessionIdProvider {
    */
   private def createServiceDriver: WebDriver = {
     // Get yours with: ifconfig | grep "inet " | grep -v 127.0.0.1 | head -n1| awk '{print $2}'
-    val driver = new RemoteWebDriver(new URL("http://192.168.2.195:4444/wd/hub"), DesiredCapabilities.internetExplorer()
+    val driver = new RemoteWebDriver(new URL("http://10.10.10.100:4444/wd/hub"), DesiredCapabilities.internetExplorer()
 )
     //val driver = new RemoteWebDriver(urlService, REMOTE_CONFIG(browser))
     sessionId = driver.getSessionId.toString
